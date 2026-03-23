@@ -8,6 +8,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <meta name="apple-mobile-web-app-title" content="Summit 26" />
     <link rel="manifest" href="manifest.json" />
+    <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png" />
     <link rel="apple-touch-icon" href="icons/icon-192.png" />
     <title>Supervisor Summit 2026 App</title>
     <style>
@@ -22,6 +23,7 @@
       }
 
       main {
+        width: min(100%, 460px);
         padding: 24px;
         text-align: center;
       }
@@ -31,19 +33,86 @@
         font-size: clamp(2rem, 8vw, 3.25rem);
         font-weight: 700;
       }
+
+      .install-help {
+        margin-top: 24px;
+        padding: 20px;
+        border-radius: 18px;
+        background: #ffffff;
+        box-shadow: 0 12px 28px rgba(31, 54, 92, 0.1);
+        text-align: left;
+      }
+
+      .install-help p {
+        margin: 0 0 10px;
+        line-height: 1.5;
+      }
+
+      .install-help p:last-child {
+        margin-bottom: 0;
+      }
+
+      #install-button {
+        width: 100%;
+        margin-top: 16px;
+        padding: 14px 16px;
+        border: 0;
+        border-radius: 12px;
+        background: #1f3c88;
+        color: #ffffff;
+        font-size: 1rem;
+        font-weight: 700;
+        cursor: pointer;
+      }
+
+      #install-button[hidden] {
+        display: none;
+      }
     </style>
   </head>
   <body>
     <main>
       <h1>Supervisor Summit 2026 App</h1>
+
+      <section class="install-help" aria-label="Install app help">
+        <p><strong>Save this app to your home screen for quick access.</strong></p>
+        <p>iPhone: Tap Share, then Add to Home Screen</p>
+        <p>Android: Tap Menu, then Install App or Add to Home Screen</p>
+        <button id="install-button" type="button" hidden>Install App</button>
+      </section>
     </main>
 
     <script>
+      let deferredInstallPrompt;
+      const installButton = document.getElementById('install-button');
+
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
           navigator.serviceWorker.register('service-worker.js');
         });
       }
+
+      window.addEventListener('beforeinstallprompt', (event) => {
+        event.preventDefault();
+        deferredInstallPrompt = event;
+        installButton.hidden = false;
+      });
+
+      installButton.addEventListener('click', async () => {
+        if (!deferredInstallPrompt) {
+          return;
+        }
+
+        deferredInstallPrompt.prompt();
+        await deferredInstallPrompt.userChoice;
+        deferredInstallPrompt = null;
+        installButton.hidden = true;
+      });
+
+      window.addEventListener('appinstalled', () => {
+        deferredInstallPrompt = null;
+        installButton.hidden = true;
+      });
     </script>
   </body>
 </html>
