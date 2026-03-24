@@ -43,10 +43,10 @@
         max-width: 460px;
         min-height: 100dvh;
         margin: 0 auto;
-        padding: max(14px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) max(20px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
+        padding: max(10px, env(safe-area-inset-top)) max(14px, env(safe-area-inset-right)) max(14px, env(safe-area-inset-bottom)) max(14px, env(safe-area-inset-left));
         display: grid;
         grid-template-rows: auto auto auto 1fr;
-        gap: 12px;
+        gap: 8px;
       }
 
       .altamonte-header {
@@ -56,8 +56,8 @@
       }
 
       .altamonte-logo {
-        width: min(78vw, 300px);
-        max-height: 92px;
+        width: min(92vw, 420px);
+        max-height: 160px;
         object-fit: contain;
         display: block;
       }
@@ -67,13 +67,13 @@
         background: rgba(255, 255, 255, 0.08);
         border: 1px solid rgba(255, 255, 255, 0.12);
         box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18);
-        padding: 14px;
+        padding: 10px;
         text-align: center;
       }
 
       .summit-mark {
         margin: 0;
-        font-size: clamp(1.45rem, 6vw, 2.1rem);
+        font-size: clamp(1.3rem, 5.4vw, 1.95rem);
         font-weight: 800;
         line-height: 1.04;
         text-transform: uppercase;
@@ -91,8 +91,8 @@
       }
 
       .event-dates {
-        margin: 6px 0 0;
-        font-size: 0.95rem;
+        margin: 4px 0 0;
+        font-size: 0.98rem;
         color: var(--light-gray);
         font-weight: 700;
       }
@@ -100,22 +100,22 @@
       .actions-grid {
         display: grid;
         grid-template-columns: 1fr 1fr;
-        gap: 10px;
+        gap: 8px;
       }
 
       .action-btn {
         border: 0;
-        border-radius: 14px;
+        border-radius: 12px;
         font-family: inherit;
         font-weight: 800;
         cursor: pointer;
       }
 
       .action-btn {
-        min-height: 60px;
+        min-height: 46px;
         background: var(--accent-gold);
         color: #1a2e47;
-        font-size: 1rem;
+        font-size: 0.9rem;
         box-shadow: 0 10px 22px rgba(0, 0, 0, 0.22);
       }
 
