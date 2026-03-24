@@ -1,0 +1,52 @@
+[
+  {
+    "SessionID": "D3-001",
+    "Day": "Day 3",
+    "SessionTitle": "Leadership Pulse Check",
+    "StartTime": "08:30 AM",
+    "EndTime": "09:00 AM",
+    "Location": "Grand Ballroom",
+    "SpeakerIDs": ["SPK-001", "SPK-008"],
+    "Description": "Final-day kickoff focused on priorities, energy, and accountability."
+  },
+  {
+    "SessionID": "D3-002",
+    "Day": "Day 3",
+    "SessionTitle": "Panel: Supervisor Wins & Lessons",
+    "StartTime": "09:15 AM",
+    "EndTime": "10:00 AM",
+    "Location": "Summit Theater",
+    "SpeakerIDs": ["SPK-003", "SPK-004", "SPK-010"],
+    "Description": "Panel discussion sharing practical wins and lessons learned from the field."
+  },
+  {
+    "SessionID": "D3-003",
+    "Day": "Day 3",
+    "SessionTitle": "Action Planning Sprint",
+    "StartTime": "10:15 AM",
+    "EndTime": "11:00 AM",
+    "Location": "Lakeside Studio",
+    "SpeakerIDs": ["SPK-002", "SPK-006"],
+    "Description": "Guided session to convert summit insights into 30/60/90-day action plans."
+  },
+  {
+    "SessionID": "D3-004",
+    "Day": "Day 3",
+    "SessionTitle": "Operational Readiness Review",
+    "StartTime": "11:15 AM",
+    "EndTime": "12:00 PM",
+    "Location": "Harbor Room",
+    "SpeakerIDs": ["SPK-005", "SPK-007"],
+    "Description": "Checklist-driven review to align teams before returning to daily operations."
+  },
+  {
+    "SessionID": "D3-005",
+    "Day": "Day 3",
+    "SessionTitle": "Closing Session: Bring the Weather",
+    "StartTime": "01:00 PM",
+    "EndTime": "01:45 PM",
+    "Location": "Grand Ballroom",
+    "SpeakerIDs": ["SPK-001", "SPK-009"],
+    "Description": "Closing message reinforcing leadership standards and next-step commitments."
+  }
+]
