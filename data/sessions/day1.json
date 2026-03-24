@@ -1,0 +1,62 @@
+[
+  {
+    "SessionID": "D1-001",
+    "Day": "Day 1",
+    "SessionTitle": "Opening Keynote: Leading with Clarity",
+    "StartTime": "08:30 AM",
+    "EndTime": "09:15 AM",
+    "Location": "Grand Ballroom",
+    "SpeakerIDs": ["SPK-001", "SPK-009"],
+    "Description": "Kickoff session introducing summit themes, leadership priorities, and expected outcomes for supervisors."
+  },
+  {
+    "SessionID": "D1-002",
+    "Day": "Day 1",
+    "SessionTitle": "Coaching Teams in Real Time",
+    "StartTime": "09:30 AM",
+    "EndTime": "10:15 AM",
+    "Location": "Harbor Room",
+    "SpeakerIDs": ["SPK-002", "SPK-006"],
+    "Description": "Practical coaching models for immediate feedback, accountability, and performance growth."
+  },
+  {
+    "SessionID": "D1-003",
+    "Day": "Day 1",
+    "SessionTitle": "Service Recovery Playbook",
+    "StartTime": "10:30 AM",
+    "EndTime": "11:15 AM",
+    "Location": "Cypress Hall",
+    "SpeakerIDs": ["SPK-003", "SPK-010"],
+    "Description": "Frameworks for handling escalations and restoring trust with consistency."
+  },
+  {
+    "SessionID": "D1-004",
+    "Day": "Day 1",
+    "SessionTitle": "Operational Metrics That Matter",
+    "StartTime": "11:30 AM",
+    "EndTime": "12:15 PM",
+    "Location": "Summit Theater",
+    "SpeakerIDs": ["SPK-007"],
+    "Description": "Review core KPIs supervisors should track daily and how to act on trends quickly."
+  },
+  {
+    "SessionID": "D1-005",
+    "Day": "Day 1",
+    "SessionTitle": "Cross-Functional Collaboration Lab",
+    "StartTime": "01:30 PM",
+    "EndTime": "02:15 PM",
+    "Location": "Lakeside Studio",
+    "SpeakerIDs": ["SPK-004", "SPK-008"],
+    "Description": "Interactive exercises for improving handoffs, communication rhythm, and team alignment."
+  },
+  {
+    "SessionID": "D1-006",
+    "Day": "Day 1",
+    "SessionTitle": "Day-One Reflection & Action Notes",
+    "StartTime": "03:00 PM",
+    "EndTime": "03:45 PM",
+    "Location": "Grand Ballroom",
+    "SpeakerIDs": ["SPK-001"],
+    "Description": "Wrap-up session to capture key lessons and immediate actions for the week."
+  }
+]
