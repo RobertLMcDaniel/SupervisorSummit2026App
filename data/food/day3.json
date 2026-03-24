@@ -1,0 +1,29 @@
+[
+  {
+    "FoodID": "F-D3-001",
+    "Day": "Day 3",
+    "Title": "Breakfast",
+    "StartTime": "07:30 AM",
+    "EndTime": "08:15 AM",
+    "Location": "Atrium Lounge",
+    "Description": "Continental breakfast with yogurt parfaits and baked goods."
+  },
+  {
+    "FoodID": "F-D3-002",
+    "Day": "Day 3",
+    "Title": "Lunch",
+    "StartTime": "12:00 PM",
+    "EndTime": "01:00 PM",
+    "Location": "Garden Terrace",
+    "Description": "Closing-day lunch with wraps, seasonal sides, and beverages."
+  },
+  {
+    "FoodID": "F-D3-003",
+    "Day": "Day 3",
+    "Title": "Snack Break",
+    "StartTime": "10:00 AM",
+    "EndTime": "10:20 AM",
+    "Location": "Expo Hall",
+    "Description": "Mid-morning snack with fruit cups and refreshment station."
+  }
+]
