@@ -142,6 +142,8 @@
         <button class="action-btn" type="button" aria-disabled="true">Food</button>
       </section>
 
+      <p id="data-load-summary" style="margin: 0; font-size: 0.75rem; color: rgba(229, 231, 235, 0.9); text-align: center;">Loading structured data…</p>
+
     </main>
 
     <script>
@@ -178,6 +180,36 @@
           window.location.reload();
         });
       }
+
+
+      async function loadStructuredData() {
+        try {
+          const [speakersResponse, day1Response] = await Promise.all([
+            fetch('data/speakers.json'),
+            fetch('data/sessions/day1.json')
+          ]);
+
+          const speakers = await speakersResponse.json();
+          const day1Sessions = await day1Response.json();
+
+          console.log('Loaded speakers:', speakers);
+          console.log('Loaded Day 1 sessions:', day1Sessions);
+
+          const firstSessionTitle = day1Sessions?.[0]?.SessionTitle || 'Session placeholder';
+          const firstSessionTime = day1Sessions?.[0]
+            ? `${day1Sessions[0].StartTime} – ${day1Sessions[0].EndTime}`
+            : 'Time placeholder';
+
+          const summaryNode = document.getElementById('data-load-summary');
+          if (summaryNode) {
+            summaryNode.textContent = `Loaded ${speakers.length} speakers • Day 1 first session: ${firstSessionTitle} (${firstSessionTime})`;
+          }
+        } catch (error) {
+          console.error('Structured data load error:', error);
+        }
+      }
+
+      window.addEventListener('load', loadStructuredData);
     </script>
   </body>
 </html>
