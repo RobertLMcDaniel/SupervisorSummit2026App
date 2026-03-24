@@ -1,0 +1,62 @@
+[
+  {
+    "SessionID": "D2-001",
+    "Day": "Day 2",
+    "SessionTitle": "Morning Brief: Momentum & Focus",
+    "StartTime": "08:30 AM",
+    "EndTime": "09:00 AM",
+    "Location": "Grand Ballroom",
+    "SpeakerIDs": ["SPK-008"],
+    "Description": "Quick-start briefing to align priorities and set goals for day two."
+  },
+  {
+    "SessionID": "D2-002",
+    "Day": "Day 2",
+    "SessionTitle": "Building Accountability Systems",
+    "StartTime": "09:15 AM",
+    "EndTime": "10:00 AM",
+    "Location": "Summit Theater",
+    "SpeakerIDs": ["SPK-004", "SPK-006"],
+    "Description": "Simple systems supervisors can use to reinforce consistency and ownership."
+  },
+  {
+    "SessionID": "D2-003",
+    "Day": "Day 2",
+    "SessionTitle": "Compliance Without Complexity",
+    "StartTime": "10:15 AM",
+    "EndTime": "11:00 AM",
+    "Location": "Harbor Room",
+    "SpeakerIDs": ["SPK-005"],
+    "Description": "Approaches for embedding compliance in everyday routines without slowing operations."
+  },
+  {
+    "SessionID": "D2-004",
+    "Day": "Day 2",
+    "SessionTitle": "Data-Driven Decision Workshop",
+    "StartTime": "11:15 AM",
+    "EndTime": "12:00 PM",
+    "Location": "Cypress Hall",
+    "SpeakerIDs": ["SPK-007", "SPK-001"],
+    "Description": "Hands-on workshop for turning performance data into specific leadership actions."
+  },
+  {
+    "SessionID": "D2-005",
+    "Day": "Day 2",
+    "SessionTitle": "Recognizing Performance Effectively",
+    "StartTime": "01:15 PM",
+    "EndTime": "02:00 PM",
+    "Location": "Lakeside Studio",
+    "SpeakerIDs": ["SPK-002", "SPK-010"],
+    "Description": "Methods for timely, meaningful recognition that reinforces desired behaviors."
+  },
+  {
+    "SessionID": "D2-006",
+    "Day": "Day 2",
+    "SessionTitle": "Communication During Change",
+    "StartTime": "02:15 PM",
+    "EndTime": "03:00 PM",
+    "Location": "Grand Ballroom",
+    "SpeakerIDs": ["SPK-009"],
+    "Description": "Tactics for delivering clear updates and keeping teams engaged during transition."
+  }
+]
