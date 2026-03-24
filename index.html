@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no" />
-    <meta name="theme-color" content="#1e2f73" />
+    <meta name="theme-color" content="#1F3C5A" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <meta name="apple-mobile-web-app-title" content="Summit 26" />
@@ -13,122 +13,88 @@
     <title>Supervisor Summit 2026 App</title>
     <style>
       :root {
-        --bg: #f4f6fb;
-        --surface: #ffffff;
-        --surface-soft: #eef2fb;
-        --ink: #162542;
-        --muted: #5f6f8f;
-        --brand: #1e2f73;
-        --brand-soft: #dce5ff;
-        --accent: #f4c20d;
-        --border: rgba(30, 47, 115, 0.12);
-        --shadow: 0 14px 30px rgba(21, 34, 72, 0.09);
+        --primary-navy: #1F3C5A;
+        --dark-navy: #162C44;
+        --accent-gold: #F2B705;
+        --white: #FFFFFF;
+        --light-gray: #E5E7EB;
       }
 
       * {
         box-sizing: border-box;
       }
 
+      html,
       body {
         margin: 0;
+        width: 100%;
+        min-height: 100%;
+      }
+
+      body {
         min-height: 100dvh;
         font-family: Arial, Helvetica, sans-serif;
-        background: var(--bg);
-        color: var(--ink);
+        background: linear-gradient(180deg, var(--primary-navy) 0%, var(--dark-navy) 100%);
+        color: var(--white);
       }
 
-      .app {
+      .screen {
         width: 100%;
         max-width: 460px;
+        min-height: 100dvh;
         margin: 0 auto;
-        padding: max(20px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) max(30px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
+        padding: max(14px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) max(20px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
         display: grid;
-        gap: 14px;
+        grid-template-rows: auto auto auto auto 1fr;
+        gap: 12px;
       }
 
-      .card {
-        background: var(--surface);
-        border-radius: 18px;
-        box-shadow: var(--shadow);
-        padding: 16px;
-      }
-
-      .header-card {
-        background: linear-gradient(135deg, var(--brand) 0%, #3047a2 100%);
-        color: #ffffff;
-      }
-
-      .header-card h1 {
-        margin: 0;
-        font-size: clamp(1.9rem, 7vw, 2.7rem);
-        line-height: 1.05;
-      }
-
-      .dates {
-        margin: 10px 0 0;
-        font-weight: 700;
-        color: var(--accent);
-      }
-
-      .subtitle {
-        margin: 10px 0 0;
-        color: rgba(255, 255, 255, 0.86);
-      }
-
-      h2 {
-        margin: 0;
-        font-size: 1.1rem;
-      }
-
-      .kicker {
-        margin: 0 0 10px;
-        text-transform: uppercase;
-        letter-spacing: 0.12em;
-        font-size: 0.74rem;
-        color: var(--muted);
-      }
-
-      .now-title {
-        margin: 0;
-        font-size: 1.05rem;
-      }
-
-      .meta {
-        margin: 8px 0 0;
-        color: var(--muted);
-        line-height: 1.45;
-      }
-
-      .section-head {
+      .altamonte-header {
         display: flex;
-        justify-content: space-between;
+        justify-content: center;
         align-items: center;
       }
 
-      .up-next-list,
-      .today-list {
-        margin-top: 12px;
-        display: grid;
-        gap: 10px;
-      }
-
-      .item {
-        border: 1px solid var(--border);
-        background: var(--surface-soft);
-        border-radius: 14px;
-        padding: 12px;
-      }
-
-      .item strong {
+      .altamonte-logo {
+        width: min(45vw, 170px);
+        max-height: 50px;
+        object-fit: contain;
         display: block;
-        font-size: 0.97rem;
       }
 
-      .item span {
-        display: block;
-        margin-top: 6px;
-        color: var(--muted);
-        font-size: 0.92rem;
+      .summit-logo-card {
+        border-radius: 18px;
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18);
+        padding: 14px;
+        text-align: center;
+      }
+
+      .summit-mark {
+        margin: 0;
+        font-size: clamp(1.45rem, 6vw, 2.1rem);
+        font-weight: 800;
+        line-height: 1.04;
+        text-transform: uppercase;
+        letter-spacing: -0.01em;
+      }
+
+      .event-text {
+        text-align: center;
+      }
+
+      .event-title {
+        margin: 0;
+        font-size: clamp(1.35rem, 5.5vw, 1.8rem);
+        font-weight: 800;
+      }
+
+      .event-dates {
+        margin: 6px 0 0;
+        font-size: 0.95rem;
+        color: var(--light-gray);
+        font-weight: 700;
       }
 
       .actions-grid {
@@ -137,96 +103,66 @@
         gap: 10px;
       }
 
-      .action-btn {
-        min-height: 56px;
-        border: 1px dashed #7f95cd;
+      .action-btn,
+      .install-btn {
+        border: 0;
         border-radius: 14px;
-        background: #f6f8ff;
-        color: var(--brand);
-        font-size: 0.97rem;
-        font-weight: 700;
-        opacity: 0.95;
+        font-family: inherit;
+        font-weight: 800;
+        cursor: pointer;
+      }
+
+      .action-btn {
+        min-height: 60px;
+        background: var(--accent-gold);
+        color: #1a2e47;
+        font-size: 1rem;
+        box-shadow: 0 10px 22px rgba(0, 0, 0, 0.22);
+      }
+
+      .install-btn {
+        width: 100%;
+        min-height: 54px;
+        background: var(--white);
+        color: var(--dark-navy);
+        font-size: 0.98rem;
+        box-shadow: 0 10px 22px rgba(0, 0, 0, 0.16);
       }
 
       .placeholder-note {
-        margin-top: 10px;
-        color: var(--muted);
-        font-size: 0.85rem;
-      }
-
-      .hint {
-        font-size: 0.9rem;
-        color: var(--muted);
-        line-height: 1.5;
+        margin: 0;
+        align-self: end;
+        text-align: center;
+        font-size: 0.78rem;
+        color: rgba(229, 231, 235, 0.9);
       }
     </style>
   </head>
   <body>
-    <main class="app">
-      <section class="card header-card" aria-label="Header">
-        <h1>Supervisor Summit 2026</h1>
-        <p class="dates">May 5–7, 2026</p>
-        <p class="subtitle">Event app dashboard placeholder</p>
+    <main class="screen">
+      <header class="altamonte-header" aria-label="Altamonte Springs logo">
+        <img class="altamonte-logo" src="icons/altamonte-logo.png?v=20260324-2" alt="Altamonte Springs logo" />
+      </header>
+
+      <section class="summit-logo-card" aria-label="Supervisor Summit branding">
+        <p class="summit-mark">Supervisor<br />Summit 2026</p>
       </section>
 
-      <section class="card" aria-label="Happening Now">
-        <p class="kicker">Happening Now</p>
-        <h2 class="now-title">Session Title Placeholder</h2>
-        <p class="meta">9:00 AM – 9:30 AM</p>
-        <p class="meta">Room Placeholder</p>
-        <p class="meta">Speaker Placeholder</p>
+      <section class="event-text" aria-label="Event details">
+        <p class="event-title">Supervisor Summit 2026</p>
+        <p class="event-dates">May 5–7, 2026</p>
       </section>
 
-      <section class="card" aria-label="Up Next">
-        <div class="section-head">
-          <h2>Up Next</h2>
-        </div>
-        <div class="up-next-list">
-          <article class="item">
-            <strong>Session Title Placeholder</strong>
-            <span>Time Placeholder</span>
-            <span>Location Placeholder</span>
-          </article>
-          <article class="item">
-            <strong>Session Title Placeholder</strong>
-            <span>Time Placeholder</span>
-            <span>Location Placeholder</span>
-          </article>
-        </div>
+      <section class="actions-grid" aria-label="Quick action placeholders">
+        <button class="action-btn" type="button" aria-disabled="true">Agenda</button>
+        <button class="action-btn" type="button" aria-disabled="true">Speakers</button>
+        <button class="action-btn" type="button" aria-disabled="true">Locations</button>
+        <button class="action-btn" type="button" aria-disabled="true">Food</button>
       </section>
 
-      <section class="card" aria-label="Quick Actions">
-        <h2>Quick Actions</h2>
-        <div class="actions-grid" style="margin-top: 12px">
-          <button class="action-btn" type="button" aria-disabled="true">Full Agenda</button>
-          <button class="action-btn" type="button" aria-disabled="true">Speakers</button>
-          <button class="action-btn" type="button" aria-disabled="true">Locations</button>
-          <button class="action-btn" type="button" aria-disabled="true">Food</button>
-        </div>
-        <p class="placeholder-note">Placeholder buttons only (navigation coming later).</p>
-      </section>
-
-      <section class="card" aria-label="Today's Schedule Preview">
-        <h2>Today</h2>
-        <div class="today-list">
-          <article class="item">
-            <strong>Placeholder Title</strong>
-            <span>Time Placeholder · Room Placeholder</span>
-          </article>
-          <article class="item">
-            <strong>Placeholder Title</strong>
-            <span>Time Placeholder · Room Placeholder</span>
-          </article>
-          <article class="item">
-            <strong>Placeholder Title</strong>
-            <span>Time Placeholder · Room Placeholder</span>
-          </article>
-        </div>
-      </section>
-
-      <section class="card" aria-label="Install Help Placeholder">
-        <h2>App / Install Help</h2>
-        <p class="hint">Placeholder help text for install instructions and app support notes.</p>
+      <section aria-label="Install placeholder">
+        <button class="install-btn" type="button" aria-disabled="true">Add to Home Screen</button>
+        <p class="placeholder-note">Placeholder home screen only. Navigation coming soon.</p>
       </section>
     </main>
 
