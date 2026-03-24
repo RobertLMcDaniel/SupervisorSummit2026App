@@ -13,135 +13,220 @@
     <title>Supervisor Summit 2026 App</title>
     <style>
       :root {
-        --navy: #1e2f73;
-        --navy-soft: #324791;
-        --gold: #f4c20d;
-        --white: #ffffff;
+        --bg: #f4f6fb;
+        --surface: #ffffff;
+        --surface-soft: #eef2fb;
+        --ink: #162542;
+        --muted: #5f6f8f;
+        --brand: #1e2f73;
+        --brand-soft: #dce5ff;
+        --accent: #f4c20d;
+        --border: rgba(30, 47, 115, 0.12);
+        --shadow: 0 14px 30px rgba(21, 34, 72, 0.09);
       }
 
       * {
         box-sizing: border-box;
       }
 
-      html,
       body {
         margin: 0;
-        width: 100%;
-        min-height: 100%;
-      }
-
-      body {
         min-height: 100dvh;
-        display: grid;
-        place-items: center;
         font-family: Arial, Helvetica, sans-serif;
-        background: linear-gradient(180deg, var(--navy) 0%, #18275f 100%);
-        color: var(--white);
-        user-select: none;
-        -webkit-user-select: none;
-        -webkit-touch-callout: none;
-        touch-action: manipulation;
+        background: var(--bg);
+        color: var(--ink);
       }
 
-      main {
+      .app {
         width: 100%;
         max-width: 460px;
         margin: 0 auto;
-        padding: max(24px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) max(30px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
-        text-align: center;
-      }
-
-      .logo-wrap {
-        width: min(100%, 306px);
-        margin: 0 auto 30px;
-      }
-
-      .logo {
-        width: 100%;
-        height: auto;
-        display: block;
-        background: transparent;
-      }
-
-      h1 {
-        margin: 0;
-        font-size: clamp(2.05rem, 8vw, 3.2rem);
-        line-height: 1;
-        letter-spacing: -0.02em;
-      }
-
-      .tagline {
-        margin: 14px 0 30px;
-        font-size: 1.04rem;
-        color: rgba(255, 255, 255, 0.85);
-      }
-
-      .schedule-list {
-        width: 100%;
+        padding: max(20px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) max(30px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
         display: grid;
         gap: 14px;
-        margin: 0 auto;
       }
 
-      .schedule-button {
-        width: 100%;
-        border: 0;
-        border-radius: 20px;
-        padding: 20px 18px;
-        background: var(--white);
-        color: var(--navy);
-        text-align: left;
-        box-shadow: 0 14px 30px rgba(0, 0, 0, 0.2);
+      .card {
+        background: var(--surface);
+        border-radius: 18px;
+        box-shadow: var(--shadow);
+        padding: 16px;
       }
 
-      .schedule-title {
-        display: block;
-        font-size: 1.1rem;
+      .header-card {
+        background: linear-gradient(135deg, var(--brand) 0%, #3047a2 100%);
+        color: #ffffff;
+      }
+
+      .header-card h1 {
+        margin: 0;
+        font-size: clamp(1.9rem, 7vw, 2.7rem);
+        line-height: 1.05;
+      }
+
+      .dates {
+        margin: 10px 0 0;
         font-weight: 700;
+        color: var(--accent);
       }
 
-      .schedule-subtitle {
+      .subtitle {
+        margin: 10px 0 0;
+        color: rgba(255, 255, 255, 0.86);
+      }
+
+      h2 {
+        margin: 0;
+        font-size: 1.1rem;
+      }
+
+      .kicker {
+        margin: 0 0 10px;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        font-size: 0.74rem;
+        color: var(--muted);
+      }
+
+      .now-title {
+        margin: 0;
+        font-size: 1.05rem;
+      }
+
+      .meta {
+        margin: 8px 0 0;
+        color: var(--muted);
+        line-height: 1.45;
+      }
+
+      .section-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .up-next-list,
+      .today-list {
+        margin-top: 12px;
+        display: grid;
+        gap: 10px;
+      }
+
+      .item {
+        border: 1px solid var(--border);
+        background: var(--surface-soft);
+        border-radius: 14px;
+        padding: 12px;
+      }
+
+      .item strong {
         display: block;
-        margin-top: 8px;
-        color: var(--navy-soft);
-        line-height: 1.4;
+        font-size: 0.97rem;
       }
 
-      .schedule-date {
-        color: #5e74b8;
+      .item span {
+        display: block;
+        margin-top: 6px;
+        color: var(--muted);
+        font-size: 0.92rem;
       }
 
-      .accent-strip {
-        width: 72px;
-        height: 6px;
-        border-radius: 999px;
-        margin: 0 auto 24px;
-        background: var(--gold);
+      .actions-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+      }
+
+      .action-btn {
+        min-height: 56px;
+        border: 1px dashed #7f95cd;
+        border-radius: 14px;
+        background: #f6f8ff;
+        color: var(--brand);
+        font-size: 0.97rem;
+        font-weight: 700;
+        opacity: 0.95;
+      }
+
+      .placeholder-note {
+        margin-top: 10px;
+        color: var(--muted);
+        font-size: 0.85rem;
+      }
+
+      .hint {
+        font-size: 0.9rem;
+        color: var(--muted);
+        line-height: 1.5;
       }
     </style>
   </head>
   <body>
-    <main>
-      <div class="logo-wrap">
-        <img class="logo" src="icons/altamonte-logo.png?v=20260324-2" alt="Altamonte logo" draggable="false" />
-      </div>
-      <div class="accent-strip" aria-hidden="true"></div>
-      <h1>Supervisor Summit 26</h1>
-      <p class="tagline">Supervisors Bring the Weather</p>
+    <main class="app">
+      <section class="card header-card" aria-label="Header">
+        <h1>Supervisor Summit 2026</h1>
+        <p class="dates">May 5–7, 2026</p>
+        <p class="subtitle">Event app dashboard placeholder</p>
+      </section>
 
-      <section class="schedule-list" aria-label="Schedule buttons">
-        <button class="schedule-button" type="button">
-          <span class="schedule-title">Day 1 Schedule</span>
-          <span class="schedule-subtitle">Tuesday <span class="schedule-date">May 5th</span></span>
-        </button>
-        <button class="schedule-button" type="button">
-          <span class="schedule-title">Day 2 Schedule</span>
-          <span class="schedule-subtitle">Wednesday <span class="schedule-date">May 6th</span></span>
-        </button>
-        <button class="schedule-button" type="button">
-          <span class="schedule-title">Day 3 Schedule</span>
-          <span class="schedule-subtitle">Thursday <span class="schedule-date">May 7th</span></span>
-        </button>
+      <section class="card" aria-label="Happening Now">
+        <p class="kicker">Happening Now</p>
+        <h2 class="now-title">Session Title Placeholder</h2>
+        <p class="meta">9:00 AM – 9:30 AM</p>
+        <p class="meta">Room Placeholder</p>
+        <p class="meta">Speaker Placeholder</p>
+      </section>
+
+      <section class="card" aria-label="Up Next">
+        <div class="section-head">
+          <h2>Up Next</h2>
+        </div>
+        <div class="up-next-list">
+          <article class="item">
+            <strong>Session Title Placeholder</strong>
+            <span>Time Placeholder</span>
+            <span>Location Placeholder</span>
+          </article>
+          <article class="item">
+            <strong>Session Title Placeholder</strong>
+            <span>Time Placeholder</span>
+            <span>Location Placeholder</span>
+          </article>
+        </div>
+      </section>
+
+      <section class="card" aria-label="Quick Actions">
+        <h2>Quick Actions</h2>
+        <div class="actions-grid" style="margin-top: 12px">
+          <button class="action-btn" type="button" aria-disabled="true">Full Agenda</button>
+          <button class="action-btn" type="button" aria-disabled="true">Speakers</button>
+          <button class="action-btn" type="button" aria-disabled="true">Locations</button>
+          <button class="action-btn" type="button" aria-disabled="true">Food</button>
+        </div>
+        <p class="placeholder-note">Placeholder buttons only (navigation coming later).</p>
+      </section>
+
+      <section class="card" aria-label="Today's Schedule Preview">
+        <h2>Today</h2>
+        <div class="today-list">
+          <article class="item">
+            <strong>Placeholder Title</strong>
+            <span>Time Placeholder · Room Placeholder</span>
+          </article>
+          <article class="item">
+            <strong>Placeholder Title</strong>
+            <span>Time Placeholder · Room Placeholder</span>
+          </article>
+          <article class="item">
+            <strong>Placeholder Title</strong>
+            <span>Time Placeholder · Room Placeholder</span>
+          </article>
+        </div>
+      </section>
+
+      <section class="card" aria-label="Install Help Placeholder">
+        <h2>App / Install Help</h2>
+        <p class="hint">Placeholder help text for install instructions and app support notes.</p>
       </section>
     </main>
 
