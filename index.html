@@ -2,8 +2,8 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#112356" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no" />
+    <meta name="theme-color" content="#1e2f73" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <meta name="apple-mobile-web-app-title" content="Summit 26" />
@@ -13,52 +13,69 @@
     <title>Supervisor Summit 2026 App</title>
     <style>
       :root {
-        --navy: #112356;
-        --navy-soft: #1b3274;
-        --gold: #f0c460;
+        --navy: #1e2f73;
+        --navy-soft: #324791;
+        --gold: #f4c20d;
         --white: #ffffff;
       }
 
+      html,
       body {
         margin: 0;
-        min-height: 100vh;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+      }
+
+      body {
+        min-height: 100dvh;
         display: grid;
         place-items: center;
         font-family: Arial, Helvetica, sans-serif;
-        background: var(--navy);
+        background: linear-gradient(180deg, var(--navy) 0%, #18275f 100%);
         color: var(--white);
+        user-select: none;
+        -webkit-user-select: none;
+        -webkit-touch-callout: none;
+        touch-action: manipulation;
       }
 
       main {
-        width: min(100%, 460px);
-        padding: 28px 22px 40px;
+        width: min(100%, 450px);
+        margin: 0 auto;
+        padding: 34px 24px 42px;
         text-align: center;
       }
 
-      .logo {
+      .logo-wrap {
         width: min(100%, 306px);
+        margin: 0 auto 30px;
+      }
+
+      .logo {
+        width: 100%;
         height: auto;
         display: block;
-        margin: 0 auto 28px;
-        border-radius: 18px;
-        background: rgba(255, 255, 255, 0.08);
+        background: transparent;
       }
 
       h1 {
         margin: 0;
-        font-size: clamp(2.1rem, 8vw, 3.4rem);
+        font-size: clamp(2.05rem, 8vw, 3.2rem);
         line-height: 1;
+        letter-spacing: -0.02em;
       }
 
       .tagline {
-        margin: 14px 0 28px;
-        font-size: 1.05rem;
-        color: rgba(255, 255, 255, 0.82);
+        margin: 14px 0 30px;
+        font-size: 1.04rem;
+        color: rgba(255, 255, 255, 0.85);
       }
 
       .schedule-list {
         display: grid;
         gap: 14px;
+        padding: 0 2px;
       }
 
       .schedule-button {
@@ -68,7 +85,7 @@
         background: var(--white);
         color: var(--navy);
         text-align: left;
-        box-shadow: 0 14px 30px rgba(0, 0, 0, 0.18);
+        box-shadow: 0 14px 30px rgba(0, 0, 0, 0.2);
       }
 
       .schedule-title {
@@ -85,13 +102,24 @@
       }
 
       .schedule-date {
-        color: #556ca9;
+        color: #5e74b8;
+      }
+
+      .accent-strip {
+        width: 72px;
+        height: 6px;
+        border-radius: 999px;
+        margin: 0 auto 24px;
+        background: var(--gold);
       }
     </style>
   </head>
   <body>
     <main>
-      <img class="logo" src="icons/altamonte-logo.png" alt="Altamonte logo" />
+      <div class="logo-wrap">
+        <img class="logo" src="icons/altamonte-logo.png" alt="Altamonte logo" draggable="false" />
+      </div>
+      <div class="accent-strip" aria-hidden="true"></div>
       <h1>Supervisor Summit 26</h1>
       <p class="tagline">Supervisors Bring the Weather</p>
 
