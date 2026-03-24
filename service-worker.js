@@ -1,9 +1,9 @@
-const CACHE_NAME = 'supervisor-summit-2026-v2';
+const CACHE_NAME = 'supervisor-summit-2026-v3';
 const STATIC_ASSETS = [
-  'manifest.json',
-  'icons/icon-192.png',
-  'icons/icon-512.png',
-  'icons/altamonte-logo.png'
+  'manifest.json?v=20260324-2',
+  'icons/icon-192.png?v=20260324-2',
+  'icons/icon-512.png?v=20260324-2',
+  'icons/altamonte-logo.png?v=20260324-2'
 ];
 
 self.addEventListener('install', (event) => {
@@ -26,6 +26,12 @@ self.addEventListener('activate', (event) => {
   self.clients.claim();
 });
 
+self.addEventListener('message', (event) => {
+  if (event.data && event.data.type === 'SKIP_WAITING') {
+    self.skipWaiting();
+  }
+});
+
 self.addEventListener('fetch', (event) => {
   if (event.request.method !== 'GET') {
     return;
@@ -33,16 +39,17 @@ self.addEventListener('fetch', (event) => {
 
   const request = event.request;
   const isNavigation = request.mode === 'navigate';
+  const isImage = request.destination === 'image';
 
-  if (isNavigation) {
+  if (isNavigation || isImage) {
     event.respondWith(
       fetch(request)
         .then((networkResponse) => {
           const responseClone = networkResponse.clone();
-          caches.open(CACHE_NAME).then((cache) => cache.put('index.html', responseClone));
+          caches.open(CACHE_NAME).then((cache) => cache.put(request, responseClone));
           return networkResponse;
         })
-        .catch(() => caches.match(request).then((cachedPage) => cachedPage || caches.match('index.html')))
+        .catch(() => caches.match(request).then((cachedResponse) => cachedResponse || caches.match('index.html')))
     );
     return;
   }
