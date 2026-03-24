@@ -1,0 +1,29 @@
+[
+  {
+    "FoodID": "F-D2-001",
+    "Day": "Day 2",
+    "Title": "Breakfast",
+    "StartTime": "07:45 AM",
+    "EndTime": "08:25 AM",
+    "Location": "Atrium Lounge",
+    "Description": "Hot breakfast station with eggs, potatoes, and fresh coffee."
+  },
+  {
+    "FoodID": "F-D2-002",
+    "Day": "Day 2",
+    "Title": "Lunch",
+    "StartTime": "12:00 PM",
+    "EndTime": "01:00 PM",
+    "Location": "Skyline Dining",
+    "Description": "Chef-selected lunch menu with protein, grain, and salad options."
+  },
+  {
+    "FoodID": "F-D2-003",
+    "Day": "Day 2",
+    "Title": "Snack Break",
+    "StartTime": "03:00 PM",
+    "EndTime": "03:20 PM",
+    "Location": "Expo Hall",
+    "Description": "Afternoon snack service with trail mix, cookies, and iced tea."
+  }
+]
