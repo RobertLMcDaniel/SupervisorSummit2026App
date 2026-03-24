@@ -1,0 +1,92 @@
+[
+  {
+    "SpeakerID": "SPK-001",
+    "DisplayName": "Jordan Blake",
+    "Title": "Regional Operations Director",
+    "Organization": "Northview Services",
+    "BioShort": "Leads multi-site operations with a focus on frontline coaching and execution consistency.",
+    "Photo": "images/speakers/speaker1.jpg",
+    "SortOrder": 1
+  },
+  {
+    "SpeakerID": "SPK-002",
+    "DisplayName": "Taylor Morgan",
+    "Title": "People Development Manager",
+    "Organization": "Elevate Workforce Group",
+    "BioShort": "Builds practical leadership programs that improve retention and team communication.",
+    "Photo": "images/speakers/speaker2.jpg",
+    "SortOrder": 2
+  },
+  {
+    "SpeakerID": "SPK-003",
+    "DisplayName": "Casey Rivera",
+    "Title": "Customer Experience Lead",
+    "Organization": "Crestline Hospitality",
+    "BioShort": "Specializes in service quality systems and measurable customer journey improvements.",
+    "Photo": "images/speakers/speaker3.jpg",
+    "SortOrder": 3
+  },
+  {
+    "SpeakerID": "SPK-004",
+    "DisplayName": "Alex Chen",
+    "Title": "Field Excellence Coach",
+    "Organization": "Summit Performance Partners",
+    "BioShort": "Supports field supervisors with accountability routines and performance alignment.",
+    "Photo": "images/speakers/speaker4.jpg",
+    "SortOrder": 4
+  },
+  {
+    "SpeakerID": "SPK-005",
+    "DisplayName": "Morgan Patel",
+    "Title": "Safety & Compliance Advisor",
+    "Organization": "SecureOps Consulting",
+    "BioShort": "Advises teams on operational risk reduction and compliance-ready workflows.",
+    "Photo": "images/speakers/speaker5.jpg",
+    "SortOrder": 5
+  },
+  {
+    "SpeakerID": "SPK-006",
+    "DisplayName": "Riley Thompson",
+    "Title": "Senior Training Partner",
+    "Organization": "Brightpath Learning",
+    "BioShort": "Designs scalable training frameworks that help supervisors onboard and coach faster.",
+    "Photo": "images/speakers/speaker6.jpg",
+    "SortOrder": 6
+  },
+  {
+    "SpeakerID": "SPK-007",
+    "DisplayName": "Avery Johnson",
+    "Title": "Business Analytics Manager",
+    "Organization": "Vista Insight Labs",
+    "BioShort": "Translates operational data into actionable plans for supervisors and district leaders.",
+    "Photo": "images/speakers/speaker7.jpg",
+    "SortOrder": 7
+  },
+  {
+    "SpeakerID": "SPK-008",
+    "DisplayName": "Jamie Collins",
+    "Title": "District Operations Manager",
+    "Organization": "Prime Service Network",
+    "BioShort": "Oversees district-level execution with emphasis on communication cadence and quality standards.",
+    "Photo": "images/speakers/speaker8.jpg",
+    "SortOrder": 8
+  },
+  {
+    "SpeakerID": "SPK-009",
+    "DisplayName": "Drew Sanders",
+    "Title": "Leadership Communications Strategist",
+    "Organization": "Beacon Advisory",
+    "BioShort": "Helps leadership teams improve message clarity during change and high-growth periods.",
+    "Photo": "images/speakers/speaker9.jpg",
+    "SortOrder": 9
+  },
+  {
+    "SpeakerID": "SPK-010",
+    "DisplayName": "Cameron Lee",
+    "Title": "Guest Experience Director",
+    "Organization": "Harbor Point Group",
+    "BioShort": "Focuses on building high-performing teams through recognition and service recovery habits.",
+    "Photo": "images/speakers/speaker10.jpg",
+    "SortOrder": 10
+  }
+]
