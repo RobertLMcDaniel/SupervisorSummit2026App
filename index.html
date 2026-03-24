@@ -45,7 +45,7 @@
         margin: 0 auto;
         padding: max(10px, env(safe-area-inset-top)) max(14px, env(safe-area-inset-right)) max(14px, env(safe-area-inset-bottom)) max(14px, env(safe-area-inset-left));
         display: grid;
-        grid-template-rows: auto auto auto 1fr;
+        grid-template-rows: auto auto auto auto 1fr;
         gap: 8px;
       }
 
@@ -84,12 +84,6 @@
         text-align: center;
       }
 
-      .event-title {
-        margin: 0;
-        font-size: clamp(1.35rem, 5.5vw, 1.8rem);
-        font-weight: 800;
-      }
-
       .event-dates {
         margin: 4px 0 0;
         font-size: 0.98rem;
@@ -109,16 +103,141 @@
         font-family: inherit;
         font-weight: 800;
         cursor: pointer;
-      }
-
-      .action-btn {
         min-height: 46px;
         background: var(--accent-gold);
-        color: #1a2e47;
+        color: #1A2E47;
         font-size: 0.9rem;
         box-shadow: 0 10px 22px rgba(0, 0, 0, 0.22);
       }
 
+      .speakers-card {
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: 16px;
+        box-shadow: 0 10px 24px rgba(0, 0, 0, 0.14);
+        padding: 10px;
+        min-height: 260px;
+        display: grid;
+        gap: 8px;
+      }
+
+      .speakers-title {
+        margin: 0;
+        font-size: 1rem;
+        font-weight: 800;
+        color: var(--white);
+      }
+
+      .speakers-list {
+        overflow-y: auto;
+        max-height: 320px;
+        display: grid;
+        gap: 8px;
+        padding-right: 2px;
+      }
+
+      .speaker-item {
+        border-radius: 14px;
+        background: rgba(255, 255, 255, 0.95);
+        border: 1px solid rgba(22, 44, 68, 0.12);
+        overflow: hidden;
+      }
+
+      .speaker-toggle {
+        width: 100%;
+        display: grid;
+        grid-template-columns: 64px 1fr;
+        gap: 10px;
+        align-items: center;
+        text-align: left;
+        border: 0;
+        background: transparent;
+        padding: 10px;
+      }
+
+      .speaker-avatar,
+      .speaker-avatar-placeholder {
+        width: 64px;
+        height: 64px;
+        border-radius: 50%;
+      }
+
+      .speaker-avatar {
+        object-fit: cover;
+        display: block;
+        background: #DDE5F5;
+      }
+
+      .speaker-avatar-placeholder {
+        display: none;
+        align-items: center;
+        justify-content: center;
+        background: #DDE5F5;
+        color: #1F3C5A;
+        font-size: 0.75rem;
+        font-weight: 700;
+      }
+
+      .speaker-name {
+        color: #122845;
+        font-size: 0.98rem;
+        font-weight: 800;
+        margin: 0;
+      }
+
+      .speaker-details {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.25s ease;
+        border-top: 1px solid rgba(22, 44, 68, 0.12);
+        background: #F7F9FC;
+      }
+
+      .speaker-item.expanded .speaker-details {
+        max-height: 340px;
+      }
+
+      .speaker-details-inner {
+        padding: 12px;
+        display: grid;
+        gap: 10px;
+      }
+
+      .speaker-detail-avatar,
+      .speaker-detail-avatar-placeholder {
+        width: 120px;
+        height: 120px;
+        border-radius: 12px;
+      }
+
+      .speaker-detail-avatar {
+        object-fit: cover;
+        display: block;
+        background: #DDE5F5;
+      }
+
+      .speaker-detail-avatar-placeholder {
+        display: none;
+        align-items: center;
+        justify-content: center;
+        background: #DDE5F5;
+        color: #1F3C5A;
+        font-size: 0.85rem;
+        font-weight: 700;
+      }
+
+      .speaker-meta {
+        color: #223A57;
+        margin: 0;
+        line-height: 1.35;
+      }
+
+      .speaker-bio {
+        color: #3B4F68;
+        margin: 0;
+        line-height: 1.45;
+        font-size: 0.9rem;
+      }
     </style>
   </head>
   <body>
@@ -142,8 +261,10 @@
         <button class="action-btn" type="button" aria-disabled="true">Food</button>
       </section>
 
-      <p id="data-load-summary" style="margin: 0; font-size: 0.75rem; color: rgba(229, 231, 235, 0.9); text-align: center;">Loading structured data…</p>
-
+      <section class="speakers-card" aria-label="Speakers section">
+        <h2 class="speakers-title">Speakers</h2>
+        <div id="speakers-list" class="speakers-list" aria-live="polite"></div>
+      </section>
     </main>
 
     <script>
@@ -181,35 +302,113 @@
         });
       }
 
-
-      async function loadStructuredData() {
+      async function loadSpeakers() {
         try {
-          const [speakersResponse, day1Response] = await Promise.all([
-            fetch('data/speakers.json'),
-            fetch('data/sessions/day1.json')
-          ]);
+          const response = await fetch('data/speakers.json');
+          const speakers = await response.json();
 
-          const speakers = await speakersResponse.json();
-          const day1Sessions = await day1Response.json();
+          const sortedSpeakers = [...speakers].sort((a, b) => a.SortOrder - b.SortOrder);
+          const listNode = document.getElementById('speakers-list');
+          listNode.innerHTML = '';
 
-          console.log('Loaded speakers:', speakers);
-          console.log('Loaded Day 1 sessions:', day1Sessions);
+          sortedSpeakers.forEach((speaker, index) => {
+            const item = document.createElement('article');
+            item.className = 'speaker-item';
 
-          const firstSessionTitle = day1Sessions?.[0]?.SessionTitle || 'Session placeholder';
-          const firstSessionTime = day1Sessions?.[0]
-            ? `${day1Sessions[0].StartTime} – ${day1Sessions[0].EndTime}`
-            : 'Time placeholder';
+            const toggle = document.createElement('button');
+            toggle.className = 'speaker-toggle';
+            toggle.type = 'button';
+            toggle.setAttribute('aria-expanded', 'false');
 
-          const summaryNode = document.getElementById('data-load-summary');
-          if (summaryNode) {
-            summaryNode.textContent = `Loaded ${speakers.length} speakers • Day 1 first session: ${firstSessionTitle} (${firstSessionTime})`;
-          }
+            const avatar = document.createElement('img');
+            avatar.className = 'speaker-avatar';
+            avatar.src = speaker.Photo;
+            avatar.alt = speaker.DisplayName;
+            avatar.loading = 'lazy';
+
+            const avatarFallback = document.createElement('div');
+            avatarFallback.className = 'speaker-avatar-placeholder';
+            avatarFallback.textContent = 'No Image';
+
+            avatar.onerror = () => {
+              avatar.style.display = 'none';
+              avatarFallback.style.display = 'flex';
+            };
+
+            const name = document.createElement('p');
+            name.className = 'speaker-name';
+            name.textContent = speaker.DisplayName;
+
+            const details = document.createElement('div');
+            details.className = 'speaker-details';
+
+            const detailsInner = document.createElement('div');
+            detailsInner.className = 'speaker-details-inner';
+
+            const detailImage = document.createElement('img');
+            detailImage.className = 'speaker-detail-avatar';
+            detailImage.src = speaker.Photo;
+            detailImage.alt = `${speaker.DisplayName} portrait`;
+            detailImage.loading = 'lazy';
+
+            const detailFallback = document.createElement('div');
+            detailFallback.className = 'speaker-detail-avatar-placeholder';
+            detailFallback.textContent = 'No Image';
+
+            detailImage.onerror = () => {
+              detailImage.style.display = 'none';
+              detailFallback.style.display = 'flex';
+            };
+
+            const detailName = document.createElement('p');
+            detailName.className = 'speaker-meta';
+            detailName.innerHTML = `<strong>${speaker.DisplayName}</strong>`;
+
+            const detailTitleOrg = document.createElement('p');
+            detailTitleOrg.className = 'speaker-meta';
+            detailTitleOrg.textContent = `${speaker.Title} · ${speaker.Organization}`;
+
+            const detailBio = document.createElement('p');
+            detailBio.className = 'speaker-bio';
+            detailBio.textContent = speaker.BioShort;
+
+            detailsInner.append(detailImage, detailFallback, detailName, detailTitleOrg, detailBio);
+            details.append(detailsInner);
+
+            const textWrap = document.createElement('div');
+            textWrap.append(name);
+
+            toggle.append(avatar, avatarFallback, textWrap);
+            item.append(toggle, details);
+            listNode.append(item);
+
+            toggle.addEventListener('click', () => {
+              const expandedItem = document.querySelector('.speaker-item.expanded');
+              if (expandedItem && expandedItem !== item) {
+                expandedItem.classList.remove('expanded');
+                const expandedToggle = expandedItem.querySelector('.speaker-toggle');
+                if (expandedToggle) {
+                  expandedToggle.setAttribute('aria-expanded', 'false');
+                }
+              }
+
+              const isNowExpanded = item.classList.toggle('expanded');
+              toggle.setAttribute('aria-expanded', isNowExpanded ? 'true' : 'false');
+            });
+
+            if (index === 0) {
+              item.classList.add('expanded');
+              toggle.setAttribute('aria-expanded', 'true');
+            }
+          });
+
+          console.log('Loaded speakers:', sortedSpeakers);
         } catch (error) {
-          console.error('Structured data load error:', error);
+          console.error('Speaker load error:', error);
         }
       }
 
-      window.addEventListener('load', loadStructuredData);
+      window.addEventListener('load', loadSpeakers);
     </script>
   </body>
 </html>
