@@ -341,7 +341,11 @@
       async function loadSpeakers() {
         try {
           console.log('Fetching speakers from data/speakers.json');
-          const response = await fetch('data/speakers.json');
+          const response = await fetch('data/speakers.json', { cache: 'no-store' });
+          if (!response.ok) {
+            throw new Error(`Failed to load speakers: ${response.status}`);
+          }
+
           const speakers = await response.json();
           console.log('Speakers loaded:', speakers);
 
@@ -443,15 +447,16 @@
           });
         } catch (error) {
           console.error('Speaker load error:', error);
+          const listNode = document.getElementById('speakers-list');
+          if (listNode) {
+            listNode.innerHTML = '<div class="speaker-item" style="padding:12px;color:#223A57;font-weight:700;">Unable to load speakers right now.</div>';
+          }
         }
       }
 
       openSpeakersBtn.addEventListener('click', () => {
         showSpeakersView();
-        if (!speakersView.dataset.loaded) {
-          loadSpeakers();
-          speakersView.dataset.loaded = 'true';
-        }
+        loadSpeakers();
       });
 
       backHomeBtn.addEventListener('click', showHomeView);
