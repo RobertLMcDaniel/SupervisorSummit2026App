@@ -1,10 +1,10 @@
-const CACHE_NAME = 'supervisor-summit-2026-v4';
+const CACHE_NAME = 'supervisor-summit-2026-v5';
 const STATIC_ASSETS = [
   'index.html',
-  'manifest.json?v=20260325-1',
-  'icons/icon-192.png?v=20260325-1',
-  'icons/icon-512.png?v=20260325-1',
-  'icons/altamonte-logo.png?v=20260325-1',
+  'manifest.json?v=20260325-2',
+  'icons/icon-192.png?v=20260325-2',
+  'icons/icon-512.png?v=20260325-2',
+  'icons/altamonte-logo.png?v=20260325-2',
   'data/speakers.json'
 ];
 
@@ -52,9 +52,7 @@ self.addEventListener('fetch', (event) => {
           caches.open(CACHE_NAME).then((cache) => cache.put(request, responseClone));
           return networkResponse;
         })
-        .catch(() =>
-          caches.match(request).then((cachedResponse) => cachedResponse || caches.match('index.html'))
-        )
+        .catch(() => caches.match(request).then((cachedResponse) => cachedResponse || caches.match('index.html')))
     );
     return;
   }
