@@ -7,9 +7,9 @@
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <meta name="apple-mobile-web-app-title" content="Summit 26" />
-    <link rel="manifest" href="manifest.json?v=20260325-1" />
-    <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png?v=20260325-1" />
-    <link rel="apple-touch-icon" href="icons/icon-192.png?v=20260325-1" />
+    <link rel="manifest" href="manifest.json?v=20260325-2" />
+    <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png?v=20260325-2" />
+    <link rel="apple-touch-icon" href="icons/icon-192.png?v=20260325-2" />
     <title>Supervisor Summit 2026 App</title>
     <style>
       :root {
@@ -50,6 +50,16 @@
 
       .hidden {
         display: none !important;
+      }
+
+      #home-view,
+      #speakers-view {
+        display: grid;
+        gap: 8px;
+      }
+
+      #speakers-view {
+        align-content: start;
       }
 
       .altamonte-header {
@@ -147,6 +157,7 @@
       .speakers-list {
         overflow-y: auto;
         max-height: 62dvh;
+        -webkit-overflow-scrolling: touch;
         display: grid;
         gap: 8px;
         padding-right: 2px;
@@ -161,6 +172,7 @@
 
       .speaker-toggle {
         width: 100%;
+        cursor: pointer;
         display: grid;
         grid-template-columns: 64px 1fr;
         gap: 10px;
@@ -260,7 +272,7 @@
     <main class="screen">
       <section id="home-view">
         <header class="altamonte-header" aria-label="Altamonte Springs logo">
-          <img class="altamonte-logo" src="icons/altamonte-logo.png?v=20260325-1" alt="Altamonte Springs logo" />
+          <img class="altamonte-logo" src="icons/altamonte-logo.png?v=20260325-2" alt="Altamonte Springs logo" />
         </header>
 
         <section class="summit-logo-card" aria-label="Supervisor Summit branding">
@@ -291,7 +303,7 @@
     <script>
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
-          navigator.serviceWorker.register('service-worker.js?v=20260325-1').then((registration) => {
+          navigator.serviceWorker.register('service-worker.js?v=20260325-2').then((registration) => {
             registration.update();
 
             if (registration.waiting) {
@@ -449,7 +461,8 @@
           console.error('Speaker load error:', error);
           const listNode = document.getElementById('speakers-list');
           if (listNode) {
-            listNode.innerHTML = '<div class="speaker-item" style="padding:12px;color:#223A57;font-weight:700;">Unable to load speakers right now.</div>';
+            listNode.innerHTML = '<div class="speaker-item" style="padding:12px;color:#223A57;font-weight:700;">Unable to load speakers right now. Please refresh.</div>';
+            console.log('Speaker fetch path:', 'data/speakers.json');
           }
         }
       }
