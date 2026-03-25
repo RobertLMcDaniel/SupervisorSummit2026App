@@ -45,8 +45,11 @@
         margin: 0 auto;
         padding: max(10px, env(safe-area-inset-top)) max(14px, env(safe-area-inset-right)) max(14px, env(safe-area-inset-bottom)) max(14px, env(safe-area-inset-left));
         display: grid;
-        grid-template-rows: auto auto auto auto 1fr;
         gap: 8px;
+      }
+
+      .hidden {
+        display: none !important;
       }
 
       .altamonte-header {
@@ -97,17 +100,30 @@
         gap: 8px;
       }
 
-      .action-btn {
+      .action-btn,
+      .back-btn {
         border: 0;
         border-radius: 12px;
         font-family: inherit;
         font-weight: 800;
         cursor: pointer;
+      }
+
+      .action-btn {
         min-height: 46px;
         background: var(--accent-gold);
         color: #1A2E47;
         font-size: 0.9rem;
         box-shadow: 0 10px 22px rgba(0, 0, 0, 0.22);
+      }
+
+      .back-btn {
+        min-height: 42px;
+        padding: 8px 12px;
+        background: rgba(255, 255, 255, 0.2);
+        color: var(--white);
+        font-size: 0.88rem;
+        width: fit-content;
       }
 
       .speakers-card {
@@ -130,7 +146,7 @@
 
       .speakers-list {
         overflow-y: auto;
-        max-height: 320px;
+        max-height: 62dvh;
         display: grid;
         gap: 8px;
         padding-right: 2px;
@@ -242,28 +258,33 @@
   </head>
   <body>
     <main class="screen">
-      <header class="altamonte-header" aria-label="Altamonte Springs logo">
-        <img class="altamonte-logo" src="icons/altamonte-logo.png?v=20260324-2" alt="Altamonte Springs logo" />
-      </header>
+      <section id="home-view">
+        <header class="altamonte-header" aria-label="Altamonte Springs logo">
+          <img class="altamonte-logo" src="icons/altamonte-logo.png?v=20260324-2" alt="Altamonte Springs logo" />
+        </header>
 
-      <section class="summit-logo-card" aria-label="Supervisor Summit branding">
-        <p class="summit-mark">Supervisor<br />Summit 2026</p>
+        <section class="summit-logo-card" aria-label="Supervisor Summit branding">
+          <p class="summit-mark">Supervisor<br />Summit 2026</p>
+        </section>
+
+        <section class="event-text" aria-label="Event details">
+          <p class="event-dates">May 5–7, 2026</p>
+        </section>
+
+        <section class="actions-grid" aria-label="Quick action placeholders">
+          <button class="action-btn" type="button" aria-disabled="true">Agenda</button>
+          <button id="open-speakers-btn" class="action-btn" type="button">Speakers</button>
+          <button class="action-btn" type="button" aria-disabled="true">Locations</button>
+          <button class="action-btn" type="button" aria-disabled="true">Food</button>
+        </section>
       </section>
 
-      <section class="event-text" aria-label="Event details">
-        <p class="event-dates">May 5–7, 2026</p>
-      </section>
-
-      <section class="actions-grid" aria-label="Quick action placeholders">
-        <button class="action-btn" type="button" aria-disabled="true">Agenda</button>
-        <button class="action-btn" type="button" aria-disabled="true">Speakers</button>
-        <button class="action-btn" type="button" aria-disabled="true">Locations</button>
-        <button class="action-btn" type="button" aria-disabled="true">Food</button>
-      </section>
-
-      <section class="speakers-card" aria-label="Speakers section">
-        <h2 class="speakers-title">Speakers</h2>
-        <div id="speakers-list" class="speakers-list" aria-live="polite"></div>
+      <section id="speakers-view" class="hidden" aria-label="Speakers view">
+        <button id="back-home-btn" class="back-btn" type="button">← Back</button>
+        <section class="speakers-card" aria-label="Speakers section">
+          <h2 class="speakers-title">Speakers</h2>
+          <div id="speakers-list" class="speakers-list" aria-live="polite"></div>
+        </section>
       </section>
     </main>
 
@@ -302,10 +323,27 @@
         });
       }
 
+      const homeView = document.getElementById('home-view');
+      const speakersView = document.getElementById('speakers-view');
+      const openSpeakersBtn = document.getElementById('open-speakers-btn');
+      const backHomeBtn = document.getElementById('back-home-btn');
+
+      function showHomeView() {
+        homeView.classList.remove('hidden');
+        speakersView.classList.add('hidden');
+      }
+
+      function showSpeakersView() {
+        homeView.classList.add('hidden');
+        speakersView.classList.remove('hidden');
+      }
+
       async function loadSpeakers() {
         try {
+          console.log('Fetching speakers from data/speakers.json');
           const response = await fetch('data/speakers.json');
           const speakers = await response.json();
+          console.log('Speakers loaded:', speakers);
 
           const sortedSpeakers = [...speakers].sort((a, b) => a.SortOrder - b.SortOrder);
           const listNode = document.getElementById('speakers-list');
@@ -320,9 +358,11 @@
             toggle.type = 'button';
             toggle.setAttribute('aria-expanded', 'false');
 
+            const photoPath = `images/speakers/${speaker.Photo}`;
+
             const avatar = document.createElement('img');
             avatar.className = 'speaker-avatar';
-            avatar.src = speaker.Photo;
+            avatar.src = photoPath;
             avatar.alt = speaker.DisplayName;
             avatar.loading = 'lazy';
 
@@ -347,7 +387,7 @@
 
             const detailImage = document.createElement('img');
             detailImage.className = 'speaker-detail-avatar';
-            detailImage.src = speaker.Photo;
+            detailImage.src = photoPath;
             detailImage.alt = `${speaker.DisplayName} portrait`;
             detailImage.loading = 'lazy';
 
@@ -401,14 +441,22 @@
               toggle.setAttribute('aria-expanded', 'true');
             }
           });
-
-          console.log('Loaded speakers:', sortedSpeakers);
         } catch (error) {
           console.error('Speaker load error:', error);
         }
       }
 
-      window.addEventListener('load', loadSpeakers);
+      openSpeakersBtn.addEventListener('click', () => {
+        showSpeakersView();
+        if (!speakersView.dataset.loaded) {
+          loadSpeakers();
+          speakersView.dataset.loaded = 'true';
+        }
+      });
+
+      backHomeBtn.addEventListener('click', showHomeView);
+
+      showHomeView();
     </script>
   </body>
 </html>
