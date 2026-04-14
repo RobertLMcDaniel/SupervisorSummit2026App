@@ -7,9 +7,9 @@
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <meta name="apple-mobile-web-app-title" content="Summit 26" />
-    <link rel="manifest" href="manifest.json?v=20260414-1" />
-    <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png?v=20260414-1" />
-    <link rel="apple-touch-icon" href="icons/icon-192.png?v=20260414-1" />
+    <link rel="manifest" href="manifest.json?v=20260414-2" />
+    <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png?v=20260414-2" />
+    <link rel="apple-touch-icon" href="icons/icon-192.png?v=20260414-2" />
     <title>Supervisor Summit 2026 App</title>
     <style>
       :root { --primary-navy:#1f3c5a; --dark-navy:#162c44; --accent-gold:#f2b705; --white:#fff; --light-gray:#e5e7eb; }
@@ -52,7 +52,7 @@
     <main class="screen">
       <section id="home-view" class="view" aria-label="Home view">
         <header class="altamonte-header" aria-label="Altamonte Springs logo">
-          <img class="altamonte-logo" src="icons/altamonte-logo.png?v=20260414-1" alt="Altamonte Springs logo" />
+          <img class="altamonte-logo" src="icons/altamonte-logo.png?v=20260414-2" alt="Altamonte Springs logo" />
         </header>
         <section class="summit-logo-card" aria-label="Supervisor Summit branding">
           <p class="summit-mark">Supervisor Summit 2026</p>
@@ -109,7 +109,7 @@
     <script>
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
-          navigator.serviceWorker.register('service-worker.js?v=20260414-1').then((registration) => {
+          navigator.serviceWorker.register('service-worker.js?v=20260414-2', { updateViaCache: 'none' }).then((registration) => {
             registration.update();
             if (registration.waiting) registration.waiting.postMessage({ type: 'SKIP_WAITING' });
             registration.addEventListener('updatefound', () => {
@@ -149,7 +149,7 @@
       });
 
       async function fetchJson(path) {
-        const response = await fetch(path);
+        const response = await fetch(path, { cache: 'no-store' });
         if (!response.ok) throw new Error(`Failed to load ${path}`);
         return response.json();
       }
