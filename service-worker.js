@@ -1,10 +1,10 @@
-const CACHE_NAME = 'supervisor-summit-2026-v7';
+const CACHE_NAME = 'supervisor-summit-2026-v8';
 const STATIC_ASSETS = [
   'index.html',
-  'manifest.json?v=20260414-1',
-  'icons/icon-192.png?v=20260414-1',
-  'icons/icon-512.png?v=20260414-1',
-  'icons/altamonte-logo.png?v=20260414-1',
+  'manifest.json?v=20260414-2',
+  'icons/icon-192.png?v=20260414-2',
+  'icons/icon-512.png?v=20260414-2',
+  'icons/altamonte-logo.png?v=20260414-2',
   'data/speakers.json',
   'data/sessions/day1.json',
   'data/sessions/day2.json',
@@ -39,47 +39,23 @@ self.addEventListener('fetch', (event) => {
 
   const request = event.request;
   const isNavigation = request.mode === 'navigate';
-  const requestUrl = new URL(request.url);
-  const isDataRequest = requestUrl.pathname.includes('/data/');
-  const isSpeakerImageRequest = requestUrl.pathname.includes('/images/speakers/');
-
-  if (isNavigation) {
-    event.respondWith(
-      fetch(request)
-        .then((networkResponse) => {
-          const responseClone = networkResponse.clone();
-          caches.open(CACHE_NAME).then((cache) => cache.put(request, responseClone));
-          return networkResponse;
-        })
-        .catch(() => caches.match(request).then((cached) => cached || caches.match('index.html')))
-    );
-    return;
-  }
-
-  if (isDataRequest || isSpeakerImageRequest) {
-    event.respondWith(
-      fetch(request)
-        .then((networkResponse) => {
-          const responseClone = networkResponse.clone();
-          caches.open(CACHE_NAME).then((cache) => cache.put(request, responseClone));
-          return networkResponse;
-        })
-        .catch(() => caches.match(request))
-    );
-    return;
-  }
+  const isSameOrigin = new URL(request.url).origin === self.location.origin;
 
   event.respondWith(
-    caches.match(request).then((cachedResponse) => {
-      if (cachedResponse) return cachedResponse;
-
-      return fetch(request)
-        .then((networkResponse) => {
+    fetch(request)
+      .then((networkResponse) => {
+        if (isSameOrigin && networkResponse && networkResponse.status === 200) {
           const responseClone = networkResponse.clone();
           caches.open(CACHE_NAME).then((cache) => cache.put(request, responseClone));
-          return networkResponse;
+        }
+        return networkResponse;
+      })
+      .catch(() =>
+        caches.match(request).then((cachedResponse) => {
+          if (cachedResponse) return cachedResponse;
+          if (isNavigation) return caches.match('index.html');
+          return Response.error();
         })
-        .catch(() => caches.match('index.html'));
-    })
+      )
   );
 });
