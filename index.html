@@ -2,300 +2,108 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <meta name="theme-color" content="#1F3C5A" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <meta name="apple-mobile-web-app-title" content="Summit 26" />
-    <link rel="manifest" href="manifest.json?v=20260325-2" />
-    <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png?v=20260325-2" />
-    <link rel="apple-touch-icon" href="icons/icon-192.png?v=20260325-2" />
+    <link rel="manifest" href="manifest.json?v=20260413-1" />
+    <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png?v=20260413-1" />
+    <link rel="apple-touch-icon" href="icons/icon-192.png?v=20260413-1" />
     <title>Supervisor Summit 2026 App</title>
     <style>
-      :root {
-        --primary-navy: #1F3C5A;
-        --dark-navy: #162C44;
-        --accent-gold: #F2B705;
-        --white: #FFFFFF;
-        --light-gray: #E5E7EB;
-      }
-
-      * {
-        box-sizing: border-box;
-      }
-
-      html,
-      body {
-        margin: 0;
-        width: 100%;
-        min-height: 100%;
-      }
-
-      body {
-        min-height: 100dvh;
-        font-family: Arial, Helvetica, sans-serif;
-        background: linear-gradient(180deg, var(--primary-navy) 0%, var(--dark-navy) 100%);
-        color: var(--white);
-      }
-
-      .screen {
-        width: 100%;
-        max-width: 460px;
-        min-height: 100dvh;
-        margin: 0 auto;
-        padding: max(10px, env(safe-area-inset-top)) max(14px, env(safe-area-inset-right)) max(14px, env(safe-area-inset-bottom)) max(14px, env(safe-area-inset-left));
-        display: grid;
-        gap: 8px;
-      }
-
-      .hidden {
-        display: none !important;
-      }
-
-      #home-view,
-      #speakers-view {
-        display: grid;
-        gap: 8px;
-      }
-
-      #speakers-view {
-        align-content: start;
-      }
-
-      .altamonte-header {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
-
-      .altamonte-logo {
-        width: min(92vw, 420px);
-        max-height: 160px;
-        object-fit: contain;
-        display: block;
-      }
-
-      .summit-logo-card {
-        border-radius: 18px;
-        background: rgba(255, 255, 255, 0.08);
-        border: 1px solid rgba(255, 255, 255, 0.12);
-        box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18);
-        padding: 10px;
-        text-align: center;
-      }
-
-      .summit-mark {
-        margin: 0;
-        font-size: clamp(1.3rem, 5.4vw, 1.95rem);
-        font-weight: 800;
-        line-height: 1.04;
-        text-transform: uppercase;
-        letter-spacing: -0.01em;
-      }
-
-      .event-text {
-        text-align: center;
-      }
-
-      .event-dates {
-        margin: 4px 0 0;
-        font-size: 0.98rem;
-        color: var(--light-gray);
-        font-weight: 700;
-      }
-
-      .actions-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 8px;
-      }
-
-      .action-btn,
-      .back-btn {
-        border: 0;
-        border-radius: 12px;
-        font-family: inherit;
-        font-weight: 800;
-        cursor: pointer;
-      }
-
-      .action-btn {
-        min-height: 46px;
-        background: var(--accent-gold);
-        color: #1A2E47;
-        font-size: 0.9rem;
-        box-shadow: 0 10px 22px rgba(0, 0, 0, 0.22);
-      }
-
-      .back-btn {
-        min-height: 42px;
-        padding: 8px 12px;
-        background: rgba(255, 255, 255, 0.2);
-        color: var(--white);
-        font-size: 0.88rem;
-        width: fit-content;
-      }
-
-      .speakers-card {
-        background: rgba(255, 255, 255, 0.08);
-        border: 1px solid rgba(255, 255, 255, 0.12);
-        border-radius: 16px;
-        box-shadow: 0 10px 24px rgba(0, 0, 0, 0.14);
-        padding: 10px;
-        min-height: 260px;
-        display: grid;
-        gap: 8px;
-      }
-
-      .speakers-title {
-        margin: 0;
-        font-size: 1rem;
-        font-weight: 800;
-        color: var(--white);
-      }
-
-      .speakers-list {
-        overflow-y: auto;
-        max-height: 62dvh;
-        -webkit-overflow-scrolling: touch;
-        display: grid;
-        gap: 8px;
-        padding-right: 2px;
-      }
-
-      .speaker-item {
-        border-radius: 14px;
-        background: rgba(255, 255, 255, 0.95);
-        border: 1px solid rgba(22, 44, 68, 0.12);
-        overflow: hidden;
-      }
-
-      .speaker-toggle {
-        width: 100%;
-        cursor: pointer;
-        display: grid;
-        grid-template-columns: 64px 1fr;
-        gap: 10px;
-        align-items: center;
-        text-align: left;
-        border: 0;
-        background: transparent;
-        padding: 10px;
-      }
-
-      .speaker-avatar,
-      .speaker-avatar-placeholder {
-        width: 64px;
-        height: 64px;
-        border-radius: 50%;
-      }
-
-      .speaker-avatar {
-        object-fit: cover;
-        display: block;
-        background: #DDE5F5;
-      }
-
-      .speaker-avatar-placeholder {
-        display: none;
-        align-items: center;
-        justify-content: center;
-        background: #DDE5F5;
-        color: #1F3C5A;
-        font-size: 0.75rem;
-        font-weight: 700;
-      }
-
-      .speaker-name {
-        color: #122845;
-        font-size: 0.98rem;
-        font-weight: 800;
-        margin: 0;
-      }
-
-      .speaker-details {
-        max-height: 0;
-        overflow: hidden;
-        transition: max-height 0.25s ease;
-        border-top: 1px solid rgba(22, 44, 68, 0.12);
-        background: #F7F9FC;
-      }
-
-      .speaker-item.expanded .speaker-details {
-        max-height: 340px;
-      }
-
-      .speaker-details-inner {
-        padding: 12px;
-        display: grid;
-        gap: 10px;
-      }
-
-      .speaker-detail-avatar,
-      .speaker-detail-avatar-placeholder {
-        width: 120px;
-        height: 120px;
-        border-radius: 12px;
-      }
-
-      .speaker-detail-avatar {
-        object-fit: cover;
-        display: block;
-        background: #DDE5F5;
-      }
-
-      .speaker-detail-avatar-placeholder {
-        display: none;
-        align-items: center;
-        justify-content: center;
-        background: #DDE5F5;
-        color: #1F3C5A;
-        font-size: 0.85rem;
-        font-weight: 700;
-      }
-
-      .speaker-meta {
-        color: #223A57;
-        margin: 0;
-        line-height: 1.35;
-      }
-
-      .speaker-bio {
-        color: #3B4F68;
-        margin: 0;
-        line-height: 1.45;
-        font-size: 0.9rem;
-      }
+      :root { --primary-navy:#1f3c5a; --dark-navy:#162c44; --accent-gold:#f2b705; --white:#fff; --light-gray:#e5e7eb; }
+      * { box-sizing:border-box; }
+      html,body { margin:0; width:100%; min-height:100%; }
+      body { min-height:100dvh; font-family:Arial,Helvetica,sans-serif; background:linear-gradient(180deg,var(--primary-navy) 0%,var(--dark-navy) 100%); color:var(--white); }
+      .screen { width:100%; max-width:500px; min-height:100dvh; margin:0 auto; padding:max(12px,env(safe-area-inset-top)) max(14px,env(safe-area-inset-right)) max(16px,env(safe-area-inset-bottom)) max(14px,env(safe-area-inset-left)); display:grid; gap:10px; }
+      .hidden { display:none !important; }
+      .view { display:grid; gap:10px; align-content:start; }
+      .altamonte-header { display:flex; justify-content:center; }
+      .altamonte-logo { width:min(92vw,420px); max-height:160px; object-fit:contain; display:block; }
+      .summit-logo-card,.panel { border-radius:16px; background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.15); box-shadow:0 10px 24px rgba(0,0,0,.18); padding:12px; }
+      .summit-mark { margin:0; text-align:center; font-size:clamp(1.35rem,5.4vw,2rem); font-weight:800; line-height:1.08; text-transform:uppercase; }
+      .event-dates { margin:2px 0 0; text-align:center; font-size:1rem; color:var(--light-gray); font-weight:700; }
+      .actions-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+      button { border:0; border-radius:12px; font-family:inherit; font-weight:800; cursor:pointer; }
+      .action-btn { min-height:46px; background:var(--accent-gold); color:#1a2e47; font-size:.92rem; box-shadow:0 8px 16px rgba(0,0,0,.2); }
+      .back-btn { min-height:40px; padding:8px 12px; background:rgba(255,255,255,.2); color:var(--white); width:max-content; }
+      .list { max-height:66dvh; overflow-y:auto; display:grid; gap:8px; padding-right:2px; }
+      .item { border-radius:14px; background:rgba(255,255,255,.95); color:#1a2e47; border:1px solid rgba(22,44,68,.12); padding:10px; }
+      .item h3 { margin:0 0 5px; font-size:.98rem; }
+      .meta { margin:0; font-size:.86rem; color:#334c67; line-height:1.35; }
+      .speaker-item { border-radius:14px; background:rgba(255,255,255,.95); border:1px solid rgba(22,44,68,.12); overflow:hidden; }
+      .speaker-toggle { width:100%; display:grid; grid-template-columns:64px 1fr; gap:10px; align-items:center; text-align:left; background:transparent; padding:10px; }
+      .speaker-avatar,.speaker-avatar-placeholder { width:64px; height:64px; border-radius:50%; }
+      .speaker-avatar { object-fit:cover; display:block; background:#dde5f5; }
+      .speaker-avatar-placeholder,.speaker-detail-avatar-placeholder { display:none; align-items:center; justify-content:center; background:#dde5f5; color:#1f3c5a; font-weight:700; }
+      .speaker-avatar-placeholder { font-size:.75rem; }
+      .speaker-name { color:#122845; font-size:.98rem; font-weight:800; margin:0; }
+      .speaker-details { max-height:0; overflow:hidden; transition:max-height .25s ease; border-top:1px solid rgba(22,44,68,.12); background:#f7f9fc; }
+      .speaker-item.expanded .speaker-details { max-height:360px; }
+      .speaker-details-inner { padding:12px; display:grid; gap:10px; }
+      .speaker-detail-avatar,.speaker-detail-avatar-placeholder { width:120px; height:120px; border-radius:12px; }
+      .speaker-detail-avatar { object-fit:cover; display:block; background:#dde5f5; }
+      .speaker-bio { color:#3b4f68; margin:0; line-height:1.45; font-size:.9rem; }
+      .locations-list { display:grid; gap:8px; }
+      .empty-state { padding:12px; font-weight:700; color:#294766; }
     </style>
   </head>
   <body>
     <main class="screen">
-      <section id="home-view">
+      <p>TEST</p>
+      <section id="home-view" class="view" aria-label="Home view">
         <header class="altamonte-header" aria-label="Altamonte Springs logo">
-          <img class="altamonte-logo" src="icons/altamonte-logo.png?v=20260325-2" alt="Altamonte Springs logo" />
+          <img class="altamonte-logo" src="icons/altamonte-logo.png?v=20260413-1" alt="Altamonte Springs logo" />
         </header>
-
         <section class="summit-logo-card" aria-label="Supervisor Summit branding">
-          <p class="summit-mark">Supervisor<br />Summit 2026</p>
-        </section>
-
-        <section class="event-text" aria-label="Event details">
+          <p class="summit-mark">Supervisor Summit 2026 + TEST</p>
           <p class="event-dates">May 5–7, 2026</p>
         </section>
-
-        <section class="actions-grid" aria-label="Quick action placeholders">
-          <button class="action-btn" type="button" aria-disabled="true">Agenda</button>
+        <section class="actions-grid" aria-label="Quick actions">
+          <button id="open-agenda-btn" class="action-btn" type="button">Agenda</button>
           <button id="open-speakers-btn" class="action-btn" type="button">Speakers</button>
-          <button class="action-btn" type="button" aria-disabled="true">Locations</button>
-          <button class="action-btn" type="button" aria-disabled="true">Food</button>
+          <button id="open-locations-btn" class="action-btn" type="button">Locations</button>
+          <button id="open-food-btn" class="action-btn" type="button">Food</button>
         </section>
       </section>
 
-      <section id="speakers-view" class="hidden" aria-label="Speakers view">
-        <button id="back-home-btn" class="back-btn" type="button">← Back</button>
-        <section class="speakers-card" aria-label="Speakers section">
-          <h2 class="speakers-title">Speakers</h2>
-          <div id="speakers-list" class="speakers-list" aria-live="polite"></div>
+      <section id="agenda-view" class="view hidden" aria-label="Agenda view">
+        <button class="back-btn" type="button" data-back>← Back</button>
+        <section class="panel">
+          <h2>Agenda</h2>
+          <div id="agenda-list" class="list" aria-live="polite"></div>
+        </section>
+      </section>
+
+      <section id="speakers-view" class="view hidden" aria-label="Speakers view">
+        <button class="back-btn" type="button" data-back>← Back</button>
+        <section class="panel">
+          <h2>Speakers</h2>
+          <div id="speakers-list" class="list" aria-live="polite"></div>
+        </section>
+      </section>
+
+      <section id="locations-view" class="view hidden" aria-label="Locations view">
+        <button class="back-btn" type="button" data-back>← Back</button>
+        <section class="panel">
+          <h2>Locations</h2>
+          <div class="locations-list">
+            <article class="item"><h3>Grand Ballroom</h3><p class="meta">Keynotes & reflection sessions</p></article>
+            <article class="item"><h3>Harbor Room</h3><p class="meta">Breakout leadership workshops</p></article>
+            <article class="item"><h3>Cypress Hall</h3><p class="meta">Service and operations sessions</p></article>
+            <article class="item"><h3>Summit Theater</h3><p class="meta">Data & performance talks</p></article>
+            <article class="item"><h3>Lakeside Studio</h3><p class="meta">Interactive team exercises</p></article>
+            <article class="item"><h3>Atrium Lounge / Garden Terrace / Expo Hall</h3><p class="meta">Meal and snack service locations</p></article>
+          </div>
+        </section>
+      </section>
+
+      <section id="food-view" class="view hidden" aria-label="Food view">
+        <button class="back-btn" type="button" data-back>← Back</button>
+        <section class="panel">
+          <h2>Food</h2>
+          <div id="food-list" class="list" aria-live="polite"></div>
         </section>
       </section>
     </main>
@@ -303,19 +111,12 @@
     <script>
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
-          navigator.serviceWorker.register('service-worker.js?v=20260325-2').then((registration) => {
+          navigator.serviceWorker.register('service-worker.js?v=20260413-1').then((registration) => {
             registration.update();
-
-            if (registration.waiting) {
-              registration.waiting.postMessage({ type: 'SKIP_WAITING' });
-            }
-
+            if (registration.waiting) registration.waiting.postMessage({ type: 'SKIP_WAITING' });
             registration.addEventListener('updatefound', () => {
               const newWorker = registration.installing;
-              if (!newWorker) {
-                return;
-              }
-
+              if (!newWorker) return;
               newWorker.addEventListener('statechange', () => {
                 if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
                   newWorker.postMessage({ type: 'SKIP_WAITING' });
@@ -327,45 +128,93 @@
 
         let hasReloadedForUpdate = false;
         navigator.serviceWorker.addEventListener('controllerchange', () => {
-          if (hasReloadedForUpdate) {
-            return;
-          }
+          if (hasReloadedForUpdate) return;
           hasReloadedForUpdate = true;
           window.location.reload();
         });
       }
 
-      const homeView = document.getElementById('home-view');
-      const speakersView = document.getElementById('speakers-view');
-      const openSpeakersBtn = document.getElementById('open-speakers-btn');
-      const backHomeBtn = document.getElementById('back-home-btn');
+      const views = {
+        home: document.getElementById('home-view'),
+        agenda: document.getElementById('agenda-view'),
+        speakers: document.getElementById('speakers-view'),
+        locations: document.getElementById('locations-view'),
+        food: document.getElementById('food-view')
+      };
 
-      function showHomeView() {
-        homeView.classList.remove('hidden');
-        speakersView.classList.add('hidden');
+      function showView(viewName) {
+        Object.entries(views).forEach(([name, node]) => node.classList.toggle('hidden', name !== viewName));
       }
 
-      function showSpeakersView() {
-        homeView.classList.add('hidden');
-        speakersView.classList.remove('hidden');
+      document.querySelectorAll('[data-back]').forEach((button) => {
+        button.addEventListener('click', () => showView('home'));
+      });
+
+      async function fetchJson(path) {
+        const response = await fetch(path);
+        if (!response.ok) throw new Error(`Failed to load ${path}`);
+        return response.json();
+      }
+
+      function setErrorState(containerId, message) {
+        const node = document.getElementById(containerId);
+        node.innerHTML = `<div class="item empty-state">${message}</div>`;
+      }
+
+      async function loadAgenda() {
+        try {
+          const dayPaths = ['data/sessions/day1.json', 'data/sessions/day2.json', 'data/sessions/day3.json'];
+          const allDays = await Promise.all(dayPaths.map((path) => fetchJson(path)));
+          const sessions = allDays.flat();
+          const listNode = document.getElementById('agenda-list');
+          listNode.innerHTML = '';
+
+          sessions.forEach((session) => {
+            const card = document.createElement('article');
+            card.className = 'item';
+            card.innerHTML = `
+              <h3>${session.Day}: ${session.SessionTitle}</h3>
+              <p class="meta"><strong>${session.StartTime}–${session.EndTime}</strong> · ${session.Location}</p>
+              <p class="meta">${session.Description}</p>
+            `;
+            listNode.append(card);
+          });
+        } catch {
+          setErrorState('agenda-list', 'Unable to load the agenda right now. Please refresh.');
+        }
+      }
+
+      async function loadFood() {
+        try {
+          const dayPaths = ['data/food/day1.json', 'data/food/day2.json', 'data/food/day3.json'];
+          const allDays = await Promise.all(dayPaths.map((path) => fetchJson(path)));
+          const entries = allDays.flat();
+          const listNode = document.getElementById('food-list');
+          listNode.innerHTML = '';
+
+          entries.forEach((entry) => {
+            const card = document.createElement('article');
+            card.className = 'item';
+            card.innerHTML = `
+              <h3>${entry.Day}: ${entry.Title}</h3>
+              <p class="meta"><strong>${entry.StartTime}–${entry.EndTime}</strong> · ${entry.Location}</p>
+              <p class="meta">${entry.Description}</p>
+            `;
+            listNode.append(card);
+          });
+        } catch {
+          setErrorState('food-list', 'Unable to load food details right now. Please refresh.');
+        }
       }
 
       async function loadSpeakers() {
         try {
-          console.log('Fetching speakers from data/speakers.json');
-          const response = await fetch('data/speakers.json');
-          if (!response.ok) {
-            throw new Error(`Failed to load speakers: ${response.status} (${response.url})`);
-          }
-
-          const speakers = await response.json();
-          console.log('Speakers loaded:', speakers);
-
-          const sortedSpeakers = [...speakers].sort((a, b) => a.SortOrder - b.SortOrder);
+          const speakers = await fetchJson('data/speakers.json');
+          const sorted = [...speakers].sort((a, b) => a.SortOrder - b.SortOrder);
           const listNode = document.getElementById('speakers-list');
           listNode.innerHTML = '';
 
-          sortedSpeakers.forEach((speaker, index) => {
+          sorted.forEach((speaker, index) => {
             const item = document.createElement('article');
             item.className = 'speaker-item';
 
@@ -375,7 +224,6 @@
             toggle.setAttribute('aria-expanded', 'false');
 
             const photoPath = `images/speakers/${speaker.Photo}`;
-
             const avatar = document.createElement('img');
             avatar.className = 'speaker-avatar';
             avatar.src = photoPath;
@@ -386,10 +234,7 @@
             avatarFallback.className = 'speaker-avatar-placeholder';
             avatarFallback.textContent = 'No Image';
 
-            avatar.onerror = () => {
-              avatar.style.display = 'none';
-              avatarFallback.style.display = 'flex';
-            };
+            avatar.onerror = () => { avatar.style.display = 'none'; avatarFallback.style.display = 'flex'; };
 
             const name = document.createElement('p');
             name.className = 'speaker-name';
@@ -411,17 +256,14 @@
             detailFallback.className = 'speaker-detail-avatar-placeholder';
             detailFallback.textContent = 'No Image';
 
-            detailImage.onerror = () => {
-              detailImage.style.display = 'none';
-              detailFallback.style.display = 'flex';
-            };
+            detailImage.onerror = () => { detailImage.style.display = 'none'; detailFallback.style.display = 'flex'; };
 
             const detailName = document.createElement('p');
-            detailName.className = 'speaker-meta';
+            detailName.className = 'meta';
             detailName.innerHTML = `<strong>${speaker.DisplayName}</strong>`;
 
             const detailTitleOrg = document.createElement('p');
-            detailTitleOrg.className = 'speaker-meta';
+            detailTitleOrg.className = 'meta';
             detailTitleOrg.textContent = `${speaker.Title} · ${speaker.Organization}`;
 
             const detailBio = document.createElement('p');
@@ -430,51 +272,45 @@
 
             detailsInner.append(detailImage, detailFallback, detailName, detailTitleOrg, detailBio);
             details.append(detailsInner);
-
             const textWrap = document.createElement('div');
             textWrap.append(name);
-
             toggle.append(avatar, avatarFallback, textWrap);
             item.append(toggle, details);
             listNode.append(item);
 
             toggle.addEventListener('click', () => {
-              const expandedItem = document.querySelector('.speaker-item.expanded');
-              if (expandedItem && expandedItem !== item) {
-                expandedItem.classList.remove('expanded');
-                const expandedToggle = expandedItem.querySelector('.speaker-toggle');
-                if (expandedToggle) {
-                  expandedToggle.setAttribute('aria-expanded', 'false');
-                }
+              const expanded = document.querySelector('.speaker-item.expanded');
+              if (expanded && expanded !== item) {
+                expanded.classList.remove('expanded');
+                const expandedToggle = expanded.querySelector('.speaker-toggle');
+                if (expandedToggle) expandedToggle.setAttribute('aria-expanded', 'false');
               }
-
-              const isNowExpanded = item.classList.toggle('expanded');
-              toggle.setAttribute('aria-expanded', isNowExpanded ? 'true' : 'false');
+              const isExpanded = item.classList.toggle('expanded');
+              toggle.setAttribute('aria-expanded', isExpanded ? 'true' : 'false');
             });
 
-            if (index === 0) {
-              item.classList.add('expanded');
-              toggle.setAttribute('aria-expanded', 'true');
-            }
+            if (index === 0) { item.classList.add('expanded'); toggle.setAttribute('aria-expanded', 'true'); }
           });
-        } catch (error) {
-          console.error('Speaker load error:', error);
-          const listNode = document.getElementById('speakers-list');
-          if (listNode) {
-            listNode.innerHTML = '<div class="speaker-item" style="padding:12px;color:#223A57;font-weight:700;">Unable to load speakers right now. Please refresh.</div>';
-            console.log('Speaker fetch path:', 'data/speakers.json');
-          }
+        } catch {
+          setErrorState('speakers-list', 'Unable to load speakers right now. Please refresh.');
         }
       }
 
-      openSpeakersBtn.addEventListener('click', () => {
-        showSpeakersView();
-        loadSpeakers();
+      document.getElementById('open-agenda-btn').addEventListener('click', async () => {
+        showView('agenda');
+        await loadAgenda();
+      });
+      document.getElementById('open-speakers-btn').addEventListener('click', async () => {
+        showView('speakers');
+        await loadSpeakers();
+      });
+      document.getElementById('open-locations-btn').addEventListener('click', () => showView('locations'));
+      document.getElementById('open-food-btn').addEventListener('click', async () => {
+        showView('food');
+        await loadFood();
       });
 
-      backHomeBtn.addEventListener('click', showHomeView);
-
-      showHomeView();
+      showView('home');
     </script>
   </body>
 </html>
