@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    <meta name="theme-color" content="#1F3C5A" />
+    <meta name="theme-color" content="#1f3c5a" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <meta name="apple-mobile-web-app-title" content="Summit 26" />
@@ -62,13 +62,23 @@
         min-height: calc(100dvh - 136px);
         border-radius: 18px;
         overflow: hidden;
+        background: #ffffff;
+      }
+
+      .home-video-frame {
+        position: relative;
+        width: 100%;
+        max-width: 420px;
+        margin: 0 auto;
+        aspect-ratio: 4 / 5;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 16px 26px rgba(7, 24, 39, 0.28);
       }
 
       .home-video-bg {
         position: absolute;
         inset: 0;
-        z-index: 0;
-        pointer-events: none;
       }
 
       .home-video-bg video {
@@ -77,30 +87,26 @@
         object-fit: cover;
         object-position: center;
         display: block;
-        pointer-events: none;
       }
 
       .home-video-overlay {
         position: absolute;
         inset: 0;
-        z-index: 1;
-        background: rgba(0, 0, 0, 0.42);
         pointer-events: none;
+        background: linear-gradient(180deg, rgba(10, 22, 36, 0.2) 0%, rgba(10, 22, 36, 0.62) 72%);
       }
 
       .home-foreground {
-        position: relative;
-        z-index: 2;
         display: grid;
-        gap: 12px;
+        gap: 14px;
         align-content: start;
-        padding: 8px;
+        padding: 10px;
       }
 
       .altamonte-header {
         display: flex;
         justify-content: center;
-        margin-top: 2px;
+        margin-top: 4px;
       }
 
       .altamonte-logo {
@@ -143,6 +149,34 @@
         line-height: 1.45;
       }
 
+      .home-video-label {
+        position: absolute;
+        left: 16px;
+        right: 16px;
+        bottom: 16px;
+        z-index: 2;
+        text-align: center;
+      }
+
+      .home-video-title {
+        margin: 0;
+        font-size: clamp(1.22rem, 5.1vw, 1.9rem);
+        line-height: 1.06;
+        letter-spacing: 0.01em;
+        text-transform: uppercase;
+        font-weight: 800;
+        color: var(--accent-gold);
+        text-shadow: 0 8px 16px rgba(0, 0, 0, 0.45);
+      }
+
+      .home-video-dates {
+        margin: 6px 0 0;
+        font-size: 0.95rem;
+        font-weight: 700;
+        color: var(--accent-gold);
+        text-shadow: 0 8px 16px rgba(0, 0, 0, 0.45);
+      }
+
       .list {
         max-height: 68dvh;
         overflow-y: auto;
@@ -171,52 +205,15 @@
         line-height: 1.35;
       }
 
-      .page-title-chip {
-        margin: 0 0 16px;
-        padding: 13px 14px;
-        border-radius: 16px;
+      #speakers-view h2 {
+        margin: 0 0 2px;
         text-align: center;
-        font-size: 1.28rem;
-        font-weight: 800;
-        letter-spacing: 0.01em;
-        background: rgba(255, 255, 255, 0.1);
-        border: 1px solid rgba(255, 255, 255, 0.18);
-        box-shadow: 0 8px 18px rgba(0, 0, 0, 0.14);
-      }
-
-      .agenda-day-tabs {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 8px;
-        margin-top: 0;
-        margin-bottom: 16px;
-      }
-
-      .agenda-day-tab {
-        min-height: 42px;
-        border: 0;
-        border-radius: 12px;
-        background: rgba(255, 255, 255, 0.16);
-        color: #e6effb;
-        font-weight: 800;
-        cursor: pointer;
-        transition: transform 0.18s ease, background-color 0.18s ease, color 0.18s ease;
-      }
-
-      .agenda-day-tab:active {
-        transform: scale(0.98);
-      }
-
-      .agenda-day-tab.active {
-        background: var(--accent-gold);
-        color: #132b44;
       }
 
       .speakers-grid {
         display: grid;
         grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 14px 10px;
-        margin-top: 4px;
       }
 
       .speaker-tile {
@@ -299,8 +296,7 @@
         margin: 0 auto;
         overflow-y: auto;
         border-radius: 0;
-        background-color: var(--bg-solid);
-        background-image: linear-gradient(180deg, var(--primary-navy) 0%, var(--dark-navy) 100%);
+        background: #ffffff;
         color: #112a46;
         box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
         padding: calc(18px + env(safe-area-inset-top)) 16px calc(20px + env(safe-area-inset-bottom));
@@ -355,7 +351,7 @@
         text-align: center;
         font-size: 1.2rem;
         font-weight: 800;
-        color: #f3f8ff;
+        color: #133356;
         opacity: 0;
         transform: translateY(8px);
         transition: opacity 0.22s ease, transform 0.22s ease;
@@ -364,7 +360,7 @@
       .speaker-detail-role {
         margin: 6px 0 0;
         text-align: center;
-        color: #c7d8ec;
+        color: #355a80;
         font-weight: 700;
         opacity: 0;
         transform: translateY(8px);
@@ -374,7 +370,7 @@
       .speaker-detail-org {
         margin: 4px 0 0;
         text-align: center;
-        color: #c7d8ec;
+        color: #355a80;
         opacity: 0;
         transform: translateY(8px);
         transition: opacity 0.22s ease, transform 0.22s ease;
@@ -383,7 +379,7 @@
       .speaker-detail-bio {
         margin: 12px 0 0;
         line-height: 1.55;
-        color: #e0ebf8;
+        color: #3d5a78;
         opacity: 0;
         transform: translateY(8px);
         transition: opacity 0.22s ease, transform 0.22s ease;
@@ -531,32 +527,31 @@
   <body>
     <main class="screen">
       <section id="home-view" class="view" aria-label="Home view">
-        <div class="home-video-bg" aria-hidden="true">
-          <video
-            autoplay
-            loop
-            muted
-            playsinline
-            webkit-playsinline
-            preload="auto"
-            disablepictureinpicture
-            tabindex="-1"
-            aria-hidden="true"
-          >
-            <source src="images/background.mp4" type="video/mp4" />
-          </video>
-        </div>
-        <div class="home-video-overlay" aria-hidden="true"></div>
         <div class="home-foreground">
           <header class="altamonte-header" aria-label="Altamonte Springs logo">
             <img class="altamonte-logo" src="icons/altamonte-logo.png?v=20260414-2" alt="Altamonte Springs logo" />
           </header>
-          <section class="summit-logo-card" aria-label="Supervisor Summit branding">
-            <p class="summit-mark">Supervisor Summit 2026</p>
-            <p class="event-dates">May 5–7, 2026</p>
-          </section>
-          <section class="panel">
-            <p class="home-copy">Use the tab bar below to browse speakers, agenda sessions, and food details.</p>
+          <section class="home-video-frame" aria-label="Supervisor Summit highlight video">
+            <div class="home-video-bg" aria-hidden="true">
+              <video
+                autoplay
+                loop
+                muted
+                playsinline
+                webkit-playsinline
+                preload="auto"
+                disablepictureinpicture
+                tabindex="-1"
+                aria-hidden="true"
+              >
+                <source src="images/background.mp4" type="video/mp4" />
+              </video>
+            </div>
+            <div class="home-video-overlay" aria-hidden="true"></div>
+            <div class="home-video-label">
+              <p class="home-video-title">Supervisor Summit 2026</p>
+              <p class="home-video-dates">May 5–7, 2026</p>
+            </div>
           </section>
         </div>
       </section>
@@ -888,6 +883,14 @@
       });
 
       speakerDetailClose.addEventListener('click', closeSpeakerDetail);
+      speakerDetailOverlay.addEventListener('click', (event) => {
+        if (event.target === speakerDetailOverlay) closeSpeakerDetail();
+      });
+      document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && speakerDetailOverlay.classList.contains('open')) {
+          closeSpeakerDetail();
+        }
+      });
 
       window.addEventListener('resize', () => syncNavIndicator());
 
