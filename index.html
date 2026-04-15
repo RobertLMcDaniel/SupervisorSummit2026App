@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    <meta name="theme-color" content="#1f3c5a" />
+    <meta name="theme-color" content="#1F3C5A" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <meta name="apple-mobile-web-app-title" content="Summit 26" />
@@ -50,7 +50,7 @@
         margin: 0 auto;
         padding: max(12px, env(safe-area-inset-top)) max(14px, env(safe-area-inset-right)) calc(84px + max(12px, env(safe-area-inset-bottom))) max(14px, env(safe-area-inset-left));
         display: grid;
-        background-color: var(--bg-solid);
+        background-color: #ffffff;
         background-image: none;
       }
 
@@ -60,7 +60,7 @@
       #home-view {
         position: relative;
         min-height: calc(100dvh - 136px);
-        border-radius: 18px;
+        border-radius: 0;
         overflow: hidden;
         background: #ffffff;
       }
@@ -68,9 +68,9 @@
       .home-video-frame {
         position: relative;
         width: 100%;
-        max-width: 420px;
+        max-width: 410px;
         margin: 0 auto;
-        aspect-ratio: 4 / 5;
+        aspect-ratio: 1 / 1.15;
         border-radius: 20px;
         overflow: hidden;
         box-shadow: 0 16px 26px rgba(7, 24, 39, 0.28);
@@ -100,6 +100,7 @@
         display: grid;
         gap: 14px;
         align-content: start;
+        justify-items: center;
         padding: 10px;
       }
 
@@ -153,15 +154,16 @@
         position: absolute;
         left: 16px;
         right: 16px;
-        bottom: 16px;
+        top: 50%;
+        transform: translateY(-50%);
         z-index: 2;
         text-align: center;
       }
 
       .home-video-title {
         margin: 0;
-        font-size: clamp(1.22rem, 5.1vw, 1.9rem);
-        line-height: 1.06;
+        font-size: clamp(1.7rem, 7.6vw, 2.9rem);
+        line-height: 1.02;
         letter-spacing: 0.01em;
         text-transform: uppercase;
         font-weight: 800;
@@ -170,8 +172,8 @@
       }
 
       .home-video-dates {
-        margin: 6px 0 0;
-        font-size: 0.95rem;
+        margin: 10px 0 0;
+        font-size: 1.08rem;
         font-weight: 700;
         color: var(--accent-gold);
         text-shadow: 0 8px 16px rgba(0, 0, 0, 0.45);
@@ -205,15 +207,52 @@
         line-height: 1.35;
       }
 
-      #speakers-view h2 {
-        margin: 0 0 2px;
+      .page-title-chip {
+        margin: 0 0 16px;
+        padding: 13px 14px;
+        border-radius: 16px;
         text-align: center;
+        font-size: 1.28rem;
+        font-weight: 800;
+        letter-spacing: 0.01em;
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        box-shadow: 0 8px 18px rgba(0, 0, 0, 0.14);
+      }
+
+      .agenda-day-tabs {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+        margin-top: 0;
+        margin-bottom: 16px;
+      }
+
+      .agenda-day-tab {
+        min-height: 42px;
+        border: 0;
+        border-radius: 12px;
+        background: rgba(255, 255, 255, 0.16);
+        color: #e6effb;
+        font-weight: 800;
+        cursor: pointer;
+        transition: transform 0.18s ease, background-color 0.18s ease, color 0.18s ease;
+      }
+
+      .agenda-day-tab:active {
+        transform: scale(0.98);
+      }
+
+      .agenda-day-tab.active {
+        background: var(--accent-gold);
+        color: #132b44;
       }
 
       .speakers-grid {
         display: grid;
         grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 14px 10px;
+        margin-top: 4px;
       }
 
       .speaker-tile {
@@ -296,7 +335,8 @@
         margin: 0 auto;
         overflow-y: auto;
         border-radius: 0;
-        background: #ffffff;
+        background-color: var(--bg-solid);
+        background-image: linear-gradient(180deg, var(--primary-navy) 0%, var(--dark-navy) 100%);
         color: #112a46;
         box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
         padding: calc(18px + env(safe-area-inset-top)) 16px calc(20px + env(safe-area-inset-bottom));
@@ -883,14 +923,6 @@
       });
 
       speakerDetailClose.addEventListener('click', closeSpeakerDetail);
-      speakerDetailOverlay.addEventListener('click', (event) => {
-        if (event.target === speakerDetailOverlay) closeSpeakerDetail();
-      });
-      document.addEventListener('keydown', (event) => {
-        if (event.key === 'Escape' && speakerDetailOverlay.classList.contains('open')) {
-          closeSpeakerDetail();
-        }
-      });
 
       window.addEventListener('resize', () => syncNavIndicator());
 
