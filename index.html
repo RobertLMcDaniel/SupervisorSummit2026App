@@ -15,7 +15,7 @@
       :root {
         --primary-navy: #1f3c5a;
         --dark-navy: #162c44;
-        --bg-solid: #162c44;
+        --bg-solid: #1f3c5a;
         --accent-gold: #f2b705;
         --white: #fff;
         --light-gray: #e5e7eb;
@@ -30,7 +30,7 @@
         min-height: 100%;
         height: 100%;
         background-color: var(--bg-solid);
-        background-image: linear-gradient(180deg, var(--primary-navy) 0%, var(--dark-navy) 100%);
+        background-image: none;
         overscroll-behavior: none;
       }
 
@@ -38,7 +38,7 @@
         min-height: 100dvh;
         font-family: Arial, Helvetica, sans-serif;
         background-color: var(--bg-solid);
-        background-image: linear-gradient(180deg, var(--primary-navy) 0%, var(--dark-navy) 100%);
+        background-image: none;
         color: var(--white);
         overflow-x: hidden;
       }
@@ -51,7 +51,7 @@
         padding: max(12px, env(safe-area-inset-top)) max(14px, env(safe-area-inset-right)) calc(84px + max(12px, env(safe-area-inset-bottom))) max(14px, env(safe-area-inset-left));
         display: grid;
         background-color: var(--bg-solid);
-        background-image: linear-gradient(180deg, var(--primary-navy) 0%, var(--dark-navy) 100%);
+        background-image: none;
       }
 
       .hidden { display: none !important; }
@@ -131,9 +131,38 @@
         line-height: 1.35;
       }
 
-      #speakers-view h2 {
-        margin: 0 0 2px;
+      .page-title-chip {
+        margin: 0;
+        padding: 12px 14px;
+        border-radius: 16px;
         text-align: center;
+        font-size: 1.2rem;
+        font-weight: 800;
+        letter-spacing: 0.01em;
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        box-shadow: 0 8px 18px rgba(0, 0, 0, 0.14);
+      }
+
+      .agenda-day-tabs {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+      }
+
+      .agenda-day-tab {
+        min-height: 40px;
+        border: 0;
+        border-radius: 12px;
+        background: rgba(255, 255, 255, 0.16);
+        color: #e6effb;
+        font-weight: 800;
+        cursor: pointer;
+      }
+
+      .agenda-day-tab.active {
+        background: var(--accent-gold);
+        color: #132b44;
       }
 
       .speakers-grid {
@@ -356,14 +385,29 @@
       }
 
       .tab-btn {
-        min-height: 42px;
+        min-height: 56px;
         border: 0;
         border-radius: 12px;
         background: rgba(255, 255, 255, 0.12);
         color: #dbe7f7;
-        font-size: 0.88rem;
-        font-weight: 800;
         cursor: pointer;
+        display: grid;
+        justify-items: center;
+        align-content: center;
+        gap: 4px;
+        padding: 6px 2px;
+      }
+
+      .tab-icon {
+        width: 20px;
+        height: 20px;
+        object-fit: contain;
+      }
+
+      .tab-label {
+        font-size: 0.73rem;
+        font-weight: 800;
+        line-height: 1;
       }
 
       .tab-btn.active {
@@ -373,7 +417,7 @@
 
       @media (max-width: 380px) {
         .speaker-tile-name { font-size: 0.84rem; }
-        .tab-btn { font-size: 0.8rem; }
+        .tab-label { font-size: 0.68rem; }
       }
     </style>
   </head>
@@ -394,14 +438,19 @@
 
       <section id="agenda-view" class="view hidden" aria-label="Agenda view">
         <section class="panel">
-          <h2>Agenda</h2>
+          <h2 class="page-title-chip">Agenda</h2>
+          <div class="agenda-day-tabs" role="tablist" aria-label="Agenda day tabs">
+            <button class="agenda-day-tab active" type="button" data-day="day1">Day 1</button>
+            <button class="agenda-day-tab" type="button" data-day="day2">Day 2</button>
+            <button class="agenda-day-tab" type="button" data-day="day3">Day 3</button>
+          </div>
           <div id="agenda-list" class="list" aria-live="polite"></div>
         </section>
       </section>
 
       <section id="speakers-view" class="view hidden" aria-label="Speakers view">
         <section class="panel">
-          <h2>Speakers</h2>
+          <h2 class="page-title-chip">Speakers</h2>
           <div id="speakers-grid" class="speakers-grid" aria-live="polite"></div>
         </section>
       </section>
@@ -429,10 +478,22 @@
 
     <nav class="bottom-nav" aria-label="Primary navigation">
       <div class="bottom-nav__row">
-        <button class="tab-btn active" type="button" data-tab="home">Home</button>
-        <button class="tab-btn" type="button" data-tab="speakers">Speakers</button>
-        <button class="tab-btn" type="button" data-tab="agenda">Agenda</button>
-        <button class="tab-btn" type="button" data-tab="food">Food</button>
+        <button class="tab-btn active" type="button" data-tab="home">
+          <img class="tab-icon" src="icons/home_icon.png" alt="" aria-hidden="true" />
+          <span class="tab-label">Home</span>
+        </button>
+        <button class="tab-btn" type="button" data-tab="speakers">
+          <img class="tab-icon" src="icons/speaker_icon.png" alt="" aria-hidden="true" />
+          <span class="tab-label">Speakers</span>
+        </button>
+        <button class="tab-btn" type="button" data-tab="agenda">
+          <img class="tab-icon" src="icons/agenda_icon.png" alt="" aria-hidden="true" />
+          <span class="tab-label">Agenda</span>
+        </button>
+        <button class="tab-btn" type="button" data-tab="food">
+          <img class="tab-icon" src="icons/food_icon.png" alt="" aria-hidden="true" />
+          <span class="tab-label">Food</span>
+        </button>
       </div>
     </nav>
 
@@ -485,6 +546,7 @@
       };
 
       const tabs = Array.from(document.querySelectorAll('.tab-btn'));
+      const agendaDayTabs = Array.from(document.querySelectorAll('.agenda-day-tab'));
       const speakersGrid = document.getElementById('speakers-grid');
       const speakerDetailOverlay = document.getElementById('speaker-detail-overlay');
       const speakerDetailClose = document.getElementById('speaker-detail-close');
@@ -496,6 +558,8 @@
       const speakerDetailBio = document.getElementById('speaker-detail-bio');
 
       let speakersLoaded = false;
+      let currentAgendaDay = 'day1';
+      const agendaDataCache = {};
 
       function setActiveTab(tabName) {
         tabs.forEach((tab) => tab.classList.toggle('active', tab.dataset.tab === tabName));
@@ -518,11 +582,18 @@
         node.innerHTML = `<div class="item" style="color:#294766;font-weight:700;">${message}</div>`;
       }
 
-      async function loadAgenda() {
+      function setActiveAgendaDay(dayKey) {
+        currentAgendaDay = dayKey;
+        agendaDayTabs.forEach((tab) => tab.classList.toggle('active', tab.dataset.day === dayKey));
+      }
+
+      async function loadAgenda(dayKey = currentAgendaDay) {
         try {
-          const dayPaths = ['data/sessions/day1.json', 'data/sessions/day2.json', 'data/sessions/day3.json'];
-          const allDays = await Promise.all(dayPaths.map((path) => fetchJson(path)));
-          const sessions = allDays.flat();
+          setActiveAgendaDay(dayKey);
+          if (!agendaDataCache[dayKey]) {
+            agendaDataCache[dayKey] = await fetchJson(`data/sessions/${dayKey}.json`);
+          }
+          const sessions = agendaDataCache[dayKey];
           const listNode = document.getElementById('agenda-list');
           listNode.innerHTML = '';
 
@@ -657,9 +728,15 @@
           const target = tab.dataset.tab;
           showView(target);
 
-          if (target === 'agenda') await loadAgenda();
+          if (target === 'agenda') await loadAgenda(currentAgendaDay);
           if (target === 'food') await loadFood();
           if (target === 'speakers') await loadSpeakers();
+        });
+      });
+
+      agendaDayTabs.forEach((tab) => {
+        tab.addEventListener('click', async () => {
+          await loadAgenda(tab.dataset.day);
         });
       });
 
