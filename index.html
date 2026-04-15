@@ -57,9 +57,41 @@
       .hidden { display: none !important; }
       .view { display: grid; gap: 12px; align-content: start; }
 
+      .app-topbar {
+        width: 100%;
+        display: grid;
+        grid-template-columns: auto 1px 1fr;
+        align-items: center;
+        gap: 14px;
+        padding: 8px 10px 10px;
+        margin-bottom: 8px;
+      }
+
+      .topbar-logo {
+        width: min(44vw, 180px);
+        max-height: 56px;
+        object-fit: contain;
+        display: block;
+      }
+
+      .topbar-divider {
+        width: 1px;
+        height: 42px;
+        background: rgba(31, 60, 90, 0.45);
+      }
+
+      .topbar-title {
+        margin: 0;
+        color: var(--primary-navy);
+        font-size: clamp(1.05rem, 4.8vw, 1.5rem);
+        font-weight: 800;
+        letter-spacing: 0.03em;
+        text-transform: uppercase;
+      }
+
       #home-view {
         position: relative;
-        min-height: calc(100dvh - 136px);
+        min-height: calc(100dvh - 200px);
         border-radius: 0;
         overflow: hidden;
         background: #ffffff;
@@ -98,18 +130,14 @@
 
       .home-foreground {
         display: grid;
-        gap: 14px;
+        gap: 18px;
         align-content: start;
         justify-items: center;
-        padding: 10px;
+        padding: 6px 10px 10px;
       }
 
       .altamonte-header {
-        display: flex;
-        justify-content: center;
-        margin-top: 4px;
-        width: 100%;
-        padding: 0 2px;
+        display: none;
       }
 
       .altamonte-logo {
@@ -118,10 +146,10 @@
         object-fit: contain;
         display: block;
         box-sizing: border-box;
-        border: 3px solid #1f3c5a;
-        border-radius: 18px;
-        background: #ffffff;
-        padding: 8px 10px;
+        border: 0;
+        border-radius: 0;
+        background: transparent;
+        padding: 0;
       }
 
       .summit-logo-card,
@@ -485,13 +513,13 @@
         position: absolute;
         top: 0;
         left: 0;
-        width: 38px;
-        height: 38px;
-        border-radius: 999px;
+        width: 72px;
+        height: 62px;
+        border-radius: 18px;
         background: rgba(255, 255, 255, 0.96);
         box-shadow: 0 10px 18px rgba(7, 24, 39, 0.3);
         border: 1px solid rgba(8, 35, 56, 0.12);
-        transition: transform 0.28s cubic-bezier(0.2, 0.75, 0.2, 1);
+        transition: transform 0.28s cubic-bezier(0.2, 0.75, 0.2, 1), width 0.22s ease, height 0.22s ease;
         will-change: transform;
         pointer-events: none;
         z-index: 0;
@@ -545,8 +573,8 @@
       }
 
       .tab-btn.active .tab-icon-circle {
-        border-color: rgba(8, 35, 56, 0.1);
-        background: transparent;
+        border-color: rgba(8, 35, 56, 0.2);
+        background: rgba(8, 35, 56, 0.02);
         transform: translateY(-1px);
       }
 
@@ -573,6 +601,12 @@
   </head>
   <body>
     <main class="screen">
+      <header class="app-topbar" aria-label="App title bar">
+        <img class="topbar-logo" src="icons/altamonte-logo.png?v=20260414-2" alt="Altamonte Springs logo" />
+        <span class="topbar-divider" aria-hidden="true"></span>
+        <h1 id="topbar-view-title" class="topbar-title">Home</h1>
+      </header>
+
       <section id="home-view" class="view" aria-label="Home view">
         <div class="home-foreground">
           <header class="altamonte-header" aria-label="Altamonte Springs logo">
@@ -723,6 +757,7 @@
 
       const tabs = Array.from(document.querySelectorAll('.tab-btn'));
       const navIndicator = document.querySelector('.nav-active-indicator');
+      const topbarViewTitle = document.getElementById('topbar-view-title');
       const agendaDayTabs = Array.from(document.querySelectorAll('.agenda-day-tab'));
       const speakersGrid = document.getElementById('speakers-grid');
       const speakerDetailOverlay = document.getElementById('speaker-detail-overlay');
@@ -742,15 +777,17 @@
         if (!navIndicator) return;
         const activeTab = tabs.find((tab) => tab.dataset.tab === activeTabName) || tabs.find((tab) => tab.classList.contains('active'));
         if (!activeTab) return;
-
-        const iconCircle = activeTab.querySelector('.tab-icon-circle');
-        if (!iconCircle) return;
-
-        navIndicator.style.transform = `translate(${activeTab.offsetLeft + iconCircle.offsetLeft}px, ${activeTab.offsetTop + iconCircle.offsetTop}px)`;
+        navIndicator.style.width = `${Math.round(activeTab.offsetWidth)}px`;
+        navIndicator.style.height = `${Math.round(activeTab.offsetHeight)}px`;
+        navIndicator.style.transform = `translate(${activeTab.offsetLeft}px, ${activeTab.offsetTop}px)`;
       }
 
       function setActiveTab(tabName) {
         tabs.forEach((tab) => tab.classList.toggle('active', tab.dataset.tab === tabName));
+        if (topbarViewTitle) {
+          const tabLabel = tabs.find((tab) => tab.dataset.tab === tabName)?.querySelector('.tab-label')?.textContent || tabName;
+          topbarViewTitle.textContent = tabLabel;
+        }
         syncNavIndicator(tabName);
       }
 
