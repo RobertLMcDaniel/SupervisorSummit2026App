@@ -7,23 +7,21 @@
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <meta name="apple-mobile-web-app-title" content="Summit 26" />
-    <link rel="manifest" href="manifest.json?v=20260415-1" />
-    <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png?v=20260415-1" />
-    <link rel="apple-touch-icon" href="icons/icon-192.png?v=20260415-1" />
+    <link rel="manifest" href="manifest.json?v=20260414-2" />
+    <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png?v=20260414-2" />
+    <link rel="apple-touch-icon" href="icons/icon-192.png?v=20260414-2" />
     <title>Supervisor Summit 2026 App</title>
     <style>
       :root {
         --primary-navy: #1f3c5a;
         --dark-navy: #162c44;
+        --bg-solid: #1f3c5a;
         --accent-gold: #f2b705;
         --white: #fff;
         --light-gray: #e5e7eb;
-        --ink: #132b44;
       }
 
-      * {
-        box-sizing: border-box;
-      }
+      * { box-sizing: border-box; }
 
       html,
       body {
@@ -31,13 +29,16 @@
         width: 100%;
         min-height: 100%;
         height: 100%;
-        background-color: var(--primary-navy);
+        background-color: var(--bg-solid);
+        background-image: none;
         overscroll-behavior: none;
       }
 
       body {
         min-height: 100dvh;
         font-family: Arial, Helvetica, sans-serif;
+        background-color: var(--bg-solid);
+        background-image: none;
         color: var(--white);
         overflow-x: hidden;
       }
@@ -47,20 +48,14 @@
         max-width: 520px;
         min-height: 100dvh;
         margin: 0 auto;
-        padding: max(12px, env(safe-area-inset-top)) max(14px, env(safe-area-inset-right))
-          calc(84px + max(12px, env(safe-area-inset-bottom))) max(14px, env(safe-area-inset-left));
+        padding: max(12px, env(safe-area-inset-top)) max(14px, env(safe-area-inset-right)) calc(84px + max(12px, env(safe-area-inset-bottom))) max(14px, env(safe-area-inset-left));
         display: grid;
+        background-color: var(--bg-solid);
+        background-image: none;
       }
 
-      .hidden {
-        display: none !important;
-      }
-
-      .view {
-        display: grid;
-        gap: 12px;
-        align-content: start;
-      }
+      .hidden { display: none !important; }
+      .view { display: grid; gap: 12px; align-content: start; }
 
       #home-view {
         position: relative;
@@ -82,14 +77,15 @@
         object-fit: cover;
         object-position: center;
         display: block;
+        pointer-events: none;
       }
 
       .home-video-overlay {
         position: absolute;
         inset: 0;
         z-index: 1;
-        pointer-events: none;
         background: rgba(0, 0, 0, 0.42);
+        pointer-events: none;
       }
 
       .home-foreground {
@@ -175,52 +171,15 @@
         line-height: 1.35;
       }
 
-      .error-item {
-        color: #294766;
-        font-weight: 700;
-      }
-
-      .page-title-chip {
-        margin: 0 0 16px;
-        padding: 12px 14px;
-        border-radius: 16px;
+      #speakers-view h2 {
+        margin: 0 0 2px;
         text-align: center;
-        font-size: 1.2rem;
-        font-weight: 800;
-        letter-spacing: 0.01em;
-        background: rgba(255, 255, 255, 0.1);
-        border: 1px solid rgba(255, 255, 255, 0.18);
-        box-shadow: 0 8px 18px rgba(0, 0, 0, 0.14);
-      }
-
-      .agenda-day-tabs {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 8px;
-        margin-top: 2px;
-        margin-bottom: 14px;
-      }
-
-      .agenda-day-tab {
-        min-height: 40px;
-        border: 0;
-        border-radius: 12px;
-        background: rgba(255, 255, 255, 0.16);
-        color: #e6effb;
-        font-weight: 800;
-        cursor: pointer;
-      }
-
-      .agenda-day-tab.active {
-        background: var(--accent-gold);
-        color: #132b44;
       }
 
       .speakers-grid {
         display: grid;
         grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 14px 10px;
-        margin-top: 4px;
       }
 
       .speaker-tile {
@@ -303,8 +262,7 @@
         margin: 0 auto;
         overflow-y: auto;
         border-radius: 0;
-        background-color: var(--primary-navy);
-        background-image: linear-gradient(180deg, var(--primary-navy) 0%, var(--dark-navy) 100%);
+        background: linear-gradient(180deg, #102843 0%, #173352 100%);
         color: #112a46;
         box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
         padding: calc(18px + env(safe-area-inset-top)) 16px calc(20px + env(safe-area-inset-bottom));
@@ -352,10 +310,7 @@
         height: 100%;
       }
 
-      .speaker-detail-image {
-        object-fit: cover;
-        display: block;
-      }
+      .speaker-detail-image { object-fit: cover; display: block; }
 
       .speaker-detail-name {
         margin: 0;
@@ -368,9 +323,18 @@
         transition: opacity 0.22s ease, transform 0.22s ease;
       }
 
-      .speaker-detail-role,
-      .speaker-detail-org {
+      .speaker-detail-role {
         margin: 6px 0 0;
+        text-align: center;
+        color: #c7d8ec;
+        font-weight: 700;
+        opacity: 0;
+        transform: translateY(8px);
+        transition: opacity 0.22s ease, transform 0.22s ease;
+      }
+
+      .speaker-detail-org {
+        margin: 4px 0 0;
         text-align: center;
         color: #c7d8ec;
         opacity: 0;
@@ -396,14 +360,27 @@
         transform: translateY(0);
       }
 
+      .speaker-overlay.open .speaker-detail-name { transition-delay: 0.08s; }
+      .speaker-overlay.open .speaker-detail-role { transition-delay: 0.12s; }
+      .speaker-overlay.open .speaker-detail-org { transition-delay: 0.16s; }
+      .speaker-overlay.open .speaker-detail-bio { transition-delay: 0.2s; }
+
+      .speaker-overlay.closing .speaker-detail-card,
+      .speaker-overlay.closing .speaker-detail-image-wrap,
+      .speaker-overlay.closing .speaker-detail-name,
+      .speaker-overlay.closing .speaker-detail-role,
+      .speaker-overlay.closing .speaker-detail-org,
+      .speaker-overlay.closing .speaker-detail-bio {
+        transition-delay: 0s !important;
+      }
+
       .bottom-nav {
         position: fixed;
         left: 0;
         right: 0;
         bottom: 0;
         z-index: 20;
-        padding: 10px max(12px, env(safe-area-inset-right)) calc(10px + env(safe-area-inset-bottom))
-          max(12px, env(safe-area-inset-left));
+        padding: 10px max(12px, env(safe-area-inset-right)) calc(10px + env(safe-area-inset-bottom)) max(12px, env(safe-area-inset-left));
         pointer-events: none;
       }
 
@@ -425,20 +402,22 @@
 
       .nav-active-indicator {
         position: absolute;
-        top: 8px;
-        left: 8px;
-        width: 0;
-        height: calc(100% - 16px);
-        border-radius: 18px;
-        background: rgba(255, 255, 255, 0.94);
-        box-shadow: 0 8px 16px rgba(7, 24, 39, 0.28);
-        transition: transform 0.25s ease, width 0.25s ease;
-        will-change: transform, width;
+        top: 0;
+        left: 0;
+        width: 38px;
+        height: 38px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.96);
+        box-shadow: 0 10px 18px rgba(7, 24, 39, 0.3);
+        border: 1px solid rgba(8, 35, 56, 0.12);
+        transition: transform 0.28s cubic-bezier(0.2, 0.75, 0.2, 1);
+        will-change: transform;
         pointer-events: none;
+        z-index: 0;
       }
 
       .tab-btn {
-        min-height: 56px;
+        min-height: 58px;
         border: 0;
         border-radius: 16px;
         background: transparent;
@@ -447,18 +426,29 @@
         display: grid;
         justify-items: center;
         align-content: center;
-        gap: 4px;
+        gap: 5px;
         padding: 6px 4px;
         position: relative;
         z-index: 1;
         transition: transform 0.2s ease, color 0.2s ease;
       }
 
+      .tab-icon-circle {
+        width: 38px;
+        height: 38px;
+        border-radius: 999px;
+        display: grid;
+        place-items: center;
+        border: 1px solid rgba(234, 244, 255, 0.45);
+        background: rgba(255, 255, 255, 0.04);
+        transition: transform 0.24s ease, border-color 0.24s ease, background-color 0.24s ease;
+      }
+
       .tab-icon {
-        width: 19px;
-        height: 19px;
+        width: 18px;
+        height: 18px;
         object-fit: contain;
-        opacity: 0.92;
+        opacity: 0.95;
         transition: transform 0.22s ease, opacity 0.22s ease, filter 0.22s ease;
       }
 
@@ -473,10 +463,16 @@
         color: var(--ink);
       }
 
+      .tab-btn.active .tab-icon-circle {
+        border-color: rgba(8, 35, 56, 0.1);
+        background: transparent;
+        transform: translateY(-1px);
+      }
+
       .tab-btn.active .tab-icon {
         opacity: 1;
-        transform: translateY(-1px) scale(1.05);
-        filter: saturate(1.1) contrast(1.05);
+        transform: scale(1.05);
+        filter: saturate(1.08) contrast(1.04);
       }
 
       .tab-btn.active .tab-label {
@@ -484,18 +480,13 @@
         transform: translateY(-1px);
       }
 
-      .tab-btn:active .tab-icon {
-        transform: scale(0.96);
+      .tab-btn:active .tab-icon-circle {
+        transform: scale(0.95);
       }
 
       @media (max-width: 380px) {
-        .speaker-tile-name {
-          font-size: 0.84rem;
-        }
-
-        .tab-label {
-          font-size: 0.68rem;
-        }
+        .speaker-tile-name { font-size: 0.84rem; }
+        .tab-label { font-size: 0.68rem; }
       }
     </style>
   </head>
@@ -503,14 +494,24 @@
     <main class="screen">
       <section id="home-view" class="view" aria-label="Home view">
         <div class="home-video-bg" aria-hidden="true">
-          <video autoplay loop muted playsinline webkit-playsinline preload="auto" aria-hidden="true" tabindex="-1" disablepictureinpicture>
+          <video
+            autoplay
+            loop
+            muted
+            playsinline
+            webkit-playsinline
+            preload="auto"
+            disablepictureinpicture
+            tabindex="-1"
+            aria-hidden="true"
+          >
             <source src="images/background.mp4" type="video/mp4" />
           </video>
         </div>
         <div class="home-video-overlay" aria-hidden="true"></div>
         <div class="home-foreground">
           <header class="altamonte-header" aria-label="Altamonte Springs logo">
-            <img class="altamonte-logo" src="icons/altamonte-logo.png?v=20260415-1" alt="Altamonte Springs logo" />
+            <img class="altamonte-logo" src="icons/altamonte-logo.png?v=20260414-2" alt="Altamonte Springs logo" />
           </header>
           <section class="summit-logo-card" aria-label="Supervisor Summit branding">
             <p class="summit-mark">Supervisor Summit 2026</p>
@@ -526,9 +527,9 @@
         <section class="panel">
           <h2 class="page-title-chip">Agenda</h2>
           <div class="agenda-day-tabs" role="tablist" aria-label="Agenda day tabs">
-            <button class="agenda-day-tab active" type="button" role="tab" aria-selected="true" data-day="day1">Day 1</button>
-            <button class="agenda-day-tab" type="button" role="tab" aria-selected="false" data-day="day2">Day 2</button>
-            <button class="agenda-day-tab" type="button" role="tab" aria-selected="false" data-day="day3">Day 3</button>
+            <button class="agenda-day-tab active" type="button" data-day="day1">Day 1</button>
+            <button class="agenda-day-tab" type="button" data-day="day2">Day 2</button>
+            <button class="agenda-day-tab" type="button" data-day="day3">Day 3</button>
           </div>
           <div id="agenda-list" class="list" aria-live="polite"></div>
         </section>
@@ -541,9 +542,22 @@
         </section>
       </section>
 
+      <section id="locations-view" class="view hidden" aria-label="Locations view">
+        <section class="panel">
+          <h2>Locations</h2>
+          <div class="list">
+            <article class="item"><h3>Grand Ballroom</h3><p class="meta">Keynotes & reflection sessions</p></article>
+            <article class="item"><h3>Harbor Room</h3><p class="meta">Breakout leadership workshops</p></article>
+            <article class="item"><h3>Cypress Hall</h3><p class="meta">Service and operations sessions</p></article>
+            <article class="item"><h3>Summit Theater</h3><p class="meta">Data & performance talks</p></article>
+            <article class="item"><h3>Lakeside Studio</h3><p class="meta">Interactive team exercises</p></article>
+          </div>
+        </section>
+      </section>
+
       <section id="food-view" class="view hidden" aria-label="Food view">
         <section class="panel">
-          <h2 class="page-title-chip">Food</h2>
+          <h2>Food</h2>
           <div id="food-list" class="list" aria-live="polite"></div>
         </section>
       </section>
@@ -552,26 +566,34 @@
     <nav class="bottom-nav" aria-label="Primary navigation">
       <div class="bottom-nav__row">
         <span class="nav-active-indicator" aria-hidden="true"></span>
-        <button class="tab-btn active" type="button" data-tab="home" aria-selected="true">
-          <img class="tab-icon" src="icons/home_icon.png" alt="" aria-hidden="true" />
+        <button class="tab-btn active" type="button" data-tab="home">
+          <span class="tab-icon-circle" aria-hidden="true">
+            <img class="tab-icon" src="icons/home_icon.png" alt="" aria-hidden="true" />
+          </span>
           <span class="tab-label">Home</span>
         </button>
-        <button class="tab-btn" type="button" data-tab="speakers" aria-selected="false">
-          <img class="tab-icon" src="icons/speaker_icon.png" alt="" aria-hidden="true" />
+        <button class="tab-btn" type="button" data-tab="speakers">
+          <span class="tab-icon-circle" aria-hidden="true">
+            <img class="tab-icon" src="icons/speaker_icon.png" alt="" aria-hidden="true" />
+          </span>
           <span class="tab-label">Speakers</span>
         </button>
-        <button class="tab-btn" type="button" data-tab="agenda" aria-selected="false">
-          <img class="tab-icon" src="icons/agenda_icon.png" alt="" aria-hidden="true" />
+        <button class="tab-btn" type="button" data-tab="agenda">
+          <span class="tab-icon-circle" aria-hidden="true">
+            <img class="tab-icon" src="icons/agenda_icon.png" alt="" aria-hidden="true" />
+          </span>
           <span class="tab-label">Agenda</span>
         </button>
-        <button class="tab-btn" type="button" data-tab="food" aria-selected="false">
-          <img class="tab-icon" src="icons/food_icon.png" alt="" aria-hidden="true" />
+        <button class="tab-btn" type="button" data-tab="food">
+          <span class="tab-icon-circle" aria-hidden="true">
+            <img class="tab-icon" src="icons/food_icon.png" alt="" aria-hidden="true" />
+          </span>
           <span class="tab-label">Food</span>
         </button>
       </div>
     </nav>
 
-    <section id="speaker-detail-overlay" class="speaker-overlay hidden" aria-label="Speaker detail view" aria-modal="true" role="dialog">
+    <section id="speaker-detail-overlay" class="speaker-overlay hidden" aria-label="Speaker detail view">
       <article class="speaker-detail-card">
         <button id="speaker-detail-close" class="speaker-close" type="button" aria-label="Close speaker detail">✕</button>
         <div class="speaker-detail-image-wrap">
@@ -586,18 +608,21 @@
     </section>
 
     <script>
-      const CACHE_BUST = '20260415-1';
-
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
-          navigator.serviceWorker
-            .register(`service-worker.js?v=${CACHE_BUST}`, { updateViaCache: 'none' })
-            .then((registration) => {
-              registration.update();
-              if (registration.waiting) {
-                registration.waiting.postMessage({ type: 'SKIP_WAITING' });
-              }
+          navigator.serviceWorker.register('service-worker.js?v=20260414-2', { updateViaCache: 'none' }).then((registration) => {
+            registration.update();
+            if (registration.waiting) registration.waiting.postMessage({ type: 'SKIP_WAITING' });
+            registration.addEventListener('updatefound', () => {
+              const newWorker = registration.installing;
+              if (!newWorker) return;
+              newWorker.addEventListener('statechange', () => {
+                if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                  newWorker.postMessage({ type: 'SKIP_WAITING' });
+                }
+              });
             });
+          });
         });
 
         let hasReloadedForUpdate = false;
@@ -612,15 +637,14 @@
         home: document.getElementById('home-view'),
         agenda: document.getElementById('agenda-view'),
         speakers: document.getElementById('speakers-view'),
-        food: document.getElementById('food-view')
+        food: document.getElementById('food-view'),
+        locations: document.getElementById('locations-view')
       };
 
       const tabs = Array.from(document.querySelectorAll('.tab-btn'));
       const navIndicator = document.querySelector('.nav-active-indicator');
       const agendaDayTabs = Array.from(document.querySelectorAll('.agenda-day-tab'));
       const speakersGrid = document.getElementById('speakers-grid');
-      const agendaList = document.getElementById('agenda-list');
-      const foodList = document.getElementById('food-list');
       const speakerDetailOverlay = document.getElementById('speaker-detail-overlay');
       const speakerDetailClose = document.getElementById('speaker-detail-close');
       const speakerDetailImage = document.getElementById('speaker-detail-image');
@@ -631,7 +655,6 @@
       const speakerDetailBio = document.getElementById('speaker-detail-bio');
 
       let speakersLoaded = false;
-      let foodLoaded = false;
       let currentAgendaDay = 'day1';
       const agendaDataCache = {};
 
@@ -640,70 +663,37 @@
         const activeTab = tabs.find((tab) => tab.dataset.tab === activeTabName) || tabs.find((tab) => tab.classList.contains('active'));
         if (!activeTab) return;
 
-        navIndicator.style.width = `${activeTab.offsetWidth}px`;
-        navIndicator.style.transform = `translateX(${activeTab.offsetLeft}px)`;
+        const iconCircle = activeTab.querySelector('.tab-icon-circle');
+        if (!iconCircle) return;
+
+        navIndicator.style.transform = `translate(${activeTab.offsetLeft + iconCircle.offsetLeft}px, ${activeTab.offsetTop + iconCircle.offsetTop}px)`;
       }
 
       function setActiveTab(tabName) {
-        tabs.forEach((tab) => {
-          const isActive = tab.dataset.tab === tabName;
-          tab.classList.toggle('active', isActive);
-          tab.setAttribute('aria-selected', String(isActive));
-        });
-
+        tabs.forEach((tab) => tab.classList.toggle('active', tab.dataset.tab === tabName));
         syncNavIndicator(tabName);
       }
 
       function showView(viewName) {
-        Object.entries(views).forEach(([name, node]) => {
-          node.classList.toggle('hidden', name !== viewName);
-        });
-
-        setActiveTab(viewName);
+        Object.entries(views).forEach(([name, node]) => node.classList.toggle('hidden', name !== viewName));
+        if (['home', 'speakers', 'agenda', 'food'].includes(viewName)) {
+          setActiveTab(viewName);
+        }
       }
 
       async function fetchJson(path) {
         const response = await fetch(path, { cache: 'no-store' });
-        if (!response.ok) {
-          throw new Error(`Failed to load ${path}`);
-        }
-
+        if (!response.ok) throw new Error(`Failed to load ${path}`);
         return response.json();
       }
 
-      function createTextNode(tagName, className, text) {
-        const node = document.createElement(tagName);
-        node.className = className;
-        node.textContent = text;
-        return node;
-      }
-
       function setErrorState(node, message) {
-        node.innerHTML = '';
-        const card = document.createElement('div');
-        card.className = 'item error-item';
-        card.textContent = message;
-        node.append(card);
+        node.innerHTML = `<div class="item" style="color:#294766;font-weight:700;">${message}</div>`;
       }
 
       function setActiveAgendaDay(dayKey) {
         currentAgendaDay = dayKey;
-        agendaDayTabs.forEach((tab) => {
-          const isActive = tab.dataset.day === dayKey;
-          tab.classList.toggle('active', isActive);
-          tab.setAttribute('aria-selected', String(isActive));
-        });
-      }
-
-      function buildEntryCard(title, metaLine, description) {
-        const card = document.createElement('article');
-        card.className = 'item';
-
-        card.append(createTextNode('h3', '', title));
-        card.append(createTextNode('p', 'meta', metaLine));
-        card.append(createTextNode('p', 'meta', description));
-
-        return card;
+        agendaDayTabs.forEach((tab) => tab.classList.toggle('active', tab.dataset.day === dayKey));
       }
 
       async function loadAgenda(dayKey = currentAgendaDay) {
@@ -712,38 +702,45 @@
           if (!agendaDataCache[dayKey]) {
             agendaDataCache[dayKey] = await fetchJson(`data/sessions/${dayKey}.json`);
           }
-
           const sessions = agendaDataCache[dayKey];
-          agendaList.innerHTML = '';
+          const listNode = document.getElementById('agenda-list');
+          listNode.innerHTML = '';
 
           sessions.forEach((session) => {
-            const title = `${session.Day}: ${session.SessionTitle}`;
-            const metaLine = `${session.StartTime}–${session.EndTime} · ${session.Location}`;
-            agendaList.append(buildEntryCard(title, metaLine, session.Description));
+            const card = document.createElement('article');
+            card.className = 'item';
+            card.innerHTML = `
+              <h3>${session.Day}: ${session.SessionTitle}</h3>
+              <p class="meta"><strong>${session.StartTime}–${session.EndTime}</strong> · ${session.Location}</p>
+              <p class="meta">${session.Description}</p>
+            `;
+            listNode.append(card);
           });
         } catch {
-          setErrorState(agendaList, 'Unable to load the agenda right now. Please refresh.');
+          setErrorState(document.getElementById('agenda-list'), 'Unable to load the agenda right now. Please refresh.');
         }
       }
 
       async function loadFood() {
-        if (foodLoaded) return;
-
         try {
           const dayPaths = ['data/food/day1.json', 'data/food/day2.json', 'data/food/day3.json'];
           const allDays = await Promise.all(dayPaths.map((path) => fetchJson(path)));
           const entries = allDays.flat();
-          foodList.innerHTML = '';
+          const listNode = document.getElementById('food-list');
+          listNode.innerHTML = '';
 
           entries.forEach((entry) => {
-            const title = `${entry.Day}: ${entry.Title}`;
-            const metaLine = `${entry.StartTime}–${entry.EndTime} · ${entry.Location}`;
-            foodList.append(buildEntryCard(title, metaLine, entry.Description));
+            const card = document.createElement('article');
+            card.className = 'item';
+            card.innerHTML = `
+              <h3>${entry.Day}: ${entry.Title}</h3>
+              <p class="meta"><strong>${entry.StartTime}–${entry.EndTime}</strong> · ${entry.Location}</p>
+              <p class="meta">${entry.Description}</p>
+            `;
+            listNode.append(card);
           });
-
-          foodLoaded = true;
         } catch {
-          setErrorState(foodList, 'Unable to load food details right now. Please refresh.');
+          setErrorState(document.getElementById('food-list'), 'Unable to load food details right now. Please refresh.');
         }
       }
 
@@ -853,20 +850,11 @@
       });
 
       speakerDetailClose.addEventListener('click', closeSpeakerDetail);
-      speakerDetailOverlay.addEventListener('click', (event) => {
-        if (event.target === speakerDetailOverlay) closeSpeakerDetail();
-      });
-      document.addEventListener('keydown', (event) => {
-        if (event.key === 'Escape' && speakerDetailOverlay.classList.contains('open')) {
-          closeSpeakerDetail();
-        }
-      });
 
       window.addEventListener('resize', () => syncNavIndicator());
 
       showView('home');
       syncNavIndicator('home');
-      loadAgenda('day1');
     </script>
   </body>
 </html>
