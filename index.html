@@ -3,25 +3,27 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    <meta name="theme-color" content="#1F3C5A" />
+    <meta name="theme-color" content="#1f3c5a" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <meta name="apple-mobile-web-app-title" content="Summit 26" />
-    <link rel="manifest" href="manifest.json?v=20260414-2" />
-    <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png?v=20260414-2" />
-    <link rel="apple-touch-icon" href="icons/icon-192.png?v=20260414-2" />
+    <link rel="manifest" href="manifest.json?v=20260415-1" />
+    <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png?v=20260415-1" />
+    <link rel="apple-touch-icon" href="icons/icon-192.png?v=20260415-1" />
     <title>Supervisor Summit 2026 App</title>
     <style>
       :root {
         --primary-navy: #1f3c5a;
         --dark-navy: #162c44;
-        --bg-solid: #1f3c5a;
         --accent-gold: #f2b705;
         --white: #fff;
         --light-gray: #e5e7eb;
+        --ink: #132b44;
       }
 
-      * { box-sizing: border-box; }
+      * {
+        box-sizing: border-box;
+      }
 
       html,
       body {
@@ -29,16 +31,13 @@
         width: 100%;
         min-height: 100%;
         height: 100%;
-        background-color: var(--bg-solid);
-        background-image: none;
+        background-color: var(--primary-navy);
         overscroll-behavior: none;
       }
 
       body {
         min-height: 100dvh;
         font-family: Arial, Helvetica, sans-serif;
-        background-color: var(--bg-solid);
-        background-image: none;
         color: var(--white);
         overflow-x: hidden;
       }
@@ -48,14 +47,20 @@
         max-width: 520px;
         min-height: 100dvh;
         margin: 0 auto;
-        padding: max(12px, env(safe-area-inset-top)) max(14px, env(safe-area-inset-right)) calc(84px + max(12px, env(safe-area-inset-bottom))) max(14px, env(safe-area-inset-left));
+        padding: max(12px, env(safe-area-inset-top)) max(14px, env(safe-area-inset-right))
+          calc(84px + max(12px, env(safe-area-inset-bottom))) max(14px, env(safe-area-inset-left));
         display: grid;
-        background-color: var(--bg-solid);
-        background-image: none;
       }
 
-      .hidden { display: none !important; }
-      .view { display: grid; gap: 12px; align-content: start; }
+      .hidden {
+        display: none !important;
+      }
+
+      .view {
+        display: grid;
+        gap: 12px;
+        align-content: start;
+      }
 
       #home-view {
         position: relative;
@@ -77,15 +82,14 @@
         object-fit: cover;
         object-position: center;
         display: block;
-        pointer-events: none;
       }
 
       .home-video-overlay {
         position: absolute;
         inset: 0;
         z-index: 1;
-        background: rgba(0, 0, 0, 0.42);
         pointer-events: none;
+        background: rgba(0, 0, 0, 0.42);
       }
 
       .home-foreground {
@@ -169,6 +173,11 @@
         font-size: 0.86rem;
         color: #334c67;
         line-height: 1.35;
+      }
+
+      .error-item {
+        color: #294766;
+        font-weight: 700;
       }
 
       .page-title-chip {
@@ -294,7 +303,7 @@
         margin: 0 auto;
         overflow-y: auto;
         border-radius: 0;
-        background-color: var(--bg-solid);
+        background-color: var(--primary-navy);
         background-image: linear-gradient(180deg, var(--primary-navy) 0%, var(--dark-navy) 100%);
         color: #112a46;
         box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
@@ -343,7 +352,10 @@
         height: 100%;
       }
 
-      .speaker-detail-image { object-fit: cover; display: block; }
+      .speaker-detail-image {
+        object-fit: cover;
+        display: block;
+      }
 
       .speaker-detail-name {
         margin: 0;
@@ -356,18 +368,9 @@
         transition: opacity 0.22s ease, transform 0.22s ease;
       }
 
-      .speaker-detail-role {
-        margin: 6px 0 0;
-        text-align: center;
-        color: #c7d8ec;
-        font-weight: 700;
-        opacity: 0;
-        transform: translateY(8px);
-        transition: opacity 0.22s ease, transform 0.22s ease;
-      }
-
+      .speaker-detail-role,
       .speaker-detail-org {
-        margin: 4px 0 0;
+        margin: 6px 0 0;
         text-align: center;
         color: #c7d8ec;
         opacity: 0;
@@ -393,20 +396,6 @@
         transform: translateY(0);
       }
 
-      .speaker-overlay.open .speaker-detail-name { transition-delay: 0.08s; }
-      .speaker-overlay.open .speaker-detail-role { transition-delay: 0.12s; }
-      .speaker-overlay.open .speaker-detail-org { transition-delay: 0.16s; }
-      .speaker-overlay.open .speaker-detail-bio { transition-delay: 0.2s; }
-
-      .speaker-overlay.closing .speaker-detail-card,
-      .speaker-overlay.closing .speaker-detail-image-wrap,
-      .speaker-overlay.closing .speaker-detail-name,
-      .speaker-overlay.closing .speaker-detail-role,
-      .speaker-overlay.closing .speaker-detail-org,
-      .speaker-overlay.closing .speaker-detail-bio {
-        transition-delay: 0s !important;
-      }
-
       .bottom-nav {
         position: fixed;
         left: 0;
@@ -416,7 +405,8 @@
         background: rgba(17, 40, 69, 0.97);
         border-top: 1px solid rgba(255, 255, 255, 0.15);
         backdrop-filter: blur(4px);
-        padding: 8px max(12px, env(safe-area-inset-right)) calc(8px + env(safe-area-inset-bottom)) max(12px, env(safe-area-inset-left));
+        padding: 8px max(12px, env(safe-area-inset-right)) calc(8px + env(safe-area-inset-bottom))
+          max(12px, env(safe-area-inset-left));
       }
 
       .bottom-nav__row {
@@ -442,9 +432,8 @@
       }
 
       .tab-icon {
-        width: 20px;
-        height: 20px;
-        object-fit: contain;
+        font-size: 1.1rem;
+        line-height: 1;
       }
 
       .tab-label {
@@ -455,12 +444,17 @@
 
       .tab-btn.active {
         background: var(--accent-gold);
-        color: #142c45;
+        color: var(--ink);
       }
 
       @media (max-width: 380px) {
-        .speaker-tile-name { font-size: 0.84rem; }
-        .tab-label { font-size: 0.68rem; }
+        .speaker-tile-name {
+          font-size: 0.84rem;
+        }
+
+        .tab-label {
+          font-size: 0.68rem;
+        }
       }
     </style>
   </head>
@@ -468,24 +462,14 @@
     <main class="screen">
       <section id="home-view" class="view" aria-label="Home view">
         <div class="home-video-bg" aria-hidden="true">
-          <video
-            autoplay
-            loop
-            muted
-            playsinline
-            webkit-playsinline
-            preload="auto"
-            disablepictureinpicture
-            tabindex="-1"
-            aria-hidden="true"
-          >
-            <source src="https://github.com/RobertLMcDaniel/SupervisorSummit2026App/releases/download/video/download.mp4" type="video/mp4" />
+          <video autoplay loop muted playsinline preload="auto" aria-hidden="true" tabindex="-1">
+            <source src="images/background.mp4" type="video/mp4" />
           </video>
         </div>
         <div class="home-video-overlay" aria-hidden="true"></div>
         <div class="home-foreground">
           <header class="altamonte-header" aria-label="Altamonte Springs logo">
-            <img class="altamonte-logo" src="icons/altamonte-logo.png?v=20260414-2" alt="Altamonte Springs logo" />
+            <img class="altamonte-logo" src="icons/altamonte-logo.png?v=20260415-1" alt="Altamonte Springs logo" />
           </header>
           <section class="summit-logo-card" aria-label="Supervisor Summit branding">
             <p class="summit-mark">Supervisor Summit 2026</p>
@@ -501,9 +485,9 @@
         <section class="panel">
           <h2 class="page-title-chip">Agenda</h2>
           <div class="agenda-day-tabs" role="tablist" aria-label="Agenda day tabs">
-            <button class="agenda-day-tab active" type="button" data-day="day1">Day 1</button>
-            <button class="agenda-day-tab" type="button" data-day="day2">Day 2</button>
-            <button class="agenda-day-tab" type="button" data-day="day3">Day 3</button>
+            <button class="agenda-day-tab active" type="button" role="tab" aria-selected="true" data-day="day1">Day 1</button>
+            <button class="agenda-day-tab" type="button" role="tab" aria-selected="false" data-day="day2">Day 2</button>
+            <button class="agenda-day-tab" type="button" role="tab" aria-selected="false" data-day="day3">Day 3</button>
           </div>
           <div id="agenda-list" class="list" aria-live="polite"></div>
         </section>
@@ -516,22 +500,9 @@
         </section>
       </section>
 
-      <section id="locations-view" class="view hidden" aria-label="Locations view">
-        <section class="panel">
-          <h2>Locations</h2>
-          <div class="list">
-            <article class="item"><h3>Grand Ballroom</h3><p class="meta">Keynotes & reflection sessions</p></article>
-            <article class="item"><h3>Harbor Room</h3><p class="meta">Breakout leadership workshops</p></article>
-            <article class="item"><h3>Cypress Hall</h3><p class="meta">Service and operations sessions</p></article>
-            <article class="item"><h3>Summit Theater</h3><p class="meta">Data & performance talks</p></article>
-            <article class="item"><h3>Lakeside Studio</h3><p class="meta">Interactive team exercises</p></article>
-          </div>
-        </section>
-      </section>
-
       <section id="food-view" class="view hidden" aria-label="Food view">
         <section class="panel">
-          <h2>Food</h2>
+          <h2 class="page-title-chip">Food</h2>
           <div id="food-list" class="list" aria-live="polite"></div>
         </section>
       </section>
@@ -539,26 +510,26 @@
 
     <nav class="bottom-nav" aria-label="Primary navigation">
       <div class="bottom-nav__row">
-        <button class="tab-btn active" type="button" data-tab="home">
-          <img class="tab-icon" src="icons/home_icon.png" alt="" aria-hidden="true" />
+        <button class="tab-btn active" type="button" data-tab="home" aria-selected="true">
+          <span class="tab-icon" aria-hidden="true">🏠</span>
           <span class="tab-label">Home</span>
         </button>
-        <button class="tab-btn" type="button" data-tab="speakers">
-          <img class="tab-icon" src="icons/speaker_icon.png" alt="" aria-hidden="true" />
+        <button class="tab-btn" type="button" data-tab="speakers" aria-selected="false">
+          <span class="tab-icon" aria-hidden="true">🎤</span>
           <span class="tab-label">Speakers</span>
         </button>
-        <button class="tab-btn" type="button" data-tab="agenda">
-          <img class="tab-icon" src="icons/agenda_icon.png" alt="" aria-hidden="true" />
+        <button class="tab-btn" type="button" data-tab="agenda" aria-selected="false">
+          <span class="tab-icon" aria-hidden="true">🗓️</span>
           <span class="tab-label">Agenda</span>
         </button>
-        <button class="tab-btn" type="button" data-tab="food">
-          <img class="tab-icon" src="icons/food_icon.png" alt="" aria-hidden="true" />
+        <button class="tab-btn" type="button" data-tab="food" aria-selected="false">
+          <span class="tab-icon" aria-hidden="true">🍽️</span>
           <span class="tab-label">Food</span>
         </button>
       </div>
     </nav>
 
-    <section id="speaker-detail-overlay" class="speaker-overlay hidden" aria-label="Speaker detail view">
+    <section id="speaker-detail-overlay" class="speaker-overlay hidden" aria-label="Speaker detail view" aria-modal="true" role="dialog">
       <article class="speaker-detail-card">
         <button id="speaker-detail-close" class="speaker-close" type="button" aria-label="Close speaker detail">✕</button>
         <div class="speaker-detail-image-wrap">
@@ -573,21 +544,18 @@
     </section>
 
     <script>
+      const CACHE_BUST = '20260415-1';
+
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
-          navigator.serviceWorker.register('service-worker.js?v=20260414-2', { updateViaCache: 'none' }).then((registration) => {
-            registration.update();
-            if (registration.waiting) registration.waiting.postMessage({ type: 'SKIP_WAITING' });
-            registration.addEventListener('updatefound', () => {
-              const newWorker = registration.installing;
-              if (!newWorker) return;
-              newWorker.addEventListener('statechange', () => {
-                if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                  newWorker.postMessage({ type: 'SKIP_WAITING' });
-                }
-              });
+          navigator.serviceWorker
+            .register(`service-worker.js?v=${CACHE_BUST}`, { updateViaCache: 'none' })
+            .then((registration) => {
+              registration.update();
+              if (registration.waiting) {
+                registration.waiting.postMessage({ type: 'SKIP_WAITING' });
+              }
             });
-          });
         });
 
         let hasReloadedForUpdate = false;
@@ -602,13 +570,14 @@
         home: document.getElementById('home-view'),
         agenda: document.getElementById('agenda-view'),
         speakers: document.getElementById('speakers-view'),
-        food: document.getElementById('food-view'),
-        locations: document.getElementById('locations-view')
+        food: document.getElementById('food-view')
       };
 
       const tabs = Array.from(document.querySelectorAll('.tab-btn'));
       const agendaDayTabs = Array.from(document.querySelectorAll('.agenda-day-tab'));
       const speakersGrid = document.getElementById('speakers-grid');
+      const agendaList = document.getElementById('agenda-list');
+      const foodList = document.getElementById('food-list');
       const speakerDetailOverlay = document.getElementById('speaker-detail-overlay');
       const speakerDetailClose = document.getElementById('speaker-detail-close');
       const speakerDetailImage = document.getElementById('speaker-detail-image');
@@ -619,33 +588,68 @@
       const speakerDetailBio = document.getElementById('speaker-detail-bio');
 
       let speakersLoaded = false;
+      let foodLoaded = false;
       let currentAgendaDay = 'day1';
       const agendaDataCache = {};
 
       function setActiveTab(tabName) {
-        tabs.forEach((tab) => tab.classList.toggle('active', tab.dataset.tab === tabName));
+        tabs.forEach((tab) => {
+          const isActive = tab.dataset.tab === tabName;
+          tab.classList.toggle('active', isActive);
+          tab.setAttribute('aria-selected', String(isActive));
+        });
       }
 
       function showView(viewName) {
-        Object.entries(views).forEach(([name, node]) => node.classList.toggle('hidden', name !== viewName));
-        if (['home', 'speakers', 'agenda', 'food'].includes(viewName)) {
-          setActiveTab(viewName);
-        }
+        Object.entries(views).forEach(([name, node]) => {
+          node.classList.toggle('hidden', name !== viewName);
+        });
+
+        setActiveTab(viewName);
       }
 
       async function fetchJson(path) {
         const response = await fetch(path, { cache: 'no-store' });
-        if (!response.ok) throw new Error(`Failed to load ${path}`);
+        if (!response.ok) {
+          throw new Error(`Failed to load ${path}`);
+        }
+
         return response.json();
       }
 
+      function createTextNode(tagName, className, text) {
+        const node = document.createElement(tagName);
+        node.className = className;
+        node.textContent = text;
+        return node;
+      }
+
       function setErrorState(node, message) {
-        node.innerHTML = `<div class="item" style="color:#294766;font-weight:700;">${message}</div>`;
+        node.innerHTML = '';
+        const card = document.createElement('div');
+        card.className = 'item error-item';
+        card.textContent = message;
+        node.append(card);
       }
 
       function setActiveAgendaDay(dayKey) {
         currentAgendaDay = dayKey;
-        agendaDayTabs.forEach((tab) => tab.classList.toggle('active', tab.dataset.day === dayKey));
+        agendaDayTabs.forEach((tab) => {
+          const isActive = tab.dataset.day === dayKey;
+          tab.classList.toggle('active', isActive);
+          tab.setAttribute('aria-selected', String(isActive));
+        });
+      }
+
+      function buildEntryCard(title, metaLine, description) {
+        const card = document.createElement('article');
+        card.className = 'item';
+
+        card.append(createTextNode('h3', '', title));
+        card.append(createTextNode('p', 'meta', metaLine));
+        card.append(createTextNode('p', 'meta', description));
+
+        return card;
       }
 
       async function loadAgenda(dayKey = currentAgendaDay) {
@@ -654,45 +658,38 @@
           if (!agendaDataCache[dayKey]) {
             agendaDataCache[dayKey] = await fetchJson(`data/sessions/${dayKey}.json`);
           }
+
           const sessions = agendaDataCache[dayKey];
-          const listNode = document.getElementById('agenda-list');
-          listNode.innerHTML = '';
+          agendaList.innerHTML = '';
 
           sessions.forEach((session) => {
-            const card = document.createElement('article');
-            card.className = 'item';
-            card.innerHTML = `
-              <h3>${session.Day}: ${session.SessionTitle}</h3>
-              <p class="meta"><strong>${session.StartTime}–${session.EndTime}</strong> · ${session.Location}</p>
-              <p class="meta">${session.Description}</p>
-            `;
-            listNode.append(card);
+            const title = `${session.Day}: ${session.SessionTitle}`;
+            const metaLine = `${session.StartTime}–${session.EndTime} · ${session.Location}`;
+            agendaList.append(buildEntryCard(title, metaLine, session.Description));
           });
         } catch {
-          setErrorState(document.getElementById('agenda-list'), 'Unable to load the agenda right now. Please refresh.');
+          setErrorState(agendaList, 'Unable to load the agenda right now. Please refresh.');
         }
       }
 
       async function loadFood() {
+        if (foodLoaded) return;
+
         try {
           const dayPaths = ['data/food/day1.json', 'data/food/day2.json', 'data/food/day3.json'];
           const allDays = await Promise.all(dayPaths.map((path) => fetchJson(path)));
           const entries = allDays.flat();
-          const listNode = document.getElementById('food-list');
-          listNode.innerHTML = '';
+          foodList.innerHTML = '';
 
           entries.forEach((entry) => {
-            const card = document.createElement('article');
-            card.className = 'item';
-            card.innerHTML = `
-              <h3>${entry.Day}: ${entry.Title}</h3>
-              <p class="meta"><strong>${entry.StartTime}–${entry.EndTime}</strong> · ${entry.Location}</p>
-              <p class="meta">${entry.Description}</p>
-            `;
-            listNode.append(card);
+            const title = `${entry.Day}: ${entry.Title}`;
+            const metaLine = `${entry.StartTime}–${entry.EndTime} · ${entry.Location}`;
+            foodList.append(buildEntryCard(title, metaLine, entry.Description));
           });
+
+          foodLoaded = true;
         } catch {
-          setErrorState(document.getElementById('food-list'), 'Unable to load food details right now. Please refresh.');
+          setErrorState(foodList, 'Unable to load food details right now. Please refresh.');
         }
       }
 
