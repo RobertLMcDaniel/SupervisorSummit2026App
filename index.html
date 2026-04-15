@@ -402,49 +402,90 @@
         right: 0;
         bottom: 0;
         z-index: 20;
-        background: rgba(17, 40, 69, 0.97);
-        border-top: 1px solid rgba(255, 255, 255, 0.15);
-        backdrop-filter: blur(4px);
-        padding: 8px max(12px, env(safe-area-inset-right)) calc(8px + env(safe-area-inset-bottom))
+        padding: 10px max(12px, env(safe-area-inset-right)) calc(10px + env(safe-area-inset-bottom))
           max(12px, env(safe-area-inset-left));
+        pointer-events: none;
       }
 
       .bottom-nav__row {
         width: min(100%, 520px);
         margin: 0 auto;
         display: grid;
-        grid-template-columns: repeat(4, 1fr);
+        grid-template-columns: repeat(4, minmax(0, 1fr));
         gap: 8px;
+        padding: 8px;
+        border-radius: 24px;
+        background: rgba(16, 58, 88, 0.94);
+        border: 1px solid rgba(255, 255, 255, 0.16);
+        box-shadow: 0 16px 30px rgba(5, 17, 30, 0.34);
+        backdrop-filter: blur(8px);
+        position: relative;
+        pointer-events: auto;
+      }
+
+      .nav-active-indicator {
+        position: absolute;
+        top: 8px;
+        left: 8px;
+        width: 0;
+        height: calc(100% - 16px);
+        border-radius: 18px;
+        background: rgba(255, 255, 255, 0.94);
+        box-shadow: 0 8px 16px rgba(7, 24, 39, 0.28);
+        transition: transform 0.25s ease, width 0.25s ease;
+        will-change: transform, width;
+        pointer-events: none;
       }
 
       .tab-btn {
         min-height: 56px;
         border: 0;
-        border-radius: 12px;
-        background: rgba(255, 255, 255, 0.12);
+        border-radius: 16px;
+        background: transparent;
         color: #dbe7f7;
         cursor: pointer;
         display: grid;
         justify-items: center;
         align-content: center;
         gap: 4px;
-        padding: 6px 2px;
+        padding: 6px 4px;
+        position: relative;
+        z-index: 1;
+        transition: transform 0.2s ease, color 0.2s ease;
       }
 
       .tab-icon {
-        font-size: 1.1rem;
-        line-height: 1;
+        width: 19px;
+        height: 19px;
+        object-fit: contain;
+        opacity: 0.92;
+        transition: transform 0.22s ease, opacity 0.22s ease, filter 0.22s ease;
       }
 
       .tab-label {
-        font-size: 0.73rem;
-        font-weight: 800;
+        font-size: 0.72rem;
+        font-weight: 700;
         line-height: 1;
+        transition: transform 0.22s ease, color 0.22s ease, font-weight 0.22s ease;
       }
 
       .tab-btn.active {
-        background: var(--accent-gold);
         color: var(--ink);
+      }
+
+      .tab-btn.active .tab-icon {
+        opacity: 1;
+        transform: translateY(-1px) scale(1.05);
+        filter: saturate(1.1) contrast(1.05);
+      }
+
+      .tab-btn.active .tab-label {
+        font-weight: 800;
+        transform: translateY(-1px);
+      }
+
+      .tab-btn:active .tab-icon {
+        transform: scale(0.96);
       }
 
       @media (max-width: 380px) {
@@ -462,7 +503,7 @@
     <main class="screen">
       <section id="home-view" class="view" aria-label="Home view">
         <div class="home-video-bg" aria-hidden="true">
-          <video autoplay loop muted playsinline preload="auto" aria-hidden="true" tabindex="-1">
+          <video autoplay loop muted playsinline webkit-playsinline preload="auto" aria-hidden="true" tabindex="-1" disablepictureinpicture>
             <source src="images/background.mp4" type="video/mp4" />
           </video>
         </div>
@@ -510,20 +551,21 @@
 
     <nav class="bottom-nav" aria-label="Primary navigation">
       <div class="bottom-nav__row">
+        <span class="nav-active-indicator" aria-hidden="true"></span>
         <button class="tab-btn active" type="button" data-tab="home" aria-selected="true">
-          <span class="tab-icon" aria-hidden="true">🏠</span>
+          <img class="tab-icon" src="icons/home_icon.png" alt="" aria-hidden="true" />
           <span class="tab-label">Home</span>
         </button>
         <button class="tab-btn" type="button" data-tab="speakers" aria-selected="false">
-          <span class="tab-icon" aria-hidden="true">🎤</span>
+          <img class="tab-icon" src="icons/speaker_icon.png" alt="" aria-hidden="true" />
           <span class="tab-label">Speakers</span>
         </button>
         <button class="tab-btn" type="button" data-tab="agenda" aria-selected="false">
-          <span class="tab-icon" aria-hidden="true">🗓️</span>
+          <img class="tab-icon" src="icons/agenda_icon.png" alt="" aria-hidden="true" />
           <span class="tab-label">Agenda</span>
         </button>
         <button class="tab-btn" type="button" data-tab="food" aria-selected="false">
-          <span class="tab-icon" aria-hidden="true">🍽️</span>
+          <img class="tab-icon" src="icons/food_icon.png" alt="" aria-hidden="true" />
           <span class="tab-label">Food</span>
         </button>
       </div>
@@ -574,6 +616,7 @@
       };
 
       const tabs = Array.from(document.querySelectorAll('.tab-btn'));
+      const navIndicator = document.querySelector('.nav-active-indicator');
       const agendaDayTabs = Array.from(document.querySelectorAll('.agenda-day-tab'));
       const speakersGrid = document.getElementById('speakers-grid');
       const agendaList = document.getElementById('agenda-list');
@@ -592,12 +635,23 @@
       let currentAgendaDay = 'day1';
       const agendaDataCache = {};
 
+      function syncNavIndicator(activeTabName) {
+        if (!navIndicator) return;
+        const activeTab = tabs.find((tab) => tab.dataset.tab === activeTabName) || tabs.find((tab) => tab.classList.contains('active'));
+        if (!activeTab) return;
+
+        navIndicator.style.width = `${activeTab.offsetWidth}px`;
+        navIndicator.style.transform = `translateX(${activeTab.offsetLeft}px)`;
+      }
+
       function setActiveTab(tabName) {
         tabs.forEach((tab) => {
           const isActive = tab.dataset.tab === tabName;
           tab.classList.toggle('active', isActive);
           tab.setAttribute('aria-selected', String(isActive));
         });
+
+        syncNavIndicator(tabName);
       }
 
       function showView(viewName) {
@@ -799,8 +853,20 @@
       });
 
       speakerDetailClose.addEventListener('click', closeSpeakerDetail);
+      speakerDetailOverlay.addEventListener('click', (event) => {
+        if (event.target === speakerDetailOverlay) closeSpeakerDetail();
+      });
+      document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && speakerDetailOverlay.classList.contains('open')) {
+          closeSpeakerDetail();
+        }
+      });
+
+      window.addEventListener('resize', () => syncNavIndicator());
 
       showView('home');
+      syncNavIndicator('home');
+      loadAgenda('day1');
     </script>
   </body>
 </html>
