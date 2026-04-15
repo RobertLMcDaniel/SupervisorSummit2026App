@@ -29,7 +29,7 @@
         width: 100%;
         min-height: 100%;
         height: 100%;
-        background-color: var(--bg-solid);
+        background-color: #ffffff;
         background-image: none;
         overscroll-behavior: none;
       }
@@ -37,7 +37,7 @@
       body {
         min-height: 100dvh;
         font-family: Arial, Helvetica, sans-serif;
-        background-color: var(--bg-solid);
+        background-color: #ffffff;
         background-image: none;
         color: var(--white);
         overflow-x: hidden;
@@ -115,6 +115,10 @@
         max-height: 160px;
         object-fit: contain;
         display: block;
+        border: 3px solid #1f3c5a;
+        border-radius: 18px;
+        background: #ffffff;
+        padding: 8px 10px;
       }
 
       .summit-logo-card,
@@ -454,7 +458,7 @@
         right: 0;
         bottom: 0;
         z-index: 20;
-        padding: 10px max(12px, env(safe-area-inset-right)) calc(10px + env(safe-area-inset-bottom)) max(12px, env(safe-area-inset-left));
+        padding: 10px max(12px, env(safe-area-inset-right)) calc(12px + env(safe-area-inset-bottom)) max(12px, env(safe-area-inset-left));
         pointer-events: none;
       }
 
@@ -463,8 +467,8 @@
         margin: 0 auto;
         display: grid;
         grid-template-columns: repeat(4, minmax(0, 1fr));
-        gap: 8px;
-        padding: 8px;
+        gap: 10px;
+        padding: 10px;
         border-radius: 24px;
         background: rgba(16, 58, 88, 0.94);
         border: 1px solid rgba(255, 255, 255, 0.16);
@@ -491,7 +495,7 @@
       }
 
       .tab-btn {
-        min-height: 58px;
+        min-height: 66px;
         border: 0;
         border-radius: 16px;
         background: transparent;
@@ -500,16 +504,16 @@
         display: grid;
         justify-items: center;
         align-content: center;
-        gap: 5px;
-        padding: 6px 4px;
+        gap: 6px;
+        padding: 8px 4px;
         position: relative;
         z-index: 1;
         transition: transform 0.2s ease, color 0.2s ease;
       }
 
       .tab-icon-circle {
-        width: 38px;
-        height: 38px;
+        width: 42px;
+        height: 42px;
         border-radius: 999px;
         display: grid;
         place-items: center;
@@ -519,15 +523,15 @@
       }
 
       .tab-icon {
-        width: 18px;
-        height: 18px;
+        width: 20px;
+        height: 20px;
         object-fit: contain;
         opacity: 0.95;
         transition: transform 0.22s ease, opacity 0.22s ease, filter 0.22s ease;
       }
 
       .tab-label {
-        font-size: 0.72rem;
+        font-size: 0.8rem;
         font-weight: 700;
         line-height: 1;
         transition: transform 0.22s ease, color 0.22s ease, font-weight 0.22s ease;
