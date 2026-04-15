@@ -77,13 +77,14 @@
         object-fit: cover;
         object-position: center;
         display: block;
+        pointer-events: none;
       }
 
       .home-video-overlay {
         position: absolute;
         inset: 0;
         z-index: 1;
-        background: rgba(14, 33, 52, 0.46);
+        background: rgba(0, 0, 0, 0.42);
         pointer-events: none;
       }
 
@@ -467,7 +468,17 @@
     <main class="screen">
       <section id="home-view" class="view" aria-label="Home view">
         <div class="home-video-bg" aria-hidden="true">
-          <video autoplay muted loop playsinline preload="auto">
+          <video
+            autoplay
+            loop
+            muted
+            playsinline
+            webkit-playsinline
+            preload="auto"
+            disablepictureinpicture
+            tabindex="-1"
+            aria-hidden="true"
+          >
             <source src="https://github.com/RobertLMcDaniel/SupervisorSummit2026App/releases/download/video/download.mp4" type="video/mp4" />
           </video>
         </div>
