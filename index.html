@@ -48,7 +48,7 @@
         margin: 0 auto;
         padding: max(12px, env(safe-area-inset-top)) max(14px, env(safe-area-inset-right)) calc(84px + max(12px, env(safe-area-inset-bottom))) max(14px, env(safe-area-inset-left));
         display: grid;
-        grid-template-rows: 1fr;
+        grid-template-rows: auto 1fr;
         background-color: var(--bg-primary);
         background-image: none;
         overflow: hidden;
@@ -57,7 +57,7 @@
 
       .hidden { display: none !important; }
       .view { display: grid; gap: 12px; align-content: start; min-height: 0; }
-      .view.view-enter { animation: view-enter 0.34s ease both; }
+      .view.view-enter { animation: view-enter 0.55s ease both; }
 
       @keyframes view-enter {
         from {
@@ -71,16 +71,13 @@
       }
 
       .app-topbar {
-        position: absolute;
-        left: 0;
-        right: 0;
-        top: max(14px, env(safe-area-inset-top));
+        position: relative;
         transform: none;
         width: 100%;
         display: grid;
         justify-items: center;
         align-content: center;
-        padding: 6px 10px;
+        padding: 6px 10px 8px;
         z-index: 12;
         transition: top 0.45s ease, transform 0.45s ease, font-size 0.45s ease, opacity 0.35s ease;
       }
@@ -105,18 +102,17 @@
       }
 
       .app-topbar.home-mode {
+        position: absolute;
+        left: 0;
+        right: 0;
         top: 50%;
         transform: translateY(-50%);
+        opacity: 0;
       }
 
       .app-topbar.home-mode .app-brand-line {
-        font-size: clamp(2rem, 9vw, 3.5rem);
-        letter-spacing: 0.02em;
-      }
-
-      .app-topbar.home-mode .topbar-sep,
-      .app-topbar.home-mode .topbar-page {
-        opacity: 0;
+        font-size: clamp(0.82rem, 3.45vw, 1.06rem);
+        letter-spacing: 0.01em;
       }
 
       #home-view {
@@ -237,7 +233,14 @@
       }
 
       .home-video-title {
-        display: none;
+        margin: 0;
+        font-size: clamp(1.6rem, 7vw, 2.6rem);
+        line-height: 1.06;
+        letter-spacing: 0.01em;
+        text-transform: uppercase;
+        font-weight: 800;
+        color: var(--accent);
+        text-shadow: 0 8px 16px rgba(27, 46, 64, 0.55);
       }
 
       .home-video-dates {
@@ -254,7 +257,9 @@
         display: grid;
         gap: 8px;
         padding-right: 2px;
+        scrollbar-width: none;
       }
+      .list::-webkit-scrollbar { width: 0; height: 0; }
 
       .item {
         border-radius: 14px;
@@ -271,6 +276,10 @@
         border: 0;
         overflow: hidden;
         color: #FFFFFF;
+        min-height: 138px;
+        display: grid;
+        align-content: start;
+        gap: 4px;
       }
 
       .agenda-item::before,
@@ -305,6 +314,11 @@
       .item h3 {
         margin: 0 0 5px;
         font-size: 0.98rem;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
       }
 
       .meta {
@@ -312,6 +326,19 @@
         font-size: 0.86rem;
         color: var(--text-primary);
         line-height: 1.35;
+      }
+
+      .agenda-item .meta:last-child {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+
+      #speakers-view .panel {
+        min-height: 0;
+        display: grid;
       }
 
       .agenda-day-tabs {
@@ -348,7 +375,12 @@
         grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 14px 10px;
         margin-top: 4px;
+        max-height: 68dvh;
+        overflow-y: auto;
+        padding-right: 2px;
+        scrollbar-width: none;
       }
+      .speakers-grid::-webkit-scrollbar { width: 0; height: 0; }
 
       .speaker-tile {
         border: 0;
@@ -657,9 +689,35 @@
         .speaker-tile-name { font-size: 0.84rem; }
         .tab-label { font-size: 0.68rem; }
       }
+
+      .splash-screen {
+        position: fixed;
+        inset: 0;
+        z-index: 50;
+        background: var(--bg-primary);
+        display: grid;
+        place-items: center;
+        opacity: 1;
+        transition: opacity 0.7s ease;
+      }
+
+      .splash-screen.fade-out {
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      .splash-logo {
+        width: min(70vw, 330px);
+        max-height: 160px;
+        object-fit: contain;
+      }
     </style>
   </head>
   <body>
+    <div id="splash-screen" class="splash-screen" aria-hidden="true">
+      <img class="splash-logo" src="icons/altamonte-logo.png?v=20260414-2" alt="" />
+    </div>
+
     <main class="screen">
       <header class="app-topbar" aria-label="App title bar">
         <h1 id="topbar-view-title" class="app-brand-line">
@@ -706,7 +764,7 @@
             </div>
             <div class="home-video-overlay" aria-hidden="true"></div>
             <div class="home-video-label">
-              <p class="home-video-title">Supervisor<br />Summit<br />2026</p>
+              <p class="home-video-title">Supervisor<br />Summit 2026</p>
               <p class="home-video-dates">MAY 5–7, 2026</p>
             </div>
           </section>
@@ -831,6 +889,7 @@
       const tabs = Array.from(document.querySelectorAll('.tab-btn'));
       const navIndicator = document.querySelector('.nav-active-indicator');
       const appTopbar = document.querySelector('.app-topbar');
+      const splashScreen = document.getElementById('splash-screen');
       const topbarViewTitle = document.getElementById('topbar-view-title');
       const topbarPageLabel = document.getElementById('topbar-page-label');
       const agendaDayTabs = Array.from(document.querySelectorAll('.agenda-day-tab'));
@@ -1143,6 +1202,13 @@
       showView('home');
       syncNavIndicator('home');
       startHomeVideoRotation();
+
+      if (splashScreen) {
+        window.setTimeout(() => {
+          splashScreen.classList.add('fade-out');
+          window.setTimeout(() => splashScreen.remove(), 800);
+        }, 950);
+      }
     </script>
   </body>
 </html>
