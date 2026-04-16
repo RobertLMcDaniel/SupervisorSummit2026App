@@ -72,15 +72,16 @@
 
       .app-topbar {
         position: absolute;
-        left: 50%;
+        left: 0;
+        right: 0;
         top: max(14px, env(safe-area-inset-top));
-        transform: translateX(-50%);
-        width: calc(100% - 20px);
+        transform: none;
+        width: 100%;
         display: grid;
         justify-items: center;
         align-content: center;
         padding: 6px 10px;
-        z-index: 9;
+        z-index: 12;
         transition: top 0.45s ease, transform 0.45s ease, font-size 0.45s ease, opacity 0.35s ease;
       }
 
@@ -105,7 +106,7 @@
 
       .app-topbar.home-mode {
         top: 50%;
-        transform: translate(-50%, -50%);
+        transform: translateY(-50%);
       }
 
       .app-topbar.home-mode .app-brand-line {
@@ -236,14 +237,7 @@
       }
 
       .home-video-title {
-        margin: 0;
-        font-size: clamp(2.2rem, 9.8vw, 4rem);
-        line-height: 1.02;
-        letter-spacing: 0.01em;
-        text-transform: uppercase;
-        font-weight: 800;
-        color: var(--accent);
-        text-shadow: 0 8px 16px rgba(27, 46, 64, 0.55);
+        display: none;
       }
 
       .home-video-dates {
@@ -272,10 +266,11 @@
 
       .agenda-item {
         position: relative;
-        border-radius: 16px;
+        border-radius: 18px;
         padding: 14px 14px 12px;
-        border: 1px solid rgba(239, 177, 10, 0.35);
+        border: 0;
         overflow: hidden;
+        color: #FFFFFF;
       }
 
       .agenda-item::before,
@@ -293,9 +288,19 @@
       .agenda-item::before { left: -8px; }
       .agenda-item::after { right: -8px; }
 
-      .agenda-item--1 { background: linear-gradient(135deg, rgba(239, 177, 10, 0.95) 0%, rgba(40, 69, 97, 0.92) 100%); }
-      .agenda-item--2 { background: linear-gradient(135deg, rgba(40, 69, 97, 0.98) 0%, rgba(239, 177, 10, 0.72) 100%); }
-      .agenda-item--3 { background: linear-gradient(135deg, rgba(239, 177, 10, 0.7) 0%, rgba(40, 69, 97, 0.95) 100%); }
+      .agenda-item--1 { background: linear-gradient(135deg, #FF8FB1 0%, #FFB38A 100%); }
+      .agenda-item--2 { background: linear-gradient(135deg, #9B8BFF 0%, #5FA8FF 100%); }
+      .agenda-item--3 { background: linear-gradient(135deg, #74F2CE 0%, #4DD4A9 100%); }
+      .agenda-item--4 { background: linear-gradient(135deg, #FFD36E 0%, #FFA45B 100%); }
+      .agenda-item--5 { background: linear-gradient(135deg, #7CE0FF 0%, #64B5F6 100%); }
+      .agenda-item--6 { background: linear-gradient(135deg, #F8A6FF 0%, #C796FF 100%); }
+
+      .agenda-panel {
+        padding: 0;
+        border: 0;
+        background: transparent;
+        box-shadow: none;
+      }
 
       .item h3 {
         margin: 0 0 5px;
@@ -709,7 +714,7 @@
       </section>
 
       <section id="agenda-view" class="view hidden" aria-label="Agenda view">
-        <section class="panel">
+        <section class="panel agenda-panel">
           <div class="agenda-day-tabs" role="tablist" aria-label="Agenda day tabs">
             <button class="agenda-day-tab active" type="button" data-day="day1">Day 1</button>
             <button class="agenda-day-tab" type="button" data-day="day2">Day 2</button>
@@ -990,7 +995,7 @@
 
           sessions.forEach((session) => {
             const card = document.createElement('article');
-            card.className = `item agenda-item agenda-item--${(listNode.children.length % 3) + 1}`;
+            card.className = `item agenda-item agenda-item--${(listNode.children.length % 6) + 1}`;
             card.innerHTML = `
               <h3>${session.Day}: ${session.SessionTitle}</h3>
               <p class="meta"><strong>${session.StartTime}–${session.EndTime}</strong> · ${session.Location}</p>
