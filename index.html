@@ -103,12 +103,6 @@
       .topbar-page {
         color: var(--text-primary);
       }
-      .topbar-bolt {
-        margin-left: 6px;
-        color: var(--accent);
-        font-size: 0.95em;
-      }
-
       .app-topbar.home-mode {
         opacity: 0;
         pointer-events: none;
@@ -231,15 +225,12 @@
         text-align: center;
       }
 
-      .home-video-title {
-        margin: 0;
-        font-size: clamp(1.6rem, 7vw, 2.4rem);
-        line-height: 1.04;
-        letter-spacing: 0.01em;
-        text-transform: uppercase;
-        font-weight: 800;
-        color: var(--accent);
-        text-shadow: 0 8px 16px rgba(27, 46, 64, 0.55);
+      .home-video-title { display: none; }
+
+      .home-center-logo {
+        width: min(56vw, 220px);
+        max-height: 220px;
+        object-fit: contain;
       }
 
       .home-video-dates {
@@ -308,6 +299,34 @@
         border: 0;
         background: transparent;
         box-shadow: none;
+      }
+
+      .food-deck {
+        position: relative;
+        height: 100%;
+        min-height: calc(100dvh - 250px);
+        overflow: hidden;
+        padding-top: 6px;
+        touch-action: pan-y;
+      }
+
+      .food-card {
+        position: absolute;
+        inset: 0;
+        border-radius: 20px;
+        padding: 14px;
+        border: 0;
+        color: #FFFFFF;
+        transition: transform 0.4s ease, opacity 0.4s ease;
+        box-shadow: 0 14px 28px rgba(27, 46, 64, 0.35);
+        overflow-y: auto;
+        scrollbar-width: none;
+      }
+      .food-card::-webkit-scrollbar { width: 0; height: 0; }
+      .food-card h3 {
+        margin: 0 0 10px;
+        font-size: 1.1rem;
+        text-transform: uppercase;
       }
 
       .item h3 {
@@ -395,7 +414,7 @@
       }
       .speakers-grid::-webkit-scrollbar { width: 0; height: 0; }
       #speakers-grid,
-      #food-list { max-height: none; }
+      #food-deck { max-height: none; }
 
       .speaker-tile {
         border: 0;
@@ -726,7 +745,6 @@
         width: min(70vw, 330px);
         max-height: 160px;
         object-fit: contain;
-        filter: drop-shadow(0 0 10px rgba(239, 177, 10, 0.75)) drop-shadow(0 0 26px rgba(245, 247, 250, 0.35));
       }
     </style>
   </head>
@@ -739,7 +757,6 @@
       <header class="app-topbar" aria-label="App title bar">
         <h1 id="topbar-view-title" class="app-brand-line">
           <span class="topbar-brand">Supervisor Summit 2026</span>
-          <span class="topbar-bolt" aria-hidden="true">⚡</span>
           <span class="topbar-sep"> | </span>
           <span id="topbar-page-label" class="topbar-page">HOME</span>
         </h1>
@@ -782,7 +799,7 @@
             </div>
             <div class="home-video-overlay" aria-hidden="true"></div>
             <div class="home-video-label">
-              <p class="home-video-title">Supervisor<br />Summit 2026</p>
+              <img class="home-center-logo" src="icons/icon-512.png?v=20260414-2" alt="Supervisor Summit logo" />
               <p class="home-video-dates">MAY 5–7, 2026</p>
             </div>
           </section>
@@ -821,7 +838,7 @@
 
       <section id="food-view" class="view hidden" aria-label="Food view">
         <section class="panel">
-          <div id="food-list" class="list" aria-live="polite"></div>
+          <div id="food-deck" class="food-deck" aria-live="polite"></div>
         </section>
       </section>
     </main>
@@ -912,6 +929,7 @@
       const topbarPageLabel = document.getElementById('topbar-page-label');
       const agendaDayTabs = Array.from(document.querySelectorAll('.agenda-day-tab'));
       const speakersGrid = document.getElementById('speakers-grid');
+      const foodDeck = document.getElementById('food-deck');
       const speakerDetailOverlay = document.getElementById('speaker-detail-overlay');
       const speakerDetailClose = document.getElementById('speaker-detail-close');
       const speakerDetailImage = document.getElementById('speaker-detail-image');
@@ -936,6 +954,8 @@
       let speakersLoaded = false;
       let currentAgendaDay = 'day1';
       const agendaDataCache = {};
+      let foodDeckBuilt = false;
+      let activeFoodDeckIndex = 0;
       let activeHeroVideoPlayer = 0;
       let activeHeroVideoIndex = 0;
       let heroVideoSwapTimer;
@@ -1085,26 +1105,83 @@
         }
       }
 
+      function positionFoodDeckCards() {
+        if (!foodDeck) return;
+        const cards = Array.from(foodDeck.querySelectorAll('.food-card'));
+        cards.forEach((card, index) => {
+          const offset = index - activeFoodDeckIndex;
+          const absOffset = Math.abs(offset);
+          const scale = Math.max(0.9, 1 - (absOffset * 0.05));
+          const translateY = offset * 18;
+          card.style.transform = `translateY(${translateY}px) scale(${scale})`;
+          card.style.opacity = absOffset > 2 ? '0' : `${Math.max(0.38, 1 - (absOffset * 0.25))}`;
+          card.style.zIndex = String(50 - absOffset);
+          card.style.pointerEvents = offset === 0 ? 'auto' : 'none';
+        });
+      }
+
+      function moveFoodDeck(direction) {
+        if (!foodDeckBuilt) return;
+        const maxIndex = 2;
+        const nextIndex = Math.min(maxIndex, Math.max(0, activeFoodDeckIndex + direction));
+        if (nextIndex === activeFoodDeckIndex) return;
+        activeFoodDeckIndex = nextIndex;
+        positionFoodDeckCards();
+      }
+
+      function wireFoodDeckGestures() {
+        if (!foodDeck || foodDeck.dataset.gesturesWired === 'true') return;
+        let touchStartY = 0;
+        foodDeck.addEventListener('touchstart', (event) => {
+          touchStartY = event.changedTouches[0].clientY;
+        }, { passive: true });
+        foodDeck.addEventListener('touchend', (event) => {
+          const delta = event.changedTouches[0].clientY - touchStartY;
+          if (Math.abs(delta) < 40) return;
+          if (delta < 0) moveFoodDeck(1);
+          if (delta > 0) moveFoodDeck(-1);
+        }, { passive: true });
+        foodDeck.dataset.gesturesWired = 'true';
+      }
+
       async function loadFood() {
+        if (!foodDeck) return;
+        if (foodDeckBuilt) {
+          positionFoodDeckCards();
+          return;
+        }
+
         try {
           const dayPaths = ['data/food/day1.json', 'data/food/day2.json', 'data/food/day3.json'];
           const allDays = await Promise.all(dayPaths.map((path) => fetchJson(path)));
-          const entries = allDays.flat();
-          const listNode = document.getElementById('food-list');
-          listNode.innerHTML = '';
+          foodDeck.innerHTML = '';
+          activeFoodDeckIndex = 0;
 
-          entries.forEach((entry) => {
+          allDays.forEach((entries, index) => {
             const card = document.createElement('article');
-            card.className = 'item';
-            card.innerHTML = `
-              <h3>${entry.Day}: ${entry.Title}</h3>
-              <p class="meta"><strong>${entry.StartTime}–${entry.EndTime}</strong> · ${entry.Location}</p>
-              <p class="meta">${entry.Description}</p>
-            `;
-            listNode.append(card);
+            card.className = `food-card agenda-item--${(index % 6) + 1}`;
+            card.innerHTML = `<h3>Day ${index + 1}</h3>`;
+
+            entries.forEach((entry) => {
+              const item = document.createElement('article');
+              item.className = 'item';
+              item.style.marginBottom = '8px';
+              item.innerHTML = `
+                <h3>${entry.Title}</h3>
+                <p class="meta"><strong>${entry.StartTime}–${entry.EndTime}</strong> · ${entry.Location}</p>
+                <p class="meta">${entry.Description}</p>
+              `;
+              card.append(item);
+            });
+
+            foodDeck.append(card);
           });
+
+          foodDeckBuilt = true;
+          wireFoodDeckGestures();
+          positionFoodDeckCards();
         } catch {
-          setErrorState(document.getElementById('food-list'), 'Unable to load food details right now. Please refresh.');
+          foodDeck.innerHTML = '<div class="item">Unable to load food details right now. Please refresh.</div>';
         }
       }
 
