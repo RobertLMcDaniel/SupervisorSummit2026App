@@ -643,7 +643,7 @@
                 tabindex="-1"
                 aria-hidden="true"
               >
-                <source src="storm_clouds.mp4" type="video/mp4" />
+                <source src="images/background.mp4" type="video/mp4" />
               </video>
               <video
                 class="home-video-player"
@@ -658,7 +658,7 @@
                 tabindex="-1"
                 aria-hidden="true"
               >
-                <source src="rain.mp4" type="video/mp4" />
+                <source src="images/background.mp4" type="video/mp4" />
               </video>
             </div>
             <div class="home-video-overlay" aria-hidden="true"></div>
@@ -805,12 +805,14 @@
         document.getElementById('home-video-a'),
         document.getElementById('home-video-b')
       ].filter(Boolean);
-      const heroVideoPlaylist = [
+      const heroVideoCandidates = [
+        'images/background.mp4',
         'storm_clouds.mp4',
         'rain.mp4',
         'lightning.mp4',
         'clouds_sun.mp4'
       ];
+      let heroVideoPlaylist = ['images/background.mp4'];
 
       let speakersLoaded = false;
       let currentAgendaDay = 'day1';
@@ -866,6 +868,19 @@
         videoElement.play().catch(() => {});
       }
 
+      async function buildHeroPlaylist() {
+        const checks = await Promise.all(heroVideoCandidates.map(async (src) => {
+          try {
+            const response = await fetch(src, { method: 'HEAD', cache: 'no-store' });
+            return response.ok ? src : '';
+          } catch {
+            return '';
+          }
+        }));
+        const available = checks.filter(Boolean);
+        heroVideoPlaylist = available.length > 0 ? available : ['images/background.mp4'];
+      }
+
       function rotateHomeVideo() {
         if (homeVideoPlayers.length < 2 || heroVideoPlaylist.length === 0) return;
 
@@ -881,12 +896,15 @@
         currentPlayer.classList.remove('is-active');
       }
 
-      function startHomeVideoRotation() {
+      async function startHomeVideoRotation() {
         if (homeVideoPlayers.length === 0 || heroVideoPlaylist.length === 0) return;
+        await buildHeroPlaylist();
         setVideoSource(homeVideoPlayers[0], heroVideoPlaylist[0]);
         if (homeVideoPlayers[1]) setVideoSource(homeVideoPlayers[1], heroVideoPlaylist[1 % heroVideoPlaylist.length]);
         clearInterval(heroVideoSwapTimer);
-        heroVideoSwapTimer = window.setInterval(rotateHomeVideo, 9000);
+        if (heroVideoPlaylist.length > 1) {
+          heroVideoSwapTimer = window.setInterval(rotateHomeVideo, 9000);
+        }
       }
 
       async function fetchJson(path) {
