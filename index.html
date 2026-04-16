@@ -73,29 +73,20 @@
       .app-topbar {
         width: 100%;
         display: grid;
-        justify-items: center;
+        justify-items: start;
         align-content: center;
-        gap: 3px;
         padding: 8px 10px;
         margin-bottom: 2px;
       }
 
-      .app-brand {
+      .app-brand-line {
         margin: 0;
         color: var(--accent);
-        font-size: clamp(1.2rem, 6vw, 1.7rem);
+        font-size: clamp(1.05rem, 4.6vw, 1.34rem);
         font-weight: 800;
-        letter-spacing: 0.05em;
+        letter-spacing: 0.03em;
         text-transform: uppercase;
-      }
-
-      .topbar-title {
-        margin: 0;
-        color: var(--text-primary);
-        font-size: clamp(0.9rem, 3.9vw, 1.05rem);
-        font-weight: 700;
-        letter-spacing: 0.12em;
-        text-transform: uppercase;
+        white-space: nowrap;
       }
 
       #home-view {
@@ -110,9 +101,10 @@
       .home-video-frame {
         position: relative;
         width: 100%;
-        max-width: 410px;
+        max-width: 100%;
         margin: 0 auto;
-        aspect-ratio: 1 / 1.15;
+        height: 100%;
+        min-height: calc(100dvh - 228px);
         border-radius: 20px;
         overflow: hidden;
         box-shadow: 0 16px 26px rgba(27, 46, 64, 0.35);
@@ -216,7 +208,7 @@
 
       .home-video-title {
         margin: 0;
-        font-size: clamp(1.7rem, 7.6vw, 2.9rem);
+        font-size: clamp(2.2rem, 9.8vw, 4rem);
         line-height: 1.02;
         letter-spacing: 0.01em;
         text-transform: uppercase;
@@ -226,8 +218,8 @@
       }
 
       .home-video-dates {
-        margin: 10px 0 0;
-        font-size: 1.08rem;
+        margin: 14px 0 0;
+        font-size: clamp(1.2rem, 5.2vw, 2rem);
         font-weight: 700;
         color: var(--accent);
         text-shadow: 0 8px 16px rgba(27, 46, 64, 0.55);
@@ -259,19 +251,6 @@
         font-size: 0.86rem;
         color: var(--text-primary);
         line-height: 1.35;
-      }
-
-      .page-title-chip {
-        margin: 0 0 16px;
-        padding: 13px 14px;
-        border-radius: 16px;
-        text-align: center;
-        font-size: 1.28rem;
-        font-weight: 800;
-        letter-spacing: 0.01em;
-        background: rgba(40, 69, 97, 0.95);
-        border: 1px solid rgba(239, 177, 10, 0.4);
-        box-shadow: 0 8px 18px rgba(27, 46, 64, 0.25);
       }
 
       .agenda-day-tabs {
@@ -622,8 +601,7 @@
   <body>
     <main class="screen">
       <header class="app-topbar" aria-label="App title bar">
-        <h1 class="app-brand">Supervisor Summit 2026</h1>
-        <p id="topbar-view-title" class="topbar-title">Home</p>
+        <h1 id="topbar-view-title" class="app-brand-line">Supervisor Summit 2026 | HOME</h1>
       </header>
 
       <section id="home-view" class="view" aria-label="Home view">
@@ -663,8 +641,8 @@
             </div>
             <div class="home-video-overlay" aria-hidden="true"></div>
             <div class="home-video-label">
-              <p class="home-video-title">Supervisor Summit 2026</p>
-              <p class="home-video-dates">May 5–7, 2026</p>
+              <p class="home-video-title">Supervisor<br />Summit<br />2026</p>
+              <p class="home-video-dates">MAY 5–7, 2026</p>
             </div>
           </section>
         </div>
@@ -672,7 +650,6 @@
 
       <section id="agenda-view" class="view hidden" aria-label="Agenda view">
         <section class="panel">
-          <h2 class="page-title-chip">Agenda</h2>
           <div class="agenda-day-tabs" role="tablist" aria-label="Agenda day tabs">
             <button class="agenda-day-tab active" type="button" data-day="day1">Day 1</button>
             <button class="agenda-day-tab" type="button" data-day="day2">Day 2</button>
@@ -684,7 +661,6 @@
 
       <section id="speakers-view" class="view hidden" aria-label="Speakers view">
         <section class="panel">
-          <h2 class="page-title-chip">Speakers</h2>
           <div id="speakers-grid" class="speakers-grid" aria-live="polite"></div>
         </section>
       </section>
@@ -704,7 +680,6 @@
 
       <section id="food-view" class="view hidden" aria-label="Food view">
         <section class="panel">
-          <h2>Food</h2>
           <div id="food-list" class="list" aria-live="polite"></div>
         </section>
       </section>
@@ -837,7 +812,7 @@
         tabs.forEach((tab) => tab.classList.toggle('active', tab.dataset.tab === tabName));
         if (topbarViewTitle) {
           const tabLabel = tabs.find((tab) => tab.dataset.tab === tabName)?.querySelector('.tab-label')?.textContent || tabName;
-          topbarViewTitle.textContent = tabLabel;
+          topbarViewTitle.textContent = `Supervisor Summit 2026 | ${String(tabLabel).toUpperCase()}`;
         }
         syncNavIndicator(tabName);
       }
@@ -858,14 +833,24 @@
       }
 
       function setVideoSource(videoElement, src) {
-        if (!videoElement) return;
-        if (videoElement.dataset.src !== src) {
+        if (!videoElement) return Promise.resolve();
+        if (videoElement.dataset.src === src) {
+          videoElement.currentTime = 0;
+          return Promise.resolve();
+        }
+        return new Promise((resolve) => {
+          const handleReady = () => {
+            videoElement.removeEventListener('loadeddata', handleReady);
+            videoElement.removeEventListener('error', handleReady);
+            resolve();
+          };
+
+          videoElement.addEventListener('loadeddata', handleReady, { once: true });
+          videoElement.addEventListener('error', handleReady, { once: true });
           videoElement.dataset.src = src;
           videoElement.src = src;
           videoElement.load();
-        }
-        videoElement.currentTime = 0;
-        videoElement.play().catch(() => {});
+        });
       }
 
       async function buildHeroPlaylist() {
@@ -881,7 +866,7 @@
         heroVideoPlaylist = available.length > 0 ? available : ['images/background.mp4'];
       }
 
-      function rotateHomeVideo() {
+      async function rotateHomeVideo() {
         if (homeVideoPlayers.length < 2 || heroVideoPlaylist.length === 0) return;
 
         const currentPlayer = homeVideoPlayers[activeHeroVideoPlayer];
@@ -890,7 +875,9 @@
 
         activeHeroVideoIndex = (activeHeroVideoIndex + 1) % heroVideoPlaylist.length;
         const nextClip = heroVideoPlaylist[activeHeroVideoIndex];
-        setVideoSource(nextPlayer, nextClip);
+        await setVideoSource(nextPlayer, nextClip);
+        nextPlayer.currentTime = 0;
+        nextPlayer.play().catch(() => {});
 
         nextPlayer.classList.add('is-active');
         currentPlayer.classList.remove('is-active');
@@ -899,8 +886,10 @@
       async function startHomeVideoRotation() {
         if (homeVideoPlayers.length === 0 || heroVideoPlaylist.length === 0) return;
         await buildHeroPlaylist();
-        setVideoSource(homeVideoPlayers[0], heroVideoPlaylist[0]);
-        if (homeVideoPlayers[1]) setVideoSource(homeVideoPlayers[1], heroVideoPlaylist[1 % heroVideoPlaylist.length]);
+        await setVideoSource(homeVideoPlayers[0], heroVideoPlaylist[0]);
+        homeVideoPlayers[0].currentTime = 0;
+        homeVideoPlayers[0].play().catch(() => {});
+        if (homeVideoPlayers[1]) await setVideoSource(homeVideoPlayers[1], heroVideoPlaylist[1 % heroVideoPlaylist.length]);
         clearInterval(heroVideoSwapTimer);
         if (heroVideoPlaylist.length > 1) {
           heroVideoSwapTimer = window.setInterval(rotateHomeVideo, 9000);
