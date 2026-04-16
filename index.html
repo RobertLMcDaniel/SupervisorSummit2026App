@@ -82,11 +82,20 @@
       .app-brand-line {
         margin: 0;
         color: var(--accent);
-        font-size: clamp(1.05rem, 4.6vw, 1.34rem);
+        font-size: clamp(0.82rem, 3.45vw, 1.06rem);
         font-weight: 800;
-        letter-spacing: 0.03em;
+        letter-spacing: 0.01em;
         text-transform: uppercase;
         white-space: nowrap;
+      }
+
+      .topbar-brand,
+      .topbar-sep {
+        color: var(--accent);
+      }
+
+      .topbar-page {
+        color: var(--text-primary);
       }
 
       #home-view {
@@ -601,7 +610,11 @@
   <body>
     <main class="screen">
       <header class="app-topbar" aria-label="App title bar">
-        <h1 id="topbar-view-title" class="app-brand-line">Supervisor Summit 2026 | HOME</h1>
+        <h1 id="topbar-view-title" class="app-brand-line">
+          <span class="topbar-brand">Supervisor Summit 2026</span>
+          <span class="topbar-sep"> | </span>
+          <span id="topbar-page-label" class="topbar-page">HOME</span>
+        </h1>
       </header>
 
       <section id="home-view" class="view" aria-label="Home view">
@@ -766,6 +779,7 @@
       const tabs = Array.from(document.querySelectorAll('.tab-btn'));
       const navIndicator = document.querySelector('.nav-active-indicator');
       const topbarViewTitle = document.getElementById('topbar-view-title');
+      const topbarPageLabel = document.getElementById('topbar-page-label');
       const agendaDayTabs = Array.from(document.querySelectorAll('.agenda-day-tab'));
       const speakersGrid = document.getElementById('speakers-grid');
       const speakerDetailOverlay = document.getElementById('speaker-detail-overlay');
@@ -812,7 +826,11 @@
         tabs.forEach((tab) => tab.classList.toggle('active', tab.dataset.tab === tabName));
         if (topbarViewTitle) {
           const tabLabel = tabs.find((tab) => tab.dataset.tab === tabName)?.querySelector('.tab-label')?.textContent || tabName;
-          topbarViewTitle.textContent = `Supervisor Summit 2026 | ${String(tabLabel).toUpperCase()}`;
+          if (topbarPageLabel) {
+            topbarPageLabel.textContent = String(tabLabel).toUpperCase();
+          } else {
+            topbarViewTitle.textContent = `Supervisor Summit 2026 | ${String(tabLabel).toUpperCase()}`;
+          }
         }
         syncNavIndicator(tabName);
       }
