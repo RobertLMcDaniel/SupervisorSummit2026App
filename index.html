@@ -48,11 +48,11 @@
         margin: 0 auto;
         padding: max(12px, env(safe-area-inset-top)) max(14px, env(safe-area-inset-right)) calc(84px + max(12px, env(safe-area-inset-bottom))) max(14px, env(safe-area-inset-left));
         display: grid;
-        grid-template-rows: auto 1fr;
-        gap: 8px;
+        grid-template-rows: 1fr;
         background-color: var(--bg-primary);
         background-image: none;
         overflow: hidden;
+        position: relative;
       }
 
       .hidden { display: none !important; }
@@ -71,12 +71,17 @@
       }
 
       .app-topbar {
-        width: 100%;
+        position: absolute;
+        left: 50%;
+        top: max(14px, env(safe-area-inset-top));
+        transform: translateX(-50%);
+        width: calc(100% - 20px);
         display: grid;
-        justify-items: start;
+        justify-items: center;
         align-content: center;
-        padding: 8px 10px;
-        margin-bottom: 2px;
+        padding: 6px 10px;
+        z-index: 9;
+        transition: top 0.45s ease, transform 0.45s ease, font-size 0.45s ease, opacity 0.35s ease;
       }
 
       .app-brand-line {
@@ -96,6 +101,21 @@
 
       .topbar-page {
         color: var(--text-primary);
+      }
+
+      .app-topbar.home-mode {
+        top: 50%;
+        transform: translate(-50%, -50%);
+      }
+
+      .app-topbar.home-mode .app-brand-line {
+        font-size: clamp(2rem, 9vw, 3.5rem);
+        letter-spacing: 0.02em;
+      }
+
+      .app-topbar.home-mode .topbar-sep,
+      .app-topbar.home-mode .topbar-page {
+        opacity: 0;
       }
 
       #home-view {
@@ -249,6 +269,33 @@
         border: 1px solid rgba(239, 177, 10, 0.3);
         padding: 10px;
       }
+
+      .agenda-item {
+        position: relative;
+        border-radius: 16px;
+        padding: 14px 14px 12px;
+        border: 1px solid rgba(239, 177, 10, 0.35);
+        overflow: hidden;
+      }
+
+      .agenda-item::before,
+      .agenda-item::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        background: var(--bg-primary);
+        transform: translateY(-50%);
+      }
+
+      .agenda-item::before { left: -8px; }
+      .agenda-item::after { right: -8px; }
+
+      .agenda-item--1 { background: linear-gradient(135deg, rgba(239, 177, 10, 0.95) 0%, rgba(40, 69, 97, 0.92) 100%); }
+      .agenda-item--2 { background: linear-gradient(135deg, rgba(40, 69, 97, 0.98) 0%, rgba(239, 177, 10, 0.72) 100%); }
+      .agenda-item--3 { background: linear-gradient(135deg, rgba(239, 177, 10, 0.7) 0%, rgba(40, 69, 97, 0.95) 100%); }
 
       .item h3 {
         margin: 0 0 5px;
@@ -778,6 +825,7 @@
 
       const tabs = Array.from(document.querySelectorAll('.tab-btn'));
       const navIndicator = document.querySelector('.nav-active-indicator');
+      const appTopbar = document.querySelector('.app-topbar');
       const topbarViewTitle = document.getElementById('topbar-view-title');
       const topbarPageLabel = document.getElementById('topbar-page-label');
       const agendaDayTabs = Array.from(document.querySelectorAll('.agenda-day-tab'));
@@ -836,6 +884,7 @@
       }
 
       function showView(viewName) {
+        if (appTopbar) appTopbar.classList.toggle('home-mode', viewName === 'home');
         Object.entries(views).forEach(([name, node]) => {
           const isCurrentView = name === viewName;
           node.classList.toggle('hidden', !isCurrentView);
@@ -941,7 +990,7 @@
 
           sessions.forEach((session) => {
             const card = document.createElement('article');
-            card.className = 'item';
+            card.className = `item agenda-item agenda-item--${(listNode.children.length % 3) + 1}`;
             card.innerHTML = `
               <h3>${session.Day}: ${session.SessionTitle}</h3>
               <p class="meta"><strong>${session.StartTime}–${session.EndTime}</strong> · ${session.Location}</p>
