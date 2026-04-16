@@ -103,22 +103,15 @@
       .topbar-page {
         color: var(--text-primary);
       }
+      .topbar-bolt {
+        margin-left: 6px;
+        color: var(--accent);
+        font-size: 0.95em;
+      }
 
       .app-topbar.home-mode {
-        top: 50%;
-        transform: translateY(-50%);
-        opacity: 1;
-      }
-
-      .app-topbar.home-mode .app-brand-line {
-        font-size: clamp(2.5rem, 11vw, 4.1rem);
-        letter-spacing: 0.02em;
-        text-shadow: 0 10px 18px rgba(27, 46, 64, 0.55);
-      }
-
-      .app-topbar.home-mode .topbar-sep,
-      .app-topbar.home-mode .topbar-page {
         opacity: 0;
+        pointer-events: none;
       }
 
       #home-view {
@@ -153,7 +146,7 @@
         width: 100%;
         height: 100%;
         object-fit: cover;
-        object-position: center;
+        object-position: center 42%;
         display: block;
         opacity: 0;
         transition: opacity 1.25s ease;
@@ -177,39 +170,6 @@
         justify-items: center;
         padding: 2px 10px 10px;
         min-height: 100%;
-      }
-
-      .home-camera-tools {
-        display: grid;
-        justify-items: center;
-        gap: 8px;
-      }
-
-      .camera-btn {
-        border: 0;
-        border-radius: 999px;
-        background: var(--accent);
-        color: var(--bg-primary);
-        padding: 10px 16px;
-        font-weight: 800;
-        cursor: pointer;
-        transition: transform 0.22s ease, filter 0.22s ease;
-      }
-
-      .camera-btn:active {
-        transform: scale(0.97);
-      }
-
-      .camera-btn:hover {
-        filter: brightness(1.05);
-      }
-
-      .camera-preview {
-        width: 88px;
-        height: 88px;
-        border-radius: 14px;
-        object-fit: cover;
-        border: 2px solid var(--accent);
       }
 
       .altamonte-header {
@@ -272,7 +232,14 @@
       }
 
       .home-video-title {
-        display: none;
+        margin: 0;
+        font-size: clamp(1.6rem, 7vw, 2.4rem);
+        line-height: 1.04;
+        letter-spacing: 0.01em;
+        text-transform: uppercase;
+        font-weight: 800;
+        color: var(--accent);
+        text-shadow: 0 8px 16px rgba(27, 46, 64, 0.55);
       }
 
       .home-video-dates {
@@ -744,9 +711,10 @@
         z-index: 50;
         background: var(--bg-primary);
         display: grid;
-        place-items: center;
+        place-items: start center;
         opacity: 1;
         transition: opacity 0.7s ease;
+        padding-top: 22dvh;
       }
 
       .splash-screen.fade-out {
@@ -758,6 +726,7 @@
         width: min(70vw, 330px);
         max-height: 160px;
         object-fit: contain;
+        filter: drop-shadow(0 0 10px rgba(239, 177, 10, 0.75)) drop-shadow(0 0 26px rgba(245, 247, 250, 0.35));
       }
     </style>
   </head>
@@ -770,6 +739,7 @@
       <header class="app-topbar" aria-label="App title bar">
         <h1 id="topbar-view-title" class="app-brand-line">
           <span class="topbar-brand">Supervisor Summit 2026</span>
+          <span class="topbar-bolt" aria-hidden="true">⚡</span>
           <span class="topbar-sep"> | </span>
           <span id="topbar-page-label" class="topbar-page">HOME</span>
         </h1>
@@ -816,11 +786,6 @@
               <p class="home-video-dates">MAY 5–7, 2026</p>
             </div>
           </section>
-          <div class="home-camera-tools">
-            <button id="camera-btn" class="camera-btn" type="button" aria-label="Take picture">📷 Take Photo</button>
-            <input id="camera-input" type="file" accept="image/*" capture="environment" hidden />
-            <img id="camera-preview" class="camera-preview hidden" alt="Captured photo preview" />
-          </div>
         </div>
       </section>
 
@@ -945,9 +910,6 @@
       const splashScreen = document.getElementById('splash-screen');
       const topbarViewTitle = document.getElementById('topbar-view-title');
       const topbarPageLabel = document.getElementById('topbar-page-label');
-      const cameraBtn = document.getElementById('camera-btn');
-      const cameraInput = document.getElementById('camera-input');
-      const cameraPreview = document.getElementById('camera-preview');
       const agendaDayTabs = Array.from(document.querySelectorAll('.agenda-day-tab'));
       const speakersGrid = document.getElementById('speakers-grid');
       const speakerDetailOverlay = document.getElementById('speaker-detail-overlay');
@@ -1017,17 +979,6 @@
         if (['home', 'speakers', 'agenda', 'food'].includes(viewName)) {
           setActiveTab(viewName);
         }
-      }
-
-      function setCameraPreview(dataUrl) {
-        if (!cameraPreview) return;
-        if (!dataUrl) {
-          cameraPreview.classList.add('hidden');
-          cameraPreview.removeAttribute('src');
-          return;
-        }
-        cameraPreview.src = dataUrl;
-        cameraPreview.classList.remove('hidden');
       }
 
       function setVideoSource(videoElement, src) {
@@ -1269,28 +1220,6 @@
       showView('home');
       syncNavIndicator('home');
       startHomeVideoRotation();
-
-      if (cameraBtn && cameraInput) {
-        cameraBtn.addEventListener('click', () => cameraInput.click());
-        cameraInput.addEventListener('change', () => {
-          const file = cameraInput.files && cameraInput.files[0];
-          if (!file) return;
-          const reader = new FileReader();
-          reader.onload = () => {
-            const result = String(reader.result || '');
-            setCameraPreview(result);
-            try {
-              localStorage.setItem('summit_camera_photo', result);
-            } catch {}
-          };
-          reader.readAsDataURL(file);
-        });
-      }
-
-      try {
-        const savedPhoto = localStorage.getItem('summit_camera_photo');
-        if (savedPhoto) setCameraPreview(savedPhoto);
-      } catch {}
 
       if (splashScreen) {
         window.setTimeout(() => {
