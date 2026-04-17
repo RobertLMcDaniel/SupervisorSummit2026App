@@ -110,9 +110,13 @@
       }
 
       .app-topbar.home-mode .app-brand-line {
-        font-size: clamp(2.8rem, 11.5vw, 4.4rem);
+        font-size: clamp(2.2rem, 9.4vw, 3.6rem);
         letter-spacing: 0.02em;
         text-shadow: 0 10px 18px rgba(27, 46, 64, 0.55);
+        white-space: normal;
+        text-align: center;
+        line-height: 1.03;
+        max-width: min(88vw, 420px);
       }
 
       .app-topbar.home-mode .topbar-sep,
@@ -329,6 +333,7 @@
         box-shadow: 0 14px 28px rgba(27, 46, 64, 0.35);
         overflow-y: auto;
         scrollbar-width: none;
+        transform-origin: top center;
       }
       .food-card::-webkit-scrollbar { width: 0; height: 0; }
       .food-card h3 {
@@ -1119,10 +1124,10 @@
         const total = cards.length || 1;
         cards.forEach((card, index) => {
           const rel = (index - activeFoodDeckIndex + total) % total;
-          const translateY = rel === 0 ? 26 : rel === 1 ? 10 : 0;
-          const rotate = rel === 0 ? 0 : rel === 1 ? -2 : 2;
-          const scale = rel === 0 ? 1 : rel === 1 ? 0.97 : 0.94;
-          const opacity = rel === 0 ? 1 : 0.95;
+          const translateY = rel === 0 ? 26 : rel === 1 ? 14 : 4;
+          const rotate = rel === 0 ? 0 : rel === 1 ? -1.2 : 1.2;
+          const scale = rel === 0 ? 1 : rel === 1 ? 0.985 : 0.97;
+          const opacity = rel === 0 ? 1 : 0.98;
           card.style.transform = `translateY(${translateY}px) rotate(${rotate}deg) scale(${scale})`;
           card.style.opacity = `${opacity}`;
           card.style.zIndex = String(50 - rel);
