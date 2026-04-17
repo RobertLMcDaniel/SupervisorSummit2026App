@@ -100,6 +100,12 @@
         color: var(--accent);
       }
 
+      .topbar-brand.home-lines {
+        display: inline-block;
+        line-height: 0.98;
+        text-align: center;
+      }
+
       .topbar-page {
         color: var(--text-primary);
       }
@@ -246,7 +252,7 @@
       }
 
       .home-video-dates {
-        margin: 14px 0 0;
+        margin: 20px 0 0;
         font-size: clamp(1.2rem, 5.2vw, 2rem);
         font-weight: 700;
         color: var(--accent);
@@ -940,6 +946,7 @@
       const appTopbar = document.querySelector('.app-topbar');
       const splashScreen = document.getElementById('splash-screen');
       const topbarViewTitle = document.getElementById('topbar-view-title');
+      const topbarBrand = document.querySelector('.topbar-brand');
       const topbarPageLabel = document.getElementById('topbar-page-label');
       const agendaDayTabs = Array.from(document.querySelectorAll('.agenda-day-tab'));
       const speakersGrid = document.getElementById('speakers-grid');
@@ -970,6 +977,7 @@
       const agendaDataCache = {};
       let foodDeckBuilt = false;
       let activeFoodDeckIndex = 0;
+      let foodDeckIsAnimating = false;
       let activeHeroVideoPlayer = 0;
       let activeHeroVideoIndex = 0;
       let heroVideoSwapTimer;
@@ -1001,6 +1009,15 @@
 
       function showView(viewName) {
         if (appTopbar) appTopbar.classList.toggle('home-mode', viewName === 'home');
+        if (topbarBrand) {
+          if (viewName === 'home') {
+            topbarBrand.classList.add('home-lines');
+            topbarBrand.innerHTML = 'Supervisor<br />Summit 2026';
+          } else {
+            topbarBrand.classList.remove('home-lines');
+            topbarBrand.textContent = 'Supervisor Summit 2026';
+          }
+        }
         Object.entries(views).forEach(([name, node]) => {
           const isCurrentView = name === viewName;
           node.classList.toggle('hidden', !isCurrentView);
@@ -1136,10 +1153,31 @@
       }
 
       function moveFoodDeck(direction) {
-        if (!foodDeckBuilt) return;
+        if (!foodDeckBuilt || foodDeckIsAnimating || !foodDeck) return;
+        const cards = Array.from(foodDeck.querySelectorAll('.food-card'));
+        if (!cards[activeFoodDeckIndex]) return;
+        const activeCard = cards[activeFoodDeckIndex];
+        foodDeckIsAnimating = true;
+
+        const swipeX = direction > 0 ? -130 : 130;
+        const rotate = direction > 0 ? -12 : 12;
+        activeCard.style.zIndex = '99';
+        activeCard.style.transition = 'transform 0.42s cubic-bezier(0.25, 0.9, 0.32, 1), opacity 0.42s ease';
+        activeCard.style.transform = `translateX(${swipeX}%) rotate(${rotate}deg) scale(1.03)`;
+        activeCard.style.opacity = '0';
+
         const total = 3;
-        activeFoodDeckIndex = (activeFoodDeckIndex + direction + total) % total;
-        positionFoodDeckCards();
+        window.setTimeout(() => {
+          activeCard.style.transition = 'none';
+          activeCard.style.transform = '';
+          activeCard.style.opacity = '1';
+          activeFoodDeckIndex = (activeFoodDeckIndex + direction + total) % total;
+          positionFoodDeckCards();
+          requestAnimationFrame(() => {
+            activeCard.style.transition = '';
+            foodDeckIsAnimating = false;
+          });
+        }, 430);
       }
 
       function wireFoodDeckGestures() {
