@@ -110,18 +110,18 @@
         color: var(--text-primary);
       }
       .app-topbar.home-mode {
-        top: 50%;
+        top: 48%;
         transform: translateY(-50%);
         opacity: 1;
+        pointer-events: none;
       }
 
       .app-topbar.home-mode .app-brand-line {
-        font-size: clamp(2.2rem, 9.4vw, 3.6rem);
-        letter-spacing: 0.02em;
+        font-size: clamp(2.1rem, 8.8vw, 3.25rem);
         text-shadow: 0 10px 18px rgba(27, 46, 64, 0.55);
         white-space: normal;
         text-align: center;
-        line-height: 1.03;
+        line-height: 1.02;
         max-width: min(88vw, 420px);
       }
 
@@ -241,7 +241,7 @@
         position: absolute;
         left: 16px;
         right: 16px;
-        top: 50%;
+        top: 52%;
         transform: translateY(-50%);
         z-index: 2;
         text-align: center;
@@ -311,6 +311,8 @@
       .agenda-item--4 { background: linear-gradient(135deg, #FFD36E 0%, #FFA45B 100%); }
       .agenda-item--5 { background: linear-gradient(135deg, #7CE0FF 0%, #64B5F6 100%); }
       .agenda-item--6 { background: linear-gradient(135deg, #F8A6FF 0%, #C796FF 100%); }
+      .agenda-item.slide-in-left { animation: slide-in-left 0.48s ease both; }
+      .agenda-item.slide-in-right { animation: slide-in-right 0.48s ease both; }
 
       .agenda-panel {
         padding: 0;
@@ -401,6 +403,22 @@
         margin-bottom: 16px;
       }
 
+      .agenda-day-tabs .agenda-day-tab:nth-child(odd) {
+        animation: slide-in-left 0.46s ease both;
+      }
+      .agenda-day-tabs .agenda-day-tab:nth-child(even) {
+        animation: slide-in-right 0.46s ease both;
+      }
+
+      @keyframes slide-in-left {
+        from { opacity: 0; transform: translateX(-18px); }
+        to { opacity: 1; transform: translateX(0); }
+      }
+      @keyframes slide-in-right {
+        from { opacity: 0; transform: translateX(18px); }
+        to { opacity: 1; transform: translateX(0); }
+      }
+
       .agenda-day-tab {
         min-height: 42px;
         border: 0;
@@ -424,8 +442,8 @@
 
       .speakers-grid {
         display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 14px 10px;
+        grid-template-columns: 1fr;
+        gap: 10px;
         margin-top: 4px;
         max-height: 68dvh;
         overflow-y: auto;
@@ -439,18 +457,26 @@
       .speaker-tile {
         border: 0;
         border-radius: 18px;
-        padding: 4px 4px 8px;
+        padding: 10px;
         background: rgba(40, 69, 97, 0.65);
         box-shadow: 0 8px 20px rgba(27, 46, 64, 0.35);
-        text-align: center;
+        text-align: left;
         cursor: pointer;
         display: grid;
-        justify-items: center;
-        gap: 8px;
+        grid-template-columns: 68px 1fr;
+        align-items: center;
+        gap: 10px;
       }
 
+      .speaker-tile--1 { background: linear-gradient(135deg, #FF8FB1 0%, #FFB38A 100%); }
+      .speaker-tile--2 { background: linear-gradient(135deg, #9B8BFF 0%, #5FA8FF 100%); }
+      .speaker-tile--3 { background: linear-gradient(135deg, #74F2CE 0%, #4DD4A9 100%); }
+      .speaker-tile--4 { background: linear-gradient(135deg, #FFD36E 0%, #FFA45B 100%); }
+      .speaker-tile--5 { background: linear-gradient(135deg, #7CE0FF 0%, #64B5F6 100%); }
+      .speaker-tile--6 { background: linear-gradient(135deg, #F8A6FF 0%, #C796FF 100%); }
+
       .speaker-tile-image-wrap {
-        width: min(100%, 160px);
+        width: 62px;
         aspect-ratio: 1 / 1;
         background: var(--text-primary);
         border-radius: 50%;
@@ -480,18 +506,18 @@
 
       .speaker-tile-name {
         margin: 0;
-        padding: 8px 10px;
-        font-size: 0.88rem;
+        padding: 0;
+        font-size: 0.96rem;
         color: var(--text-primary);
         font-weight: 800;
-        line-height: 1.25;
-        background: rgba(40, 69, 97, 0.95);
-        border: 1px solid rgba(239, 177, 10, 0.4);
-        border-radius: 999px;
-        width: calc(100% - 10px);
-        min-height: 38px;
-        display: grid;
-        place-items: center;
+        line-height: 1.18;
+      }
+
+      .speaker-tile-role {
+        margin: 4px 0 0;
+        color: var(--text-primary);
+        font-size: 0.8rem;
+        line-height: 1.2;
       }
 
       .speaker-overlay {
@@ -1123,7 +1149,9 @@
 
           sessions.forEach((session) => {
             const card = document.createElement('article');
-            card.className = `item agenda-item agenda-item--${(listNode.children.length % 6) + 1}`;
+            const index = listNode.children.length;
+            card.className = `item agenda-item agenda-item--${(index % 6) + 1} ${index % 2 === 0 ? 'slide-in-left' : 'slide-in-right'}`;
+            card.style.animationDelay = `${Math.min(index * 0.04, 0.22)}s`;
             card.innerHTML = `
               <h3>${session.Day}: ${session.SessionTitle}</h3>
               <p class="meta"><strong>${session.StartTime}–${session.EndTime}</strong> · ${session.Location}</p>
@@ -1159,11 +1187,10 @@
         const activeCard = cards[activeFoodDeckIndex];
         foodDeckIsAnimating = true;
 
-        const swipeX = direction > 0 ? -130 : 130;
-        const rotate = direction > 0 ? -12 : 12;
+        const swipeY = direction > 0 ? -130 : 130;
         activeCard.style.zIndex = '99';
         activeCard.style.transition = 'transform 0.42s cubic-bezier(0.25, 0.9, 0.32, 1), opacity 0.42s ease';
-        activeCard.style.transform = `translateX(${swipeX}%) rotate(${rotate}deg) scale(1.03)`;
+        activeCard.style.transform = `translateY(${swipeY}%) scale(1.05)`;
         activeCard.style.opacity = '0';
 
         const total = 3;
@@ -1287,7 +1314,8 @@
           sorted.forEach((speaker) => {
             const photoPath = resolveSpeakerPhotoPath(speaker.Photo);
             const tile = document.createElement('button');
-            tile.className = 'speaker-tile';
+            const tileIndex = speakersGrid.children.length;
+            tile.className = `speaker-tile speaker-tile--${(tileIndex % 6) + 1}`;
             tile.type = 'button';
 
             const imageWrap = document.createElement('div');
@@ -1312,8 +1340,15 @@
             name.className = 'speaker-tile-name';
             name.textContent = speaker.DisplayName;
 
+            const role = document.createElement('p');
+            role.className = 'speaker-tile-role';
+            role.textContent = speaker.Title || '';
+
+            const info = document.createElement('div');
+            info.append(name, role);
+
             imageWrap.append(image, fallback);
-            tile.append(imageWrap, name);
+            tile.append(imageWrap, info);
             tile.addEventListener('click', () => openSpeakerDetail(speaker, photoPath));
             speakersGrid.append(tile);
           });
