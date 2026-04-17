@@ -454,17 +454,28 @@
 
       .speaker-tile {
         border: 0;
-        border-radius: 18px;
-        padding: 10px;
+        border-radius: 22px 22px 14px 14px;
+        padding: 12px 12px 12px 10px;
         background: rgba(40, 69, 97, 0.65);
         box-shadow: 0 8px 20px rgba(27, 46, 64, 0.35);
         text-align: left;
         cursor: pointer;
         display: grid;
-        grid-template-columns: 96px 1fr;
+        grid-template-columns: 110px 1fr;
         align-items: center;
-        gap: 10px;
-        min-height: 112px;
+        gap: 12px;
+        min-height: 128px;
+        overflow: hidden;
+        position: relative;
+      }
+
+      .speaker-tile::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+        border: 1px solid rgba(245, 247, 250, 0.22);
+        pointer-events: none;
       }
 
       .speaker-tile--1 { background: linear-gradient(135deg, #FF8FB1 0%, #FFB38A 100%); }
@@ -475,12 +486,14 @@
       .speaker-tile--6 { background: linear-gradient(135deg, #F8A6FF 0%, #C796FF 100%); }
 
       .speaker-tile-image-wrap {
-        width: 78px;
+        width: 96px;
         aspect-ratio: 1 / 1;
         background: var(--text-primary);
         border-radius: 50%;
         overflow: hidden;
-        margin-left: 6px;
+        margin-left: 2px;
+        border: 3px solid rgba(27, 46, 64, 0.45);
+        transform: translateY(-4px);
       }
 
       .speaker-tile-image,
@@ -507,7 +520,7 @@
       .speaker-tile-name {
         margin: 0;
         padding: 0 0 0 4px;
-        font-size: 1.22rem;
+        font-size: 1.3rem;
         color: var(--text-primary);
         font-weight: 800;
         line-height: 1.18;
@@ -517,9 +530,12 @@
         margin: 4px 0 0;
         padding-left: 4px;
         color: var(--text-primary);
-        font-size: 0.96rem;
+        font-size: 0.98rem;
         line-height: 1.2;
       }
+
+      .speaker-tile.slide-in-left { animation: slide-in-left 0.5s ease both; }
+      .speaker-tile.slide-in-right { animation: slide-in-right 0.5s ease both; }
 
       .speaker-overlay {
         position: fixed;
@@ -542,7 +558,6 @@
         min-height: 100dvh;
         margin: 0 auto;
         overflow-y: auto;
-        border-radius: 20px 20px 0 0;
         background-color: var(--bg-surface);
         color: var(--text-primary);
         box-shadow: 0 18px 40px rgba(27, 46, 64, 0.45);
@@ -551,6 +566,7 @@
         transform: translateY(14px) scale(0.985);
         opacity: 0;
         transition: opacity 0.34s ease, transform 0.34s cubic-bezier(0.2, 0.8, 0.2, 1);
+        border-radius: 24px 24px 0 0;
       }
 
       .speaker-detail-card::before {
@@ -568,17 +584,17 @@
         left: 0;
         right: 0;
         top: 0;
-        height: 190px;
+        height: 214px;
         background: linear-gradient(180deg, rgba(27, 46, 64, 0.08) 0%, rgba(27, 46, 64, 0.52) 70%, rgba(27, 46, 64, 0) 100%);
         z-index: 1;
         pointer-events: none;
       }
 
-      .speaker-backdrop-1 { background-image: url('images/backdrop1.png'); background-size: cover; background-position: center; }
-      .speaker-backdrop-2 { background-image: url('images/backdrop2.png'); background-size: cover; background-position: center; }
-      .speaker-backdrop-3 { background-image: url('images/backdrop3.png'); background-size: cover; background-position: center; }
-      .speaker-backdrop-4 { background-image: url('images/backdrop4.png'); background-size: cover; background-position: center; }
-      .speaker-backdrop-5 { background-image: url('images/backdrop5.png'); background-size: cover; background-position: center; }
+      .speaker-backdrop-1 { background-image: url('images/backdrop1.jpg'); background-size: cover; background-position: center; }
+      .speaker-backdrop-2 { background-image: url('images/backdrop2.jpg'); background-size: cover; background-position: center; }
+      .speaker-backdrop-3 { background-image: url('images/backdrop3.jpg'); background-size: cover; background-position: center; }
+      .speaker-backdrop-4 { background-image: url('images/backdrop4.jpg'); background-size: cover; background-position: center; }
+      .speaker-backdrop-5 { background-image: url('images/backdrop5.jpg'); background-size: cover; background-position: center; }
 
       .speaker-overlay.open .speaker-detail-card {
         transform: translateY(0);
@@ -602,14 +618,14 @@
       }
 
       .speaker-detail-image-wrap {
-        width: 112px;
+        width: 122px;
         aspect-ratio: 1 / 1;
         border-radius: 50%;
         overflow: hidden;
         background: var(--text-primary);
         position: absolute;
-        left: 16px;
-        top: calc(26px + env(safe-area-inset-top));
+        left: 14px;
+        top: calc(20px + env(safe-area-inset-top));
         border: 4px solid var(--bg-primary);
         z-index: 2;
         opacity: 0;
@@ -626,9 +642,9 @@
       .speaker-detail-image { object-fit: cover; display: block; }
 
       .speaker-detail-name {
-        margin: calc(156px + env(safe-area-inset-top)) 0 0;
+        margin: calc(44px + env(safe-area-inset-top)) 0 0 134px;
         text-align: left;
-        font-size: 1.34rem;
+        font-size: 1.42rem;
         font-weight: 800;
         color: var(--text-primary);
         position: relative;
@@ -639,7 +655,7 @@
       }
 
       .speaker-detail-role {
-        margin: 6px 0 0;
+        margin: 6px 0 0 134px;
         text-align: left;
         color: var(--text-primary);
         font-weight: 800;
@@ -652,7 +668,7 @@
       }
 
       .speaker-detail-org {
-        margin: 4px 0 0;
+        margin: 4px 0 0 134px;
         text-align: left;
         color: var(--text-primary);
         font-size: 0.95rem;
@@ -664,7 +680,7 @@
       }
 
       .speaker-detail-bio {
-        margin: 12px 0 0;
+        margin: 26px 0 0;
         line-height: 1.58;
         color: var(--text-primary);
         position: relative;
@@ -1096,6 +1112,8 @@
         if (['home', 'speakers', 'agenda', 'food'].includes(viewName)) {
           setActiveTab(viewName);
         }
+        if (viewName === 'speakers') animateSpeakerTiles();
+        if (viewName === 'food') animateFoodCards();
       }
 
       function setVideoSource(videoElement, src) {
@@ -1245,6 +1263,34 @@
             foodDeckIsAnimating = false;
           });
         }, 430);
+      }
+
+      function animateFoodCards() {
+        if (!foodDeck) return;
+        const cards = Array.from(foodDeck.querySelectorAll('.food-card'));
+        cards.forEach((card, index) => {
+          card.classList.remove('slide-in-left', 'slide-in-right');
+          card.style.animation = 'none';
+          void card.offsetWidth;
+          card.style.animation = '';
+          const isLeft = index % 2 === 0;
+          card.classList.add(isLeft ? 'slide-in-left' : 'slide-in-right');
+          card.style.animationDelay = `${Math.min(index * 0.06, 0.2)}s`;
+        });
+      }
+
+      function animateSpeakerTiles() {
+        if (!speakersGrid) return;
+        const tiles = Array.from(speakersGrid.querySelectorAll('.speaker-tile'));
+        tiles.forEach((tile, index) => {
+          tile.classList.remove('slide-in-left', 'slide-in-right');
+          tile.style.animation = 'none';
+          void tile.offsetWidth;
+          tile.style.animation = '';
+          const isLeft = index % 2 === 0;
+          tile.classList.add(isLeft ? 'slide-in-left' : 'slide-in-right');
+          tile.style.animationDelay = `${Math.min(index * 0.04, 0.24)}s`;
+        });
       }
 
       function wireFoodDeckGestures() {
@@ -1400,6 +1446,7 @@
           });
 
           speakersLoaded = true;
+          animateSpeakerTiles();
         } catch {
           setErrorState(speakersGrid, 'Unable to load speakers right now. Please refresh.');
         }
