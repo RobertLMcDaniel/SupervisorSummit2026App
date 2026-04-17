@@ -110,19 +110,12 @@
         color: var(--text-primary);
       }
       .app-topbar.home-mode {
-        top: 48%;
-        transform: translateY(-50%);
-        opacity: 1;
+        opacity: 0;
         pointer-events: none;
       }
 
       .app-topbar.home-mode .app-brand-line {
-        font-size: clamp(2.1rem, 8.8vw, 3.25rem);
-        text-shadow: 0 10px 18px rgba(27, 46, 64, 0.55);
-        white-space: normal;
-        text-align: center;
-        line-height: 1.02;
-        max-width: min(88vw, 420px);
+        font-size: clamp(0.95rem, 3.9vw, 1.22rem);
       }
 
       .app-topbar.home-mode .topbar-sep,
@@ -144,8 +137,8 @@
         width: 100%;
         max-width: 100%;
         margin: 0 auto;
-        height: 100%;
-        min-height: calc(100dvh - 228px);
+        height: calc(100dvh - 146px);
+        min-height: calc(100dvh - 146px);
         border-radius: 20px;
         overflow: hidden;
         box-shadow: 0 16px 26px rgba(27, 46, 64, 0.35);
@@ -248,11 +241,17 @@
       }
 
       .home-video-title {
-        display: none;
+        margin: 0;
+        font-size: clamp(2.1rem, 8.2vw, 3.2rem);
+        line-height: 1.02;
+        text-transform: uppercase;
+        font-weight: 800;
+        color: var(--accent);
+        text-shadow: 0 8px 16px rgba(27, 46, 64, 0.55);
       }
 
       .home-video-dates {
-        margin: 20px 0 0;
+        margin: 14px 0 0;
         font-size: clamp(1.2rem, 5.2vw, 2rem);
         font-weight: 700;
         color: var(--accent);
@@ -466,6 +465,7 @@
         grid-template-columns: 68px 1fr;
         align-items: center;
         gap: 10px;
+        min-height: 112px;
       }
 
       .speaker-tile--1 { background: linear-gradient(135deg, #FF8FB1 0%, #FFB38A 100%); }
@@ -476,7 +476,7 @@
       .speaker-tile--6 { background: linear-gradient(135deg, #F8A6FF 0%, #C796FF 100%); }
 
       .speaker-tile-image-wrap {
-        width: 62px;
+        width: 84px;
         aspect-ratio: 1 / 1;
         background: var(--text-primary);
         border-radius: 50%;
@@ -507,7 +507,7 @@
       .speaker-tile-name {
         margin: 0;
         padding: 0;
-        font-size: 0.96rem;
+        font-size: 1.08rem;
         color: var(--text-primary);
         font-weight: 800;
         line-height: 1.18;
@@ -1180,14 +1180,14 @@
         });
       }
 
-      function moveFoodDeck(direction) {
+      function moveFoodDeck() {
         if (!foodDeckBuilt || foodDeckIsAnimating || !foodDeck) return;
         const cards = Array.from(foodDeck.querySelectorAll('.food-card'));
         if (!cards[activeFoodDeckIndex]) return;
         const activeCard = cards[activeFoodDeckIndex];
         foodDeckIsAnimating = true;
 
-        const swipeY = direction > 0 ? -130 : 130;
+        const swipeY = -130;
         activeCard.style.zIndex = '99';
         activeCard.style.transition = 'transform 0.42s cubic-bezier(0.25, 0.9, 0.32, 1), opacity 0.42s ease';
         activeCard.style.transform = `translateY(${swipeY}%) scale(1.05)`;
@@ -1198,7 +1198,7 @@
           activeCard.style.transition = 'none';
           activeCard.style.transform = '';
           activeCard.style.opacity = '1';
-          activeFoodDeckIndex = (activeFoodDeckIndex + direction + total) % total;
+          activeFoodDeckIndex = (activeFoodDeckIndex + 1) % total;
           positionFoodDeckCards();
           requestAnimationFrame(() => {
             activeCard.style.transition = '';
@@ -1216,8 +1216,7 @@
         foodDeck.addEventListener('touchend', (event) => {
           const delta = event.changedTouches[0].clientY - touchStartY;
           if (Math.abs(delta) < 40) return;
-          if (delta < 0) moveFoodDeck(1);
-          if (delta > 0) moveFoodDeck(-1);
+          moveFoodDeck();
         }, { passive: true });
         foodDeck.dataset.gesturesWired = 'true';
       }
