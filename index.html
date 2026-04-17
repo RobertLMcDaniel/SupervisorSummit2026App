@@ -1023,9 +1023,13 @@
       function setActiveTab(tabName) {
         tabs.forEach((tab) => tab.classList.toggle('active', tab.dataset.tab === tabName));
         if (topbarViewTitle) {
-          topbarViewTitle.classList.remove('title-fade-down');
-          void topbarViewTitle.offsetWidth;
-          topbarViewTitle.classList.add('title-fade-down');
+          if (tabName !== 'home') {
+            topbarViewTitle.classList.remove('title-fade-down');
+            void topbarViewTitle.offsetWidth;
+            topbarViewTitle.classList.add('title-fade-down');
+          } else {
+            topbarViewTitle.classList.remove('title-fade-down');
+          }
           const tabLabel = tabs.find((tab) => tab.dataset.tab === tabName)?.querySelector('.tab-label')?.textContent || tabName;
           if (topbarPageLabel) {
             topbarPageLabel.textContent = String(tabLabel).toUpperCase();
@@ -1230,7 +1234,8 @@
 
           allDays.forEach((entries, index) => {
             const card = document.createElement('article');
-            card.className = `food-card agenda-item--${(index % 6) + 1}`;
+            card.className = `food-card agenda-item--${(index % 6) + 1} ${index % 2 === 0 ? 'slide-in-left' : 'slide-in-right'}`;
+            card.style.animationDelay = `${index * 0.05}s`;
             card.innerHTML = `<h3>Day ${index + 1}</h3>`;
 
             entries.forEach((entry) => {
@@ -1308,7 +1313,8 @@
             const photoPath = resolveSpeakerPhotoPath(speaker.Photo);
             const tile = document.createElement('button');
             const tileIndex = speakersGrid.children.length;
-            tile.className = `speaker-tile speaker-tile--${(tileIndex % 6) + 1}`;
+            tile.className = `speaker-tile speaker-tile--${(tileIndex % 6) + 1} ${tileIndex % 2 === 0 ? 'slide-in-left' : 'slide-in-right'}`;
+            tile.style.animationDelay = `${Math.min(tileIndex * 0.04, 0.24)}s`;
             tile.type = 'button';
 
             const imageWrap = document.createElement('div');
