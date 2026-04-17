@@ -542,17 +542,31 @@
         min-height: 100dvh;
         margin: 0 auto;
         overflow-y: auto;
-        border-radius: 0;
+        border-radius: 20px 20px 0 0;
         background-color: var(--bg-surface);
-        background-image: linear-gradient(180deg, rgba(40, 69, 97, 0.95) 0%, rgba(27, 46, 64, 0.96) 100%);
         color: var(--text-primary);
         box-shadow: 0 18px 40px rgba(27, 46, 64, 0.45);
-        padding: calc(18px + env(safe-area-inset-top)) 16px calc(20px + env(safe-area-inset-bottom));
+        padding: calc(20px + env(safe-area-inset-top)) 16px calc(20px + env(safe-area-inset-bottom));
         position: relative;
         transform: translateY(12px);
         opacity: 0;
         transition: opacity 0.28s ease, transform 0.28s ease;
       }
+
+      .speaker-detail-card::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(180deg, rgba(27, 46, 64, 0.3) 0%, rgba(27, 46, 64, 0.82) 65%);
+        pointer-events: none;
+        z-index: 0;
+      }
+
+      .speaker-backdrop-1 { background-image: url('images/backdrop1.png'); background-size: cover; background-position: center; }
+      .speaker-backdrop-2 { background-image: url('images/backdrop2.png'); background-size: cover; background-position: center; }
+      .speaker-backdrop-3 { background-image: url('images/backdrop3.png'); background-size: cover; background-position: center; }
+      .speaker-backdrop-4 { background-image: url('images/backdrop4.png'); background-size: cover; background-position: center; }
+      .speaker-backdrop-5 { background-image: url('images/backdrop5.png'); background-size: cover; background-position: center; }
 
       .speaker-overlay.open .speaker-detail-card {
         transform: translateY(0);
@@ -562,7 +576,7 @@
       .speaker-close {
         position: absolute;
         top: calc(10px + env(safe-area-inset-top));
-        left: 12px;
+        right: 12px;
         width: 34px;
         height: 34px;
         border-radius: 50%;
@@ -572,18 +586,23 @@
         font-size: 1.1rem;
         font-weight: 800;
         cursor: pointer;
+        z-index: 3;
       }
 
       .speaker-detail-image-wrap {
-        width: min(100%, 320px);
+        width: 120px;
         aspect-ratio: 1 / 1;
-        border-radius: 50%;
+        border-radius: 14px;
         overflow: hidden;
         background: var(--text-primary);
-        margin: calc(40px + env(safe-area-inset-top)) auto 16px;
+        position: absolute;
+        left: 16px;
+        top: calc(26px + env(safe-area-inset-top));
+        border: 4px solid var(--bg-primary);
+        z-index: 2;
         opacity: 0;
-        transform: translateY(8px);
-        transition: opacity 0.22s ease, transform 0.22s ease;
+        transform: translateY(8px) scale(0.94);
+        transition: opacity 0.26s ease, transform 0.26s ease;
       }
 
       .speaker-detail-image,
@@ -595,11 +614,13 @@
       .speaker-detail-image { object-fit: cover; display: block; }
 
       .speaker-detail-name {
-        margin: 0;
-        text-align: center;
+        margin: calc(162px + env(safe-area-inset-top)) 0 0;
+        text-align: left;
         font-size: 1.2rem;
         font-weight: 800;
         color: var(--text-primary);
+        position: relative;
+        z-index: 2;
         opacity: 0;
         transform: translateY(8px);
         transition: opacity 0.22s ease, transform 0.22s ease;
@@ -607,9 +628,11 @@
 
       .speaker-detail-role {
         margin: 6px 0 0;
-        text-align: center;
+        text-align: left;
         color: var(--text-primary);
         font-weight: 700;
+        position: relative;
+        z-index: 2;
         opacity: 0;
         transform: translateY(8px);
         transition: opacity 0.22s ease, transform 0.22s ease;
@@ -617,8 +640,10 @@
 
       .speaker-detail-org {
         margin: 4px 0 0;
-        text-align: center;
+        text-align: left;
         color: var(--text-primary);
+        position: relative;
+        z-index: 2;
         opacity: 0;
         transform: translateY(8px);
         transition: opacity 0.22s ease, transform 0.22s ease;
@@ -628,6 +653,8 @@
         margin: 12px 0 0;
         line-height: 1.55;
         color: var(--text-primary);
+        position: relative;
+        z-index: 2;
         opacity: 0;
         transform: translateY(8px);
         transition: opacity 0.22s ease, transform 0.22s ease;
@@ -978,6 +1005,7 @@
       const speakersGrid = document.getElementById('speakers-grid');
       const foodDeck = document.getElementById('food-deck');
       const speakerDetailOverlay = document.getElementById('speaker-detail-overlay');
+      const speakerDetailCard = document.querySelector('.speaker-detail-card');
       const speakerDetailClose = document.getElementById('speaker-detail-close');
       const speakerDetailImage = document.getElementById('speaker-detail-image');
       const speakerDetailFallback = document.getElementById('speaker-detail-fallback');
@@ -1271,6 +1299,11 @@
       function openSpeakerDetail(speaker, photoPath) {
         speakerDetailOverlay.classList.remove('closing');
         speakerDetailOverlay.classList.remove('hidden');
+        if (speakerDetailCard) {
+          speakerDetailCard.classList.remove('speaker-backdrop-1', 'speaker-backdrop-2', 'speaker-backdrop-3', 'speaker-backdrop-4', 'speaker-backdrop-5');
+          const backdropIndex = ((Number(speaker.SortOrder) || 1) % 5) + 1;
+          speakerDetailCard.classList.add(`speaker-backdrop-${backdropIndex}`);
+        }
 
         speakerDetailImage.src = photoPath;
         speakerDetailImage.alt = `${speaker.DisplayName} portrait`;
