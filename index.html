@@ -84,6 +84,10 @@
         z-index: 12;
         transition: top 0.62s cubic-bezier(0.22, 0.74, 0.2, 1), transform 0.62s cubic-bezier(0.22, 0.74, 0.2, 1), font-size 0.62s cubic-bezier(0.22, 0.74, 0.2, 1), opacity 0.42s ease;
       }
+      .app-topbar.hidden-on-home {
+        opacity: 0;
+        pointer-events: none;
+      }
 
       .app-brand-line {
         margin: 0;
@@ -109,18 +113,13 @@
       .topbar-page {
         color: var(--text-primary);
       }
-      .app-topbar.home-mode {
-        opacity: 0;
-        pointer-events: none;
+      .title-fade-down {
+        animation: title-fade-down 0.5s ease both;
       }
 
-      .app-topbar.home-mode .app-brand-line {
-        font-size: clamp(0.95rem, 3.9vw, 1.22rem);
-      }
-
-      .app-topbar.home-mode .topbar-sep,
-      .app-topbar.home-mode .topbar-page {
-        opacity: 0;
+      @keyframes title-fade-down {
+        from { opacity: 0; transform: translateY(-14px); }
+        to { opacity: 1; transform: translateY(0); }
       }
 
       #home-view {
@@ -137,8 +136,8 @@
         width: 100%;
         max-width: 100%;
         margin: 0 auto;
-        height: calc(100dvh - 146px);
-        min-height: calc(100dvh - 146px);
+        height: calc(100dvh - 160px);
+        min-height: calc(100dvh - 160px);
         border-radius: 20px;
         overflow: hidden;
         box-shadow: 0 16px 26px rgba(27, 46, 64, 0.35);
@@ -234,7 +233,7 @@
         position: absolute;
         left: 16px;
         right: 16px;
-        top: 52%;
+        top: 48%;
         transform: translateY(-50%);
         z-index: 2;
         text-align: center;
@@ -242,7 +241,7 @@
 
       .home-video-title {
         margin: 0;
-        font-size: clamp(2.1rem, 8.2vw, 3.2rem);
+        font-size: clamp(2.3rem, 9vw, 3.5rem);
         line-height: 1.02;
         text-transform: uppercase;
         font-weight: 800;
@@ -251,8 +250,8 @@
       }
 
       .home-video-dates {
-        margin: 14px 0 0;
-        font-size: clamp(1.2rem, 5.2vw, 2rem);
+        margin: 12px 0 0;
+        font-size: clamp(1.28rem, 5.6vw, 2.2rem);
         font-weight: 700;
         color: var(--accent);
         text-shadow: 0 8px 16px rgba(27, 46, 64, 0.55);
@@ -462,7 +461,7 @@
         text-align: left;
         cursor: pointer;
         display: grid;
-        grid-template-columns: 68px 1fr;
+        grid-template-columns: 96px 1fr;
         align-items: center;
         gap: 10px;
         min-height: 112px;
@@ -476,11 +475,12 @@
       .speaker-tile--6 { background: linear-gradient(135deg, #F8A6FF 0%, #C796FF 100%); }
 
       .speaker-tile-image-wrap {
-        width: 84px;
+        width: 78px;
         aspect-ratio: 1 / 1;
         background: var(--text-primary);
         border-radius: 50%;
         overflow: hidden;
+        margin-left: 6px;
       }
 
       .speaker-tile-image,
@@ -506,7 +506,7 @@
 
       .speaker-tile-name {
         margin: 0;
-        padding: 0;
+        padding: 0 0 0 4px;
         font-size: 1.08rem;
         color: var(--text-primary);
         font-weight: 800;
@@ -515,6 +515,7 @@
 
       .speaker-tile-role {
         margin: 4px 0 0;
+        padding-left: 4px;
         color: var(--text-primary);
         font-size: 0.8rem;
         line-height: 1.2;
@@ -972,7 +973,6 @@
       const appTopbar = document.querySelector('.app-topbar');
       const splashScreen = document.getElementById('splash-screen');
       const topbarViewTitle = document.getElementById('topbar-view-title');
-      const topbarBrand = document.querySelector('.topbar-brand');
       const topbarPageLabel = document.getElementById('topbar-page-label');
       const agendaDayTabs = Array.from(document.querySelectorAll('.agenda-day-tab'));
       const speakersGrid = document.getElementById('speakers-grid');
@@ -1023,6 +1023,9 @@
       function setActiveTab(tabName) {
         tabs.forEach((tab) => tab.classList.toggle('active', tab.dataset.tab === tabName));
         if (topbarViewTitle) {
+          topbarViewTitle.classList.remove('title-fade-down');
+          void topbarViewTitle.offsetWidth;
+          topbarViewTitle.classList.add('title-fade-down');
           const tabLabel = tabs.find((tab) => tab.dataset.tab === tabName)?.querySelector('.tab-label')?.textContent || tabName;
           if (topbarPageLabel) {
             topbarPageLabel.textContent = String(tabLabel).toUpperCase();
@@ -1034,16 +1037,7 @@
       }
 
       function showView(viewName) {
-        if (appTopbar) appTopbar.classList.toggle('home-mode', viewName === 'home');
-        if (topbarBrand) {
-          if (viewName === 'home') {
-            topbarBrand.classList.add('home-lines');
-            topbarBrand.innerHTML = 'Supervisor<br />Summit 2026';
-          } else {
-            topbarBrand.classList.remove('home-lines');
-            topbarBrand.textContent = 'Supervisor Summit 2026';
-          }
-        }
+        if (appTopbar) appTopbar.classList.toggle('hidden-on-home', viewName === 'home');
         Object.entries(views).forEach(([name, node]) => {
           const isCurrentView = name === viewName;
           node.classList.toggle('hidden', !isCurrentView);
