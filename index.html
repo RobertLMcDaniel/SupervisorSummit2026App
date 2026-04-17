@@ -231,17 +231,20 @@
 
       .home-video-label {
         position: absolute;
-        left: 16px;
-        right: 16px;
-        top: 48%;
-        transform: translateY(-50%);
+        left: 14px;
+        right: 14px;
+        top: 18px;
+        bottom: 18px;
         z-index: 2;
         text-align: center;
+        display: grid;
+        grid-template-rows: auto 1fr auto;
+        align-items: start;
       }
 
       .home-video-title {
         margin: 0;
-        font-size: clamp(2.3rem, 9vw, 3.5rem);
+        font-size: clamp(1.9rem, 7.8vw, 3rem);
         line-height: 1.02;
         text-transform: uppercase;
         font-weight: 800;
@@ -250,11 +253,32 @@
       }
 
       .home-video-dates {
-        margin: 12px 0 0;
-        font-size: clamp(1.28rem, 5.6vw, 2.2rem);
+        margin: 8px 0 0;
+        font-size: clamp(1rem, 4.6vw, 1.6rem);
         font-weight: 700;
         color: var(--accent);
         text-shadow: 0 8px 16px rgba(27, 46, 64, 0.55);
+      }
+
+      .home-video-middle {
+        align-self: center;
+        margin: 0;
+        font-size: clamp(1rem, 4.3vw, 1.34rem);
+        line-height: 1.45;
+        color: #FFFFFF;
+        text-shadow: 0 8px 16px rgba(27, 46, 64, 0.48);
+        max-width: 82%;
+        justify-self: center;
+      }
+
+      .home-video-quote {
+        align-self: end;
+        margin: 0;
+        font-size: clamp(0.98rem, 4.1vw, 1.22rem);
+        font-style: italic;
+        font-weight: 700;
+        color: var(--accent);
+        text-shadow: 0 8px 16px rgba(27, 46, 64, 0.48);
       }
 
       .list {
@@ -554,6 +578,7 @@
       }
 
       .speaker-detail-card {
+        --speaker-backdrop: url('images/backdrop1.jpg');
         width: min(100%, 520px);
         min-height: 100dvh;
         margin: 0 auto;
@@ -573,9 +598,9 @@
         content: '';
         position: absolute;
         inset: 0;
-        background: linear-gradient(180deg, rgba(27, 46, 64, 0.3) 0%, rgba(27, 46, 64, 0.82) 65%);
+        background: linear-gradient(180deg, rgba(27, 46, 64, 0.08) 0%, rgba(27, 46, 64, 0.84) 56%);
         pointer-events: none;
-        z-index: 0;
+        z-index: 1;
       }
 
       .speaker-detail-card::after {
@@ -584,17 +609,24 @@
         left: 0;
         right: 0;
         top: 0;
-        height: 214px;
-        background: linear-gradient(180deg, rgba(27, 46, 64, 0.08) 0%, rgba(27, 46, 64, 0.52) 70%, rgba(27, 46, 64, 0) 100%);
-        z-index: 1;
+        height: 252px;
+        background-image:
+          linear-gradient(180deg, rgba(15, 23, 34, 0.12) 0%, rgba(15, 23, 34, 0.35) 62%, rgba(15, 23, 34, 0.56) 100%),
+          var(--speaker-backdrop);
+        background-size: cover;
+        background-position: center center;
+        border-radius: 24px 24px 54% 54% / 24px 24px 22% 22%;
+        transform: scaleX(1.08) translateY(-14px);
+        transform-origin: top center;
+        z-index: 0;
         pointer-events: none;
       }
 
-      .speaker-backdrop-1 { background-image: url('images/backdrop1.jpg'); background-size: cover; background-position: center; }
-      .speaker-backdrop-2 { background-image: url('images/backdrop2.jpg'); background-size: cover; background-position: center; }
-      .speaker-backdrop-3 { background-image: url('images/backdrop3.jpg'); background-size: cover; background-position: center; }
-      .speaker-backdrop-4 { background-image: url('images/backdrop4.jpg'); background-size: cover; background-position: center; }
-      .speaker-backdrop-5 { background-image: url('images/backdrop5.jpg'); background-size: cover; background-position: center; }
+      .speaker-backdrop-1 { --speaker-backdrop: url('images/backdrop1.jpg'); }
+      .speaker-backdrop-2 { --speaker-backdrop: url('images/backdrop2.jpg'); }
+      .speaker-backdrop-3 { --speaker-backdrop: url('images/backdrop3.jpg'); }
+      .speaker-backdrop-4 { --speaker-backdrop: url('images/backdrop4.jpg'); }
+      .speaker-backdrop-5 { --speaker-backdrop: url('images/backdrop5.jpg'); }
 
       .speaker-overlay.open .speaker-detail-card {
         transform: translateY(0);
@@ -624,12 +656,12 @@
         overflow: hidden;
         background: var(--text-primary);
         position: absolute;
-        left: 14px;
-        top: calc(20px + env(safe-area-inset-top));
+        left: 50%;
+        top: calc(154px + env(safe-area-inset-top));
         border: 4px solid var(--bg-primary);
         z-index: 2;
         opacity: 0;
-        transform: translateY(16px) scale(0.76);
+        transform: translate(-50%, 16px) scale(0.76);
         transition: opacity 0.34s ease, transform 0.34s cubic-bezier(0.18, 0.85, 0.2, 1);
       }
 
@@ -642,8 +674,8 @@
       .speaker-detail-image { object-fit: cover; display: block; }
 
       .speaker-detail-name {
-        margin: calc(44px + env(safe-area-inset-top)) 0 0 134px;
-        text-align: left;
+        margin: calc(286px + env(safe-area-inset-top)) 0 0;
+        text-align: center;
         font-size: 1.42rem;
         font-weight: 800;
         color: var(--text-primary);
@@ -655,8 +687,8 @@
       }
 
       .speaker-detail-role {
-        margin: 6px 0 0 134px;
-        text-align: left;
+        margin: 6px 0 0;
+        text-align: center;
         color: var(--text-primary);
         font-weight: 800;
         font-size: 1.04rem;
@@ -668,8 +700,8 @@
       }
 
       .speaker-detail-org {
-        margin: 4px 0 0 134px;
-        text-align: left;
+        margin: 4px 0 0;
+        text-align: center;
         color: var(--text-primary);
         font-size: 0.95rem;
         position: relative;
@@ -680,7 +712,7 @@
       }
 
       .speaker-detail-bio {
-        margin: 26px 0 0;
+        margin: 24px 0 0;
         line-height: 1.58;
         color: var(--text-primary);
         position: relative;
@@ -690,12 +722,15 @@
         transition: opacity 0.22s ease, transform 0.22s ease;
       }
 
-      .speaker-overlay.open .speaker-detail-image-wrap,
+      .speaker-overlay.open .speaker-detail-image-wrap {
+        opacity: 1;
+        transform: translate(-50%, 0);
+      }
+
       .speaker-overlay.open .speaker-detail-name,
       .speaker-overlay.open .speaker-detail-role,
       .speaker-overlay.open .speaker-detail-org,
       .speaker-overlay.open .speaker-detail-bio {
-        opacity: 1;
         transform: translateY(0);
       }
 
@@ -903,8 +938,12 @@
             </div>
             <div class="home-video-overlay" aria-hidden="true"></div>
             <div class="home-video-label">
-              <p class="home-video-title">Supervisor<br />Summit 2026</p>
-              <p class="home-video-dates">MAY 5–7, 2026</p>
+              <div>
+                <p class="home-video-title">Supervisor<br />Summit 2026</p>
+                <p class="home-video-dates">MAY 5–6, 2026</p>
+              </div>
+              <p class="home-video-middle">Join fellow leaders for two days of practical strategy, collaboration, and growth.</p>
+              <p class="home-video-quote">“Supervisors bring the weather.”</p>
             </div>
           </section>
         </div>
@@ -1269,13 +1308,20 @@
         if (!foodDeck) return;
         const cards = Array.from(foodDeck.querySelectorAll('.food-card'));
         cards.forEach((card, index) => {
-          card.classList.remove('slide-in-left', 'slide-in-right');
-          card.style.animation = 'none';
-          void card.offsetWidth;
-          card.style.animation = '';
-          const isLeft = index % 2 === 0;
-          card.classList.add(isLeft ? 'slide-in-left' : 'slide-in-right');
-          card.style.animationDelay = `${Math.min(index * 0.06, 0.2)}s`;
+          const finalTransform = card.style.transform || 'translateY(0) scale(1)';
+          const shift = index % 2 === 0 ? -38 : 38;
+          card.animate(
+            [
+              { opacity: 0, transform: `translateX(${shift}px)` },
+              { opacity: 1, transform: finalTransform }
+            ],
+            {
+              duration: 460,
+              easing: 'cubic-bezier(0.2, 0.75, 0.2, 1)',
+              delay: Math.min(index * 55, 220),
+              fill: 'backwards'
+            }
+          );
         });
       }
 
@@ -1344,6 +1390,7 @@
           foodDeckBuilt = true;
           wireFoodDeckGestures();
           positionFoodDeckCards();
+          animateFoodCards();
         } catch {
           foodDeck.innerHTML = '<div class="item">Unable to load food details right now. Please refresh.</div>';
         }
