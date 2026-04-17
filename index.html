@@ -30,6 +30,7 @@
         background-color: var(--bg-primary);
         background-image: none;
         overscroll-behavior: none;
+        overflow-x: hidden;
       }
 
       body {
@@ -52,6 +53,7 @@
         background-color: var(--bg-primary);
         background-image: none;
         overflow: hidden;
+        overflow-x: hidden;
         position: relative;
       }
 
@@ -233,7 +235,7 @@
         position: absolute;
         left: 14px;
         right: 14px;
-        top: 18px;
+        top: 34px;
         bottom: 18px;
         z-index: 2;
         text-align: center;
@@ -569,6 +571,7 @@
         opacity: 0;
         pointer-events: none;
         transition: opacity 0.26s ease, background-color 0.26s ease;
+        touch-action: pan-y;
       }
 
       .speaker-overlay.open {
@@ -583,6 +586,7 @@
         min-height: 100dvh;
         margin: 0 auto;
         overflow-y: auto;
+        overflow-x: hidden;
         background-color: var(--bg-surface);
         color: var(--text-primary);
         box-shadow: 0 18px 40px rgba(27, 46, 64, 0.45);
@@ -731,6 +735,7 @@
       .speaker-overlay.open .speaker-detail-role,
       .speaker-overlay.open .speaker-detail-org,
       .speaker-overlay.open .speaker-detail-bio {
+        opacity: 1;
         transform: translateY(0);
       }
 
@@ -940,7 +945,7 @@
             <div class="home-video-label">
               <div>
                 <p class="home-video-title">Supervisor<br />Summit 2026</p>
-                <p class="home-video-dates">MAY 5–6, 2026</p>
+                <p class="home-video-dates">MAY 5–7, 2026</p>
               </div>
               <p class="home-video-middle">Join fellow leaders for two days of practical strategy, collaboration, and growth.</p>
               <p class="home-video-quote">“Supervisors bring the weather.”</p>
@@ -1408,7 +1413,8 @@
         speakerDetailOverlay.classList.remove('hidden');
         if (speakerDetailCard) {
           speakerDetailCard.classList.remove('speaker-backdrop-1', 'speaker-backdrop-2', 'speaker-backdrop-3', 'speaker-backdrop-4', 'speaker-backdrop-5');
-          const backdropIndex = ((Number(speaker.SortOrder) || 1) % 5) + 1;
+          const normalizedOrder = Math.max(1, Number(speaker.SortOrder) || 1);
+          const backdropIndex = ((normalizedOrder - 1) % 5) + 1;
           speakerDetailCard.classList.add(`speaker-backdrop-${backdropIndex}`);
         }
 
