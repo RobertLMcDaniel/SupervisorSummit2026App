@@ -15,7 +15,7 @@
     "Title": "Speaker, Meteorologist, Author, Host",
     "Organization": "",
     "BioShort": "Description coming soon.",
-    "Photo": "images/ASweezey.jpg",
+    "Photo": "images/ASweezey.png",
     "SortOrder": 2,
     "Backdrop": "images/backdrop2.JPG"
   },
@@ -75,7 +75,7 @@
     "Title": "People Operations Coordinator",
     "Organization": "City of Altamonte Springs",
     "BioShort": "Description coming soon.",
-    "Photo": "images/RMcDanial.jpg",
+    "Photo": "images/RMcDanial.jpeg",
     "SortOrder": 8,
     "Backdrop": "images/backdrop3.JPG"
   },
@@ -95,7 +95,7 @@
     "Title": "Watch Commander",
     "Organization": "City of Altamonte Springs",
     "BioShort": "Description coming soon.",
-    "Photo": "images/GCobb.jpg",
+    "Photo": "images/GCobb.jpeg",
     "SortOrder": 10,
     "Backdrop": "images/backdrop5.JPG"
   },
