@@ -1,0 +1,22 @@
+{
+  "days": [
+    {
+      "key": "day1",
+      "label": "Day 1",
+      "icon": "icons/home_icon.png",
+      "styleClass": "day-style-1"
+    },
+    {
+      "key": "day2",
+      "label": "Day 2",
+      "icon": "icons/agenda_icon.png",
+      "styleClass": "day-style-2"
+    },
+    {
+      "key": "day3",
+      "label": "Day 3",
+      "icon": "icons/food_icon.png",
+      "styleClass": "day-style-3"
+    }
+  ]
+}
