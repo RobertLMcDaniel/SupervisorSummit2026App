@@ -7,7 +7,7 @@
     "BioShort": "Description coming soon.",
     "Photo": "images/MPrice.jpg",
     "SortOrder": 1,
-    "Backdrop": "backdrop1.JPG"
+    "Backdrop": "images/backdrop1.JPG"
   },
   {
     "SpeakerID": "SPK-002",
@@ -17,7 +17,7 @@
     "BioShort": "Description coming soon.",
     "Photo": "images/ASweezey.jpg",
     "SortOrder": 2,
-    "Backdrop": "backdrop2.JPG"
+    "Backdrop": "images/backdrop2.JPG"
   },
   {
     "SpeakerID": "SPK-003",
@@ -27,7 +27,7 @@
     "BioShort": "Description coming soon.",
     "Photo": "images/FMartz.jpg",
     "SortOrder": 3,
-    "Backdrop": "backdrop3.JPG"
+    "Backdrop": "images/backdrop3.JPG"
   },
   {
     "SpeakerID": "SPK-004",
@@ -37,7 +37,7 @@
     "BioShort": "Description coming soon.",
     "Photo": "images/KGow.jpg",
     "SortOrder": 4,
-    "Backdrop": "backdrop4.JPG"
+    "Backdrop": "images/backdrop4.JPG"
   },
   {
     "SpeakerID": "SPK-005",
@@ -47,7 +47,7 @@
     "BioShort": "Description coming soon.",
     "Photo": "images/TCrowell.jpg",
     "SortOrder": 5,
-    "Backdrop": "backdrop5.JPG"
+    "Backdrop": "images/backdrop5.JPG"
   },
   {
     "SpeakerID": "SPK-006",
@@ -57,7 +57,7 @@
     "BioShort": "Description coming soon.",
     "Photo": "images/NHernandez.jpg",
     "SortOrder": 6,
-    "Backdrop": "backdrop1.JPG"
+    "Backdrop": "images/backdrop1.JPG"
   },
   {
     "SpeakerID": "SPK-007",
@@ -67,7 +67,7 @@
     "BioShort": "Description coming soon.",
     "Photo": "images/TKrewson.jpg",
     "SortOrder": 7,
-    "Backdrop": "backdrop2.JPG"
+    "Backdrop": "images/backdrop2.JPG"
   },
   {
     "SpeakerID": "SPK-008",
@@ -75,9 +75,9 @@
     "Title": "People Operations Coordinator",
     "Organization": "City of Altamonte Springs",
     "BioShort": "Description coming soon.",
-    "Photo": "images/RMcDaniel.jpg",
+    "Photo": "images/RMcDanial.jpg",
     "SortOrder": 8,
-    "Backdrop": "backdrop3.JPG"
+    "Backdrop": "images/backdrop3.JPG"
   },
   {
     "SpeakerID": "SPK-009",
@@ -87,7 +87,7 @@
     "BioShort": "Description coming soon.",
     "Photo": "images/RThompson.jpg",
     "SortOrder": 9,
-    "Backdrop": "backdrop4.JPG"
+    "Backdrop": "images/backdrop4.JPG"
   },
   {
     "SpeakerID": "SPK-010",
@@ -97,7 +97,7 @@
     "BioShort": "Description coming soon.",
     "Photo": "images/GCobb.jpg",
     "SortOrder": 10,
-    "Backdrop": "backdrop5.JPG"
+    "Backdrop": "images/backdrop5.JPG"
   },
   {
     "SpeakerID": "SPK-011",
@@ -107,7 +107,7 @@
     "BioShort": "Description coming soon.",
     "Photo": "images/TSmith.jpg",
     "SortOrder": 11,
-    "Backdrop": "backdrop1.JPG"
+    "Backdrop": "images/backdrop1.JPG"
   },
   {
     "SpeakerID": "SPK-012",
@@ -117,7 +117,7 @@
     "BioShort": "Description coming soon.",
     "Photo": "images/KMaldonado.jpg",
     "SortOrder": 12,
-    "Backdrop": "backdrop2.JPG"
+    "Backdrop": "images/backdrop2.JPG"
   },
   {
     "SpeakerID": "SPK-013",
@@ -127,7 +127,7 @@
     "BioShort": "Description coming soon.",
     "Photo": "images/JBright.jpg",
     "SortOrder": 13,
-    "Backdrop": "backdrop3.JPG"
+    "Backdrop": "images/backdrop3.JPG"
   },
   {
     "SpeakerID": "SPK-014",
@@ -137,6 +137,6 @@
     "BioShort": "Description coming soon.",
     "Photo": "images/ADesrosiers.jpg",
     "SortOrder": 14,
-    "Backdrop": "backdrop4.JPG"
+    "Backdrop": "images/backdrop4.JPG"
   }
 ]
