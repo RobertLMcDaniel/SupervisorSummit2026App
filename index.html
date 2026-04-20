@@ -246,7 +246,7 @@
 
       .home-video-title {
         margin: 0;
-        font-size: clamp(1.9rem, 7.8vw, 3rem);
+        font-size: clamp(2.2rem, 8.8vw, 3.35rem);
         line-height: 1.02;
         text-transform: uppercase;
         font-weight: 900;
@@ -448,15 +448,20 @@
         grid-template-columns: repeat(3, 1fr);
         gap: 8px;
         margin-top: 0;
-        margin-bottom: 16px;
+        margin-bottom: 0;
+        width: 280px;
+        margin-left: auto;
+        margin-right: auto;
       }
 
       .day-tabs-shell {
-        border-radius: 20px;
+        border-radius: 16px;
         border: 1px solid rgba(239, 177, 10, 0.42);
         background: rgba(27, 46, 64, 0.34);
         box-shadow: inset 0 1px 0 rgba(245, 247, 250, 0.1), 0 8px 16px rgba(27, 46, 64, 0.25);
-        padding: 10px 8px;
+        padding: 8px 6px;
+        width: fit-content;
+        margin: 0 auto 12px;
       }
 
       .agenda-day-tabs .agenda-day-tab:nth-child(odd) {
@@ -507,6 +512,9 @@
         gap: 8px;
         margin-top: 12px;
         margin-bottom: 0;
+        width: 280px;
+        margin-left: auto;
+        margin-right: auto;
       }
 
       .food-day-tabs .food-day-tab:nth-child(odd) {
@@ -1090,12 +1098,10 @@
       <section id="food-view" class="view hidden" aria-label="Food view">
         <section class="panel">
           <div id="food-deck" class="food-deck" aria-live="polite"></div>
-          <div class="day-tabs-shell">
-            <div class="food-day-tabs" role="tablist" aria-label="Food day tabs">
-              <button class="food-day-tab active" type="button" data-food-day="day1">Day 1</button>
-              <button class="food-day-tab" type="button" data-food-day="day2">Day 2</button>
-              <button class="food-day-tab" type="button" data-food-day="day3">Day 3</button>
-            </div>
+          <div class="food-day-tabs" role="tablist" aria-label="Food day tabs">
+            <button class="food-day-tab active" type="button" data-food-day="day1">Day 1</button>
+            <button class="food-day-tab" type="button" data-food-day="day2">Day 2</button>
+            <button class="food-day-tab" type="button" data-food-day="day3">Day 3</button>
           </div>
         </section>
       </section>
@@ -1472,7 +1478,7 @@
           entries.forEach((entry) => {
             const item = document.createElement('article');
             item.className = 'item';
-            item.style.marginBottom = '8px';
+            item.style.marginBottom = '12px';
             item.innerHTML = `
               <h3>${entry.Title}</h3>
               <p class="meta"><strong>${entry.StartTime}–${entry.EndTime}</strong> · ${entry.Location}</p>
