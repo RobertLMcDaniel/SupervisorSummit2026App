@@ -235,7 +235,7 @@
         position: absolute;
         left: 14px;
         right: 14px;
-        top: 48px;
+        top: 66px;
         bottom: 18px;
         z-index: 2;
         text-align: center;
@@ -249,7 +249,7 @@
         font-size: clamp(1.9rem, 7.8vw, 3rem);
         line-height: 1.02;
         text-transform: uppercase;
-        font-weight: 800;
+        font-weight: 900;
         color: var(--accent);
         -webkit-text-stroke: 0.6px rgba(27, 46, 64, 0.6);
         text-shadow: 0 9px 20px rgba(27, 46, 64, 0.62), 0 0 12px rgba(239, 177, 10, 0.18);
@@ -259,9 +259,10 @@
       .home-video-dates {
         margin: 8px 0 0;
         font-size: clamp(1rem, 4.6vw, 1.6rem);
-        font-weight: 700;
+        font-weight: 800;
         color: var(--accent);
-        text-shadow: 0 8px 16px rgba(27, 46, 64, 0.55);
+        -webkit-text-stroke: 0.45px rgba(27, 46, 64, 0.55);
+        text-shadow: 0 8px 16px rgba(27, 46, 64, 0.58), 0 0 8px rgba(239, 177, 10, 0.15);
       }
 
       .home-video-middle {
@@ -438,12 +439,24 @@
         align-content: stretch;
       }
 
+      #food-view .panel {
+        grid-template-rows: 1fr auto;
+      }
+
       .agenda-day-tabs {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
         gap: 8px;
         margin-top: 0;
         margin-bottom: 16px;
+      }
+
+      .day-tabs-shell {
+        border-radius: 20px;
+        border: 1px solid rgba(239, 177, 10, 0.42);
+        background: rgba(27, 46, 64, 0.34);
+        box-shadow: inset 0 1px 0 rgba(245, 247, 250, 0.1), 0 8px 16px rgba(27, 46, 64, 0.25);
+        padding: 10px 8px;
       }
 
       .agenda-day-tabs .agenda-day-tab:nth-child(odd) {
@@ -493,7 +506,7 @@
         grid-template-columns: repeat(3, 1fr);
         gap: 8px;
         margin-top: 12px;
-        margin-bottom: 16px;
+        margin-bottom: 0;
       }
 
       .food-day-tabs .food-day-tab:nth-child(odd) {
@@ -742,14 +755,14 @@
       }
 
       .speaker-detail-image-wrap {
-        width: 122px;
+        width: 244px;
         aspect-ratio: 1 / 1;
         border-radius: 50%;
         overflow: hidden;
         background: var(--text-primary);
         position: absolute;
         left: 50%;
-        top: calc(154px + env(safe-area-inset-top));
+        top: calc(122px + env(safe-area-inset-top));
         border: 4px solid var(--bg-primary);
         z-index: 2;
         opacity: 0;
@@ -766,7 +779,7 @@
       .speaker-detail-image { object-fit: cover; display: block; }
 
       .speaker-detail-name {
-        margin: calc(286px + env(safe-area-inset-top)) 0 0;
+        margin: calc(392px + env(safe-area-inset-top)) 0 0;
         text-align: center;
         font-size: 1.42rem;
         font-weight: 800;
@@ -1044,10 +1057,12 @@
 
       <section id="agenda-view" class="view hidden" aria-label="Agenda view">
         <section class="panel agenda-panel">
-          <div class="agenda-day-tabs" role="tablist" aria-label="Agenda day tabs">
-            <button class="agenda-day-tab active" type="button" data-day="day1">Day 1</button>
-            <button class="agenda-day-tab" type="button" data-day="day2">Day 2</button>
-            <button class="agenda-day-tab" type="button" data-day="day3">Day 3</button>
+          <div class="day-tabs-shell">
+            <div class="agenda-day-tabs" role="tablist" aria-label="Agenda day tabs">
+              <button class="agenda-day-tab active" type="button" data-day="day1">Day 1</button>
+              <button class="agenda-day-tab" type="button" data-day="day2">Day 2</button>
+              <button class="agenda-day-tab" type="button" data-day="day3">Day 3</button>
+            </div>
           </div>
           <div id="agenda-list" class="list" aria-live="polite"></div>
         </section>
@@ -1075,10 +1090,12 @@
       <section id="food-view" class="view hidden" aria-label="Food view">
         <section class="panel">
           <div id="food-deck" class="food-deck" aria-live="polite"></div>
-          <div class="food-day-tabs" role="tablist" aria-label="Food day tabs">
-            <button class="food-day-tab active" type="button" data-food-day="day1">Day 1</button>
-            <button class="food-day-tab" type="button" data-food-day="day2">Day 2</button>
-            <button class="food-day-tab" type="button" data-food-day="day3">Day 3</button>
+          <div class="day-tabs-shell">
+            <div class="food-day-tabs" role="tablist" aria-label="Food day tabs">
+              <button class="food-day-tab active" type="button" data-food-day="day1">Day 1</button>
+              <button class="food-day-tab" type="button" data-food-day="day2">Day 2</button>
+              <button class="food-day-tab" type="button" data-food-day="day3">Day 3</button>
+            </div>
           </div>
         </section>
       </section>
@@ -1496,10 +1513,10 @@
         speakerDetailOverlay.classList.remove('closing');
         speakerDetailOverlay.classList.remove('hidden');
         if (speakerDetailCard) {
-          const rawBackdrop = String(speaker.Backdrop || '').trim();
-          const match = rawBackdrop.match(/backdrop([1-5])\.jpg$/i);
+          const rawBackdrop = String(speaker.Backdrop || '').trim().replace(/^images\//i, '');
+          const match = rawBackdrop.match(/^backdrop([1-5])\.(jpg|jpeg)$/i);
           const fallbackIndex = ((Math.max(1, Number(speaker.SortOrder) || 1) - 1) % 5) + 1;
-          const backdropFile = match ? `backdrop${match[1]}.jpg` : `backdrop${fallbackIndex}.jpg`;
+          const backdropFile = match ? rawBackdrop : `backdrop${fallbackIndex}.JPG`;
           speakerDetailCard.style.setProperty('--speaker-backdrop', `url('images/${backdropFile}')`);
         }
 
