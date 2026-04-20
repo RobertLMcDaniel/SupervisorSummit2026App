@@ -346,29 +346,23 @@
       }
 
       .food-deck {
-        position: relative;
-        height: 100%;
-        min-height: calc(100dvh - 250px);
-        overflow: visible;
-        padding-top: 10px;
-        padding-bottom: 18px;
-        touch-action: pan-y;
+        max-height: 68dvh;
+        overflow-y: auto;
+        display: grid;
+        gap: 8px;
+        padding-right: 2px;
+        scrollbar-width: none;
       }
+      .food-deck::-webkit-scrollbar { width: 0; height: 0; }
 
       .food-card {
-        position: absolute;
-        inset: 0 0 18px 0;
-        border-radius: 20px;
+        position: relative;
+        border-radius: 18px;
         padding: 14px;
         border: 0;
         color: #FFFFFF;
-        transition: transform 0.48s cubic-bezier(0.22, 0.74, 0.2, 1), opacity 0.48s ease;
         box-shadow: 0 14px 28px rgba(27, 46, 64, 0.35);
-        overflow-y: auto;
-        scrollbar-width: none;
-        transform-origin: top center;
       }
-      .food-card::-webkit-scrollbar { width: 0; height: 0; }
       .food-card h3 {
         margin: 0 0 10px;
         font-size: 1.1rem;
@@ -459,6 +453,42 @@
       }
 
       .agenda-day-tab.active {
+        background: var(--accent);
+        color: var(--bg-primary);
+        filter: brightness(1.06);
+      }
+
+      .food-day-tabs {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+        margin-top: 0;
+        margin-bottom: 16px;
+      }
+
+      .food-day-tabs .food-day-tab:nth-child(odd) {
+        animation: slide-in-left 0.46s ease both;
+      }
+      .food-day-tabs .food-day-tab:nth-child(even) {
+        animation: slide-in-right 0.46s ease both;
+      }
+
+      .food-day-tab {
+        min-height: 42px;
+        border: 0;
+        border-radius: 12px;
+        background: rgba(239, 177, 10, 0.78);
+        color: var(--bg-primary);
+        font-weight: 800;
+        cursor: pointer;
+        transition: transform 0.22s ease, filter 0.22s ease;
+      }
+
+      .food-day-tab:active {
+        transform: scale(0.98);
+      }
+
+      .food-day-tab.active {
         background: var(--accent);
         color: var(--bg-primary);
         filter: brightness(1.06);
@@ -944,11 +974,11 @@
             <div class="home-video-overlay" aria-hidden="true"></div>
             <div class="home-video-label">
               <div>
-                <p class="home-video-title">Supervisor<br />Summit 2026</p>
-                <p class="home-video-dates">MAY 5–7, 2026</p>
+                <p id="home-hero-title" class="home-video-title">Supervisor<br />Summit 2026</p>
+                <p id="home-hero-dates" class="home-video-dates">MAY 5–7, 2026</p>
               </div>
-              <p class="home-video-middle">Join fellow leaders for two days of practical strategy, collaboration, and growth.</p>
-              <p class="home-video-quote">“Supervisors bring the weather.”</p>
+              <p id="home-hero-description" class="home-video-middle">Join fellow leaders for two days of practical strategy, collaboration, and growth.</p>
+              <p id="home-hero-quote" class="home-video-quote">“Supervisors bring the weather.”</p>
             </div>
           </section>
         </div>
@@ -986,6 +1016,11 @@
 
       <section id="food-view" class="view hidden" aria-label="Food view">
         <section class="panel">
+          <div class="food-day-tabs" role="tablist" aria-label="Food day tabs">
+            <button class="food-day-tab active" type="button" data-food-day="day1">Day 1</button>
+            <button class="food-day-tab" type="button" data-food-day="day2">Day 2</button>
+            <button class="food-day-tab" type="button" data-food-day="day3">Day 3</button>
+          </div>
           <div id="food-deck" class="food-deck" aria-live="polite"></div>
         </section>
       </section>
@@ -1076,8 +1111,13 @@
       const topbarViewTitle = document.getElementById('topbar-view-title');
       const topbarPageLabel = document.getElementById('topbar-page-label');
       const agendaDayTabs = Array.from(document.querySelectorAll('.agenda-day-tab'));
+      const foodDayTabs = Array.from(document.querySelectorAll('.food-day-tab'));
       const speakersGrid = document.getElementById('speakers-grid');
       const foodDeck = document.getElementById('food-deck');
+      const homeHeroTitle = document.getElementById('home-hero-title');
+      const homeHeroDates = document.getElementById('home-hero-dates');
+      const homeHeroDescription = document.getElementById('home-hero-description');
+      const homeHeroQuote = document.getElementById('home-hero-quote');
       const speakerDetailOverlay = document.getElementById('speaker-detail-overlay');
       const speakerDetailCard = document.querySelector('.speaker-detail-card');
       const speakerDetailClose = document.getElementById('speaker-detail-close');
@@ -1103,9 +1143,8 @@
       let speakersLoaded = false;
       let currentAgendaDay = 'day1';
       const agendaDataCache = {};
-      let foodDeckBuilt = false;
-      let activeFoodDeckIndex = 0;
-      let foodDeckIsAnimating = false;
+      let currentFoodDay = 'day1';
+      const foodDataCache = {};
       let activeHeroVideoPlayer = 0;
       let activeHeroVideoIndex = 0;
       let heroVideoSwapTimer;
@@ -1230,6 +1269,23 @@
         return response.json();
       }
 
+      async function loadHomeContent() {
+        try {
+          const content = await fetchJson('data/home-content.json');
+          const titleText = String(content.title || '').trim();
+          const datesText = String(content.dates || '').trim();
+          const descriptionText = String(content.description || '').trim();
+          const quoteText = String(content.quote || '').trim();
+
+          if (homeHeroTitle && titleText) homeHeroTitle.innerHTML = titleText.replace(/\n/g, '<br />');
+          if (homeHeroDates && datesText) homeHeroDates.textContent = datesText;
+          if (homeHeroDescription && descriptionText) homeHeroDescription.textContent = descriptionText;
+          if (homeHeroQuote && quoteText) homeHeroQuote.textContent = `“${quoteText.replace(/^“|”$/g, '')}”`;
+        } catch {
+          // Keep built-in defaults if JSON is unavailable.
+        }
+      }
+
       function setErrorState(node, message) {
         node.innerHTML = `<div class="item" style="color:var(--text-primary);font-weight:700;">${message}</div>`;
       }
@@ -1266,59 +1322,15 @@
         }
       }
 
-      function positionFoodDeckCards() {
-        if (!foodDeck) return;
-        const cards = Array.from(foodDeck.querySelectorAll('.food-card'));
-        const total = cards.length || 1;
-        cards.forEach((card, index) => {
-          const rel = (index - activeFoodDeckIndex + total) % total;
-          const translateY = rel === 0 ? 18 : rel === 1 ? 8 : -2;
-          const scale = rel === 0 ? 1 : rel === 1 ? 0.985 : 0.97;
-          const opacity = rel === 0 ? 1 : 0.95;
-          card.style.transform = `translateY(${translateY}px) scale(${scale})`;
-          card.style.opacity = `${opacity}`;
-          card.style.zIndex = String(50 - rel);
-          card.style.pointerEvents = rel === 0 ? 'auto' : 'none';
-        });
-      }
-
-      function moveFoodDeck() {
-        if (!foodDeckBuilt || foodDeckIsAnimating || !foodDeck) return;
-        const cards = Array.from(foodDeck.querySelectorAll('.food-card'));
-        if (!cards[activeFoodDeckIndex]) return;
-        const activeCard = cards[activeFoodDeckIndex];
-        foodDeckIsAnimating = true;
-
-        const swipeY = -130;
-        activeCard.style.zIndex = '99';
-        activeCard.style.transition = 'transform 0.42s cubic-bezier(0.25, 0.9, 0.32, 1), opacity 0.42s ease';
-        activeCard.style.transform = `translateY(${swipeY}%) scale(1.05)`;
-        activeCard.style.opacity = '0';
-
-        const total = 3;
-        window.setTimeout(() => {
-          activeCard.style.transition = 'none';
-          activeCard.style.transform = '';
-          activeCard.style.opacity = '1';
-          activeFoodDeckIndex = (activeFoodDeckIndex + 1) % total;
-          positionFoodDeckCards();
-          requestAnimationFrame(() => {
-            activeCard.style.transition = '';
-            foodDeckIsAnimating = false;
-          });
-        }, 430);
-      }
-
       function animateFoodCards() {
         if (!foodDeck) return;
         const cards = Array.from(foodDeck.querySelectorAll('.food-card'));
         cards.forEach((card, index) => {
-          const finalTransform = card.style.transform || 'translateY(0) scale(1)';
           const shift = index % 2 === 0 ? -38 : 38;
           card.animate(
             [
               { opacity: 0, transform: `translateX(${shift}px)` },
-              { opacity: 1, transform: finalTransform }
+              { opacity: 1, transform: 'translateX(0)' }
             ],
             {
               duration: 460,
@@ -1328,6 +1340,45 @@
             }
           );
         });
+      }
+
+      function setActiveFoodDay(dayKey) {
+        currentFoodDay = dayKey;
+        foodDayTabs.forEach((tab) => tab.classList.toggle('active', tab.dataset.foodDay === dayKey));
+      }
+
+      async function loadFood(dayKey = currentFoodDay) {
+        if (!foodDeck) return;
+
+        try {
+          setActiveFoodDay(dayKey);
+          if (!foodDataCache[dayKey]) {
+            foodDataCache[dayKey] = await fetchJson(`data/food/${dayKey}.json`);
+          }
+          const entries = foodDataCache[dayKey];
+          foodDeck.innerHTML = '';
+
+          const card = document.createElement('article');
+          card.className = `food-card agenda-item--${((dayKey === 'day1' ? 0 : dayKey === 'day2' ? 1 : 2) % 6) + 1}`;
+          card.innerHTML = `<h3>${dayKey.replace('day', 'Day ')}</h3>`;
+
+          entries.forEach((entry) => {
+            const item = document.createElement('article');
+            item.className = 'item';
+            item.style.marginBottom = '8px';
+            item.innerHTML = `
+              <h3>${entry.Title}</h3>
+              <p class="meta"><strong>${entry.StartTime}–${entry.EndTime}</strong> · ${entry.Location}</p>
+              <p class="meta">${entry.Description}</p>
+            `;
+            card.append(item);
+          });
+
+          foodDeck.append(card);
+          animateFoodCards();
+        } catch {
+          foodDeck.innerHTML = '<div class="item">Unable to load food details right now. Please refresh.</div>';
+        }
       }
 
       function animateSpeakerTiles() {
@@ -1342,63 +1393,6 @@
           tile.classList.add(isLeft ? 'slide-in-left' : 'slide-in-right');
           tile.style.animationDelay = `${Math.min(index * 0.04, 0.24)}s`;
         });
-      }
-
-      function wireFoodDeckGestures() {
-        if (!foodDeck || foodDeck.dataset.gesturesWired === 'true') return;
-        let touchStartY = 0;
-        foodDeck.addEventListener('touchstart', (event) => {
-          touchStartY = event.changedTouches[0].clientY;
-        }, { passive: true });
-        foodDeck.addEventListener('touchend', (event) => {
-          const delta = event.changedTouches[0].clientY - touchStartY;
-          if (Math.abs(delta) < 40) return;
-          moveFoodDeck();
-        }, { passive: true });
-        foodDeck.dataset.gesturesWired = 'true';
-      }
-
-      async function loadFood() {
-        if (!foodDeck) return;
-        if (foodDeckBuilt) {
-          positionFoodDeckCards();
-          return;
-        }
-
-        try {
-          const dayPaths = ['data/food/day1.json', 'data/food/day2.json', 'data/food/day3.json'];
-          const allDays = await Promise.all(dayPaths.map((path) => fetchJson(path)));
-          foodDeck.innerHTML = '';
-          activeFoodDeckIndex = 0;
-
-          allDays.forEach((entries, index) => {
-            const card = document.createElement('article');
-            card.className = `food-card agenda-item--${(index % 6) + 1} ${index % 2 === 0 ? 'slide-in-left' : 'slide-in-right'}`;
-            card.style.animationDelay = `${index * 0.05}s`;
-            card.innerHTML = `<h3>Day ${index + 1}</h3>`;
-
-            entries.forEach((entry) => {
-              const item = document.createElement('article');
-              item.className = 'item';
-              item.style.marginBottom = '8px';
-              item.innerHTML = `
-                <h3>${entry.Title}</h3>
-                <p class="meta"><strong>${entry.StartTime}–${entry.EndTime}</strong> · ${entry.Location}</p>
-                <p class="meta">${entry.Description}</p>
-              `;
-              card.append(item);
-            });
-
-            foodDeck.append(card);
-          });
-
-          foodDeckBuilt = true;
-          wireFoodDeckGestures();
-          positionFoodDeckCards();
-          animateFoodCards();
-        } catch {
-          foodDeck.innerHTML = '<div class="item">Unable to load food details right now. Please refresh.</div>';
-        }
       }
 
       function resolveSpeakerPhotoPath(photoValue) {
@@ -1522,12 +1516,19 @@
         });
       });
 
+      foodDayTabs.forEach((tab) => {
+        tab.addEventListener('click', async () => {
+          await loadFood(tab.dataset.foodDay);
+        });
+      });
+
       speakerDetailClose.addEventListener('click', closeSpeakerDetail);
 
       window.addEventListener('resize', () => syncNavIndicator());
 
       showView('home');
       syncNavIndicator('home');
+      loadHomeContent();
       startHomeVideoRotation();
 
       if (splashScreen) {
