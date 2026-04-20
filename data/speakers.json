@@ -6,7 +6,8 @@
     "Organization": "Direct Effect Solutions, Inc.",
     "BioShort": "Description coming soon.",
     "Photo": "images/speakers/MPrice.png",
-    "SortOrder": 1
+    "SortOrder": 1,
+    "Backdrop": "backdrop1.jpg"
   },
   {
     "SpeakerID": "SPK-002",
@@ -15,7 +16,8 @@
     "Organization": "",
     "BioShort": "Description coming soon.",
     "Photo": "images/speakers/ASweezey.png",
-    "SortOrder": 2
+    "SortOrder": 2,
+    "Backdrop": "backdrop2.jpg"
   },
   {
     "SpeakerID": "SPK-003",
@@ -24,7 +26,8 @@
     "Organization": "City of Altamonte Springs",
     "BioShort": "Description coming soon.",
     "Photo": "images/speakers/FMartz.png",
-    "SortOrder": 3
+    "SortOrder": 3,
+    "Backdrop": "backdrop3.jpg"
   },
   {
     "SpeakerID": "SPK-004",
@@ -33,7 +36,8 @@
     "Organization": "City of Altamonte Springs",
     "BioShort": "Description coming soon.",
     "Photo": "images/speakers/KGow.png",
-    "SortOrder": 4
+    "SortOrder": 4,
+    "Backdrop": "backdrop4.jpg"
   },
   {
     "SpeakerID": "SPK-005",
@@ -42,7 +46,8 @@
     "Organization": "City of Altamonte Springs",
     "BioShort": "Description coming soon.",
     "Photo": "images/speakers/TCrowell.png",
-    "SortOrder": 5
+    "SortOrder": 5,
+    "Backdrop": "backdrop5.jpg"
   },
   {
     "SpeakerID": "SPK-006",
@@ -51,7 +56,8 @@
     "Organization": "City of Altamonte Springs",
     "BioShort": "Description coming soon.",
     "Photo": "images/speakers/NHernandez.png",
-    "SortOrder": 6
+    "SortOrder": 6,
+    "Backdrop": "backdrop1.jpg"
   },
   {
     "SpeakerID": "SPK-007",
@@ -60,7 +66,8 @@
     "Organization": "City of Altamonte Springs",
     "BioShort": "Description coming soon.",
     "Photo": "images/speakers/TKrewson.png",
-    "SortOrder": 7
+    "SortOrder": 7,
+    "Backdrop": "backdrop2.jpg"
   },
   {
     "SpeakerID": "SPK-008",
@@ -69,7 +76,8 @@
     "Organization": "City of Altamonte Springs",
     "BioShort": "Description coming soon.",
     "Photo": "images/speakers/RMcDaniel.png",
-    "SortOrder": 8
+    "SortOrder": 8,
+    "Backdrop": "backdrop3.jpg"
   },
   {
     "SpeakerID": "SPK-009",
@@ -78,7 +86,8 @@
     "Organization": "City of Altamonte Springs",
     "BioShort": "Description coming soon.",
     "Photo": "images/speakers/RThompson.png",
-    "SortOrder": 9
+    "SortOrder": 9,
+    "Backdrop": "backdrop4.jpg"
   },
   {
     "SpeakerID": "SPK-010",
@@ -87,7 +96,8 @@
     "Organization": "City of Altamonte Springs",
     "BioShort": "Description coming soon.",
     "Photo": "images/speakers/GCobb.png",
-    "SortOrder": 10
+    "SortOrder": 10,
+    "Backdrop": "backdrop5.jpg"
   },
   {
     "SpeakerID": "SPK-011",
@@ -96,7 +106,8 @@
     "Organization": "City of Altamonte Springs",
     "BioShort": "Description coming soon.",
     "Photo": "images/speakers/TSmith.png",
-    "SortOrder": 11
+    "SortOrder": 11,
+    "Backdrop": "backdrop1.jpg"
   },
   {
     "SpeakerID": "SPK-012",
@@ -105,7 +116,8 @@
     "Organization": "City of Altamonte Springs",
     "BioShort": "Description coming soon.",
     "Photo": "images/speakers/KMaldonado.png",
-    "SortOrder": 12
+    "SortOrder": 12,
+    "Backdrop": "backdrop2.jpg"
   },
   {
     "SpeakerID": "SPK-013",
@@ -114,7 +126,8 @@
     "Organization": "City of Altamonte Springs",
     "BioShort": "Description coming soon.",
     "Photo": "images/speakers/JBright.png",
-    "SortOrder": 13
+    "SortOrder": 13,
+    "Backdrop": "backdrop3.jpg"
   },
   {
     "SpeakerID": "SPK-014",
@@ -123,6 +136,7 @@
     "Organization": "Fisher Phillips",
     "BioShort": "Description coming soon.",
     "Photo": "images/speakers/ADesrosiers.png",
-    "SortOrder": 14
+    "SortOrder": 14,
+    "Backdrop": "backdrop4.jpg"
   }
 ]
