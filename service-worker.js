@@ -1,4 +1,4 @@
-const CACHE_NAME = 'supervisor-summit-2026-v8';
+const CACHE_NAME = 'supervisor-summit-2026-v10';
 const STATIC_ASSETS = [
   'index.html',
   'manifest.json?v=20260413-1',
