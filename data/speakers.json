@@ -5,7 +5,7 @@
     "Title": "Chief PACE Setter",
     "Organization": "Direct Effect Solutions, Inc.",
     "BioShort": "Description coming soon.",
-    "Photo": "images/MPrice.jpg",
+    "Photo": "images/speakers/MPrice.png",
     "SortOrder": 1
   },
   {
@@ -14,7 +14,7 @@
     "Title": "Speaker, Meteorologist, Author, Host",
     "Organization": "",
     "BioShort": "Description coming soon.",
-    "Photo": "images/ASweezey.png",
+    "Photo": "images/speakers/ASweezey.png",
     "SortOrder": 2
   },
   {
@@ -23,7 +23,7 @@
     "Title": "City Manager",
     "Organization": "City of Altamonte Springs",
     "BioShort": "Description coming soon.",
-    "Photo": "images/FMartz.jpg",
+    "Photo": "images/speakers/FMartz.png",
     "SortOrder": 3
   },
   {
@@ -32,7 +32,7 @@
     "Title": "Director of Human Resources",
     "Organization": "City of Altamonte Springs",
     "BioShort": "Description coming soon.",
-    "Photo": "images/KGow.jpg",
+    "Photo": "images/speakers/KGow.png",
     "SortOrder": 4
   },
   {
@@ -41,7 +41,7 @@
     "Title": "People Development & Performance Manager",
     "Organization": "City of Altamonte Springs",
     "BioShort": "Description coming soon.",
-    "Photo": "images/TCrowell.jpeg",
+    "Photo": "images/speakers/TCrowell.png",
     "SortOrder": 5
   },
   {
@@ -50,7 +50,7 @@
     "Title": "Recreation Division Director",
     "Organization": "City of Altamonte Springs",
     "BioShort": "Description coming soon.",
-    "Photo": "images/NHernandez.jpg",
+    "Photo": "images/speakers/NHernandez.png",
     "SortOrder": 6
   },
   {
@@ -59,7 +59,7 @@
     "Title": "Risk Manager",
     "Organization": "City of Altamonte Springs",
     "BioShort": "Description coming soon.",
-    "Photo": "images/TKrewson.jpg",
+    "Photo": "images/speakers/TKrewson.png",
     "SortOrder": 7
   },
   {
@@ -68,7 +68,7 @@
     "Title": "People Operations Coordinator",
     "Organization": "City of Altamonte Springs",
     "BioShort": "Description coming soon.",
-    "Photo": "images/RMcDaniel.jpg",
+    "Photo": "images/speakers/RMcDaniel.png",
     "SortOrder": 8
   },
   {
@@ -77,7 +77,7 @@
     "Title": "Director of Leisure Services",
     "Organization": "City of Altamonte Springs",
     "BioShort": "Description coming soon.",
-    "Photo": "images/RThompson.jpg",
+    "Photo": "images/speakers/RThompson.png",
     "SortOrder": 9
   },
   {
@@ -86,7 +86,7 @@
     "Title": "Watch Commander",
     "Organization": "City of Altamonte Springs",
     "BioShort": "Description coming soon.",
-    "Photo": "images/GCobb.jpeg",
+    "Photo": "images/speakers/GCobb.png",
     "SortOrder": 10
   },
   {
@@ -95,16 +95,16 @@
     "Title": "Watch Commander",
     "Organization": "City of Altamonte Springs",
     "BioShort": "Description coming soon.",
-    "Photo": "images/TSmith.jpg",
+    "Photo": "images/speakers/TSmith.png",
     "SortOrder": 11
   },
   {
     "SpeakerID": "SPK-012",
-    "DisplayName": "Kimberly Maldonado",
+    "DisplayName": "Kimberl Maldonado",
     "Title": "Program Specialist",
     "Organization": "City of Altamonte Springs",
     "BioShort": "Description coming soon.",
-    "Photo": "images/KMaldonado.jpg",
+    "Photo": "images/speakers/KMaldonado.png",
     "SortOrder": 12
   },
   {
@@ -113,7 +113,16 @@
     "Title": "Recreation Supervisor",
     "Organization": "City of Altamonte Springs",
     "BioShort": "Description coming soon.",
-    "Photo": "images/JBright.jpg",
+    "Photo": "images/speakers/JBright.png",
     "SortOrder": 13
+  },
+  {
+    "SpeakerID": "SPK-014",
+    "DisplayName": "Alex G. Desrosiers",
+    "Title": "Labor/Employment Partner",
+    "Organization": "Fisher Phillips",
+    "BioShort": "Description coming soon.",
+    "Photo": "images/speakers/ADesrosiers.png",
+    "SortOrder": 14
   }
 ]
