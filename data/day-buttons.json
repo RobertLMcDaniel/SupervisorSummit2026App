@@ -3,19 +3,19 @@
     {
       "key": "day1",
       "label": "Day 1",
-      "icon": "icons/home_icon.png",
+      "icon": "icons/weather1.png",
       "styleClass": "day-style-1"
     },
     {
       "key": "day2",
       "label": "Day 2",
-      "icon": "icons/agenda_icon.png",
+      "icon": "icons/weather2.png",
       "styleClass": "day-style-2"
     },
     {
       "key": "day3",
       "label": "Day 3",
-      "icon": "icons/food_icon.png",
+      "icon": "icons/weather3.png",
       "styleClass": "day-style-3"
     }
   ]
