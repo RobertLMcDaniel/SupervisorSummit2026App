@@ -235,7 +235,7 @@
         position: absolute;
         left: 14px;
         right: 14px;
-        top: 34px;
+        top: 48px;
         bottom: 18px;
         z-index: 2;
         text-align: center;
@@ -251,7 +251,9 @@
         text-transform: uppercase;
         font-weight: 800;
         color: var(--accent);
-        text-shadow: 0 8px 16px rgba(27, 46, 64, 0.55);
+        -webkit-text-stroke: 0.6px rgba(27, 46, 64, 0.6);
+        text-shadow: 0 9px 20px rgba(27, 46, 64, 0.62), 0 0 12px rgba(239, 177, 10, 0.18);
+        animation: hero-breathe 4.8s ease-in-out infinite;
       }
 
       .home-video-dates {
@@ -281,6 +283,29 @@
         font-weight: 700;
         color: var(--accent);
         text-shadow: 0 8px 16px rgba(27, 46, 64, 0.48);
+        animation: quote-breathe 5.6s ease-in-out infinite;
+      }
+
+      @keyframes hero-breathe {
+        0%, 100% {
+          transform: scale(1);
+          filter: brightness(1);
+        }
+        50% {
+          transform: scale(1.03);
+          filter: brightness(1.08);
+        }
+      }
+
+      @keyframes quote-breathe {
+        0%, 100% {
+          opacity: 0.92;
+          transform: translateY(0);
+        }
+        50% {
+          opacity: 1;
+          transform: translateY(-2px);
+        }
       }
 
       .list {
@@ -438,14 +463,19 @@
       }
 
       .agenda-day-tab {
-        min-height: 42px;
+        width: 88px;
+        height: 88px;
         border: 0;
-        border-radius: 12px;
+        border-radius: 50%;
         background: rgba(239, 177, 10, 0.78);
-        color: var(--bg-primary);
+        color: var(--text-primary);
         font-weight: 800;
         cursor: pointer;
-        transition: transform 0.22s ease, filter 0.22s ease;
+        transition: transform 0.22s ease, filter 0.22s ease, box-shadow 0.22s ease;
+        display: grid;
+        place-items: center;
+        justify-self: center;
+        box-shadow: 0 8px 18px rgba(27, 46, 64, 0.35);
       }
 
       .agenda-day-tab:active {
@@ -453,16 +483,16 @@
       }
 
       .agenda-day-tab.active {
-        background: var(--accent);
-        color: var(--bg-primary);
+        color: var(--text-primary);
         filter: brightness(1.06);
+        box-shadow: 0 12px 20px rgba(27, 46, 64, 0.45);
       }
 
       .food-day-tabs {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
         gap: 8px;
-        margin-top: 0;
+        margin-top: 12px;
         margin-bottom: 16px;
       }
 
@@ -474,14 +504,19 @@
       }
 
       .food-day-tab {
-        min-height: 42px;
+        width: 88px;
+        height: 88px;
         border: 0;
-        border-radius: 12px;
+        border-radius: 50%;
         background: rgba(239, 177, 10, 0.78);
-        color: var(--bg-primary);
+        color: var(--text-primary);
         font-weight: 800;
         cursor: pointer;
-        transition: transform 0.22s ease, filter 0.22s ease;
+        transition: transform 0.22s ease, filter 0.22s ease, box-shadow 0.22s ease;
+        display: grid;
+        place-items: center;
+        justify-self: center;
+        box-shadow: 0 8px 18px rgba(27, 46, 64, 0.35);
       }
 
       .food-day-tab:active {
@@ -489,9 +524,32 @@
       }
 
       .food-day-tab.active {
-        background: var(--accent);
-        color: var(--bg-primary);
+        color: var(--text-primary);
         filter: brightness(1.06);
+        box-shadow: 0 12px 20px rgba(27, 46, 64, 0.45);
+      }
+
+      .day-style-1 { background: linear-gradient(135deg, #FF8FB1 0%, #FFB38A 100%); }
+      .day-style-2 { background: linear-gradient(135deg, #9B8BFF 0%, #5FA8FF 100%); }
+      .day-style-3 { background: linear-gradient(135deg, #74F2CE 0%, #4DD4A9 100%); }
+
+      .day-tab-content {
+        display: grid;
+        justify-items: center;
+        gap: 3px;
+      }
+
+      .day-tab-icon {
+        width: 20px;
+        height: 20px;
+        object-fit: contain;
+        filter: drop-shadow(0 2px 4px rgba(27, 46, 64, 0.35));
+      }
+
+      .day-tab-label {
+        font-size: 0.78rem;
+        font-weight: 800;
+        line-height: 1;
       }
 
       .speakers-grid {
@@ -1016,12 +1074,12 @@
 
       <section id="food-view" class="view hidden" aria-label="Food view">
         <section class="panel">
+          <div id="food-deck" class="food-deck" aria-live="polite"></div>
           <div class="food-day-tabs" role="tablist" aria-label="Food day tabs">
             <button class="food-day-tab active" type="button" data-food-day="day1">Day 1</button>
             <button class="food-day-tab" type="button" data-food-day="day2">Day 2</button>
             <button class="food-day-tab" type="button" data-food-day="day3">Day 3</button>
           </div>
-          <div id="food-deck" class="food-deck" aria-live="polite"></div>
         </section>
       </section>
     </main>
@@ -1139,6 +1197,11 @@
         'images/clouds_sun.mp4'
       ];
       let heroVideoPlaylist = ['images/background.mp4'];
+      const defaultDayButtonConfig = [
+        { key: 'day1', label: 'Day 1', icon: 'icons/home_icon.png', styleClass: 'day-style-1' },
+        { key: 'day2', label: 'Day 2', icon: 'icons/agenda_icon.png', styleClass: 'day-style-2' },
+        { key: 'day3', label: 'Day 3', icon: 'icons/food_icon.png', styleClass: 'day-style-3' }
+      ];
 
       let speakersLoaded = false;
       let currentAgendaDay = 'day1';
@@ -1286,6 +1349,33 @@
         }
       }
 
+      function renderDayTabs(tabsList, dayDefs) {
+        tabsList.forEach((tab) => {
+          const match = dayDefs.find((day) => day.key === tab.dataset.day || day.key === tab.dataset.foodDay);
+          if (!match) return;
+          tab.classList.remove('day-style-1', 'day-style-2', 'day-style-3');
+          tab.classList.add(match.styleClass || 'day-style-1');
+          tab.innerHTML = `
+            <span class="day-tab-content">
+              <img class="day-tab-icon" src="${match.icon}" alt="" aria-hidden="true" />
+              <span class="day-tab-label">${match.label}</span>
+            </span>
+          `;
+        });
+      }
+
+      async function loadDayButtonConfig() {
+        try {
+          const config = await fetchJson('data/day-buttons.json');
+          const dayDefs = Array.isArray(config.days) && config.days.length ? config.days : defaultDayButtonConfig;
+          renderDayTabs(agendaDayTabs, dayDefs);
+          renderDayTabs(foodDayTabs, dayDefs);
+        } catch {
+          renderDayTabs(agendaDayTabs, defaultDayButtonConfig);
+          renderDayTabs(foodDayTabs, defaultDayButtonConfig);
+        }
+      }
+
       function setErrorState(node, message) {
         node.innerHTML = `<div class="item" style="color:var(--text-primary);font-weight:700;">${message}</div>`;
       }
@@ -1406,10 +1496,11 @@
         speakerDetailOverlay.classList.remove('closing');
         speakerDetailOverlay.classList.remove('hidden');
         if (speakerDetailCard) {
-          speakerDetailCard.classList.remove('speaker-backdrop-1', 'speaker-backdrop-2', 'speaker-backdrop-3', 'speaker-backdrop-4', 'speaker-backdrop-5');
-          const normalizedOrder = Math.max(1, Number(speaker.SortOrder) || 1);
-          const backdropIndex = ((normalizedOrder - 1) % 5) + 1;
-          speakerDetailCard.classList.add(`speaker-backdrop-${backdropIndex}`);
+          const rawBackdrop = String(speaker.Backdrop || '').trim();
+          const match = rawBackdrop.match(/backdrop([1-5])\.jpg$/i);
+          const fallbackIndex = ((Math.max(1, Number(speaker.SortOrder) || 1) - 1) % 5) + 1;
+          const backdropFile = match ? `backdrop${match[1]}.jpg` : `backdrop${fallbackIndex}.jpg`;
+          speakerDetailCard.style.setProperty('--speaker-backdrop', `url('images/${backdropFile}')`);
         }
 
         speakerDetailImage.src = photoPath;
@@ -1529,6 +1620,7 @@
       showView('home');
       syncNavIndicator('home');
       loadHomeContent();
+      loadDayButtonConfig();
       startHomeVideoRotation();
 
       if (splashScreen) {
