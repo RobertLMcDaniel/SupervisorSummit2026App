@@ -110,6 +110,7 @@
         display: inline-block;
         line-height: 0.98;
         text-align: center;
+        display: inline-block;
       }
 
       .topbar-page {
@@ -244,25 +245,70 @@
         align-items: start;
       }
 
+      
       .home-video-title {
         margin: 0;
-        font-size: clamp(2.45rem, 9.4vw, 3.7rem);
-        line-height: 1.02;
+        width: 100%;
+        text-align: center;
+        font-size: clamp(2.75rem, 9.3vw, 4.95rem);
+        line-height: 0.9;
         text-transform: uppercase;
         font-weight: 900;
-        color: var(--accent);
-        -webkit-text-stroke: 0.6px rgba(27, 46, 64, 0.6);
-        text-shadow: 0 9px 20px rgba(27, 46, 64, 0.62), 0 0 12px rgba(239, 177, 10, 0.18);
+        letter-spacing: 0.01em;
         animation: hero-breathe 4.8s ease-in-out infinite;
       }
 
+      
+      
+      .hero-line-1 {
+        display: block;
+        font-size: 1em;
+        letter-spacing: 0.03em;
+        color: #FFFFFF;
+        -webkit-text-stroke: 0.6px rgba(27, 46, 64, 0.18);
+        text-shadow: 0 8px 18px rgba(27, 46, 64, 0.28);
+        text-align: left;
+      }
+
+      .hero-line-2 {
+        display: block;
+        font-size: 1em;
+        letter-spacing: 0.03em;
+        color: #FFFFFF;
+        -webkit-text-stroke: 0.6px rgba(27, 46, 64, 0.18);
+        text-shadow: 0 8px 18px rgba(27, 46, 64, 0.28);
+        white-space: nowrap;
+        text-align: left;
+      }
+
+
+      .hero-year {
+        color: #0B67B2;
+        letter-spacing: 0.01em;
+        -webkit-text-stroke: 0.4px rgba(27, 46, 64, 0.08);
+        text-shadow: 0 6px 14px rgba(27, 46, 64, 0.18);
+      }
+
+
+      .hero-title-main {
+        color: #FFFFFF;
+        -webkit-text-stroke: 0.6px rgba(27, 46, 64, 0.18);
+        text-shadow: 0 8px 18px rgba(27, 46, 64, 0.28);
+      }
+
+      .hero-year {
+        color: #0B67B2;
+        -webkit-text-stroke: 0.6px rgba(27, 46, 64, 0.08);
+        text-shadow: 0 6px 14px rgba(27, 46, 64, 0.18);
+      }
+
       .home-video-dates {
-        margin: 10px 0 0;
-        font-size: clamp(1.08rem, 4.9vw, 1.72rem);
+        margin: 12px 0 0;
+        font-size: clamp(1.2rem, 5.2vw, 1.9rem);
         font-weight: 800;
-        color: var(--accent);
-        -webkit-text-stroke: 0.45px rgba(27, 46, 64, 0.55);
-        text-shadow: 0 8px 16px rgba(27, 46, 64, 0.58), 0 0 8px rgba(239, 177, 10, 0.15);
+        color: #FFFFFF;
+        -webkit-text-stroke: 0.5px rgba(27, 46, 64, 0.2);
+        text-shadow: 0 8px 16px rgba(27, 46, 64, 0.25);
       }
 
       .home-video-middle {
@@ -1082,7 +1128,7 @@
             <div class="home-video-overlay" aria-hidden="true"></div>
             <div class="home-video-label">
               <div>
-                <p id="home-hero-title" class="home-video-title">Supervisor<br />Summit 2026</p>
+                <p id="home-hero-title" class="home-video-title"><span class="hero-line-1">SUPERVISOR</span><span class="hero-line-2">SUMMIT <span class="hero-year">2026</span></span></p>
                 <p id="home-hero-dates" class="home-video-dates">MAY 5–7, 2026</p>
               </div>
               <p id="home-hero-description" class="home-video-middle">Join fellow leaders for two days of practical strategy, collaboration, and growth.</p>
