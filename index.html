@@ -246,48 +246,41 @@
       }
 
       
+      
       .home-video-title {
-        margin: 0;
-        width: 100%;
+        margin: 0 auto;
+        width: min(92%, 760px);
         text-align: center;
-        font-size: clamp(2.75rem, 9.3vw, 4.95rem);
-        line-height: 0.9;
         text-transform: uppercase;
         font-weight: 900;
-        letter-spacing: 0.01em;
+        line-height: 0.9;
         animation: hero-breathe 4.8s ease-in-out infinite;
       }
 
-      
-      
       .hero-line-1 {
         display: block;
-        font-size: 1em;
-        letter-spacing: 0.03em;
+        font-size: clamp(2.7rem, 14vw, 4.9rem);
+        letter-spacing: 0.015em;
         color: #FFFFFF;
         -webkit-text-stroke: 0.6px rgba(27, 46, 64, 0.18);
         text-shadow: 0 8px 18px rgba(27, 46, 64, 0.28);
-        text-align: left;
       }
 
       .hero-line-2 {
         display: block;
-        font-size: 1em;
-        letter-spacing: 0.03em;
+        font-size: clamp(2.7rem, 14vw, 4.9rem);
+        letter-spacing: 0.015em;
         color: #FFFFFF;
         -webkit-text-stroke: 0.6px rgba(27, 46, 64, 0.18);
         text-shadow: 0 8px 18px rgba(27, 46, 64, 0.28);
-        white-space: nowrap;
-        text-align: left;
       }
-
 
       .hero-year {
         color: #0B67B2;
-        letter-spacing: 0.01em;
         -webkit-text-stroke: 0.4px rgba(27, 46, 64, 0.08);
         text-shadow: 0 6px 14px rgba(27, 46, 64, 0.18);
       }
+
 
 
       .hero-title-main {
@@ -302,11 +295,12 @@
         text-shadow: 0 6px 14px rgba(27, 46, 64, 0.18);
       }
 
-      .home-video-dates {
-        margin: 12px 0 0;
-        font-size: clamp(1.2rem, 5.2vw, 1.9rem);
+            .home-video-dates {
+        margin: 14px 0 0;
+        font-size: clamp(1.15rem, 5.3vw, 1.9rem);
         font-weight: 800;
         color: #FFFFFF;
+        text-align: center;
         -webkit-text-stroke: 0.5px rgba(27, 46, 64, 0.2);
         text-shadow: 0 8px 16px rgba(27, 46, 64, 0.25);
       }
@@ -1052,6 +1046,49 @@
         .tab-label { font-size: 0.68rem; }
       }
 
+
+      @media (min-width: 700px) {
+        .screen {
+          max-width: 560px;
+        }
+
+        .home-video-frame {
+          height: calc(100dvh - 168px);
+          min-height: calc(100dvh - 168px);
+        }
+
+        .home-video-label {
+          top: 74px;
+          left: 22px;
+          right: 22px;
+          bottom: 24px;
+        }
+
+        .home-video-title {
+          width: min(94%, 700px);
+          line-height: 0.92;
+        }
+
+        .hero-line-1,
+        .hero-line-2 {
+          font-size: clamp(2.8rem, 6.2vw, 4.2rem);
+        }
+
+        .home-video-dates {
+          font-size: clamp(1.1rem, 2.4vw, 1.6rem);
+          margin-top: 12px;
+        }
+
+        .home-video-middle {
+          max-width: 78%;
+          font-size: clamp(1rem, 2vw, 1.25rem);
+        }
+
+        .home-video-quote {
+          font-size: clamp(1rem, 1.8vw, 1.2rem);
+        }
+      }
+
       .splash-screen {
         position: fixed;
         inset: 0;
@@ -1445,13 +1482,15 @@
       async function loadHomeContent() {
         try {
           const content = await fetchJson('data/home-content.json');
-          const titleText = String(content.title || '').trim();
-          const datesText = String(content.dates || '').trim();
           const descriptionText = String(content.description || '').trim();
           const quoteText = String(content.quote || '').trim();
 
-          if (homeHeroTitle && titleText) homeHeroTitle.innerHTML = titleText.replace(/\n/g, '<br />');
-          if (homeHeroDates && datesText) homeHeroDates.textContent = datesText;
+          if (homeHeroTitle) {
+            homeHeroTitle.innerHTML = '<span class="hero-line-1">SUPERVISOR</span><span class="hero-line-2">SUMMIT <span class="hero-year">2026</span></span>';
+          }
+          if (homeHeroDates) {
+            homeHeroDates.textContent = 'MAY 5–7, 2026';
+          }
           if (homeHeroDescription && descriptionText) homeHeroDescription.textContent = descriptionText;
           if (homeHeroQuote && quoteText) homeHeroQuote.textContent = `“${quoteText.replace(/^“|”$/g, '')}”`;
         } catch {
