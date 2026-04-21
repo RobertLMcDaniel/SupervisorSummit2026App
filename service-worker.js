@@ -1,4 +1,4 @@
-const CACHE_NAME = 'supervisor-summit-2026-v10';
+const CACHE_NAME = 'supervisor-summit-2026-v11';
 const STATIC_ASSETS = [
   'index.html',
   'manifest.json?v=20260413-1',
@@ -41,6 +41,7 @@ self.addEventListener('fetch', (event) => {
 
   const request = event.request;
   const isNavigation = request.mode === 'navigate';
+  const isImage = request.destination === 'image';
 
   if (isNavigation) {
     event.respondWith(
@@ -51,6 +52,19 @@ self.addEventListener('fetch', (event) => {
           return networkResponse;
         })
         .catch(() => caches.match(request).then((cached) => cached || caches.match('index.html')))
+    );
+    return;
+  }
+
+  if (isImage) {
+    event.respondWith(
+      fetch(request, { cache: 'no-store' })
+        .then((networkResponse) => {
+          const responseClone = networkResponse.clone();
+          caches.open(CACHE_NAME).then((cache) => cache.put(request, responseClone));
+          return networkResponse;
+        })
+        .catch(() => caches.match(request))
     );
     return;
   }
