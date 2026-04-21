@@ -1,17 +1,17 @@
 {
-  "dayLabel": "Day 2 Food",
+  "dayLabel": "Day 2",
   "items": [
     {
-      "name": "Hot Breakfast",
-      "description": "Eggs, breakfast potatoes, toast, and coffee station."
+      "name": "Continental Breakfast",
+      "description": "Yogurt, parfait toppings, pastries, and coffee."
     },
     {
-      "name": "Lunch Buffet",
-      "description": "Rotating entree options with sides and salads."
+      "name": "Taco Bar Lunch",
+      "description": "Soft tortillas, proteins, toppings, and sides."
     },
     {
-      "name": "Snack Break",
-      "description": "Trail mix, cookies, and chilled drinks."
+      "name": "Dessert Social",
+      "description": "Mini desserts and specialty coffee service."
     }
   ]
 }
