@@ -3,22 +3,22 @@
     {
       "key": "day1",
       "label": "Day 1",
-      "agendaIcon": "icons/home_icon.png",
-      "foodIcon": "icons/food_icon.png",
+      "agendaIcon": "icons/weather1.png",
+      "foodIcon": "icons/weather2.png",
       "styleClass": "day-style-1"
     },
     {
       "key": "day2",
       "label": "Day 2",
-      "agendaIcon": "icons/agenda_icon.png",
-      "foodIcon": "icons/speaker_icon.png",
+      "agendaIcon": "icons/weather3.png",
+      "foodIcon": "icons/weather4.png",
       "styleClass": "day-style-2"
     },
     {
       "key": "day3",
       "label": "Day 3",
-      "agendaIcon": "icons/food_icon.png",
-      "foodIcon": "icons/agenda_icon.png",
+      "agendaIcon": "icons/weather5.png",
+      "foodIcon": "icons/weather6.png",
       "styleClass": "day-style-3"
     }
   ]
