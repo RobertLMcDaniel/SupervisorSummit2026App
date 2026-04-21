@@ -1,17 +1,17 @@
 {
-  "dayLabel": "Day 1 Food",
+  "dayLabel": "Day 1",
   "items": [
     {
       "name": "Breakfast Buffet",
-      "description": "Fresh pastries, fruit, yogurt, coffee, and tea."
+      "description": "Seasonal fruit, pastries, and hot breakfast selections."
     },
     {
-      "name": "Lunch Service",
-      "description": "Chef selection with protein, salad, and vegetarian choices."
+      "name": "Build-Your-Own Bowl Lunch",
+      "description": "Protein, grains, fresh vegetables, and house sauces."
     },
     {
-      "name": "Afternoon Snacks",
-      "description": "Fruit cups, granola bars, and assorted beverages."
+      "name": "Afternoon Snack Break",
+      "description": "Cookies, granola bars, and assorted beverages."
     }
   ]
 }
