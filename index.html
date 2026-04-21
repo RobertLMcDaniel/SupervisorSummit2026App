@@ -235,7 +235,7 @@
         position: absolute;
         left: 14px;
         right: 14px;
-        top: 66px;
+        top: 78px;
         bottom: 18px;
         z-index: 2;
         text-align: center;
@@ -246,7 +246,7 @@
 
       .home-video-title {
         margin: 0;
-        font-size: clamp(2.2rem, 8.8vw, 3.35rem);
+        font-size: clamp(2.45rem, 9.4vw, 3.7rem);
         line-height: 1.02;
         text-transform: uppercase;
         font-weight: 900;
@@ -257,8 +257,8 @@
       }
 
       .home-video-dates {
-        margin: 8px 0 0;
-        font-size: clamp(1rem, 4.6vw, 1.6rem);
+        margin: 10px 0 0;
+        font-size: clamp(1.08rem, 4.9vw, 1.72rem);
         font-weight: 800;
         color: var(--accent);
         -webkit-text-stroke: 0.45px rgba(27, 46, 64, 0.55);
@@ -310,7 +310,7 @@
       }
 
       .list {
-        min-height: 0;
+        max-height: 68dvh;
         overflow-y: auto;
         display: grid;
         gap: 8px;
@@ -372,22 +372,25 @@
       .agenda-item.slide-in-right { animation: slide-in-right 0.48s ease both; }
 
       .agenda-panel {
-        padding: 0 0 12px;
+        height: calc(100dvh - 212px);
+        padding: 0;
         border: 1px solid rgba(239, 177, 10, 0.45);
         background: transparent;
         box-shadow: 0 10px 24px rgba(27, 46, 64, 0.35);
+        overflow: hidden;
       }
 
       #agenda-list {
         border: 0;
         border-radius: 0;
-        padding: 0;
+        padding: 8px;
         background: transparent;
         min-height: 0;
+        height: 100%;
       }
 
       .food-deck {
-        min-height: 0;
+        max-height: 68dvh;
         overflow-y: auto;
         display: grid;
         gap: 8px;
@@ -447,23 +450,25 @@
         padding-top: calc(40px + env(safe-area-inset-top));
       }
 
-      #speakers-view .panel {
-        height: 100%;
-        min-height: 0;
+      #speakers-view .panel,
+      #food-view .panel {
+        height: calc(100dvh - 212px);
         display: grid;
-        grid-template-rows: minmax(0, 1fr);
         align-content: stretch;
-        padding-bottom: 12px;
+        overflow: hidden;
       }
 
-      #agenda-view .panel,
-      #food-view .panel {
-        height: 100%;
-        min-height: 0;
+      #agenda-view .panel {
+        height: calc(100dvh - 212px);
         display: grid;
         grid-template-rows: minmax(0, 1fr) auto;
         align-content: stretch;
-        padding-bottom: 12px;
+        overflow: hidden;
+      }
+
+      #food-view .panel {
+        grid-template-rows: minmax(0, 1fr) auto;
+        padding-bottom: 0;
       }
 
       .agenda-day-tabs {
@@ -484,7 +489,7 @@
         box-shadow: inset 0 1px 0 rgba(245, 247, 250, 0.1), 0 8px 16px rgba(27, 46, 64, 0.25);
         padding: 8px 6px;
         width: fit-content;
-        margin: 0 auto;
+        margin: 8px auto 0;
       }
 
       .agenda-day-tabs .agenda-day-tab:nth-child(odd) {
@@ -533,7 +538,7 @@
         display: grid;
         grid-template-columns: repeat(3, 1fr);
         gap: 8px;
-        margin-top: 0;
+        margin-top: 8px;
         margin-bottom: 0;
         width: 280px;
         margin-left: auto;
@@ -596,24 +601,19 @@
         line-height: 1;
       }
 
-      .agenda-panel .day-tabs-shell,
-      #food-view .day-tabs-shell {
-        align-self: end;
-      }
-
       .speakers-grid {
         display: grid;
         grid-template-columns: 1fr;
         gap: 10px;
         margin-top: 4px;
-        min-height: 0;
+        max-height: 68dvh;
         overflow-y: auto;
         padding-right: 2px;
         scrollbar-width: none;
       }
       .speakers-grid::-webkit-scrollbar { width: 0; height: 0; }
       #speakers-grid,
-      #food-deck { max-height: none; }
+      #food-deck { max-height: none; height: 100%; min-height: 0; }
 
       .speaker-tile {
         border: 0;
