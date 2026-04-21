@@ -1,17 +1,17 @@
 {
-  "dayLabel": "Day 3 Food",
+  "dayLabel": "Day 3",
   "items": [
     {
-      "name": "Continental Breakfast",
-      "description": "Parfaits, muffins, bagels, and hot drinks."
+      "name": "Breakfast Sandwich Station",
+      "description": "Made-to-order breakfast sandwiches and fresh fruit."
     },
     {
-      "name": "Closing Lunch",
-      "description": "Wrap station, seasonal sides, and dessert bites."
+      "name": "Deli Lunch",
+      "description": "Assorted sandwiches, salads, and chips."
     },
     {
-      "name": "Refreshment Break",
-      "description": "Fruit, sparkling water, and light snacks."
+      "name": "Closing Refreshments",
+      "description": "Light snacks and beverages before departure."
     }
   ]
 }
