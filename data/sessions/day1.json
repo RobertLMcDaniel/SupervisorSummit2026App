@@ -2,61 +2,101 @@
   {
     "SessionID": "D1-001",
     "Day": "Day 1",
-    "SessionTitle": "Opening Keynote: Leading with Clarity",
-    "StartTime": "08:30 AM",
-    "EndTime": "09:15 AM",
-    "Location": "Grand Ballroom",
-    "SpeakerIDs": ["SPK-001", "SPK-009"],
-    "Description": "Kickoff session introducing summit themes, leadership priorities, and expected outcomes for supervisors."
+    "SessionTitle": "Opening Session",
+    "StartTime": "08:00 AM",
+    "EndTime": "08:45 AM",
+    "Location": "Westmonte Recreation Center",
+    "SpeakerIDs": ["Mindy Price", "Kendall Gow", "Terri Crowell"],
+    "Description": "In this opening session, facilitator Mindy Price will set the tone for Supervisor Summit 2026 by building on past themes while introducing this year’s focus on Bringing the Weather. Participants will reflect on how supervisors shape the climate of their teams through tone, energy, mindset, and leadership presence."
   },
   {
     "SessionID": "D1-002",
     "Day": "Day 1",
-    "SessionTitle": "Coaching Teams in Real Time",
-    "StartTime": "09:30 AM",
-    "EndTime": "10:15 AM",
-    "Location": "Harbor Room",
-    "SpeakerIDs": ["SPK-002", "SPK-006"],
-    "Description": "Practical coaching models for immediate feedback, accountability, and performance growth."
+    "SessionTitle": "Bringing the Weather: Setting the Tone for Leadership",
+    "StartTime": "08:45 AM",
+    "EndTime": "09:30 AM",
+    "Location": "Westmonte Recreation Center",
+    "SpeakerIDs": ["Frank Martz"],
+    "Description": "In this session, the City Manager will reinforce the summit’s theme of Supervisors Bringing the Weather, emphasizing the vital role supervisors play in setting the tone, shaping team culture, and influencing performance. Participants will be challenged to model accountability, positivity, and leadership that drives operational excellence."
   },
   {
     "SessionID": "D1-003",
     "Day": "Day 1",
-    "SessionTitle": "Service Recovery Playbook",
-    "StartTime": "10:30 AM",
-    "EndTime": "11:15 AM",
-    "Location": "Cypress Hall",
-    "SpeakerIDs": ["SPK-003", "SPK-010"],
-    "Description": "Frameworks for handling escalations and restoring trust with consistency."
+    "SessionTitle": "Navigating the Legal Climate",
+    "StartTime": "09:30 AM",
+    "EndTime": "10:15 AM",
+    "Location": "Westmonte Recreation Center",
+    "SpeakerIDs": ["Alex Desrosiers"],
+    "Description": "This session will cover key employee and labor law topics that impact supervisors, including practical guidance for handling workplace issues, policy considerations, and common legal risks. Participants will also have the opportunity to ask questions and gain insight directly from the City’s labor attorney."
   },
   {
     "SessionID": "D1-004",
     "Day": "Day 1",
-    "SessionTitle": "Operational Metrics That Matter",
-    "StartTime": "11:30 AM",
-    "EndTime": "12:15 PM",
-    "Location": "Summit Theater",
-    "SpeakerIDs": ["SPK-007"],
-    "Description": "Review core KPIs supervisors should track daily and how to act on trends quickly."
+    "SessionTitle": "Break",
+    "StartTime": "10:15 AM",
+    "EndTime": "10:30 AM",
+    "Location": "Westmonte Recreation Center",
+    "SpeakerIDs": [],
+    "Description": "Short break for participants to reset, connect, and prepare for the next session."
   },
   {
     "SessionID": "D1-005",
     "Day": "Day 1",
-    "SessionTitle": "Cross-Functional Collaboration Lab",
-    "StartTime": "01:30 PM",
-    "EndTime": "02:15 PM",
-    "Location": "Lakeside Studio",
-    "SpeakerIDs": ["SPK-004", "SPK-008"],
-    "Description": "Interactive exercises for improving handoffs, communication rhythm, and team alignment."
+    "SessionTitle": "Supervisor Training",
+    "StartTime": "10:30 AM",
+    "EndTime": "12:00 PM",
+    "Location": "Westmonte Recreation Center",
+    "SpeakerIDs": ["Mindy Price"],
+    "Description": "This training session focuses on practical leadership strategies supervisors can apply immediately, including communication, accountability, team expectations, and creating a positive workplace culture that supports performance and engagement."
   },
   {
     "SessionID": "D1-006",
     "Day": "Day 1",
-    "SessionTitle": "Day-One Reflection & Action Notes",
-    "StartTime": "03:00 PM",
-    "EndTime": "03:45 PM",
-    "Location": "Grand Ballroom",
-    "SpeakerIDs": ["SPK-001"],
-    "Description": "Wrap-up session to capture key lessons and immediate actions for the week."
+    "SessionTitle": "Lunch",
+    "StartTime": "12:00 PM",
+    "EndTime": "01:00 PM",
+    "Location": "Westmonte Recreation Center",
+    "SpeakerIDs": [],
+    "Description": "Lunch break for participants to recharge, connect with peers, and reflect on the morning sessions before continuing the afternoon learning experience."
+  },
+  {
+    "SessionID": "D1-007",
+    "Day": "Day 1",
+    "SessionTitle": "Supervisor Training",
+    "StartTime": "01:00 PM",
+    "EndTime": "02:15 PM",
+    "Location": "Westmonte Recreation Center",
+    "SpeakerIDs": ["Mindy Price"],
+    "Description": "This afternoon session builds on the morning discussions by exploring leadership habits, coaching conversations, and the importance of consistency in how supervisors lead, support, and develop their teams."
+  },
+  {
+    "SessionID": "D1-008",
+    "Day": "Day 1",
+    "SessionTitle": "Break",
+    "StartTime": "02:15 PM",
+    "EndTime": "02:30 PM",
+    "Location": "Westmonte Recreation Center",
+    "SpeakerIDs": [],
+    "Description": "Short break for participants to reset, network, and prepare for the final training session of Day 1."
+  },
+  {
+    "SessionID": "D1-009",
+    "Day": "Day 1",
+    "SessionTitle": "Supervisor Training",
+    "StartTime": "02:30 PM",
+    "EndTime": "03:30 PM",
+    "Location": "Westmonte Recreation Center",
+    "SpeakerIDs": ["Mindy Price"],
+    "Description": "This final training block challenges supervisors to connect the day’s lessons to their own leadership approach, focusing on ownership, intentional leadership, and sustaining a strong team climate beyond the summit."
+  },
+  {
+    "SessionID": "D1-010",
+    "Day": "Day 1",
+    "SessionTitle": "Day 1 Closing",
+    "StartTime": "03:30 PM",
+    "EndTime": "04:00 PM",
+    "Location": "Westmonte Recreation Center",
+    "SpeakerIDs": ["Mindy Price", "Kendall Gow", "Terri Crowell"],
+    "Description": "Closing remarks to wrap up Day 1 and outline expectations and key focus areas for Days 2 and 3 of the Supervisor Summit."
   }
 ]
