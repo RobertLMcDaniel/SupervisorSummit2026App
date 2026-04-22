@@ -171,7 +171,7 @@
         position: absolute;
         inset: 0;
         pointer-events: none;
-        background: linear-gradient(180deg, rgba(27, 46, 64, 0.15) 0%, rgba(27, 46, 64, 0.75) 72%);
+        background: linear-gradient(180deg, rgba(27, 46, 64, 0.32) 0%, rgba(27, 46, 64, 0.82) 72%);
       }
 
       .home-foreground {
@@ -270,15 +270,15 @@
         text-shadow: 0 6px 14px rgba(27, 46, 64, 0.18);
       }
 
-            .home-video-middle-wrap {
+      .home-video-middle-wrap {
         align-self: center;
         justify-self: center;
         display: grid;
         justify-items: center;
         gap: 12px;
         width: 100%;
-        max-width: 82%;
-        transform: translateY(-28px);
+        max-width: 84%;
+        transform: translateY(-14px);
       }
 
       .home-gold-bar {
@@ -290,10 +290,21 @@
         box-shadow: 0 4px 12px rgba(239, 177, 10, 0.28);
       }
 
+
+            .home-video-dates {
+        margin: 14px 0 0;
+        font-size: clamp(1.15rem, 5.3vw, 1.9rem);
+        font-weight: 800;
+        color: #FFFFFF;
+        text-align: center;
+        -webkit-text-stroke: 0.5px rgba(27, 46, 64, 0.2);
+        text-shadow: 0 8px 16px rgba(27, 46, 64, 0.25);
+      }
+
       .home-video-middle {
         align-self: center;
         margin: 0 auto;
-        font-size: clamp(1.04rem, 4.45vw, 1.4rem);
+        font-size: clamp(1.06rem, 4.55vw, 1.42rem);
         line-height: 1.45;
         color: #FFFFFF;
         text-align: center;
@@ -305,19 +316,25 @@
       .home-video-quote {
         align-self: end;
         margin: 0;
-        font-size: clamp(1.28rem, 5.4vw, 1.7rem);
+        font-size: clamp(1.5rem, 6vw, 1.9rem);
         font-style: normal;
         font-weight: 800;
-        line-height: 1.02;
+        color: transparent;
         text-align: center;
-        text-transform: uppercase;
-        background: linear-gradient(180deg, #F5F7FA 0%, #F2CD62 46%, #EFB10A 100%);
+        text-shadow: 0 8px 16px rgba(27, 46, 64, 0.38);
+        background: linear-gradient(180deg, #F6C84D 0%, #EFB10A 100%);
         -webkit-background-clip: text;
         background-clip: text;
-        color: transparent;
         -webkit-text-fill-color: transparent;
-        text-shadow: none;
         animation: quote-breathe 5.6s ease-in-out infinite;
+        line-height: 1.02;
+        display: grid;
+        justify-items: center;
+        gap: 4px;
+      }
+
+      .home-video-quote-line {
+        display: block;
       }
 
       @keyframes hero-breathe {
@@ -1061,9 +1078,14 @@
           width: min(100%, 390px);
         }
 
+        .home-video-dates {
+          font-size: clamp(1.1rem, 2.4vw, 1.6rem);
+          margin-top: 12px;
+        }
+
         .home-video-middle {
           max-width: 100%;
-          font-size: clamp(1.02rem, 2.08vw, 1.3rem);
+          font-size: clamp(1.02rem, 2.2vw, 1.3rem);
         }
 
         .home-video-quote {
@@ -1154,7 +1176,7 @@
                 <p id="home-hero-description" class="home-video-middle">Practical learning, stronger leadership, and one shared standard across the City.</p>
                 <span class="home-gold-bar" aria-hidden="true"></span>
               </div>
-              <p id="home-hero-quote" class="home-video-quote">Supervisors<br />Bring the Weather</p>
+              <p id="home-hero-quote" class="home-video-quote"><span class="home-video-quote-line">Supervisors</span><span class="home-video-quote-line">Bring the Weather</span></p>
             </div>
           </section>
         </div>
@@ -1464,22 +1486,29 @@
         return hash ? `${versioned}#${hash}` : versioned;
       }
 
+      function formatHomeQuoteText(quoteText) {
+        const cleaned = String(quoteText || '').replace(/[“”]/g, '').trim();
+        if (!cleaned) return '';
+        const parts = cleaned.split(/\s+/);
+        const firstLine = parts.shift() || '';
+        const secondLine = parts.join(' ') || '';
+        return secondLine
+          ? `<span class="home-video-quote-line">${firstLine}</span><span class="home-video-quote-line">${secondLine}</span>`
+          : `<span class="home-video-quote-line">${firstLine}</span>`;
+      }
+
       async function loadHomeContent() {
         try {
           const content = await fetchJson('data/home-content.json');
           const titleImage = String(content.titleImage || '').trim();
-          const datesText = String(content.dates || '').trim();
           const descriptionText = String(content.description || '').trim();
           const quoteText = String(content.quote || '').trim();
 
           if (homeHeroImage && titleImage) {
             homeHeroImage.src = withRefreshToken(`images/${titleImage}`);
           }
-          if (homeHeroDates && datesText) {
-            homeHeroDates.textContent = datesText;
-          }
           if (homeHeroDescription && descriptionText) homeHeroDescription.textContent = descriptionText;
-          if (homeHeroQuote && quoteText) homeHeroQuote.textContent = `“${quoteText.replace(/^“|”$/g, '')}”`;
+          if (homeHeroQuote && quoteText) homeHeroQuote.innerHTML = formatHomeQuoteText(quoteText);
         } catch {
           // Keep built-in defaults if JSON is unavailable.
         }
