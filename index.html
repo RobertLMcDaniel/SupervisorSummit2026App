@@ -270,14 +270,24 @@
         text-shadow: 0 6px 14px rgba(27, 46, 64, 0.18);
       }
 
-            .home-video-dates {
-        margin: 14px 0 0;
-        font-size: clamp(1.15rem, 5.3vw, 1.9rem);
-        font-weight: 800;
-        color: #FFFFFF;
-        text-align: center;
-        -webkit-text-stroke: 0.5px rgba(27, 46, 64, 0.2);
-        text-shadow: 0 8px 16px rgba(27, 46, 64, 0.25);
+
+      .home-video-middle-wrap {
+        align-self: center;
+        justify-self: center;
+        display: grid;
+        justify-items: center;
+        gap: 10px;
+        width: 100%;
+        max-width: 82%;
+      }
+
+      .home-gold-bar {
+        display: block;
+        width: 72px;
+        height: 4px;
+        border-radius: 999px;
+        background: var(--accent);
+        box-shadow: 0 4px 12px rgba(239, 177, 10, 0.28);
       }
 
       .home-video-middle {
@@ -288,7 +298,7 @@
         color: #FFFFFF;
         text-align: center;
         text-shadow: 0 8px 16px rgba(27, 46, 64, 0.48);
-        max-width: 82%;
+        max-width: 100%;
         justify-self: center;
       }
 
@@ -1045,13 +1055,8 @@
           width: min(100%, 390px);
         }
 
-        .home-video-dates {
-          font-size: clamp(1.1rem, 2.4vw, 1.6rem);
-          margin-top: 12px;
-        }
-
         .home-video-middle {
-          max-width: 78%;
+          max-width: 100%;
           font-size: clamp(1rem, 2vw, 1.25rem);
         }
 
@@ -1137,9 +1142,12 @@
             <div class="home-video-label">
               <div>
                 <img id="home-hero-image" class="home-hero-image" src="images/SUPERVISOR.png" alt="Supervisor Summit 2026" />
-                <p id="home-hero-dates" class="home-video-dates">MAY 5–7, 2026</p>
               </div>
-              <p id="home-hero-description" class="home-video-middle">Join fellow leaders for two days of practical strategy, collaboration, and growth.</p>
+              <div class="home-video-middle-wrap">
+                <span class="home-gold-bar" aria-hidden="true"></span>
+                <p id="home-hero-description" class="home-video-middle">Practical learning, stronger leadership, and one shared standard across the City.</p>
+                <span class="home-gold-bar" aria-hidden="true"></span>
+              </div>
               <p id="home-hero-quote" class="home-video-quote">“Supervisors bring the weather.”</p>
             </div>
           </section>
