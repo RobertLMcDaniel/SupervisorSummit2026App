@@ -245,52 +245,15 @@
         align-items: start;
       }
 
-      
-      
-      
-      .home-video-title {
+      .home-hero-image {
+        display: block;
+        width: min(100%, 420px);
+        max-width: 100%;
+        height: auto;
         margin: 0 auto;
-        width: 100%;
-        max-width: 420px;
-        text-align: center;
-        text-transform: uppercase;
-        font-weight: 900;
-        line-height: 0.88;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        animation: hero-breathe 4.8s ease-in-out infinite;
+        filter: drop-shadow(0 8px 18px rgba(27, 46, 64, 0.28));
       }
 
-      .hero-line-1 {
-        display: block;
-        width: 100%;
-        font-size: clamp(2.6rem, 9vw, 4.6rem);
-        letter-spacing: 0.015em;
-        color: #FFFFFF;
-        text-align: left;
-        -webkit-text-stroke: 0.6px rgba(27, 46, 64, 0.18);
-        text-shadow: 0 8px 18px rgba(27, 46, 64, 0.28);
-      }
-
-      .hero-line-2 {
-        display: block;
-        width: 100%;
-        font-size: clamp(2.6rem, 9vw, 4.6rem);
-        letter-spacing: 0.015em;
-        color: #FFFFFF;
-        text-align: left;
-        white-space: nowrap;
-        -webkit-text-stroke: 0.6px rgba(27, 46, 64, 0.18);
-        text-shadow: 0 8px 18px rgba(27, 46, 64, 0.28);
-      }
-
-      .hero-year {
-        color: #0B67B2;
-        -webkit-text-stroke: 0.4px rgba(27, 46, 64, 0.08);
-        text-shadow: 0 6px 14px rgba(27, 46, 64, 0.18);
-      }
 
 
 
@@ -1076,14 +1039,8 @@
           bottom: 24px;
         }
 
-        .home-video-title {
-          width: min(94%, 700px);
-          line-height: 0.92;
-        }
-
-        .hero-line-1,
-        .hero-line-2 {
-          font-size: clamp(2.8rem, 6.2vw, 4.2rem);
+        .home-hero-image {
+          width: min(100%, 390px);
         }
 
         .home-video-dates {
@@ -1177,7 +1134,7 @@
             <div class="home-video-overlay" aria-hidden="true"></div>
             <div class="home-video-label">
               <div>
-                <p id="home-hero-title" class="home-video-title"><span class="hero-line-1">SUPERVISOR</span><span class="hero-line-2">SUMMIT <span class="hero-year">2026</span></span></p>
+                <img id="home-hero-image" class="home-hero-image" src="images/SUPERVISOR.png" alt="Supervisor Summit 2026" />
                 <p id="home-hero-dates" class="home-video-dates">MAY 5–7, 2026</p>
               </div>
               <p id="home-hero-description" class="home-video-middle">Join fellow leaders for two days of practical strategy, collaboration, and growth.</p>
@@ -1321,7 +1278,7 @@
       const foodDayTabs = Array.from(document.querySelectorAll('.food-day-tab'));
       const speakersGrid = document.getElementById('speakers-grid');
       const foodDeck = document.getElementById('food-deck');
-      const homeHeroTitle = document.getElementById('home-hero-title');
+      const homeHeroImage = document.getElementById('home-hero-image');
       const homeHeroDates = document.getElementById('home-hero-dates');
       const homeHeroDescription = document.getElementById('home-hero-description');
       const homeHeroQuote = document.getElementById('home-hero-quote');
@@ -1494,14 +1451,16 @@
       async function loadHomeContent() {
         try {
           const content = await fetchJson('data/home-content.json');
+          const titleImage = String(content.titleImage || '').trim();
+          const datesText = String(content.dates || '').trim();
           const descriptionText = String(content.description || '').trim();
           const quoteText = String(content.quote || '').trim();
 
-          if (homeHeroTitle) {
-            homeHeroTitle.innerHTML = '<span class="hero-line-1">SUPERVISOR</span><span class="hero-line-2">SUMMIT <span class="hero-year">2026</span></span>';
+          if (homeHeroImage && titleImage) {
+            homeHeroImage.src = withRefreshToken(`images/${titleImage}`);
           }
-          if (homeHeroDates) {
-            homeHeroDates.textContent = 'MAY 5–7, 2026';
+          if (homeHeroDates && datesText) {
+            homeHeroDates.textContent = datesText;
           }
           if (homeHeroDescription && descriptionText) homeHeroDescription.textContent = descriptionText;
           if (homeHeroQuote && quoteText) homeHeroQuote.textContent = `“${quoteText.replace(/^“|”$/g, '')}”`;
