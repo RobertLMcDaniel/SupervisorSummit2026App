@@ -439,30 +439,6 @@
         height: 100%;
       }
 
-      .food-deck {
-        max-height: 68dvh;
-        overflow-y: auto;
-        display: grid;
-        gap: 8px;
-        padding-right: 2px;
-        scrollbar-width: none;
-      }
-      .food-deck::-webkit-scrollbar { width: 0; height: 0; }
-
-      .food-card {
-        position: relative;
-        border-radius: 18px;
-        padding: 14px;
-        border: 0;
-        color: #FFFFFF;
-        box-shadow: 0 14px 28px rgba(27, 46, 64, 0.35);
-      }
-      .food-card h3 {
-        margin: 0 0 10px;
-        font-size: 1.1rem;
-        text-transform: uppercase;
-      }
-
       .item h3 {
         margin: 0 0 5px;
         font-size: 0.98rem;
@@ -495,13 +471,11 @@
 
       #agenda-view,
       #speakers-view,
-      #food-view,
       #locations-view {
         padding-top: calc(40px + env(safe-area-inset-top));
       }
 
-      #speakers-view .panel,
-      #food-view .panel {
+      #speakers-view .panel {
         height: calc(100dvh - 212px);
         display: grid;
         align-content: stretch;
@@ -514,11 +488,6 @@
         grid-template-rows: minmax(0, 1fr) auto;
         align-content: stretch;
         overflow: hidden;
-        padding-bottom: 10px;
-      }
-
-      #food-view .panel {
-        grid-template-rows: minmax(0, 1fr) auto;
         padding-bottom: 10px;
       }
 
@@ -585,50 +554,6 @@
         box-shadow: 0 12px 20px rgba(27, 46, 64, 0.45);
       }
 
-      .food-day-tabs {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 8px;
-        margin-top: 8px;
-        margin-bottom: 0;
-        width: 280px;
-        margin-left: auto;
-        margin-right: auto;
-      }
-
-      .food-day-tabs .food-day-tab:nth-child(odd) {
-        animation: slide-in-left 0.46s ease both;
-      }
-      .food-day-tabs .food-day-tab:nth-child(even) {
-        animation: slide-in-right 0.46s ease both;
-      }
-
-      .food-day-tab {
-        width: 88px;
-        height: 88px;
-        border: 0;
-        border-radius: 50%;
-        background: rgba(239, 177, 10, 0.78);
-        color: var(--text-primary);
-        font-weight: 800;
-        cursor: pointer;
-        transition: transform 0.22s ease, filter 0.22s ease, box-shadow 0.22s ease;
-        display: grid;
-        place-items: center;
-        justify-self: center;
-        box-shadow: 0 8px 18px rgba(27, 46, 64, 0.35);
-      }
-
-      .food-day-tab:active {
-        transform: scale(0.98);
-      }
-
-      .food-day-tab.active {
-        color: var(--text-primary);
-        filter: brightness(1.06);
-        box-shadow: 0 12px 20px rgba(27, 46, 64, 0.45);
-      }
-
       .day-style-1 { background: linear-gradient(135deg, #FF8FB1 0%, #FFB38A 100%); }
       .day-style-2 { background: linear-gradient(135deg, #9B8BFF 0%, #5FA8FF 100%); }
       .day-style-3 { background: linear-gradient(135deg, #74F2CE 0%, #4DD4A9 100%); }
@@ -663,8 +588,7 @@
         scrollbar-width: none;
       }
       .speakers-grid::-webkit-scrollbar { width: 0; height: 0; }
-      #speakers-grid,
-      #food-deck { max-height: none; height: 100%; min-height: 0; }
+      #speakers-grid { max-height: none; height: 100%; min-height: 0; }
 
       .speaker-tile {
         border: 0;
@@ -955,7 +879,7 @@
         width: min(100%, 520px);
         margin: 0 auto;
         display: grid;
-        grid-template-columns: repeat(4, minmax(0, 1fr));
+        grid-template-columns: repeat(3, minmax(0, 1fr));
         gap: 8px;
         padding: 8px;
         border-radius: 24px;
@@ -1190,7 +1114,7 @@
                 <p id="home-hero-description" class="home-video-middle">Practical learning, stronger leadership, and one shared standard across the City.</p>
                 <span class="home-gold-bar" aria-hidden="true"></span>
               </div>
-              <p id="home-hero-quote" class="home-video-quote"><span class="home-video-quote-line">Supervisors</span><span class="home-video-quote-line">Bring the Weather</span></p>
+              <p id="home-hero-quote" class="home-video-quote"><span class="home-video-quote-line">“Supervisors</span><span class="home-video-quote-line">Bring the Weather”</span></p>
             </div>
           </section>
         </div>
@@ -1228,17 +1152,6 @@
         </section>
       </section>
 
-      <section id="food-view" class="view hidden" aria-label="Food view">
-        <section class="panel">
-          <div id="food-deck" class="food-deck" aria-live="polite"></div>
-          <div class="day-tabs-shell">
-            <div class="food-day-tabs" role="tablist" aria-label="Food day tabs">
-              <button class="food-day-tab active" type="button" data-food-day="day1">Day 1</button>
-              <button class="food-day-tab" type="button" data-food-day="day2">Day 2</button>
-              <button class="food-day-tab" type="button" data-food-day="day3">Day 3</button>
-            </div>
-          </div>
-        </section>
       </section>
     </main>
 
@@ -1262,12 +1175,6 @@
             <img class="tab-icon" src="icons/agenda_icon.png" alt="" aria-hidden="true" />
           </span>
           <span class="tab-label">Agenda</span>
-        </button>
-        <button class="tab-btn" type="button" data-tab="food">
-          <span class="tab-icon-circle" aria-hidden="true">
-            <img class="tab-icon" src="icons/food_icon.png" alt="" aria-hidden="true" />
-          </span>
-          <span class="tab-label">Food</span>
         </button>
       </div>
     </nav>
@@ -1316,7 +1223,6 @@
         home: document.getElementById('home-view'),
         agenda: document.getElementById('agenda-view'),
         speakers: document.getElementById('speakers-view'),
-        food: document.getElementById('food-view'),
         locations: document.getElementById('locations-view')
       };
 
@@ -1327,9 +1233,7 @@
       const topbarViewTitle = document.getElementById('topbar-view-title');
       const topbarPageLabel = document.getElementById('topbar-page-label');
       const agendaDayTabs = Array.from(document.querySelectorAll('.agenda-day-tab'));
-      const foodDayTabs = Array.from(document.querySelectorAll('.food-day-tab'));
       const speakersGrid = document.getElementById('speakers-grid');
-      const foodDeck = document.getElementById('food-deck');
       const homeHeroImage = document.getElementById('home-hero-image');
       const homeHeroDates = document.getElementById('home-hero-dates');
       const homeHeroDescription = document.getElementById('home-hero-description');
@@ -1357,16 +1261,14 @@
       let heroVideoPlaylist = ['images/background.mp4'];
       const ASSET_REFRESH_TOKEN = '20260421-2';
       const defaultDayButtonConfig = [
-        { key: 'day1', label: 'Day 1', agendaIcon: 'icons/home_icon.png', foodIcon: 'icons/food_icon.png', styleClass: 'day-style-1' },
-        { key: 'day2', label: 'Day 2', agendaIcon: 'icons/agenda_icon.png', foodIcon: 'icons/speaker_icon.png', styleClass: 'day-style-2' },
-        { key: 'day3', label: 'Day 3', agendaIcon: 'icons/food_icon.png', foodIcon: 'icons/agenda_icon.png', styleClass: 'day-style-3' }
+        { key: 'day1', label: 'Day 1', agendaIcon: 'icons/home_icon.png', styleClass: 'day-style-1' },
+        { key: 'day2', label: 'Day 2', agendaIcon: 'icons/agenda_icon.png', styleClass: 'day-style-2' },
+        { key: 'day3', label: 'Day 3', agendaIcon: 'icons/food_icon.png', styleClass: 'day-style-3' }
       ];
 
       let speakersLoaded = false;
       let currentAgendaDay = 'day1';
       const agendaDataCache = {};
-      let currentFoodDay = 'day1';
-      const foodDataCache = {};
       let activeHeroVideoPlayer = 0;
       let activeHeroVideoIndex = 0;
       let heroVideoSwapTimer;
@@ -1415,11 +1317,10 @@
             node.classList.add('view-enter');
           }
         });
-        if (['home', 'speakers', 'agenda', 'food'].includes(viewName)) {
+        if (['home', 'speakers', 'agenda'].includes(viewName)) {
           setActiveTab(viewName);
         }
         if (viewName === 'speakers') animateSpeakerTiles();
-        if (viewName === 'food') animateFoodCards();
       }
 
       function setVideoSource(videoElement, src) {
@@ -1528,11 +1429,11 @@
         }
       }
 
-      function renderDayTabs(tabsList, dayDefs, iconType) {
+      function renderDayTabs(tabsList, dayDefs) {
         tabsList.forEach((tab) => {
-          const match = dayDefs.find((day) => day.key === tab.dataset.day || day.key === tab.dataset.foodDay);
+          const match = dayDefs.find((day) => day.key === tab.dataset.day);
           if (!match) return;
-          const iconPath = iconType === 'food' ? (match.foodIcon || match.agendaIcon) : (match.agendaIcon || match.foodIcon);
+          const iconPath = match.agendaIcon;
           tab.classList.remove('day-style-1', 'day-style-2', 'day-style-3');
           tab.classList.add(match.styleClass || 'day-style-1');
           tab.innerHTML = `
@@ -1548,12 +1449,11 @@
         try {
           const config = await fetchJson('data/day-buttons.json');
           const dayDefs = Array.isArray(config.days) && config.days.length ? config.days : defaultDayButtonConfig;
-          renderDayTabs(agendaDayTabs, dayDefs, 'agenda');
-          renderDayTabs(foodDayTabs, dayDefs, 'food');
+          renderDayTabs(agendaDayTabs, dayDefs);
         } catch {
-          renderDayTabs(agendaDayTabs, defaultDayButtonConfig, 'agenda');
-          renderDayTabs(foodDayTabs, defaultDayButtonConfig, 'food');
+          renderDayTabs(agendaDayTabs, defaultDayButtonConfig);
         }
+      }
       }
 
       function setErrorState(node, message) {
@@ -1590,65 +1490,6 @@
           });
         } catch {
           setErrorState(document.getElementById('agenda-list'), 'Unable to load the agenda right now. Please refresh.');
-        }
-      }
-
-      function animateFoodCards() {
-        if (!foodDeck) return;
-        const cards = Array.from(foodDeck.querySelectorAll('.food-card'));
-        cards.forEach((card, index) => {
-          const shift = index % 2 === 0 ? -38 : 38;
-          card.animate(
-            [
-              { opacity: 0, transform: `translateX(${shift}px)` },
-              { opacity: 1, transform: 'translateX(0)' }
-            ],
-            {
-              duration: 460,
-              easing: 'cubic-bezier(0.2, 0.75, 0.2, 1)',
-              delay: Math.min(index * 55, 220),
-              fill: 'backwards'
-            }
-          );
-        });
-      }
-
-      function setActiveFoodDay(dayKey) {
-        currentFoodDay = dayKey;
-        foodDayTabs.forEach((tab) => tab.classList.toggle('active', tab.dataset.foodDay === dayKey));
-      }
-
-      async function loadFood(dayKey = currentFoodDay) {
-        if (!foodDeck) return;
-
-        try {
-          setActiveFoodDay(dayKey);
-          if (!foodDataCache[dayKey]) {
-            foodDataCache[dayKey] = await fetchJson(`data/food/${dayKey}.json`);
-          }
-          const dayData = foodDataCache[dayKey];
-          foodDeck.innerHTML = '';
-
-          const card = document.createElement('article');
-          card.className = `food-card agenda-item--${((dayKey === 'day1' ? 0 : dayKey === 'day2' ? 1 : 2) % 6) + 1}`;
-          card.innerHTML = `<h3>${dayData.dayLabel || dayKey.replace('day', 'Day ')}</h3>`;
-
-          const entries = Array.isArray(dayData.items) ? dayData.items : [];
-          entries.forEach((entry) => {
-            const item = document.createElement('article');
-            item.className = 'item';
-            item.style.marginBottom = '12px';
-            item.innerHTML = `
-              <h3>${entry.name || ''}</h3>
-              <p class="meta">${entry.description || ''}</p>
-            `;
-            card.append(item);
-          });
-
-          foodDeck.append(card);
-          animateFoodCards();
-        } catch {
-          foodDeck.innerHTML = '<div class="item">Unable to load food details right now. Please refresh.</div>';
         }
       }
 
@@ -1806,7 +1647,6 @@
           showView(target);
 
           if (target === 'agenda') await loadAgenda(currentAgendaDay);
-          if (target === 'food') await loadFood();
           if (target === 'speakers') await loadSpeakers();
         });
       });
@@ -1814,12 +1654,6 @@
       agendaDayTabs.forEach((tab) => {
         tab.addEventListener('click', async () => {
           await loadAgenda(tab.dataset.day);
-        });
-      });
-
-      foodDayTabs.forEach((tab) => {
-        tab.addEventListener('click', async () => {
-          await loadFood(tab.dataset.foodDay);
         });
       });
 
