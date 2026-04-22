@@ -236,7 +236,7 @@
         position: absolute;
         left: 14px;
         right: 14px;
-        top: 36px;
+        top: 20px;
         bottom: 18px;
         z-index: 2;
         text-align: center;
@@ -247,11 +247,11 @@
 
       .home-hero-image {
         display: block;
-        width: min(100%, 420px);
-        max-width: 100%;
+        width: min(100%, 430px);
         height: auto;
         margin: 0 auto;
-        filter: drop-shadow(0 8px 18px rgba(27, 46, 64, 0.28));
+        object-fit: contain;
+        transform: translateY(-8px);
       }
 
 
@@ -264,34 +264,38 @@
         text-shadow: 0 8px 18px rgba(27, 46, 64, 0.28);
       }
 
-      
+      .hero-year {
+        color: #0B67B2;
+        -webkit-text-stroke: 0.6px rgba(27, 46, 64, 0.08);
+        text-shadow: 0 6px 14px rgba(27, 46, 64, 0.18);
+      }
 
-      .home-hero-image {
-        display: block;
-        width: min(130%, 560px);
-        max-width: none;
-        height: auto;
-        margin: 0 auto;
-        object-fit: contain;
+            .home-video-dates {
+        margin: 14px 0 0;
+        font-size: clamp(1.15rem, 5.3vw, 1.9rem);
+        font-weight: 800;
+        color: #FFFFFF;
+        text-align: center;
+        -webkit-text-stroke: 0.5px rgba(27, 46, 64, 0.2);
+        text-shadow: 0 8px 16px rgba(27, 46, 64, 0.25);
       }
 
       .home-video-middle {
         align-self: center;
         margin: 0 auto;
-        font-size: clamp(1.18rem, 4.9vw, 1.9rem);
+        font-size: clamp(1rem, 4.3vw, 1.34rem);
         line-height: 1.45;
         color: #FFFFFF;
         text-align: center;
         text-shadow: 0 8px 16px rgba(27, 46, 64, 0.48);
-        max-width: 86%;
+        max-width: 82%;
         justify-self: center;
       }
 
       .home-video-quote {
         align-self: end;
-        margin: 0 auto;
-        font-size: clamp(1.4rem, 5.8vw, 1.95rem);
-        line-height: 1.2;
+        margin: 0;
+        font-size: clamp(1.45rem, 6vw, 1.83rem);
         font-style: italic;
         font-weight: 700;
         color: var(--accent);
@@ -1017,10 +1021,6 @@
       @media (max-width: 380px) {
         .speaker-tile-name { font-size: 0.84rem; }
         .tab-label { font-size: 0.68rem; }
-        .home-video-label { top: 28px; }
-        .home-hero-image { width: min(132%, 430px); }
-      }
-        .tab-label { font-size: 0.68rem; }
       }
 
 
@@ -1028,32 +1028,6 @@
         .screen {
           max-width: 560px;
         }
-
-        .home-video-frame {
-          height: calc(100dvh - 168px);
-          min-height: calc(100dvh - 168px);
-        }
-
-        .home-video-label {
-          top: 28px;
-          left: 22px;
-          right: 22px;
-          bottom: 24px;
-        }
-
-        .home-hero-image {
-          width: min(128%, 600px);
-        }
-
-        .home-video-middle {
-          max-width: 78%;
-          font-size: clamp(1.05rem, 2vw, 1.35rem);
-        }
-
-        .home-video-quote {
-          font-size: clamp(1.3rem, 2.4vw, 1.7rem);
-        }
-      }
 
         .home-video-frame {
           height: calc(100dvh - 168px);
@@ -1069,6 +1043,11 @@
 
         .home-hero-image {
           width: min(100%, 390px);
+        }
+
+        .home-video-dates {
+          font-size: clamp(1.1rem, 2.4vw, 1.6rem);
+          margin-top: 12px;
         }
 
         .home-video-middle {
@@ -1158,6 +1137,7 @@
             <div class="home-video-label">
               <div>
                 <img id="home-hero-image" class="home-hero-image" src="images/SUPERVISOR.png" alt="Supervisor Summit 2026" />
+                <p id="home-hero-dates" class="home-video-dates">MAY 5–7, 2026</p>
               </div>
               <p id="home-hero-description" class="home-video-middle">Join fellow leaders for two days of practical strategy, collaboration, and growth.</p>
               <p id="home-hero-quote" class="home-video-quote">“Supervisors bring the weather.”</p>
@@ -1474,11 +1454,15 @@
         try {
           const content = await fetchJson('data/home-content.json');
           const titleImage = String(content.titleImage || '').trim();
+          const datesText = String(content.dates || '').trim();
           const descriptionText = String(content.description || '').trim();
           const quoteText = String(content.quote || '').trim();
 
           if (homeHeroImage && titleImage) {
-            homeHeroImage.src = `images/${titleImage}`;
+            homeHeroImage.src = withRefreshToken(`images/${titleImage}`);
+          }
+          if (homeHeroDates && datesText) {
+            homeHeroDates.textContent = datesText;
           }
           if (homeHeroDescription && descriptionText) homeHeroDescription.textContent = descriptionText;
           if (homeHeroQuote && quoteText) homeHeroQuote.textContent = `“${quoteText.replace(/^“|”$/g, '')}”`;
