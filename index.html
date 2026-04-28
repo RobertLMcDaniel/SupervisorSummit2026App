@@ -851,6 +851,31 @@
         transform: translateY(0);
       }
 
+
+      .playlist-detail-card {
+        min-height: 82dvh;
+        margin-top: 18dvh;
+        border-radius: 24px 24px 0 0;
+        padding-top: calc(64px + env(safe-area-inset-top));
+        overflow-y: auto;
+      }
+
+      .playlist-detail-card::before,
+      .playlist-detail-card::after {
+        display: none;
+      }
+
+      .playlist-embed-wrap {
+        width: 100%;
+        margin-top: 10px;
+      }
+
+      .playlist-embed-wrap iframe {
+        display: block;
+        width: 100%;
+        max-width: 100%;
+      }
+
       .speaker-overlay.open .speaker-detail-name { transition-delay: 0.08s; }
       .speaker-overlay.open .speaker-detail-role { transition-delay: 0.12s; }
       .speaker-overlay.open .speaker-detail-org { transition-delay: 0.16s; }
@@ -1230,31 +1255,6 @@
         </section>
       </section>
 
-      
-<section id="playlist-view" class="view hidden" aria-label="Playlist view">
-  <section class="panel" style="padding-top: 20px; position: relative;">
-    <button
-      id="playlist-close-btn"
-      type="button"
-      class="speaker-close"
-      aria-label="Close playlist"
-      style="top: 14px; right: 14px;"
-    >✕</button>
-
-    <div style="margin-top: 52px; display: grid; gap: 14px;">
-      <iframe
-        style="border-radius:12px; width:100%;"
-        src="https://open.spotify.com/embed/playlist/20pk264QB8qTJ6YXQZigq5"
-        width="100%"
-        height="352"
-        frameborder="0"
-        allowfullscreen
-        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture">
-      </iframe>
-    </div>
-  </section>
-</section>
-
 </main>
 
     <nav class="bottom-nav" aria-label="Primary navigation">
@@ -1286,6 +1286,24 @@
         </button>
       </div>
     </nav>
+
+
+    <section id="playlist-detail-overlay" class="speaker-overlay hidden" aria-label="Playlist view">
+      <article class="speaker-detail-card playlist-detail-card">
+        <button id="playlist-detail-close" class="speaker-close" type="button" aria-label="Close playlist">✕</button>
+        <div class="playlist-embed-wrap">
+          <iframe
+            style="border-radius:12px"
+            src="https://open.spotify.com/embed/playlist/20pk264QB8qTJ6YXQZigq5"
+            width="100%"
+            height="352"
+            frameborder="0"
+            allowfullscreen
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture">
+          </iframe>
+        </div>
+      </article>
+    </section>
 
     <section id="speaker-detail-overlay" class="speaker-overlay hidden" aria-label="Speaker detail view">
       <article class="speaker-detail-card">
@@ -1332,8 +1350,7 @@
         agenda: document.getElementById('agenda-view'),
         speakers: document.getElementById('speakers-view'),
         locations: document.getElementById('locations-view'),
-        resources: document.getElementById('resources-view'),
-        playlist: document.getElementById('playlist-view')
+        resources: document.getElementById('resources-view')
       };
 
       const tabs = Array.from(document.querySelectorAll('.tab-btn'));
@@ -1358,7 +1375,8 @@
       const speakerDetailOrg = document.getElementById('speaker-detail-org');
       const speakerDetailBio = document.getElementById('speaker-detail-bio');
       const playlistBtn = document.getElementById('playlist-btn');
-      const playlistCloseBtn = document.getElementById('playlist-close-btn');
+      const playlistDetailOverlay = document.getElementById('playlist-detail-overlay');
+      const playlistDetailClose = document.getElementById('playlist-detail-close');
 
       const homeVideoPlayers = [
         document.getElementById('home-video-a'),
@@ -1787,17 +1805,31 @@
       speakerDetailClose.addEventListener('click', closeSpeakerDetail);
 
 
-      if (playlistBtn) {
-        playlistBtn.addEventListener('click', () => {
-          showView('playlist');
-          if (topbarPageLabel) topbarPageLabel.textContent = 'PLAYLIST';
+      function openPlaylistDetail() {
+        if (!playlistDetailOverlay) return;
+        playlistDetailOverlay.classList.remove('closing');
+        playlistDetailOverlay.classList.remove('hidden');
+        requestAnimationFrame(() => {
+          playlistDetailOverlay.classList.add('open');
         });
       }
 
-      if (playlistCloseBtn) {
-        playlistCloseBtn.addEventListener('click', () => {
-          showView('resources');
-        });
+      function closePlaylistDetail() {
+        if (!playlistDetailOverlay) return;
+        playlistDetailOverlay.classList.remove('open');
+        playlistDetailOverlay.classList.add('closing');
+        window.setTimeout(() => {
+          playlistDetailOverlay.classList.add('hidden');
+          playlistDetailOverlay.classList.remove('closing');
+        }, 260);
+      }
+
+      if (playlistBtn) {
+        playlistBtn.addEventListener('click', openPlaylistDetail);
+      }
+
+      if (playlistDetailClose) {
+        playlistDetailClose.addEventListener('click', closePlaylistDetail);
       }
 
 
