@@ -292,7 +292,7 @@
         gap: 12px;
         width: 100%;
         max-width: 84%;
-        transform: translateY(-14px);
+        transform: translateY(-24px);
       }
 
       .home-gold-bar {
@@ -331,7 +331,7 @@
         align-self: end;
         margin: 0;
         font-size: clamp(1.5rem, 6vw, 1.9rem);
-        font-style: normal;
+        font-style: italic;
         font-weight: 800;
         color: transparent;
         text-align: center;
@@ -1250,7 +1250,7 @@
                 <p id="home-hero-description" class="home-video-middle">Practical learning, stronger leadership, and one shared standard across the City.</p>
                 <span class="home-gold-bar" aria-hidden="true"></span>
               </div>
-              <p id="home-hero-quote" class="home-video-quote"><span class="home-video-quote-line">“Supervisors</span><span class="home-video-quote-line">Bring the Weather”</span></p>
+              <p id="home-hero-quote" class="home-video-quote"><span class="home-video-quote-line">"Supervisors</span><span class="home-video-quote-line">Bring the Weather"</span></p>
             </div>
           </section>
         </div>
@@ -1587,14 +1587,14 @@
       }
 
       function formatHomeQuoteText(quoteText) {
-        const cleaned = String(quoteText || '').replace(/[“”]/g, '').trim();
+        const cleaned = String(quoteText || '').replace(/[“”"]/g, '').trim();
         if (!cleaned) return '';
         const parts = cleaned.split(/\s+/);
         const firstLine = parts.shift() || '';
         const secondLine = parts.join(' ') || '';
         return secondLine
-          ? `<span class="home-video-quote-line">${firstLine}</span><span class="home-video-quote-line">${secondLine}</span>`
-          : `<span class="home-video-quote-line">${firstLine}</span>`;
+          ? `<span class="home-video-quote-line">&quot;${firstLine}</span><span class="home-video-quote-line">${secondLine}&quot;</span>`
+          : `<span class="home-video-quote-line">&quot;${firstLine}&quot;</span>`;
       }
 
       async function loadHomeContent() {
