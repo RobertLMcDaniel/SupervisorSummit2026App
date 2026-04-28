@@ -10,7 +10,7 @@
     <link rel="manifest" href="manifest.json?v=20260428-2" />
     <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png?v=20260428-2" />
     <link rel="apple-touch-icon" href="icons/icon-192.png?v=20260428-2" />
-    <link rel="preload" as="video" href="images/background.mp4?v=20260428-2" type="video/mp4" fetchpriority="high" />
+    <link rel="preload" as="video" href="images/background.mp4" type="video/mp4" fetchpriority="high" />
     <title>Supervisor Summit 2026 App</title>
     <style>
       :root {
@@ -1217,7 +1217,7 @@
                 tabindex="-1"
                 aria-hidden="true"
               >
-                <source src="images/background.mp4?v=20260428-2" type="video/mp4" />
+                <source src="images/clouds_sun.mp4" type="video/mp4" />
               </video>
               <video
                 class="home-video-player"
@@ -1357,7 +1357,7 @@
     <script>
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
-          navigator.serviceWorker.register('service-worker.js?v=20260428-2', { updateViaCache: 'none' }).then((registration) => {
+          navigator.serviceWorker.register('service-worker.js?v=20260428-3', { updateViaCache: 'none' }).then((registration) => {
             registration.update();
             if (registration.waiting) registration.waiting.postMessage({ type: 'SKIP_WAITING' });
             registration.addEventListener('updatefound', () => {
@@ -1420,12 +1420,16 @@
       ].filter(Boolean);
       const heroVideoCandidates = [
         'images/background.mp4',
-        'images/storm_clouds.mp4',
+        'images/clouds_sun.mp4',
         'images/rain.mp4',
-        'images/lightning.mp4',
-        'images/clouds_sun.mp4'
+        'images/storm_clouds.mp4'
       ];
-      let heroVideoPlaylist = ['images/background.mp4'];
+      let heroVideoPlaylist = [
+        'images/background.mp4',
+        'images/clouds_sun.mp4',
+        'images/rain.mp4',
+        'images/storm_clouds.mp4'
+      ];
       const ASSET_REFRESH_TOKEN = '20260428-2';
       const defaultDayButtonConfig = [
         { key: 'day1', label: 'Day 1', agendaIcon: 'icons/home_icon.png', styleClass: 'day-style-1' },
@@ -1494,34 +1498,43 @@
       function setVideoSource(videoElement, src) {
         if (!videoElement) return Promise.resolve();
 
-        const versionedSrc = src.includes('?') ? src : `${src}?v=20260428-2`;
+        const cleanSrc = String(src || '').trim();
+        if (!cleanSrc) return Promise.resolve();
 
-        if (videoElement.dataset.src === versionedSrc) {
+        if (videoElement.dataset.src === cleanSrc) {
           videoElement.currentTime = 0;
           return Promise.resolve();
         }
 
         return new Promise((resolve) => {
           const handleReady = () => {
+            videoElement.removeEventListener('loadedmetadata', handleReady);
             videoElement.removeEventListener('loadeddata', handleReady);
             videoElement.removeEventListener('canplay', handleReady);
             videoElement.removeEventListener('error', handleReady);
             resolve();
           };
 
+          videoElement.addEventListener('loadedmetadata', handleReady, { once: true });
           videoElement.addEventListener('loadeddata', handleReady, { once: true });
           videoElement.addEventListener('canplay', handleReady, { once: true });
           videoElement.addEventListener('error', handleReady, { once: true });
 
-          videoElement.dataset.src = versionedSrc;
-          videoElement.innerHTML = `<source src="${versionedSrc}" type="video/mp4" />`;
+          videoElement.dataset.src = cleanSrc;
+          videoElement.innerHTML = `<source src="${cleanSrc}" type="video/mp4" />`;
           videoElement.load();
         });
       }
 
       async function buildHeroPlaylist() {
-        // Faster startup: avoid multiple HEAD checks on every launch.
-        heroVideoPlaylist = ['images/background.mp4'];
+        // Use only the real MP4 files inside the images folder.
+        // Do not add cache-busting query strings to videos; service worker bypasses MP4 cache.
+        heroVideoPlaylist = [
+          'images/background.mp4',
+          'images/clouds_sun.mp4',
+          'images/rain.mp4',
+          'images/storm_clouds.mp4'
+        ];
       }
 
       async function rotateHomeVideo() {
