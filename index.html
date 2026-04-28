@@ -1203,6 +1203,8 @@
                 webkit-playsinline
                 preload="auto"
                 disablepictureinpicture
+                disableremoteplayback
+                controlslist="nodownload nofullscreen noremoteplayback"
                 tabindex="-1"
                 aria-hidden="true"
               >
@@ -1219,10 +1221,12 @@
                 webkit-playsinline
                 preload="auto"
                 disablepictureinpicture
+                disableremoteplayback
+                controlslist="nodownload nofullscreen noremoteplayback"
                 tabindex="-1"
                 aria-hidden="true"
               >
-                <source src="images/background.mp4" type="video/mp4" />
+                <source src="images/clouds_sun.mp4" type="video/mp4" />
               </video>
             </div>
             <div class="home-video-overlay" aria-hidden="true"></div>
@@ -1342,28 +1346,21 @@
     </section>
 
     <script>
+      // Service worker disabled while stabilizing asset/video loading.
+      // This unregisters older service workers and clears old caches that may be serving stale files.
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
-          navigator.serviceWorker.register('service-worker.js?v=reset-20260428-2', { updateViaCache: 'none' }).then((registration) => {
-            registration.update();
-            if (registration.waiting) registration.waiting.postMessage({ type: 'SKIP_WAITING' });
-            registration.addEventListener('updatefound', () => {
-              const newWorker = registration.installing;
-              if (!newWorker) return;
-              newWorker.addEventListener('statechange', () => {
-                if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                  newWorker.postMessage({ type: 'SKIP_WAITING' });
-                }
-              });
-            });
-          });
-        });
+          navigator.serviceWorker.getRegistrations()
+            .then((registrations) => {
+              registrations.forEach((registration) => registration.unregister());
+            })
+            .catch(() => {});
 
-        let hasReloadedForUpdate = false;
-        navigator.serviceWorker.addEventListener('controllerchange', () => {
-          if (hasReloadedForUpdate) return;
-          hasReloadedForUpdate = true;
-          window.location.reload();
+          if ('caches' in window) {
+            caches.keys()
+              .then((cacheNames) => Promise.all(cacheNames.map((cacheName) => caches.delete(cacheName))))
+              .catch(() => {});
+          }
         });
       }
 
@@ -1484,21 +1481,31 @@
 
       function setVideoSource(videoElement, src) {
         if (!videoElement) return Promise.resolve();
-        if (videoElement.dataset.src === src) {
+
+        const cleanSrc = String(src || '').trim();
+        if (!cleanSrc) return Promise.resolve();
+
+        if (videoElement.dataset.src === cleanSrc) {
           videoElement.currentTime = 0;
           return Promise.resolve();
         }
+
         return new Promise((resolve) => {
           const handleReady = () => {
+            videoElement.removeEventListener('loadedmetadata', handleReady);
             videoElement.removeEventListener('loadeddata', handleReady);
+            videoElement.removeEventListener('canplay', handleReady);
             videoElement.removeEventListener('error', handleReady);
             resolve();
           };
 
+          videoElement.addEventListener('loadedmetadata', handleReady, { once: true });
           videoElement.addEventListener('loadeddata', handleReady, { once: true });
+          videoElement.addEventListener('canplay', handleReady, { once: true });
           videoElement.addEventListener('error', handleReady, { once: true });
-          videoElement.dataset.src = src;
-          videoElement.src = src;
+
+          videoElement.dataset.src = cleanSrc;
+          videoElement.innerHTML = `<source src="${cleanSrc}" type="video/mp4" />`;
           videoElement.load();
         });
       }
@@ -1901,31 +1908,56 @@
       showView('home');
       syncNavIndicator('home');
 
-      // Defer non-critical startup work so the app becomes interactive faster.
-      window.setTimeout(() => {
-        loadHomeContent();
-        loadDayButtonConfig();
-        forceHomeVideoAutoplay();
-        startHomeVideoRotation();
-      }, 80);
+      // Start home video and content immediately.
+      loadHomeContent();
+      loadDayButtonConfig();
+      forceHomeVideoAutoplay();
+      startHomeVideoRotation();
 
 
 
       function forceHomeVideoAutoplay() {
         homeVideoPlayers.forEach((video) => {
           if (!video) return;
+
+          video.controls = false;
           video.muted = true;
           video.defaultMuted = true;
+          video.autoplay = true;
+          video.loop = true;
+          video.playsInline = true;
+          video.disablePictureInPicture = true;
+
+          video.setAttribute('muted', '');
+          video.setAttribute('autoplay', '');
+          video.setAttribute('loop', '');
+          video.setAttribute('playsinline', '');
+          video.setAttribute('webkit-playsinline', '');
+          video.setAttribute('preload', 'auto');
+          video.removeAttribute('controls');
+
           const tryPlay = () => {
+            video.controls = false;
+            video.removeAttribute('controls');
+
+            if (video.readyState === 0) {
+              video.load();
+            }
+
             const playPromise = video.play();
             if (playPromise && typeof playPromise.catch === 'function') {
               playPromise.catch(() => {});
             }
           };
 
-          video.addEventListener('loadeddata', tryPlay);
-          video.addEventListener('canplay', tryPlay);
+          ['loadedmetadata', 'loadeddata', 'canplay', 'canplaythrough'].forEach((eventName) => {
+            video.addEventListener(eventName, tryPlay);
+          });
+
           tryPlay();
+          [80, 200, 500, 900, 1400, 2200].forEach((delay) => {
+            window.setTimeout(tryPlay, delay);
+          });
         });
       }
 
@@ -1957,7 +1989,7 @@
         window.setTimeout(() => {
           splashScreen.classList.add('fade-out');
           window.setTimeout(() => splashScreen.remove(), 800);
-        }, 950);
+        }, 750);
       }
     </script>
   </body>
