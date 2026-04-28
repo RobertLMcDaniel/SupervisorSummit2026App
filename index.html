@@ -1472,16 +1472,8 @@
       }
 
       async function buildHeroPlaylist() {
-        const checks = await Promise.all(heroVideoCandidates.map(async (src) => {
-          try {
-            const response = await fetch(src, { method: 'HEAD', cache: 'no-store' });
-            return response.ok ? src : '';
-          } catch {
-            return '';
-          }
-        }));
-        const available = checks.filter(Boolean);
-        heroVideoPlaylist = available.length > 0 ? available : ['images/background.mp4'];
+        // Faster startup: avoid multiple HEAD checks on every launch.
+        heroVideoPlaylist = ['images/background.mp4'];
       }
 
       async function rotateHomeVideo() {
@@ -1515,9 +1507,25 @@
       }
 
       async function fetchJson(path) {
-        const response = await fetch(path, { cache: 'no-store' });
-        if (!response.ok) throw new Error(`Failed to load ${path}`);
-        return response.json();
+        const cacheKey = `summit-json-cache:${path}`;
+
+        try {
+          const response = await fetch(path, { cache: 'force-cache' });
+          if (!response.ok) throw new Error(`Failed to load ${path}`);
+          const data = await response.json();
+
+          try {
+            localStorage.setItem(cacheKey, JSON.stringify(data));
+          } catch {
+            // Ignore storage limits/private mode.
+          }
+
+          return data;
+        } catch (error) {
+          const cached = localStorage.getItem(cacheKey);
+          if (cached) return JSON.parse(cached);
+          throw error;
+        }
       }
 
       function withRefreshToken(path) {
@@ -1733,6 +1741,7 @@
             image.src = photoPath;
             image.alt = speaker.DisplayName;
             image.loading = 'lazy';
+            image.decoding = 'async';
 
             const fallback = document.createElement('div');
             fallback.className = 'speaker-tile-fallback';
@@ -1833,6 +1842,12 @@
         window.setTimeout(() => {
           playlistDetailOverlay.classList.add('hidden');
           playlistDetailOverlay.classList.remove('closing');
+
+          // Unload Spotify when closed so it does not keep running in the background.
+          if (playlistEmbedWrap) {
+            playlistEmbedWrap.innerHTML = '';
+            playlistEmbedWrap.dataset.loaded = 'false';
+          }
         }, 260);
       }
 
@@ -1845,13 +1860,33 @@
       }
 
 
-      window.addEventListener('resize', () => syncNavIndicator());
+      window.addEventListener('resize', () => syncNavIndicator(document.querySelector('.tab-btn.active')?.dataset.tab));
 
       showView('home');
       syncNavIndicator('home');
-      loadHomeContent();
-      loadDayButtonConfig();
-      startHomeVideoRotation();
+
+      // Defer non-critical startup work so the app becomes interactive faster.
+      window.setTimeout(() => {
+        loadHomeContent();
+        loadDayButtonConfig();
+        startHomeVideoRotation();
+      }, 80);
+
+
+      function runWhenIdle(callback) {
+        if ('requestIdleCallback' in window) {
+          window.requestIdleCallback(callback, { timeout: 2500 });
+        } else {
+          window.setTimeout(callback, 1200);
+        }
+      }
+
+      runWhenIdle(() => {
+        fetchJson('data/speakers.json').catch(() => {});
+        fetchJson('data/sessions/day1.json').catch(() => {});
+        fetchJson('data/sessions/day2.json').catch(() => {});
+        fetchJson('data/sessions/day3.json').catch(() => {});
+      });
 
       if (splashScreen) {
         window.setTimeout(() => {
