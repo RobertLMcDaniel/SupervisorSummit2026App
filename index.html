@@ -1132,8 +1132,8 @@
         display: grid;
         place-items: start center;
         opacity: 1;
-        transition: opacity 1.05s cubic-bezier(0.22, 0.72, 0.18, 1);
-        padding-top: 34dvh;
+        transition: opacity 0.85s cubic-bezier(0.22, 0.72, 0.18, 1);
+        padding-top: 31dvh;
       }
 
       .splash-screen.fade-out {
@@ -1142,15 +1142,27 @@
       }
 
       .splash-logo {
-        width: min(70vw, 330px);
+        width: min(70vw, 360px);
         max-height: 160px;
         object-fit: contain;
+        animation: splash-logo-fade-in 0.7s ease forwards;
       
-        opacity: 1;
-        transition: opacity 1.05s cubic-bezier(0.22, 0.72, 0.18, 1);}
+        opacity: 0;
+        transition: opacity 0.9s cubic-bezier(0.22, 0.72, 0.18, 1);}
 
       .splash-screen.fade-out .splash-logo {
         opacity: 0;
+      }
+
+      @keyframes splash-logo-fade-in {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
       }
     </style>
   </head>
@@ -1969,7 +1981,7 @@
         waitForHomeVideoReady().then(() => {
           window.setTimeout(() => {
             splashScreen.classList.add('fade-out');
-            window.setTimeout(() => splashScreen.remove(), 1125);
+            window.setTimeout(() => splashScreen.remove(), 950);
           }, 350);
         });
       }
