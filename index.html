@@ -1230,23 +1230,31 @@
         </section>
       </section>
 
-      <section id="playlist-view" class="view hidden" aria-label="Playlist view">
-        <section class="panel">
-          <div style="display:grid; gap:14px;">
-            <button id="playlist-back-btn" type="button" class="item" style="cursor:pointer; font-weight:700;">
-              ← Back to Resources
-            </button>
-            <iframe
-              style="border-radius:12px; width:100%;"
-              src="https://open.spotify.com/embed/playlist/20pk264QB8qTJ6YXQZigq5"
-              height="352"
-              frameborder="0"
-              allowfullscreen
-              allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture">
-            </iframe>
-          </div>
-        </section>
-      </section>
+      
+<section id="playlist-view" class="view hidden" aria-label="Playlist view">
+  <section class="panel" style="padding-top: 20px; position: relative;">
+    <button
+      id="playlist-close-btn"
+      type="button"
+      class="speaker-close"
+      aria-label="Close playlist"
+      style="top: 14px; right: 14px;"
+    >✕</button>
+
+    <div style="margin-top: 52px; display: grid; gap: 14px;">
+      <iframe
+        style="border-radius:12px; width:100%;"
+        src="https://open.spotify.com/embed/playlist/20pk264QB8qTJ6YXQZigq5"
+        width="100%"
+        height="352"
+        frameborder="0"
+        allowfullscreen
+        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture">
+      </iframe>
+    </div>
+  </section>
+</section>
+
 </main>
 
     <nav class="bottom-nav" aria-label="Primary navigation">
@@ -1350,7 +1358,7 @@
       const speakerDetailOrg = document.getElementById('speaker-detail-org');
       const speakerDetailBio = document.getElementById('speaker-detail-bio');
       const playlistBtn = document.getElementById('playlist-btn');
-      const playlistBackBtn = document.getElementById('playlist-back-btn');
+      const playlistCloseBtn = document.getElementById('playlist-close-btn');
 
       const homeVideoPlayers = [
         document.getElementById('home-video-a'),
@@ -1786,8 +1794,8 @@
         });
       }
 
-      if (playlistBackBtn) {
-        playlistBackBtn.addEventListener('click', () => {
+      if (playlistCloseBtn) {
+        playlistCloseBtn.addEventListener('click', () => {
           showView('resources');
         });
       }
