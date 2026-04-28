@@ -1168,7 +1168,7 @@
   </head>
   <body>
     <div id="splash-screen" class="splash-screen" aria-hidden="true">
-      <img class="splash-logo" src="icons/altamonte-logo.png?v=20260414-2" alt="" />
+      <img class="splash-logo" src="icons/altamonte-logo.png?v=20260414-2" alt="" fetchpriority="high" decoding="async" />
     </div>
 
     <main class="screen">
@@ -1198,7 +1198,7 @@
                 tabindex="-1"
                 aria-hidden="true"
               >
-                <source src="images/background.mp4" type="video/mp4" />
+                <source src="images/background.mp4?v=20260428-1" type="video/mp4" />
               </video>
               <video
                 class="home-video-player"
@@ -1220,7 +1220,7 @@
             <div class="home-video-overlay" aria-hidden="true"></div>
             <div class="home-video-label">
               <div>
-                <img id="home-hero-image" class="home-hero-image" src="images/SUPERVISOR.png" alt="Supervisor Summit 2026" />
+                <img id="home-hero-image" class="home-hero-image" src="images/SUPERVISOR.png?v=20260428-1" alt="Supervisor Summit 2026" fetchpriority="high" decoding="async" />
               </div>
               <div class="home-video-middle-wrap">
                 <span class="home-gold-bar" aria-hidden="true"></span>
@@ -1472,21 +1472,28 @@
 
       function setVideoSource(videoElement, src) {
         if (!videoElement) return Promise.resolve();
-        if (videoElement.dataset.src === src) {
+
+        const versionedSrc = src.includes('?') ? src : `${src}?v=20260428-1`;
+
+        if (videoElement.dataset.src === versionedSrc) {
           videoElement.currentTime = 0;
           return Promise.resolve();
         }
+
         return new Promise((resolve) => {
           const handleReady = () => {
             videoElement.removeEventListener('loadeddata', handleReady);
+            videoElement.removeEventListener('canplay', handleReady);
             videoElement.removeEventListener('error', handleReady);
             resolve();
           };
 
           videoElement.addEventListener('loadeddata', handleReady, { once: true });
+          videoElement.addEventListener('canplay', handleReady, { once: true });
           videoElement.addEventListener('error', handleReady, { once: true });
-          videoElement.dataset.src = src;
-          videoElement.src = src;
+
+          videoElement.dataset.src = versionedSrc;
+          videoElement.innerHTML = `<source src="${versionedSrc}" type="video/mp4" />`;
           videoElement.load();
         });
       }
@@ -1885,13 +1892,17 @@
       showView('home');
       syncNavIndicator('home');
 
-      // Defer non-critical startup work so the app becomes interactive faster.
-      window.setTimeout(() => {
-        loadHomeContent();
+      // Start the home screen video immediately so it is already playing before the splash fades.
+      loadHomeContent();
+      forceHomeVideoAutoplay();
+      startHomeVideoRotation();
+
+      // Defer non-home assets so they do not compete with the opening video.
+      runWhenIdle(() => {
         loadDayButtonConfig();
-        forceHomeVideoAutoplay();
-        startHomeVideoRotation();
-      }, 80);
+        fetchJson('data/speakers.json').catch(() => {});
+        fetchJson('data/sessions/day1.json').catch(() => {});
+      });
 
 
 
@@ -1933,15 +1944,14 @@
       runWhenIdle(() => {
         fetchJson('data/speakers.json').catch(() => {});
         fetchJson('data/sessions/day1.json').catch(() => {});
-        fetchJson('data/sessions/day2.json').catch(() => {});
-        fetchJson('data/sessions/day3.json').catch(() => {});
+        // Day 2 and Day 3 load when selected to keep startup faster.
       });
-      function waitForHomeVideoReady(timeout = 2600) {
+      function waitForHomeVideoReady(timeout = 1800) {
         const activeVideo = homeVideoPlayers[0];
 
         return new Promise((resolve) => {
           if (!activeVideo) {
-            window.setTimeout(resolve, 500);
+            window.setTimeout(resolve, 350);
             return;
           }
 
@@ -1957,15 +1967,27 @@
 
           activeVideo.muted = true;
           activeVideo.defaultMuted = true;
+          activeVideo.autoplay = true;
+          activeVideo.loop = true;
           activeVideo.playsInline = true;
+          activeVideo.setAttribute('muted', '');
+          activeVideo.setAttribute('autoplay', '');
+          activeVideo.setAttribute('playsinline', '');
+          activeVideo.setAttribute('webkit-playsinline', '');
 
-          const playPromise = activeVideo.play();
-          if (playPromise && typeof playPromise.catch === 'function') {
-            playPromise.catch(() => {});
-          }
+          const tryPlay = () => {
+            const playPromise = activeVideo.play();
+            if (playPromise && typeof playPromise.catch === 'function') {
+              playPromise.catch(() => {});
+            }
+          };
 
-          if (activeVideo.readyState >= 3 && !activeVideo.paused) {
-            window.setTimeout(finish, 250);
+          tryPlay();
+          window.setTimeout(tryPlay, 150);
+          window.setTimeout(tryPlay, 450);
+
+          if (activeVideo.readyState >= 2) {
+            window.setTimeout(finish, 350);
           } else {
             activeVideo.addEventListener('playing', finish, { once: true });
             activeVideo.addEventListener('canplay', finish, { once: true });
