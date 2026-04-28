@@ -1204,7 +1204,7 @@
                 preload="auto"
                 disablepictureinpicture
                 disableremoteplayback
-                controlslist="nodownload nofullscreen noremoteplayback"
+               list="nodownload nofullscreen noremoteplayback"
                 tabindex="-1"
                 aria-hidden="true"
               >
@@ -1222,7 +1222,7 @@
                 preload="auto"
                 disablepictureinpicture
                 disableremoteplayback
-                controlslist="nodownload nofullscreen noremoteplayback"
+               list="nodownload nofullscreen noremoteplayback"
                 tabindex="-1"
                 aria-hidden="true"
               >
@@ -1542,6 +1542,7 @@
         await setVideoSource(homeVideoPlayers[0], heroVideoPlaylist[0]);
         homeVideoPlayers[0].currentTime = 0;
         homeVideoPlayers[0].play().catch(() => {});
+        if (typeof playHomeVideo === 'function') playHomeVideo();
         if (homeVideoPlayers[1]) await setVideoSource(homeVideoPlayers[1], heroVideoPlaylist[1 % heroVideoPlaylist.length]);
         clearInterval(heroVideoSwapTimer);
         if (heroVideoPlaylist.length > 1) {
@@ -1991,6 +1992,20 @@
           window.setTimeout(() => splashScreen.remove(), 800);
         }, 750);
       }
+      function playHomeVideo() {
+        document.querySelectorAll('.home-video-player').forEach((video) => {
+          video.muted = true;
+          video.playsInline = true;
+          video.removeAttribute('controls');
+          video.play().catch(() => {});
+        });
+      }
+
+      window.addEventListener('load', playHomeVideo);
+      document.addEventListener('visibilitychange', () => {
+        if (!document.hidden) playHomeVideo();
+      });
+
     </script>
   </body>
 </html>
