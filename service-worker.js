@@ -1,22 +1,20 @@
-const CACHE_NAME = 'supervisor-summit-2026-v20';
+const CACHE_NAME = 'supervisor-summit-2026-v21';
 
 const STATIC_ASSETS = [
-  './',
-  'index.html?v=20260428-4',
-  'manifest.json?v=20260428-4',
-  'icons/icon-192.png?v=20260428-4',
-  'icons/icon-512.png?v=20260428-4',
-  'icons/altamonte-logo.png?v=20260428-4',
-  'images/SUPERVISOR.png?v=20260428-4'
+  'index.html',
+  'manifest.json?v=20260414-2',
+  'icons/icon-192.png?v=20260414-2',
+  'icons/icon-512.png?v=20260414-2',
+  'icons/altamonte-logo.png?v=20260414-2'
 ];
 
 /*
 IMPORTANT:
-MP4 files are intentionally NOT cached here.
+Videos are intentionally NOT cached.
 
-This forces the browser to fetch fresh video files
-from /images every time and prevents old broken
-autoplay versions from getting stuck in cache.
+This prevents old broken autoplay versions
+from getting stuck and forces fresh loading
+from the /images folder every time.
 */
 
 const BYPASS_CACHE_PATTERNS = [
@@ -28,22 +26,23 @@ self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then((cache) => cache.addAll(STATIC_ASSETS))
-      .then(() => self.skipWaiting())
   );
+
+  self.skipWaiting();
 });
 
 self.addEventListener('activate', (event) => {
   event.waitUntil(
-    caches.keys()
-      .then((cacheNames) =>
-        Promise.all(
-          cacheNames
-            .filter((cacheName) => cacheName !== CACHE_NAME)
-            .map((cacheName) => caches.delete(cacheName))
-        )
+    caches.keys().then((cacheNames) =>
+      Promise.all(
+        cacheNames
+          .filter((cacheName) => cacheName !== CACHE_NAME)
+          .map((cacheName) => caches.delete(cacheName))
       )
-      .then(() => self.clients.claim())
+    )
   );
+
+  self.clients.claim();
 });
 
 self.addEventListener('message', (event) => {
@@ -59,11 +58,11 @@ self.addEventListener('fetch', (event) => {
   if (request.method !== 'GET') return;
 
   /*
-  NEVER cache:
-  - videos
-  - spotify embeds
+  Never cache:
+  - MP4 videos
+  - Spotify embeds
 
-  This fixes autoplay issues and stale media loading
+  This fixes autoplay and stale media issues
   */
   if (BYPASS_CACHE_PATTERNS.some((pattern) => pattern.test(url.href))) {
     event.respondWith(
@@ -73,11 +72,8 @@ self.addEventListener('fetch', (event) => {
   }
 
   /*
-  Always try fresh index.html first
-
-  This makes sure when you upload new code,
-  users immediately get the newest version
-  instead of stale cached HTML
+  Always try fresh index first
+  so new uploads update immediately
   */
   if (
     request.mode === 'navigate' ||
@@ -89,16 +85,16 @@ self.addEventListener('fetch', (event) => {
           const copy = response.clone();
 
           caches.open(CACHE_NAME).then((cache) => {
-            cache.put('index.html?v=20260428-4', copy);
+            cache.put('index.html', copy);
           });
 
           return response;
         })
         .catch(() =>
-          caches.match('index.html?v=20260428-4')
-            .then((cached) => cached || caches.match('./'))
+          caches.match('index.html')
         )
     );
+
     return;
   }
 
