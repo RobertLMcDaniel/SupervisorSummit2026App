@@ -1172,6 +1172,7 @@
                 autoplay
                 loop
                 muted
+                defaultMuted
                 playsinline
                 webkit-playsinline
                 preload="auto"
@@ -1187,6 +1188,7 @@
                 autoplay
                 loop
                 muted
+                defaultMuted
                 playsinline
                 webkit-playsinline
                 preload="auto"
@@ -1869,8 +1871,37 @@
       window.setTimeout(() => {
         loadHomeContent();
         loadDayButtonConfig();
+        forceHomeVideoAutoplay();
         startHomeVideoRotation();
       }, 80);
+
+
+
+      function forceHomeVideoAutoplay() {
+        homeVideoPlayers.forEach((video) => {
+          if (!video) return;
+          video.muted = true;
+          video.defaultMuted = true;
+          const tryPlay = () => {
+            const playPromise = video.play();
+            if (playPromise && typeof playPromise.catch === 'function') {
+              playPromise.catch(() => {});
+            }
+          };
+
+          video.addEventListener('loadeddata', tryPlay);
+          video.addEventListener('canplay', tryPlay);
+          tryPlay();
+        });
+      }
+
+      document.addEventListener('visibilitychange', () => {
+        if (!document.hidden) forceHomeVideoAutoplay();
+      });
+
+      ['touchstart', 'click'].forEach((eventName) => {
+        window.addEventListener(eventName, forceHomeVideoAutoplay, { once: true });
+      });
 
 
       function runWhenIdle(callback) {
