@@ -1128,12 +1128,12 @@
         position: fixed;
         inset: 0;
         z-index: 50;
-        background: #E3EDF2;
+        background: #D8ECF7;
         display: grid;
         place-items: start center;
         opacity: 1;
-        transition: opacity 1.4s ease;
-        padding-top: 38dvh;
+        transition: opacity 1.05s cubic-bezier(0.22, 0.72, 0.18, 1);
+        padding-top: 34dvh;
       }
 
       .splash-screen.fade-out {
@@ -1145,6 +1145,12 @@
         width: min(70vw, 330px);
         max-height: 160px;
         object-fit: contain;
+      
+        opacity: 1;
+        transition: opacity 1.05s cubic-bezier(0.22, 0.72, 0.18, 1);}
+
+      .splash-screen.fade-out .splash-logo {
+        opacity: 0;
       }
     </style>
   </head>
@@ -1963,7 +1969,7 @@
         waitForHomeVideoReady().then(() => {
           window.setTimeout(() => {
             splashScreen.classList.add('fade-out');
-            window.setTimeout(() => splashScreen.remove(), 1500);
+            window.setTimeout(() => splashScreen.remove(), 1125);
           }, 350);
         });
       }
