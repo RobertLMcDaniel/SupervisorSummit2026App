@@ -150,6 +150,7 @@
       .home-video-bg {
         position: absolute;
         inset: 0;
+        pointer-events: none; /* FIX: block touch events on video bg wrapper */
       }
 
       .home-video-player {
@@ -162,22 +163,36 @@
         display: block;
         opacity: 0;
         transition: opacity 1.8s ease;
+        /* FIX: block pointer events so iOS can't show the native play overlay */
+        pointer-events: none;
+        -webkit-user-select: none;
+        user-select: none;
       }
 
       .home-video-player.is-active {
         opacity: 1;
       }
 
+      /* FIX: comprehensive suppression of native video controls / play button */
       .home-video-player::-webkit-media-controls,
       .home-video-player::-webkit-media-controls-panel,
+      .home-video-player::-webkit-media-controls-overlay-play-button,
+      .home-video-player::-webkit-media-controls-start-playback-button,
       .home-video-player::-webkit-media-controls-play-button,
-      .home-video-player::-webkit-media-controls-start-playback-button {
+      .home-video-player::-webkit-media-controls-timeline,
+      .home-video-player::-webkit-media-controls-current-time-display,
+      .home-video-player::-webkit-media-controls-time-remaining-display,
+      .home-video-player::-webkit-media-controls-mute-button,
+      .home-video-player::-webkit-media-controls-volume-slider,
+      .home-video-player::-webkit-media-controls-fullscreen-button,
+      .home-video-player::media-controls,
+      .home-video-player:media-controls {
         display: none !important;
-        -webkit-appearance: none;
         opacity: 0 !important;
         pointer-events: none !important;
+        -webkit-appearance: none !important;
+        appearance: none !important;
       }
-
 
       .home-video-overlay {
         position: absolute;
@@ -266,10 +281,6 @@
         transform: translateY(-8px);
       }
 
-
-
-
-
       .hero-title-main {
         color: #FFFFFF;
         -webkit-text-stroke: 0.6px rgba(27, 46, 64, 0.18);
@@ -302,8 +313,7 @@
         box-shadow: 0 4px 12px rgba(239, 177, 10, 0.28);
       }
 
-
-            .home-video-dates {
+      .home-video-dates {
         margin: 14px 0 0;
         font-size: clamp(1.15rem, 5.3vw, 1.9rem);
         font-weight: 800;
@@ -863,8 +873,6 @@
         transform: translateY(0);
       }
 
-
-
       .playlist-detail-card {
         min-height: 100dvh;
         margin-top: 0;
@@ -1030,8 +1038,6 @@
         transform: scale(0.95);
       }
 
-
-
       #resources-view {
         padding-top: calc(40px + env(safe-area-inset-top));
       }
@@ -1093,12 +1099,10 @@
       .resource-button.slide-in-left { animation: slide-in-left 0.5s ease both; }
       .resource-button.slide-in-right { animation: slide-in-right 0.5s ease both; }
 
-
       @media (max-width: 380px) {
         .speaker-tile-name { font-size: 0.84rem; }
         .tab-label { font-size: 0.68rem; }
       }
-
 
       @media (min-width: 700px) {
         .screen {
@@ -1158,9 +1162,9 @@
         max-height: 160px;
         object-fit: contain;
         animation: splash-logo-fade-in 0.62s ease-out 0.08s forwards;
-      
         opacity: 0;
-        transition: opacity 0.68s cubic-bezier(0.22, 0.72, 0.18, 1);}
+        transition: opacity 0.68s cubic-bezier(0.22, 0.72, 0.18, 1);
+      }
 
       .splash-screen.fade-out .splash-logo {
         opacity: 0;
@@ -1174,11 +1178,6 @@
         to {
           opacity: 1;
           transform: translateY(0) scale(1);
-        }
-      }
-        to {
-          opacity: 1;
-          transform: translateY(0);
         }
       }
     </style>
@@ -1200,43 +1199,50 @@
       <section id="home-view" class="view" aria-label="Home view">
         <div class="home-foreground">
           <section class="home-video-frame" aria-label="Supervisor Summit highlight video">
+            <!-- FIX: pointer-events:none wrapper prevents iOS from showing native play overlay on tap -->
             <div class="home-video-bg" aria-hidden="true">
-              <video
-                class="home-video-player is-active"
-                id="home-video-a"
-                autoplay
-                loop
-                muted
-                defaultMuted
-                playsinline
-                webkit-playsinline
-                preload="auto"
-                disablepictureinpicture
-                disableremoteplayback
-                controlslist="nodownload nofullscreen noremoteplayback"
-                tabindex="-1"
-                aria-hidden="true"
-              >
-                <source src="images/clouds_sun.mp4" type="video/mp4" />
-              </video>
-              <video
-                class="home-video-player"
-                id="home-video-b"
-                autoplay
-                loop
-                muted
-                defaultMuted
-                playsinline
-                webkit-playsinline
-                preload="auto"
-                disablepictureinpicture
-                disableremoteplayback
-                controlslist="nodownload nofullscreen noremoteplayback"
-                tabindex="-1"
-                aria-hidden="true"
-              >
-                <source src="images/background.mp4" type="video/mp4" />
-              </video>
+              <div style="pointer-events:none; position:absolute; inset:0;">
+                <video
+                  class="home-video-player is-active"
+                  id="home-video-a"
+                  autoplay
+                  loop
+                  muted
+                  defaultMuted
+                  playsinline
+                  webkit-playsinline
+                  preload="auto"
+                  disablepictureinpicture
+                  disableremoteplayback
+                  controlslist="nodownload nofullscreen noremoteplayback noplaybackrate"
+                  tabindex="-1"
+                  aria-hidden="true"
+                  style="pointer-events:none;"
+                >
+                  <source src="images/clouds_sun.mp4" type="video/mp4" />
+                </video>
+              </div>
+              <div style="pointer-events:none; position:absolute; inset:0;">
+                <video
+                  class="home-video-player"
+                  id="home-video-b"
+                  autoplay
+                  loop
+                  muted
+                  defaultMuted
+                  playsinline
+                  webkit-playsinline
+                  preload="auto"
+                  disablepictureinpicture
+                  disableremoteplayback
+                  controlslist="nodownload nofullscreen noremoteplayback noplaybackrate"
+                  tabindex="-1"
+                  aria-hidden="true"
+                  style="pointer-events:none;"
+                >
+                  <source src="images/background.mp4" type="video/mp4" />
+                </video>
+              </div>
             </div>
             <div class="home-video-overlay" aria-hidden="true"></div>
             <div class="home-video-label">
@@ -1248,7 +1254,7 @@
                 <p id="home-hero-description" class="home-video-middle">Practical learning, stronger leadership, and one shared standard across the City.</p>
                 <span class="home-gold-bar" aria-hidden="true"></span>
               </div>
-              <p id="home-hero-quote" class="home-video-quote"><span class="home-video-quote-line">“Supervisors</span><span class="home-video-quote-line">Bring the Weather”</span></p>
+              <p id="home-hero-quote" class="home-video-quote"><span class="home-video-quote-line">"Supervisors</span><span class="home-video-quote-line">Bring the Weather"</span></p>
             </div>
           </section>
         </div>
@@ -1286,7 +1292,6 @@
         </section>
       </section>
 
-      
       <section id="resources-view" class="view hidden" aria-label="Resources view">
         <section class="panel">
           <div class="list" style="gap: 14px;">
@@ -1300,7 +1305,7 @@
         </section>
       </section>
 
-</main>
+    </main>
 
     <nav class="bottom-nav" aria-label="Primary navigation">
       <div class="bottom-nav__row">
@@ -1331,7 +1336,6 @@
         </button>
       </div>
     </nav>
-
 
     <section id="playlist-detail-overlay" class="speaker-overlay hidden" aria-label="Playlist view">
       <article class="speaker-detail-card playlist-detail-card">
@@ -1418,18 +1422,14 @@
         document.getElementById('home-video-a'),
         document.getElementById('home-video-b')
       ].filter(Boolean);
-      const heroVideoCandidates = [
+
+      const heroVideoPlaylist = [
         'images/background.mp4',
         'images/clouds_sun.mp4',
         'images/rain.mp4',
         'images/storm_clouds.mp4'
       ];
-      let heroVideoPlaylist = [
-        'images/background.mp4',
-        'images/clouds_sun.mp4',
-        'images/rain.mp4',
-        'images/storm_clouds.mp4'
-      ];
+
       const ASSET_REFRESH_TOKEN = '20260428-2';
       const defaultDayButtonConfig = [
         { key: 'day1', label: 'Day 1', agendaIcon: 'icons/home_icon.png', styleClass: 'day-style-1' },
@@ -1497,15 +1497,12 @@
 
       function setVideoSource(videoElement, src) {
         if (!videoElement) return Promise.resolve();
-
         const cleanSrc = String(src || '').trim();
         if (!cleanSrc) return Promise.resolve();
-
         if (videoElement.dataset.src === cleanSrc) {
           videoElement.currentTime = 0;
           return Promise.resolve();
         }
-
         return new Promise((resolve) => {
           const handleReady = () => {
             videoElement.removeEventListener('loadedmetadata', handleReady);
@@ -1514,49 +1511,32 @@
             videoElement.removeEventListener('error', handleReady);
             resolve();
           };
-
           videoElement.addEventListener('loadedmetadata', handleReady, { once: true });
           videoElement.addEventListener('loadeddata', handleReady, { once: true });
           videoElement.addEventListener('canplay', handleReady, { once: true });
           videoElement.addEventListener('error', handleReady, { once: true });
-
           videoElement.dataset.src = cleanSrc;
           videoElement.innerHTML = `<source src="${cleanSrc}" type="video/mp4" />`;
           videoElement.load();
         });
       }
 
-      async function buildHeroPlaylist() {
-        // Use only the real MP4 files inside the images folder.
-        // Do not add cache-busting query strings to videos; service worker bypasses MP4 cache.
-        heroVideoPlaylist = [
-          'images/background.mp4',
-          'images/clouds_sun.mp4',
-          'images/rain.mp4',
-          'images/storm_clouds.mp4'
-        ];
-      }
-
       async function rotateHomeVideo() {
         if (homeVideoPlayers.length < 2 || heroVideoPlaylist.length === 0) return;
-
         const currentPlayer = homeVideoPlayers[activeHeroVideoPlayer];
         activeHeroVideoPlayer = activeHeroVideoPlayer === 0 ? 1 : 0;
         const nextPlayer = homeVideoPlayers[activeHeroVideoPlayer];
-
         activeHeroVideoIndex = (activeHeroVideoIndex + 1) % heroVideoPlaylist.length;
         const nextClip = heroVideoPlaylist[activeHeroVideoIndex];
         await setVideoSource(nextPlayer, nextClip);
         nextPlayer.currentTime = 0;
         nextPlayer.play().catch(() => {});
-
         nextPlayer.classList.add('is-active');
         currentPlayer.classList.remove('is-active');
       }
 
       async function startHomeVideoRotation() {
         if (homeVideoPlayers.length === 0 || heroVideoPlaylist.length === 0) return;
-        await buildHeroPlaylist();
         await setVideoSource(homeVideoPlayers[0], heroVideoPlaylist[0]);
         homeVideoPlayers[0].currentTime = 0;
         homeVideoPlayers[0].play().catch(() => {});
@@ -1569,18 +1549,15 @@
 
       async function fetchJson(path) {
         const cacheKey = `summit-json-cache:${path}`;
-
         try {
           const response = await fetch(path, { cache: 'force-cache' });
           if (!response.ok) throw new Error(`Failed to load ${path}`);
           const data = await response.json();
-
           try {
             localStorage.setItem(cacheKey, JSON.stringify(data));
           } catch {
             // Ignore storage limits/private mode.
           }
-
           return data;
         } catch (error) {
           const cached = localStorage.getItem(cacheKey);
@@ -1598,7 +1575,7 @@
       }
 
       function formatHomeQuoteText(quoteText) {
-        const cleaned = String(quoteText || '').replace(/[“”]/g, '').trim();
+        const cleaned = String(quoteText || '').replace(/[""]/g, '').trim();
         if (!cleaned) return '';
         const parts = cleaned.split(/\s+/);
         const firstLine = parts.shift() || '';
@@ -1614,7 +1591,6 @@
           const titleImage = String(content.titleImage || '').trim();
           const descriptionText = String(content.description || '').trim();
           const quoteText = String(content.quote || '').trim();
-
           if (homeHeroImage && titleImage) {
             homeHeroImage.src = withRefreshToken(`images/${titleImage}`);
           }
@@ -1669,7 +1645,6 @@
           const sessions = agendaDataCache[dayKey];
           const listNode = document.getElementById('agenda-list');
           listNode.innerHTML = '';
-
           sessions.forEach((session) => {
             const card = document.createElement('article');
             const index = listNode.children.length;
@@ -1731,7 +1706,6 @@
             // continue
           }
         }
-
         return fallbackPath;
       }
 
@@ -1748,22 +1722,18 @@
             speakerDetailCard.style.setProperty('--speaker-backdrop', `url('${withRefreshToken(resolvedPath)}')`);
           });
         }
-
         speakerDetailImage.src = photoPath;
         speakerDetailImage.alt = `${speaker.DisplayName} portrait`;
         speakerDetailImage.style.display = 'block';
         speakerDetailFallback.style.display = 'none';
-
         speakerDetailImage.onerror = () => {
           speakerDetailImage.style.display = 'none';
           speakerDetailFallback.style.display = 'flex';
         };
-
         speakerDetailName.textContent = speaker.DisplayName;
         speakerDetailRole.textContent = speaker.Title;
         speakerDetailOrg.textContent = speaker.Organization;
         speakerDetailBio.textContent = speaker.BioShort;
-
         requestAnimationFrame(() => {
           speakerDetailOverlay.classList.add('open');
         });
@@ -1780,12 +1750,10 @@
 
       async function loadSpeakers() {
         if (speakersLoaded) return;
-
         try {
           const speakers = await fetchJson('data/speakers.json');
           const sorted = [...speakers].sort((a, b) => a.SortOrder - b.SortOrder);
           speakersGrid.innerHTML = '';
-
           sorted.forEach((speaker) => {
             const photoPath = resolveSpeakerPhotoPath(speaker.Photo);
             const tile = document.createElement('button');
@@ -1793,51 +1761,40 @@
             tile.className = `speaker-tile speaker-tile--${(tileIndex % 6) + 1} ${tileIndex % 2 === 0 ? 'slide-in-left' : 'slide-in-right'}`;
             tile.style.animationDelay = `${Math.min(tileIndex * 0.04, 0.24)}s`;
             tile.type = 'button';
-
             const imageWrap = document.createElement('div');
             imageWrap.className = 'speaker-tile-image-wrap';
-
             const image = document.createElement('img');
             image.className = 'speaker-tile-image';
             image.src = photoPath;
             image.alt = speaker.DisplayName;
             image.loading = 'lazy';
             image.decoding = 'async';
-
             const fallback = document.createElement('div');
             fallback.className = 'speaker-tile-fallback';
             fallback.textContent = 'No Image';
-
             image.onerror = () => {
               image.style.display = 'none';
               fallback.style.display = 'flex';
             };
-
             const name = document.createElement('p');
             name.className = 'speaker-tile-name';
             name.textContent = speaker.DisplayName;
-
             const role = document.createElement('p');
             role.className = 'speaker-tile-role';
             role.textContent = speaker.Title || '';
-
             const info = document.createElement('div');
             info.append(name, role);
-
             imageWrap.append(image, fallback);
             tile.append(imageWrap, info);
             tile.addEventListener('click', () => openSpeakerDetail(speaker, photoPath));
             speakersGrid.append(tile);
           });
-
           speakersLoaded = true;
           animateSpeakerTiles();
         } catch {
           setErrorState(speakersGrid, 'Unable to load speakers right now. Please refresh.');
         }
       }
-
-
 
       function animateResourceButtons() {
         const buttons = Array.from(document.querySelectorAll('.resource-button'));
@@ -1855,7 +1812,6 @@
         tab.addEventListener('click', async () => {
           const target = tab.dataset.tab;
           showView(target);
-
           if (target === 'agenda') await loadAgenda(currentAgendaDay);
           if (target === 'speakers') await loadSpeakers();
         });
@@ -1869,10 +1825,8 @@
 
       speakerDetailClose.addEventListener('click', closeSpeakerDetail);
 
-
       function openPlaylistDetail() {
         if (!playlistDetailOverlay) return;
-
         if (playlistEmbedWrap && playlistEmbedWrap.dataset.loaded !== 'true') {
           playlistEmbedWrap.innerHTML = `
             <iframe
@@ -1888,7 +1842,6 @@
           `;
           playlistEmbedWrap.dataset.loaded = 'true';
         }
-
         playlistDetailOverlay.classList.remove('closing');
         playlistDetailOverlay.classList.remove('hidden');
         requestAnimationFrame(() => {
@@ -1903,8 +1856,6 @@
         window.setTimeout(() => {
           playlistDetailOverlay.classList.add('hidden');
           playlistDetailOverlay.classList.remove('closing');
-
-          // Unload Spotify when closed so it does not keep running in the background.
           if (playlistEmbedWrap) {
             playlistEmbedWrap.innerHTML = '';
             playlistEmbedWrap.dataset.loaded = 'false';
@@ -1912,63 +1863,50 @@
         }, 260);
       }
 
-      if (playlistBtn) {
-        playlistBtn.addEventListener('click', openPlaylistDetail);
-      }
-
-      if (playlistDetailClose) {
-        playlistDetailClose.addEventListener('click', closePlaylistDetail);
-      }
-
+      if (playlistBtn) playlistBtn.addEventListener('click', openPlaylistDetail);
+      if (playlistDetailClose) playlistDetailClose.addEventListener('click', closePlaylistDetail);
 
       window.addEventListener('resize', () => syncNavIndicator(document.querySelector('.tab-btn.active')?.dataset.tab));
 
-      showView('home');
-      syncNavIndicator('home');
-
-      // Start the home screen video immediately so it is already playing before the splash fades.
-      loadHomeContent();
-      forceHomeVideoAutoplay();
-      startHomeVideoRotation();
-
-      // Defer non-home assets so they do not compete with the opening video.
-      runWhenIdle(() => {
-        loadDayButtonConfig();
-        fetchJson('data/speakers.json').catch(() => {});
-        fetchJson('data/sessions/day1.json').catch(() => {});
-      });
-
-
-
+      // ─── Video autoplay: set all required attributes BEFORE load ────────────
       function forceHomeVideoAutoplay() {
         homeVideoPlayers.forEach((video) => {
           if (!video) return;
 
+          // Kill controls and interactions
           video.controls = false;
+          video.removeAttribute('controls');
           video.muted = true;
           video.defaultMuted = true;
           video.autoplay = true;
           video.loop = true;
           video.playsInline = true;
           video.disablePictureInPicture = true;
+
+          // Set all attributes needed for iOS autoplay
           video.setAttribute('muted', '');
           video.setAttribute('autoplay', '');
           video.setAttribute('loop', '');
           video.setAttribute('playsinline', '');
           video.setAttribute('webkit-playsinline', '');
           video.setAttribute('preload', 'auto');
+          video.setAttribute('disablepictureinpicture', '');
+          video.setAttribute('disableremoteplayback', '');
+          video.setAttribute('controlslist', 'nodownload nofullscreen noremoteplayback noplaybackrate');
           video.removeAttribute('controls');
+
+          // Block pointer events so iOS cannot surface the native play button
+          video.style.pointerEvents = 'none';
+          video.style.userSelect = 'none';
+          video.style.webkitUserSelect = 'none';
 
           const tryPlay = () => {
             video.controls = false;
             video.removeAttribute('controls');
             if (video.readyState === 0) video.load();
-
             const playPromise = video.play();
             if (playPromise && typeof playPromise.catch === 'function') {
-              playPromise.catch(() => {
-                // iOS/low-power mode may still block autoplay until interaction.
-              });
+              playPromise.catch(() => {});
             }
           };
 
@@ -1986,10 +1924,11 @@
       document.addEventListener('visibilitychange', () => {
         if (!document.hidden) forceHomeVideoAutoplay();
       });
+
+      // Resume after any user interaction (needed for Low Power Mode on iOS)
       ['pointerdown', 'touchstart', 'click'].forEach((eventName) => {
         window.addEventListener(eventName, forceHomeVideoAutoplay, { once: true, passive: true });
       });
-
 
       function runWhenIdle(callback) {
         if ('requestIdleCallback' in window) {
@@ -1999,20 +1938,13 @@
         }
       }
 
-      runWhenIdle(() => {
-        fetchJson('data/speakers.json').catch(() => {});
-        fetchJson('data/sessions/day1.json').catch(() => {});
-        // Day 2 and Day 3 load when selected to keep startup faster.
-      });
       function waitForHomeVideoReady(timeout = 1000) {
         const activeVideo = homeVideoPlayers[0];
-
         return new Promise((resolve) => {
           if (!activeVideo) {
             window.setTimeout(resolve, 350);
             return;
           }
-
           let resolved = false;
           const finish = () => {
             if (resolved) return;
@@ -2022,7 +1954,6 @@
             activeVideo.removeEventListener('loadeddata', finish);
             resolve();
           };
-
           activeVideo.muted = true;
           activeVideo.defaultMuted = true;
           activeVideo.autoplay = true;
@@ -2032,18 +1963,15 @@
           activeVideo.setAttribute('autoplay', '');
           activeVideo.setAttribute('playsinline', '');
           activeVideo.setAttribute('webkit-playsinline', '');
-
           const tryPlay = () => {
             const playPromise = activeVideo.play();
             if (playPromise && typeof playPromise.catch === 'function') {
               playPromise.catch(() => {});
             }
           };
-
           tryPlay();
           window.setTimeout(tryPlay, 150);
           window.setTimeout(tryPlay, 450);
-
           if (activeVideo.readyState >= 2) {
             window.setTimeout(finish, 350);
           } else {
@@ -2057,7 +1985,6 @@
 
       function fadeOutSplashWhenReady() {
         if (!splashScreen) return;
-
         waitForHomeVideoReady().then(() => {
           window.setTimeout(() => {
             splashScreen.classList.add('fade-out');
@@ -2065,6 +1992,19 @@
           }, 350);
         });
       }
+
+      // Boot sequence
+      showView('home');
+      syncNavIndicator('home');
+      loadHomeContent();
+      forceHomeVideoAutoplay();
+      startHomeVideoRotation();
+
+      runWhenIdle(() => {
+        loadDayButtonConfig();
+        fetchJson('data/speakers.json').catch(() => {});
+        fetchJson('data/sessions/day1.json').catch(() => {});
+      });
 
       runWhenIdle(fadeOutSplashWhenReady);
     </script>
