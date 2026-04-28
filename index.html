@@ -879,7 +879,7 @@
         width: min(100%, 520px);
         margin: 0 auto;
         display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
+        grid-template-columns: repeat(4, minmax(0, 1fr));
         gap: 8px;
         padding: 8px;
         border-radius: 24px;
@@ -988,6 +988,70 @@
       .tab-btn:active .tab-icon-circle {
         transform: scale(0.95);
       }
+
+
+
+      #resources-view {
+        padding-top: calc(40px + env(safe-area-inset-top));
+      }
+
+      #resources-view .panel {
+        min-height: calc(100dvh - 212px);
+        display: grid;
+        align-content: center;
+        gap: 14px;
+        overflow: hidden;
+      }
+
+      .resources-intro {
+        margin: 0 0 4px;
+        text-align: center;
+        color: var(--text-primary);
+        font-size: 0.98rem;
+        line-height: 1.45;
+        opacity: 0.92;
+      }
+
+      .resources-actions {
+        display: grid;
+        gap: 12px;
+      }
+
+      .resource-button {
+        width: 100%;
+        min-height: 78px;
+        border: 1px solid rgba(245, 247, 250, 0.22);
+        border-radius: 22px;
+        background: linear-gradient(135deg, #F6C84D 0%, #EFB10A 55%, #D89B05 100%);
+        color: var(--bg-primary);
+        text-decoration: none;
+        font-weight: 900;
+        font-size: 1.02rem;
+        line-height: 1.18;
+        display: grid;
+        place-items: center;
+        text-align: center;
+        padding: 16px;
+        box-shadow: 0 12px 24px rgba(27, 46, 64, 0.35);
+        transform: translateY(0);
+        transition: transform 0.22s ease, filter 0.22s ease, box-shadow 0.22s ease;
+      }
+
+      .resource-button:hover,
+      .resource-button:focus-visible {
+        transform: translateY(-2px);
+        filter: brightness(1.04);
+        box-shadow: 0 16px 28px rgba(27, 46, 64, 0.42);
+        outline: none;
+      }
+
+      .resource-button:active {
+        transform: scale(0.985);
+      }
+
+      .resource-button.slide-in-left { animation: slide-in-left 0.5s ease both; }
+      .resource-button.slide-in-right { animation: slide-in-right 0.5s ease both; }
+
 
       @media (max-width: 380px) {
         .speaker-tile-name { font-size: 0.84rem; }
@@ -1152,6 +1216,16 @@
         </section>
       </section>
 
+      <section id="resources-view" class="view hidden" aria-label="Resources view">
+        <section class="panel">
+          <p class="resources-intro">Quick links for Supervisor Summit 2026.</p>
+          <div class="resources-actions">
+            <a class="resource-button slide-in-left" href="#" target="_blank" rel="noopener">Supervisor Summit 2026 Survey</a>
+            <a class="resource-button slide-in-right" href="#" target="_blank" rel="noopener">Supervisor Summit Music Playlist</a>
+          </div>
+        </section>
+      </section>
+
       </section>
     </main>
 
@@ -1175,6 +1249,12 @@
             <img class="tab-icon" src="icons/agenda_icon.png" alt="" aria-hidden="true" />
           </span>
           <span class="tab-label">Agenda</span>
+        </button>
+        <button class="tab-btn" type="button" data-tab="resources">
+          <span class="tab-icon-circle" aria-hidden="true">
+            <img class="tab-icon" src="icons/resources_icon.png" alt="" aria-hidden="true" />
+          </span>
+          <span class="tab-label">Resources</span>
         </button>
       </div>
     </nav>
@@ -1223,7 +1303,8 @@
         home: document.getElementById('home-view'),
         agenda: document.getElementById('agenda-view'),
         speakers: document.getElementById('speakers-view'),
-        locations: document.getElementById('locations-view')
+        locations: document.getElementById('locations-view'),
+        resources: document.getElementById('resources-view')
       };
 
       const tabs = Array.from(document.querySelectorAll('.tab-btn'));
@@ -1317,10 +1398,11 @@
             node.classList.add('view-enter');
           }
         });
-        if (['home', 'speakers', 'agenda'].includes(viewName)) {
+        if (['home', 'speakers', 'agenda', 'resources'].includes(viewName)) {
           setActiveTab(viewName);
         }
         if (viewName === 'speakers') animateSpeakerTiles();
+        if (viewName === 'resources') animateResourceButtons();
       }
 
       function setVideoSource(videoElement, src) {
@@ -1638,6 +1720,20 @@
         } catch {
           setErrorState(speakersGrid, 'Unable to load speakers right now. Please refresh.');
         }
+      }
+
+
+
+      function animateResourceButtons() {
+        const buttons = Array.from(document.querySelectorAll('.resource-button'));
+        buttons.forEach((button, index) => {
+          button.classList.remove('slide-in-left', 'slide-in-right');
+          button.style.animation = 'none';
+          void button.offsetWidth;
+          button.style.animation = '';
+          button.classList.add(index % 2 === 0 ? 'slide-in-left' : 'slide-in-right');
+          button.style.animationDelay = `${Math.min(index * 0.06, 0.18)}s`;
+        });
       }
 
       tabs.forEach((tab) => {
