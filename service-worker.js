@@ -1,30 +1,40 @@
-const CACHE_NAME = 'supervisor-summit-2026-v13-20260428';
+const CACHE_NAME = 'supervisor-summit-2026-v18';
 
 const STATIC_ASSETS = [
   './',
-  'index.html',
-  'manifest.json?v=20260414-2',
-  'icons/icon-192.png?v=20260414-2',
-  'icons/icon-512.png?v=20260414-2',
-  'icons/altamonte-logo.png?v=20260414-2'
+  'index.html?v=20260428-2',
+  'manifest.json?v=20260428-2',
+  'icons/icon-192.png?v=20260428-2',
+  'icons/icon-512.png?v=20260428-2',
+  'icons/altamonte-logo.png?v=20260428-2',
+  'images/SUPERVISOR.png?v=20260428-2'
+];
+
+// Keep video files OUT of service worker cache so autoplay/load works properly
+const BYPASS_CACHE_PATTERNS = [
+  /\.mp4(\?|$)/i,
+  /open\.spotify\.com/i
 ];
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => cache.addAll(STATIC_ASSETS))
+    caches.open(CACHE_NAME)
+      .then((cache) => cache.addAll(STATIC_ASSETS))
+      .then(() => self.skipWaiting())
   );
-  self.skipWaiting();
 });
 
 self.addEventListener('activate', (event) => {
   event.waitUntil(
-    caches.keys().then((cacheNames) =>
-      Promise.all(
-        cacheNames
-          .filter((cacheName) => cacheName !== CACHE_NAME)
-          .map((cacheName) => caches.delete(cacheName))
+    caches.keys()
+      .then((cacheNames) =>
+        Promise.all(
+          cacheNames
+            .filter((cacheName) => cacheName !== CACHE_NAME)
+            .map((cacheName) => caches.delete(cacheName))
+        )
       )
-    ).then(() => self.clients.claim())
+      .then(() => self.clients.claim())
   );
 });
 
@@ -35,100 +45,43 @@ self.addEventListener('message', (event) => {
 });
 
 self.addEventListener('fetch', (event) => {
-  if (event.request.method !== 'GET') return;
-
   const request = event.request;
   const url = new URL(request.url);
 
-  const isNavigation = request.mode === 'navigate';
-  const isHtml = request.destination === 'document' || url.pathname.endsWith('.html');
-  const isJson = url.pathname.endsWith('.json');
-  const isImage = request.destination === 'image';
-  const isVideo = request.destination === 'video' || url.pathname.endsWith('.mp4');
-  const isServiceWorker = url.pathname.endsWith('service-worker.js');
+  if (request.method !== 'GET') return;
 
-  // Never cache the service worker file itself
-  if (isServiceWorker) {
-    event.respondWith(fetch(request, { cache: 'no-store' }));
-    return;
-  }
-
-  // Always fetch fresh HTML/pages first
-  if (isNavigation || isHtml) {
+  // Never cache videos or Spotify embeds
+  if (BYPASS_CACHE_PATTERNS.some((pattern) => pattern.test(url.href))) {
     event.respondWith(
       fetch(request, { cache: 'no-store' })
-        .then((networkResponse) => {
-          const responseClone = networkResponse.clone();
-          caches.open(CACHE_NAME).then((cache) => {
-            cache.put('index.html', responseClone);
-          });
-          return networkResponse;
-        })
-        .catch(() => caches.match('index.html'))
     );
     return;
   }
 
-  // Always fetch fresh JSON first
-  if (isJson) {
+  // Always try fresh index first so updates show immediately
+  if (request.mode === 'navigate' || url.pathname.endsWith('/index.html')) {
     event.respondWith(
       fetch(request, { cache: 'no-store' })
-        .then((networkResponse) => {
-          const responseClone = networkResponse.clone();
+        .then((response) => {
+          const copy = response.clone();
+
           caches.open(CACHE_NAME).then((cache) => {
-            cache.put(request, responseClone);
+            cache.put('index.html?v=20260428-2', copy);
           });
-          return networkResponse;
+
+          return response;
         })
-        .catch(() => caches.match(request))
+        .catch(() =>
+          caches.match('index.html?v=20260428-2')
+            .then((cached) => cached || caches.match('./'))
+        )
     );
     return;
   }
 
-  // Network first for videos
-  if (isVideo) {
-    event.respondWith(
-      fetch(request, { cache: 'reload' })
-        .then((networkResponse) => {
-          const responseClone = networkResponse.clone();
-          caches.open(CACHE_NAME).then((cache) => {
-            cache.put(request, responseClone);
-          });
-          return networkResponse;
-        })
-        .catch(() => caches.match(request))
-    );
-    return;
-  }
-
-  // Network first for images
-  if (isImage) {
-    event.respondWith(
-      fetch(request, { cache: 'reload' })
-        .then((networkResponse) => {
-          const responseClone = networkResponse.clone();
-          caches.open(CACHE_NAME).then((cache) => {
-            cache.put(request, responseClone);
-          });
-          return networkResponse;
-        })
-        .catch(() => caches.match(request))
-    );
-    return;
-  }
-
-  // Cache first for everything else
+  // Standard cache-first for normal assets
   event.respondWith(
-    caches.match(request).then((cachedResponse) => {
-      if (cachedResponse) return cachedResponse;
-
-      return fetch(request).then((networkResponse) => {
-        const responseClone = networkResponse.clone();
-        caches.open(CACHE_NAME).then((cache) => {
-          cache.put(request, responseClone);
-        });
-        return networkResponse;
-      });
-    })
+    caches.match(request)
+      .then((cached) => cached || fetch(request))
   );
 });
