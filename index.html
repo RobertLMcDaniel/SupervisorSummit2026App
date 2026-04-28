@@ -1216,18 +1216,38 @@
         </section>
       </section>
 
+      
       <section id="resources-view" class="view hidden" aria-label="Resources view">
         <section class="panel">
-          <p class="resources-intro">Quick links for Supervisor Summit 2026.</p>
-          <div class="resources-actions">
-            <a class="resource-button slide-in-left" href="#" target="_blank" rel="noopener">Supervisor Summit 2026 Survey</a>
-            <a class="resource-button slide-in-right" href="#" target="_blank" rel="noopener">Supervisor Summit Music Playlist</a>
+          <div class="list" style="gap: 14px;">
+            <button class="item" id="survey-btn" type="button" style="cursor:pointer; text-align:center; font-weight:700; font-size:1rem;">
+              Supervisor Summit 2026 Survey
+            </button>
+            <button class="item" id="playlist-btn" type="button" style="cursor:pointer; text-align:center; font-weight:700; font-size:1rem;">
+              Supervisor Summit Playlist
+            </button>
           </div>
         </section>
       </section>
 
+      <section id="playlist-view" class="view hidden" aria-label="Playlist view">
+        <section class="panel">
+          <div style="display:grid; gap:14px;">
+            <button id="playlist-back-btn" type="button" class="item" style="cursor:pointer; font-weight:700;">
+              ← Back to Resources
+            </button>
+            <iframe
+              style="border-radius:12px; width:100%;"
+              src="https://open.spotify.com/embed/playlist/20pk264QB8qTJ6YXQZigq5"
+              height="352"
+              frameborder="0"
+              allowfullscreen
+              allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture">
+            </iframe>
+          </div>
+        </section>
       </section>
-    </main>
+</main>
 
     <nav class="bottom-nav" aria-label="Primary navigation">
       <div class="bottom-nav__row">
@@ -1304,7 +1324,8 @@
         agenda: document.getElementById('agenda-view'),
         speakers: document.getElementById('speakers-view'),
         locations: document.getElementById('locations-view'),
-        resources: document.getElementById('resources-view')
+        resources: document.getElementById('resources-view'),
+        playlist: document.getElementById('playlist-view')
       };
 
       const tabs = Array.from(document.querySelectorAll('.tab-btn'));
@@ -1328,6 +1349,9 @@
       const speakerDetailRole = document.getElementById('speaker-detail-role');
       const speakerDetailOrg = document.getElementById('speaker-detail-org');
       const speakerDetailBio = document.getElementById('speaker-detail-bio');
+      const playlistBtn = document.getElementById('playlist-btn');
+      const playlistBackBtn = document.getElementById('playlist-back-btn');
+
       const homeVideoPlayers = [
         document.getElementById('home-video-a'),
         document.getElementById('home-video-b')
@@ -1753,6 +1777,21 @@
       });
 
       speakerDetailClose.addEventListener('click', closeSpeakerDetail);
+
+
+      if (playlistBtn) {
+        playlistBtn.addEventListener('click', () => {
+          showView('playlist');
+          if (topbarPageLabel) topbarPageLabel.textContent = 'PLAYLIST';
+        });
+      }
+
+      if (playlistBackBtn) {
+        playlistBackBtn.addEventListener('click', () => {
+          showView('resources');
+        });
+      }
+
 
       window.addEventListener('resize', () => syncNavIndicator());
 
