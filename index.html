@@ -10,6 +10,7 @@
     <link rel="manifest" href="manifest.json?v=20260414-2" />
     <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png?v=20260414-2" />
     <link rel="apple-touch-icon" href="icons/icon-192.png?v=20260414-2" />
+    <link rel="preload" as="video" href="images/background.mp4?v=20260428-1" type="video/mp4" fetchpriority="high" />
     <title>Supervisor Summit 2026 App</title>
     <style>
       :root {
@@ -1128,11 +1129,11 @@
         position: fixed;
         inset: 0;
         z-index: 50;
-        background: #D8ECF7;
+        background: #D4EEFA;
         display: grid;
         place-items: start center;
         opacity: 1;
-        transition: opacity 0.85s cubic-bezier(0.22, 0.72, 0.18, 1);
+        transition: opacity 0.68s cubic-bezier(0.22, 0.72, 0.18, 1);
         padding-top: 31dvh;
       }
 
@@ -1145,10 +1146,10 @@
         width: min(70vw, 360px);
         max-height: 160px;
         object-fit: contain;
-        animation: splash-logo-fade-in 0.7s ease forwards;
+        animation: splash-logo-fade-in 0.62s ease-out 0.08s forwards;
       
         opacity: 0;
-        transition: opacity 0.9s cubic-bezier(0.22, 0.72, 0.18, 1);}
+        transition: opacity 0.68s cubic-bezier(0.22, 0.72, 0.18, 1);}
 
       .splash-screen.fade-out .splash-logo {
         opacity: 0;
@@ -1157,8 +1158,13 @@
       @keyframes splash-logo-fade-in {
         from {
           opacity: 0;
-          transform: translateY(10px);
+          transform: translateY(8px) scale(0.985);
         }
+        to {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+      }
         to {
           opacity: 1;
           transform: translateY(0);
@@ -1909,27 +1915,46 @@
       function forceHomeVideoAutoplay() {
         homeVideoPlayers.forEach((video) => {
           if (!video) return;
+
           video.muted = true;
           video.defaultMuted = true;
+          video.autoplay = true;
+          video.loop = true;
+          video.playsInline = true;
+          video.setAttribute('muted', '');
+          video.setAttribute('autoplay', '');
+          video.setAttribute('loop', '');
+          video.setAttribute('playsinline', '');
+          video.setAttribute('webkit-playsinline', '');
+          video.setAttribute('preload', 'auto');
+
           const tryPlay = () => {
+            if (video.readyState === 0) video.load();
             const playPromise = video.play();
             if (playPromise && typeof playPromise.catch === 'function') {
-              playPromise.catch(() => {});
+              playPromise.catch(() => {
+                // Some mobile browsers still require first interaction.
+              });
             }
           };
 
+          video.addEventListener('loadedmetadata', tryPlay);
           video.addEventListener('loadeddata', tryPlay);
           video.addEventListener('canplay', tryPlay);
+          video.addEventListener('canplaythrough', tryPlay);
+
           tryPlay();
+          window.setTimeout(tryPlay, 100);
+          window.setTimeout(tryPlay, 350);
+          window.setTimeout(tryPlay, 900);
         });
       }
 
       document.addEventListener('visibilitychange', () => {
         if (!document.hidden) forceHomeVideoAutoplay();
       });
-
-      ['touchstart', 'click'].forEach((eventName) => {
-        window.addEventListener(eventName, forceHomeVideoAutoplay, { once: true });
+      ['pointerdown', 'touchstart', 'click'].forEach((eventName) => {
+        window.addEventListener(eventName, forceHomeVideoAutoplay, { once: true, passive: true });
       });
 
 
@@ -1946,7 +1971,7 @@
         fetchJson('data/sessions/day1.json').catch(() => {});
         // Day 2 and Day 3 load when selected to keep startup faster.
       });
-      function waitForHomeVideoReady(timeout = 1800) {
+      function waitForHomeVideoReady(timeout = 1200) {
         const activeVideo = homeVideoPlayers[0];
 
         return new Promise((resolve) => {
@@ -2003,7 +2028,7 @@
         waitForHomeVideoReady().then(() => {
           window.setTimeout(() => {
             splashScreen.classList.add('fade-out');
-            window.setTimeout(() => splashScreen.remove(), 950);
+            window.setTimeout(() => splashScreen.remove(), 740);
           }, 350);
         });
       }
