@@ -1,4 +1,4 @@
-const CACHE_NAME = 'supervisor-summit-reset-20260428-2';
+const CACHE_NAME = 'supervisor-summit-disable-cache-20260428-3';
 
 self.addEventListener('install', (event) => {
   self.skipWaiting();
@@ -8,23 +8,14 @@ self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys()
       .then((cacheNames) => Promise.all(cacheNames.map((cacheName) => caches.delete(cacheName))))
-      .then(() => self.clients.claim())
+      .then(() => self.registration.unregister())
+      .then(() => self.clients.matchAll())
+      .then((clients) => {
+        clients.forEach((client) => client.navigate(client.url));
+      })
   );
 });
 
-self.addEventListener('message', (event) => {
-  if (event.data && event.data.type === 'SKIP_WAITING') {
-    self.skipWaiting();
-  }
-});
-
-// Network-only reset service worker.
-// This clears old stale caches and lets GitHub Pages serve fresh files directly.
 self.addEventListener('fetch', (event) => {
-  if (event.request.method !== 'GET') return;
-
-  event.respondWith(
-    fetch(event.request, { cache: 'no-store' })
-      .catch(() => fetch(event.request))
-  );
+  // Do not intercept anything. Let GitHub Pages serve assets directly.
 });
