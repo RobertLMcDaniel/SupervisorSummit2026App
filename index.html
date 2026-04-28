@@ -160,7 +160,7 @@
         object-position: center 42%;
         display: block;
         opacity: 0;
-        transition: opacity 1.25s ease;
+        transition: opacity 1.8s ease;
       }
 
       .home-video-player.is-active {
@@ -1132,7 +1132,7 @@
         display: grid;
         place-items: start center;
         opacity: 1;
-        transition: opacity 0.7s ease;
+        transition: opacity 1.4s ease;
         padding-top: 38dvh;
       }
 
@@ -1918,13 +1918,57 @@
         fetchJson('data/sessions/day2.json').catch(() => {});
         fetchJson('data/sessions/day3.json').catch(() => {});
       });
+      function waitForHomeVideoReady(timeout = 2600) {
+        const activeVideo = homeVideoPlayers[0];
 
-      if (splashScreen) {
-        window.setTimeout(() => {
-          splashScreen.classList.add('fade-out');
-          window.setTimeout(() => splashScreen.remove(), 800);
-        }, 950);
+        return new Promise((resolve) => {
+          if (!activeVideo) {
+            window.setTimeout(resolve, 500);
+            return;
+          }
+
+          let resolved = false;
+          const finish = () => {
+            if (resolved) return;
+            resolved = true;
+            activeVideo.removeEventListener('playing', finish);
+            activeVideo.removeEventListener('canplay', finish);
+            activeVideo.removeEventListener('loadeddata', finish);
+            resolve();
+          };
+
+          activeVideo.muted = true;
+          activeVideo.defaultMuted = true;
+          activeVideo.playsInline = true;
+
+          const playPromise = activeVideo.play();
+          if (playPromise && typeof playPromise.catch === 'function') {
+            playPromise.catch(() => {});
+          }
+
+          if (activeVideo.readyState >= 3 && !activeVideo.paused) {
+            window.setTimeout(finish, 250);
+          } else {
+            activeVideo.addEventListener('playing', finish, { once: true });
+            activeVideo.addEventListener('canplay', finish, { once: true });
+            activeVideo.addEventListener('loadeddata', finish, { once: true });
+            window.setTimeout(finish, timeout);
+          }
+        });
       }
+
+      function fadeOutSplashWhenReady() {
+        if (!splashScreen) return;
+
+        waitForHomeVideoReady().then(() => {
+          window.setTimeout(() => {
+            splashScreen.classList.add('fade-out');
+            window.setTimeout(() => splashScreen.remove(), 1500);
+          }, 350);
+        });
+      }
+
+      runWhenIdle(fadeOutSplashWhenReady);
     </script>
   </body>
 </html>
