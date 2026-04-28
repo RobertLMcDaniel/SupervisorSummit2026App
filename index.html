@@ -1295,17 +1295,7 @@
     <section id="playlist-detail-overlay" class="speaker-overlay hidden" aria-label="Playlist view">
       <article class="speaker-detail-card playlist-detail-card">
         <button id="playlist-detail-close" class="speaker-close" type="button" aria-label="Close playlist">✕</button>
-        <div class="playlist-embed-wrap">
-          <iframe
-            style="border-radius:12px"
-            src="https://open.spotify.com/embed/playlist/20pk264QB8qTJ6YXQZigq5"
-            width="100%"
-            height="100%"
-            frameborder="0"
-            allowfullscreen
-            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture">
-          </iframe>
-        </div>
+        <div id="playlist-embed-wrap" class="playlist-embed-wrap" data-loaded="false"></div>
       </article>
     </section>
 
@@ -1381,6 +1371,7 @@
       const playlistBtn = document.getElementById('playlist-btn');
       const playlistDetailOverlay = document.getElementById('playlist-detail-overlay');
       const playlistDetailClose = document.getElementById('playlist-detail-close');
+      const playlistEmbedWrap = document.getElementById('playlist-embed-wrap');
 
       const homeVideoPlayers = [
         document.getElementById('home-video-a'),
@@ -1811,6 +1802,23 @@
 
       function openPlaylistDetail() {
         if (!playlistDetailOverlay) return;
+
+        if (playlistEmbedWrap && playlistEmbedWrap.dataset.loaded !== 'true') {
+          playlistEmbedWrap.innerHTML = `
+            <iframe
+              style="border-radius:12px"
+              src="https://open.spotify.com/embed/playlist/20pk264QB8qTJ6YXQZigq5"
+              width="100%"
+              height="100%"
+              frameborder="0"
+              allowfullscreen
+              loading="lazy"
+              allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture">
+            </iframe>
+          `;
+          playlistEmbedWrap.dataset.loaded = 'true';
+        }
+
         playlistDetailOverlay.classList.remove('closing');
         playlistDetailOverlay.classList.remove('hidden');
         requestAnimationFrame(() => {
