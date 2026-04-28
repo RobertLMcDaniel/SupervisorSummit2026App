@@ -167,18 +167,6 @@
         opacity: 1;
       }
 
-      .home-video-player::-webkit-media-controls,
-      .home-video-player::-webkit-media-controls-panel,
-      .home-video-player::-webkit-media-controls-play-button,
-      .home-video-player::-webkit-media-controls-start-playback-button {
-        display: none !important;
-        -webkit-appearance: none;
-        opacity: 0 !important;
-        pointer-events: none !important;
-      }
-
-
-
       .home-video-overlay {
         position: absolute;
         inset: 0;
@@ -1203,8 +1191,6 @@
                 webkit-playsinline
                 preload="auto"
                 disablepictureinpicture
-                disableremoteplayback
-               list="nodownload nofullscreen noremoteplayback"
                 tabindex="-1"
                 aria-hidden="true"
               >
@@ -1221,12 +1207,10 @@
                 webkit-playsinline
                 preload="auto"
                 disablepictureinpicture
-                disableremoteplayback
-               list="nodownload nofullscreen noremoteplayback"
                 tabindex="-1"
                 aria-hidden="true"
               >
-                <source src="images/clouds_sun.mp4" type="video/mp4" />
+                <source src="images/background.mp4" type="video/mp4" />
               </video>
             </div>
             <div class="home-video-overlay" aria-hidden="true"></div>
@@ -1481,31 +1465,21 @@
 
       function setVideoSource(videoElement, src) {
         if (!videoElement) return Promise.resolve();
-
-        const cleanSrc = String(src || '').trim();
-        if (!cleanSrc) return Promise.resolve();
-
-        if (videoElement.dataset.src === cleanSrc) {
+        if (videoElement.dataset.src === src) {
           videoElement.currentTime = 0;
           return Promise.resolve();
         }
-
         return new Promise((resolve) => {
           const handleReady = () => {
-            videoElement.removeEventListener('loadedmetadata', handleReady);
             videoElement.removeEventListener('loadeddata', handleReady);
-            videoElement.removeEventListener('canplay', handleReady);
             videoElement.removeEventListener('error', handleReady);
             resolve();
           };
 
-          videoElement.addEventListener('loadedmetadata', handleReady, { once: true });
           videoElement.addEventListener('loadeddata', handleReady, { once: true });
-          videoElement.addEventListener('canplay', handleReady, { once: true });
           videoElement.addEventListener('error', handleReady, { once: true });
-
-          videoElement.dataset.src = cleanSrc;
-          videoElement.innerHTML = `<source src="${cleanSrc}" type="video/mp4" />`;
+          videoElement.dataset.src = src;
+          videoElement.src = src;
           videoElement.load();
         });
       }
@@ -1542,7 +1516,7 @@
         await setVideoSource(homeVideoPlayers[0], heroVideoPlaylist[0]);
         homeVideoPlayers[0].currentTime = 0;
         homeVideoPlayers[0].play().catch(() => {});
-        if (typeof playHomeVideo === 'function') playHomeVideo();
+        playHomeVideo();
         if (homeVideoPlayers[1]) await setVideoSource(homeVideoPlayers[1], heroVideoPlaylist[1 % heroVideoPlaylist.length]);
         clearInterval(heroVideoSwapTimer);
         if (heroVideoPlaylist.length > 1) {
@@ -1906,59 +1880,49 @@
 
       window.addEventListener('resize', () => syncNavIndicator(document.querySelector('.tab-btn.active')?.dataset.tab));
 
+
+      function playHomeVideo() {
+        document.querySelectorAll('.home-video-player').forEach((video) => {
+          video.muted = true;
+          video.playsInline = true;
+          video.removeAttribute('controls');
+          video.play().catch(() => {});
+        });
+      }
+
+      window.addEventListener('load', playHomeVideo);
+      document.addEventListener('visibilitychange', () => {
+        if (!document.hidden) playHomeVideo();
+      });
+
       showView('home');
       syncNavIndicator('home');
 
-      // Start home video and content immediately.
-      loadHomeContent();
-      loadDayButtonConfig();
-      forceHomeVideoAutoplay();
-      startHomeVideoRotation();
+      // Defer non-critical startup work so the app becomes interactive faster.
+      window.setTimeout(() => {
+        loadHomeContent();
+        loadDayButtonConfig();
+        forceHomeVideoAutoplay();
+        startHomeVideoRotation();
+      }, 80);
 
 
 
       function forceHomeVideoAutoplay() {
         homeVideoPlayers.forEach((video) => {
           if (!video) return;
-
-          video.controls = false;
           video.muted = true;
           video.defaultMuted = true;
-          video.autoplay = true;
-          video.loop = true;
-          video.playsInline = true;
-          video.disablePictureInPicture = true;
-
-          video.setAttribute('muted', '');
-          video.setAttribute('autoplay', '');
-          video.setAttribute('loop', '');
-          video.setAttribute('playsinline', '');
-          video.setAttribute('webkit-playsinline', '');
-          video.setAttribute('preload', 'auto');
-          video.removeAttribute('controls');
-
           const tryPlay = () => {
-            video.controls = false;
-            video.removeAttribute('controls');
-
-            if (video.readyState === 0) {
-              video.load();
-            }
-
             const playPromise = video.play();
             if (playPromise && typeof playPromise.catch === 'function') {
               playPromise.catch(() => {});
             }
           };
 
-          ['loadedmetadata', 'loadeddata', 'canplay', 'canplaythrough'].forEach((eventName) => {
-            video.addEventListener(eventName, tryPlay);
-          });
-
+          video.addEventListener('loadeddata', tryPlay);
+          video.addEventListener('canplay', tryPlay);
           tryPlay();
-          [80, 200, 500, 900, 1400, 2200].forEach((delay) => {
-            window.setTimeout(tryPlay, delay);
-          });
         });
       }
 
@@ -1992,20 +1956,6 @@
           window.setTimeout(() => splashScreen.remove(), 800);
         }, 750);
       }
-      function playHomeVideo() {
-        document.querySelectorAll('.home-video-player').forEach((video) => {
-          video.muted = true;
-          video.playsInline = true;
-          video.removeAttribute('controls');
-          video.play().catch(() => {});
-        });
-      }
-
-      window.addEventListener('load', playHomeVideo);
-      document.addEventListener('visibilitychange', () => {
-        if (!document.hidden) playHomeVideo();
-      });
-
     </script>
   </body>
 </html>
