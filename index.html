@@ -135,10 +135,11 @@
       }
 
       .home-video-frame {
+        justify-self: stretch;
         position: relative;
         width: 100%;
-        max-width: 100%;
-        margin: 0 auto;
+        max-width: none;
+        margin: 0;
         height: calc(100dvh - 160px);
         min-height: calc(100dvh - 160px);
         border-radius: 20px;
@@ -160,7 +161,7 @@
         object-position: center 42%;
         display: block;
         opacity: 0;
-        transition: opacity 1.8s ease;
+        transition: opacity 1.25s ease;
       }
 
       .home-video-player.is-active {
@@ -178,8 +179,8 @@
         display: grid;
         gap: 14px;
         align-content: center;
-        justify-items: center;
-        padding: 2px 10px 10px;
+        justify-items: stretch;
+        padding: 2px 0 10px;
         min-height: 100%;
       }
 
@@ -290,6 +291,26 @@
         box-shadow: 0 4px 12px rgba(239, 177, 10, 0.28);
       }
 
+      .home-static-quote {
+        margin: 7px 0 0;
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        position: relative;
+        z-index: 9999;
+        color: #EFB10A !important;
+        -webkit-text-fill-color: #EFB10A !important;
+        text-align: center;
+        font-size: clamp(1.18rem, 4.8vw, 1.52rem);
+        font-weight: 900;
+        font-style: italic !important;
+        line-height: 1.1;
+        transform: skewX(-6deg);
+        text-shadow: 0 5px 12px rgba(27, 46, 64, 0.8);
+        pointer-events: none;
+      }
+
+
 
             .home-video-dates {
         margin: 14px 0 0;
@@ -313,29 +334,6 @@
         justify-self: center;
       }
 
-      .home-video-quote {
-        align-self: end;
-        margin: 0;
-        font-size: clamp(1.5rem, 6vw, 1.9rem);
-        font-style: normal;
-        font-weight: 800;
-        color: transparent;
-        text-align: center;
-        text-shadow: 0 8px 16px rgba(27, 46, 64, 0.38);
-        background: linear-gradient(180deg, #F6C84D 0%, #EFB10A 100%);
-        -webkit-background-clip: text;
-        background-clip: text;
-        -webkit-text-fill-color: transparent;
-        animation: quote-breathe 5.6s ease-in-out infinite;
-        line-height: 1.02;
-        display: grid;
-        justify-items: center;
-        gap: 4px;
-      }
-
-      .home-video-quote-line {
-        display: block;
-      }
 
       @keyframes hero-breathe {
         0%, 100% {
@@ -1119,21 +1117,18 @@
           font-size: clamp(1.02rem, 2.2vw, 1.3rem);
         }
 
-        .home-video-quote {
-          font-size: clamp(1rem, 1.8vw, 1.2rem);
-        }
       }
 
       .splash-screen {
         position: fixed;
         inset: 0;
         z-index: 50;
-        background: #D8ECF7;
+        background: #E3EDF2;
         display: grid;
         place-items: start center;
         opacity: 1;
-        transition: opacity 0.85s cubic-bezier(0.22, 0.72, 0.18, 1);
-        padding-top: 31dvh;
+        transition: opacity 0.7s ease;
+        padding-top: 38dvh;
       }
 
       .splash-screen.fade-out {
@@ -1142,52 +1137,10 @@
       }
 
       .splash-logo {
-        width: min(70vw, 360px);
+        width: min(70vw, 330px);
         max-height: 160px;
         object-fit: contain;
-        animation: splash-logo-fade-in 0.7s ease forwards;
-      
-        opacity: 0;
-        transition: opacity 0.9s cubic-bezier(0.22, 0.72, 0.18, 1);}
-
-      .splash-screen.fade-out .splash-logo {
-        opacity: 0;
       }
-
-      @keyframes splash-logo-fade-in {
-        from {
-          opacity: 0;
-          transform: translateY(10px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-
-      #home-video-quote-fixed {
-        position: absolute !important;
-        left: 10px !important;
-        right: 10px !important;
-        bottom: 18px !important;
-        z-index: 9999 !important;
-        display: block !important;
-        visibility: visible !important;
-        opacity: 1 !important;
-        pointer-events: none !important;
-        margin: 0 !important;
-        padding: 0 !important;
-        text-align: center !important;
-        color: #EFB10A !important;
-        font-size: clamp(1.45rem, 6vw, 1.95rem) !important;
-        font-weight: 900 !important;
-        font-style: italic !important;
-        line-height: 1.1 !important;
-        text-shadow: 0 4px 10px rgba(27, 46, 64, 0.85), 0 0 2px rgba(27, 46, 64, 0.9) !important;
-        -webkit-text-fill-color: #EFB10A !important;
-        transform: skewX(-7deg) !important;
-      }
-
     </style>
   </head>
   <body>
@@ -1250,10 +1203,9 @@
                 <span class="home-gold-bar" aria-hidden="true"></span>
                 <p id="home-hero-description" class="home-video-middle">Practical learning, stronger leadership, and one shared standard across the City.</p>
                 <span class="home-gold-bar" aria-hidden="true"></span>
+                <p id="home-static-quote" class="home-static-quote">"Supervisors Bring the Weather"</p>
               </div>
-              <p id="home-hero-quote" class="home-video-quote"><span class="home-video-quote-line">“Supervisors</span><span class="home-video-quote-line">Bring the Weather”</span></p>
             </div>
-            <div id="home-video-quote-fixed">"Supervisors Bring the Weather"</div>
           </section>
         </div>
       </section>
@@ -1580,32 +1532,21 @@
         const versioned = `${base}${separator}v=${ASSET_REFRESH_TOKEN}`;
         return hash ? `${versioned}#${hash}` : versioned;
       }
-
-      function formatHomeQuoteText(quoteText) {
-        const cleaned = String(quoteText || '').replace(/[“”]/g, '').trim();
-        if (!cleaned) return '';
-        const parts = cleaned.split(/\s+/);
-        const firstLine = parts.shift() || '';
-        const secondLine = parts.join(' ') || '';
-        return secondLine
-          ? `<span class="home-video-quote-line">${firstLine}</span><span class="home-video-quote-line">${secondLine}</span>`
-          : `<span class="home-video-quote-line">${firstLine}</span>`;
-      }
-
-      async function loadHomeContent() {
+async function loadHomeContent() {
         try {
           const content = await fetchJson('data/home-content.json');
           const titleImage = String(content.titleImage || '').trim();
           const descriptionText = String(content.description || '').trim();
-          const quoteText = String(content.quote || '').trim();
 
           if (homeHeroImage && titleImage) {
             homeHeroImage.src = withRefreshToken(`images/${titleImage}`);
           }
-          if (homeHeroDescription && descriptionText) homeHeroDescription.textContent = descriptionText;
-          if (homeHeroQuote && quoteText) homeHeroQuote.innerHTML = formatHomeQuoteText(quoteText);
+
+          if (homeHeroDescription && descriptionText) {
+            homeHeroDescription.textContent = descriptionText;
+          }
         } catch {
-          // Keep built-in defaults if JSON is unavailable.
+          // Keep built-in defaults if JSON is unavailable or invalid.
         }
       }
 
@@ -1907,27 +1848,7 @@
 
       window.addEventListener('resize', () => syncNavIndicator(document.querySelector('.tab-btn.active')?.dataset.tab));
 
-
-      function forceFixedHomeQuote() {
-        const frame = document.querySelector('.home-video-frame');
-        if (!frame) return;
-
-        let quote = document.getElementById('home-video-quote-fixed');
-        if (!quote) {
-          quote = document.createElement('div');
-          quote.id = 'home-video-quote-fixed';
-          frame.appendChild(quote);
-        }
-
-        quote.textContent = '"Supervisors Bring the Weather"';
-        quote.style.display = 'block';
-        quote.style.visibility = 'visible';
-        quote.style.opacity = '1';
-        quote.style.zIndex = '9999';
-      }
-
       showView('home');
-      forceFixedHomeQuote();
       syncNavIndicator('home');
 
       // Defer non-critical startup work so the app becomes interactive faster.
@@ -1981,58 +1902,13 @@
         fetchJson('data/sessions/day2.json').catch(() => {});
         fetchJson('data/sessions/day3.json').catch(() => {});
       });
-      function waitForHomeVideoReady(timeout = 2600) {
-        const activeVideo = homeVideoPlayers[0];
 
-        return new Promise((resolve) => {
-          if (!activeVideo) {
-            window.setTimeout(resolve, 500);
-            return;
-          }
-
-          let resolved = false;
-          const finish = () => {
-            if (resolved) return;
-            resolved = true;
-            activeVideo.removeEventListener('playing', finish);
-            activeVideo.removeEventListener('canplay', finish);
-            activeVideo.removeEventListener('loadeddata', finish);
-            resolve();
-          };
-
-          activeVideo.muted = true;
-          activeVideo.defaultMuted = true;
-          activeVideo.playsInline = true;
-
-          const playPromise = activeVideo.play();
-          if (playPromise && typeof playPromise.catch === 'function') {
-            playPromise.catch(() => {});
-          }
-
-          if (activeVideo.readyState >= 3 && !activeVideo.paused) {
-            window.setTimeout(finish, 250);
-          } else {
-            activeVideo.addEventListener('playing', finish, { once: true });
-            activeVideo.addEventListener('canplay', finish, { once: true });
-            activeVideo.addEventListener('loadeddata', finish, { once: true });
-            window.setTimeout(finish, timeout);
-          }
-        });
+      if (splashScreen) {
+        window.setTimeout(() => {
+          splashScreen.classList.add('fade-out');
+          window.setTimeout(() => splashScreen.remove(), 800);
+        }, 950);
       }
-
-      function fadeOutSplashWhenReady() {
-        if (!splashScreen) return;
-
-        waitForHomeVideoReady().then(() => {
-          window.setTimeout(() => {
-            splashScreen.classList.add('fade-out');
-            window.setTimeout(() => splashScreen.remove(), 950);
-          }, 350);
-        });
-      }
-
-      runWhenIdle(fadeOutSplashWhenReady);
-      window.addEventListener('load', forceFixedHomeQuote);
     </script>
   </body>
 </html>
