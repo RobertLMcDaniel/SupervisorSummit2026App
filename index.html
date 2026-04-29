@@ -1977,8 +1977,132 @@
         }
       }
 
+    
+      /* Targeted fixes: Resources vertical layout/text, Home text shadows. Spotify overlay appearance untouched. */
+
+      /* 1. Resources buttons stacked vertically with subtle gold line between */
+      .resources-actions {
+        grid-template-columns: 1fr !important;
+        grid-template-rows: auto auto !important;
+        width: min(100%, 360px) !important;
+        gap: 30px !important;
+        justify-items: center !important;
+        align-items: center !important;
+        padding: 14px 10px !important;
+        position: relative !important;
+        overflow: visible !important;
+      }
+
+      .resources-actions::before {
+        content: '' !important;
+        position: absolute !important;
+        left: 50% !important;
+        top: 50% !important;
+        width: 5px !important;
+        height: 68px !important;
+        border-radius: 999px !important;
+        background: linear-gradient(180deg, #D88F05 0%, #F2B21B 45%, #FFD15A 100%) !important;
+        box-shadow: 0 4px 12px rgba(239, 177, 10, 0.24) !important;
+        transform: translate(-50%, -50%) !important;
+        opacity: 0.82 !important;
+        pointer-events: none !important;
+        z-index: 0 !important;
+      }
+
+      .resource-button {
+        width: min(58vw, 205px) !important;
+        max-width: 205px !important;
+        aspect-ratio: 1 / 1 !important;
+        border-radius: 50% !important;
+        position: relative !important;
+        z-index: 1 !important;
+        color: #FFFFFF !important;
+      }
+
+      #survey-btn {
+        transform: translateX(-22px) !important;
+      }
+
+      #playlist-btn {
+        transform: translateX(22px) !important;
+      }
+
+      #survey-btn:hover,
+      #survey-btn:focus-visible {
+        transform: translate(-22px, -3px) !important;
+      }
+
+      #playlist-btn:hover,
+      #playlist-btn:focus-visible {
+        transform: translate(22px, -3px) !important;
+      }
+
+      #survey-btn:active {
+        transform: translateX(-22px) scale(0.97) !important;
+      }
+
+      #playlist-btn:active {
+        transform: translateX(22px) scale(0.97) !important;
+      }
+
+      /* 2. Resources button text: white with soft shadow */
+      .resource-button-text {
+        color: #FFFFFF !important;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25) !important;
+      }
+
+      /* 3. Home page text shadows only — no layout/spacing/wording changes */
+      #home-hero-description,
+      .home-video-middle,
+      .home-quote-overlay,
+      .home-quote-overlay-line {
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25) !important;
+      }
+
+      @media (max-width: 380px) {
+        .resources-actions {
+          gap: 24px !important;
+        }
+
+        .resources-actions::before {
+          height: 54px !important;
+          width: 4px !important;
+        }
+
+        .resource-button {
+          width: min(57vw, 174px) !important;
+          max-width: 174px !important;
+        }
+
+        #survey-btn {
+          transform: translateX(-14px) !important;
+        }
+
+        #playlist-btn {
+          transform: translateX(14px) !important;
+        }
+
+        #survey-btn:hover,
+        #survey-btn:focus-visible {
+          transform: translate(-14px, -3px) !important;
+        }
+
+        #playlist-btn:hover,
+        #playlist-btn:focus-visible {
+          transform: translate(14px, -3px) !important;
+        }
+
+        #survey-btn:active {
+          transform: translateX(-14px) scale(0.97) !important;
+        }
+
+        #playlist-btn:active {
+          transform: translateX(14px) scale(0.97) !important;
+        }
+      }
+
     </style>
-      <meta name="app-version" content="20260429-simple-arrows-resources-divider-1" />
+      <meta name="app-version" content="20260429-resources-home-reset-spotify-1" />
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
@@ -2154,7 +2278,7 @@
     <script>
       // Service worker disabled while stabilizing asset/video loading.
       // This unregisters older service workers and clears old caches that may be serving stale files.
-      const APP_VERSION = '20260429-simple-arrows-resources-divider-1';
+      const APP_VERSION = '20260429-resources-home-reset-spotify-1';
 
       async function clearOldAppCaches() {
         if (!('caches' in window)) return;
@@ -2731,7 +2855,6 @@
         if (playlistEmbedWrap && playlistEmbedWrap.dataset.loaded !== 'true') {
           playlistEmbedWrap.innerHTML = `
             <iframe
-              src="https://open.spotify.com/embed/playlist/20pk264QB8qTJ6YXQZigq5"
               width="100%"
               height="100%"
               frameborder="0"
@@ -2862,5 +2985,100 @@
         }, 750);
       }
     </script>
+  
+    <script>
+      // Targeted state/performance patch:
+      // - Collapse speaker bios and agenda sessions whenever tabs/pages change.
+      // - Lazy-load Spotify only when opened.
+      // - Clear Spotify iframe src when closed so it stops running in the background.
+      (() => {
+        const SPOTIFY_SRC = 'https://open.spotify.com/embed/playlist/20pk264QB8qTJ6YXQZigq5';
+
+        function collapseExpandedStates() {
+          document.querySelectorAll('.speaker-accordion-item.expanded').forEach((item) => {
+            item.classList.remove('expanded');
+          });
+
+          document.querySelectorAll('.agenda-ticket.expanded').forEach((item) => {
+            item.classList.remove('expanded');
+          });
+        }
+
+        function getSpotifyIframe() {
+          const overlay = document.getElementById('playlist-detail-overlay');
+          return overlay ? overlay.querySelector('iframe') : null;
+        }
+
+        function loadSpotifyIframe() {
+          const iframe = getSpotifyIframe();
+          if (iframe && iframe.getAttribute('src') !== SPOTIFY_SRC) {
+            iframe.setAttribute('src', SPOTIFY_SRC);
+          }
+        }
+
+        function clearSpotifyIframe() {
+          const iframe = getSpotifyIframe();
+          if (iframe) {
+            iframe.removeAttribute('src');
+          }
+        }
+
+        function patchNavigationReset() {
+          document.querySelectorAll('.tab-btn').forEach((button) => {
+            button.addEventListener('click', collapseExpandedStates, { capture: true });
+          });
+        }
+
+        function patchSpotifyLazyLoad() {
+          const playlistButton = document.getElementById('playlist-btn');
+          const closeButton = document.getElementById('playlist-detail-close');
+          const overlay = document.getElementById('playlist-detail-overlay');
+
+          // Prevent Spotify from loading on initial page load.
+          clearSpotifyIframe();
+
+          if (playlistButton) {
+            playlistButton.addEventListener('click', loadSpotifyIframe, { capture: true });
+          }
+
+          if (closeButton) {
+            closeButton.addEventListener('click', clearSpotifyIframe);
+          }
+
+          if (overlay) {
+            overlay.addEventListener('click', (event) => {
+              if (event.target === overlay) {
+                clearSpotifyIframe();
+              }
+            });
+
+            const observer = new MutationObserver(() => {
+              if (!overlay.classList.contains('open')) {
+                clearSpotifyIframe();
+              }
+            });
+
+            observer.observe(overlay, { attributes: true, attributeFilter: ['class'] });
+          }
+
+          document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape') {
+              clearSpotifyIframe();
+            }
+          });
+        }
+
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', () => {
+            patchNavigationReset();
+            patchSpotifyLazyLoad();
+          });
+        } else {
+          patchNavigationReset();
+          patchSpotifyLazyLoad();
+        }
+      })();
+    </script>
+
   </body>
 </html>
