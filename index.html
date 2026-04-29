@@ -135,11 +135,10 @@
       }
 
       .home-video-frame {
-        justify-self: stretch;
         position: relative;
         width: 100%;
-        max-width: none;
-        margin: 0;
+        max-width: 100%;
+        margin: 0 auto;
         height: calc(100dvh - 160px);
         min-height: calc(100dvh - 160px);
         border-radius: 20px;
@@ -161,24 +160,12 @@
         object-position: center 42%;
         display: block;
         opacity: 0;
-        transition: opacity 1.25s ease;
+        transition: opacity 1.8s ease;
       }
 
       .home-video-player.is-active {
         opacity: 1;
       }
-
-      .home-video-player::-webkit-media-controls,
-      .home-video-player::-webkit-media-controls-panel,
-      .home-video-player::-webkit-media-controls-play-button,
-      .home-video-player::-webkit-media-controls-start-playback-button {
-        display: none !important;
-        -webkit-appearance: none;
-        opacity: 0 !important;
-        pointer-events: none !important;
-      }
-
-
 
       .home-video-overlay {
         position: absolute;
@@ -191,8 +178,8 @@
         display: grid;
         gap: 14px;
         align-content: center;
-        justify-items: stretch;
-        padding: 2px 0 10px;
+        justify-items: center;
+        padding: 2px 10px 10px;
         min-height: 100%;
       }
 
@@ -291,7 +278,7 @@
         gap: 12px;
         width: 100%;
         max-width: 84%;
-        transform: translateY(-24px);
+        transform: translateY(-14px);
       }
 
       .home-gold-bar {
@@ -302,26 +289,6 @@
         background: var(--accent);
         box-shadow: 0 4px 12px rgba(239, 177, 10, 0.28);
       }
-
-      .home-middle-quote {
-        margin: 2px 0 0;
-        text-align: center;
-        color: #EFB10A !important;
-        font-size: clamp(1.12rem, 4.6vw, 1.45rem);
-        font-weight: 800;
-        font-style: italic !important;
-        line-height: 1.08;
-        text-shadow: 0 7px 14px rgba(27, 46, 64, 0.42);
-        display: block !important;
-        z-index: 4;
-      }
-
-      .home-middle-quote-line {
-        display: inline-block;
-        font-style: italic !important;
-        transform: skewX(-7deg);
-      }
-
 
 
             .home-video-dates {
@@ -365,7 +332,6 @@
         justify-items: center;
         gap: 4px;
       }
-
 
       .home-video-quote-line {
         display: block;
@@ -1115,6 +1081,7 @@
       .resource-button.slide-in-left { animation: slide-in-left 0.5s ease both; }
       .resource-button.slide-in-right { animation: slide-in-right 0.5s ease both; }
 
+
       @media (max-width: 380px) {
         .speaker-tile-name { font-size: 0.84rem; }
         .tab-label { font-size: 0.68rem; }
@@ -1161,11 +1128,11 @@
         position: fixed;
         inset: 0;
         z-index: 50;
-        background: #D4EEFA;
+        background: #D8ECF7;
         display: grid;
         place-items: start center;
         opacity: 1;
-        transition: opacity 0.75s ease;
+        transition: opacity 0.85s cubic-bezier(0.22, 0.72, 0.18, 1);
         padding-top: 31dvh;
       }
 
@@ -1178,19 +1145,47 @@
         width: min(70vw, 360px);
         max-height: 160px;
         object-fit: contain;
+        animation: splash-logo-fade-in 0.7s ease forwards;
       
         opacity: 0;
-        animation: splash-logo-fade-in 0.62s ease-out 0.08s forwards;}
+        transition: opacity 0.9s cubic-bezier(0.22, 0.72, 0.18, 1);}
+
+      .splash-screen.fade-out .splash-logo {
+        opacity: 0;
+      }
 
       @keyframes splash-logo-fade-in {
         from {
           opacity: 0;
-          transform: translateY(8px) scale(0.985);
+          transform: translateY(10px);
         }
         to {
           opacity: 1;
-          transform: translateY(0) scale(1);
+          transform: translateY(0);
         }
+      }
+
+      #home-video-quote-fixed {
+        position: absolute !important;
+        left: 10px !important;
+        right: 10px !important;
+        bottom: 18px !important;
+        z-index: 9999 !important;
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        pointer-events: none !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        text-align: center !important;
+        color: #EFB10A !important;
+        font-size: clamp(1.45rem, 6vw, 1.95rem) !important;
+        font-weight: 900 !important;
+        font-style: italic !important;
+        line-height: 1.1 !important;
+        text-shadow: 0 4px 10px rgba(27, 46, 64, 0.85), 0 0 2px rgba(27, 46, 64, 0.9) !important;
+        -webkit-text-fill-color: #EFB10A !important;
+        transform: skewX(-7deg) !important;
       }
 
     </style>
@@ -1255,11 +1250,10 @@
                 <span class="home-gold-bar" aria-hidden="true"></span>
                 <p id="home-hero-description" class="home-video-middle">Practical learning, stronger leadership, and one shared standard across the City.</p>
                 <span class="home-gold-bar" aria-hidden="true"></span>
-                <p id="home-middle-quote" class="home-middle-quote">
-                  <span class="home-middle-quote-line">"Supervisors Bring the Weather"</span>
-                </p>
               </div>
+              <p id="home-hero-quote" class="home-video-quote"><span class="home-video-quote-line">“Supervisors</span><span class="home-video-quote-line">Bring the Weather”</span></p>
             </div>
+            <div id="home-video-quote-fixed">"Supervisors Bring the Weather"</div>
           </section>
         </div>
       </section>
@@ -1367,7 +1361,7 @@
     <script>
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
-          navigator.serviceWorker.register('service-worker.js?v=reset-20260428-2', { updateViaCache: 'none' }).then((registration) => {
+          navigator.serviceWorker.register('service-worker.js?v=20260414-2', { updateViaCache: 'none' }).then((registration) => {
             registration.update();
             if (registration.waiting) registration.waiting.postMessage({ type: 'SKIP_WAITING' });
             registration.addEventListener('updatefound', () => {
@@ -1430,16 +1424,12 @@
       ].filter(Boolean);
       const heroVideoCandidates = [
         'images/background.mp4',
-        'images/clouds_sun.mp4',
+        'images/storm_clouds.mp4',
         'images/rain.mp4',
-        'images/storm_clouds.mp4'
+        'images/lightning.mp4',
+        'images/clouds_sun.mp4'
       ];
-      let heroVideoPlaylist = [
-        'images/background.mp4',
-        'images/clouds_sun.mp4',
-        'images/rain.mp4',
-        'images/storm_clouds.mp4'
-      ];
+      let heroVideoPlaylist = ['images/background.mp4'];
       const ASSET_REFRESH_TOKEN = '20260421-2';
       const defaultDayButtonConfig = [
         { key: 'day1', label: 'Day 1', agendaIcon: 'icons/home_icon.png', styleClass: 'day-style-1' },
@@ -1527,12 +1517,8 @@
       }
 
       async function buildHeroPlaylist() {
-        heroVideoPlaylist = [
-          'images/background.mp4',
-          'images/clouds_sun.mp4',
-          'images/rain.mp4',
-          'images/storm_clouds.mp4'
-        ];
+        // Faster startup: avoid multiple HEAD checks on every launch.
+        heroVideoPlaylist = ['images/background.mp4'];
       }
 
       async function rotateHomeVideo() {
@@ -1611,16 +1597,15 @@
           const content = await fetchJson('data/home-content.json');
           const titleImage = String(content.titleImage || '').trim();
           const descriptionText = String(content.description || '').trim();
+          const quoteText = String(content.quote || '').trim();
 
           if (homeHeroImage && titleImage) {
             homeHeroImage.src = withRefreshToken(`images/${titleImage}`);
           }
-
-          if (homeHeroDescription && descriptionText) {
-            homeHeroDescription.textContent = descriptionText;
-          }
+          if (homeHeroDescription && descriptionText) homeHeroDescription.textContent = descriptionText;
+          if (homeHeroQuote && quoteText) homeHeroQuote.innerHTML = formatHomeQuoteText(quoteText);
         } catch {
-          // Keep built-in defaults if JSON is unavailable or invalid.
+          // Keep built-in defaults if JSON is unavailable.
         }
       }
 
@@ -1921,11 +1906,28 @@
 
 
       window.addEventListener('resize', () => syncNavIndicator(document.querySelector('.tab-btn.active')?.dataset.tab));
-quote.innerHTML = '<span class="home-bottom-quote-line">&quot;Supervisors</span><span class="home-bottom-quote-line">Bring the Weather&quot;</span>';
-        quote.style.display = 'grid';
+
+
+      function forceFixedHomeQuote() {
+        const frame = document.querySelector('.home-video-frame');
+        if (!frame) return;
+
+        let quote = document.getElementById('home-video-quote-fixed');
+        if (!quote) {
+          quote = document.createElement('div');
+          quote.id = 'home-video-quote-fixed';
+          frame.appendChild(quote);
+        }
+
+        quote.textContent = '"Supervisors Bring the Weather"';
+        quote.style.display = 'block';
+        quote.style.visibility = 'visible';
+        quote.style.opacity = '1';
+        quote.style.zIndex = '9999';
       }
 
       showView('home');
+      forceFixedHomeQuote();
       syncNavIndicator('home');
 
       // Defer non-critical startup work so the app becomes interactive faster.
@@ -1979,13 +1981,58 @@ quote.innerHTML = '<span class="home-bottom-quote-line">&quot;Supervisors</span>
         fetchJson('data/sessions/day2.json').catch(() => {});
         fetchJson('data/sessions/day3.json').catch(() => {});
       });
+      function waitForHomeVideoReady(timeout = 2600) {
+        const activeVideo = homeVideoPlayers[0];
 
-      if (splashScreen) {
-        window.setTimeout(() => {
-          splashScreen.classList.add('fade-out');
-          window.setTimeout(() => splashScreen.remove(), 800);
-        }, 950);
+        return new Promise((resolve) => {
+          if (!activeVideo) {
+            window.setTimeout(resolve, 500);
+            return;
+          }
+
+          let resolved = false;
+          const finish = () => {
+            if (resolved) return;
+            resolved = true;
+            activeVideo.removeEventListener('playing', finish);
+            activeVideo.removeEventListener('canplay', finish);
+            activeVideo.removeEventListener('loadeddata', finish);
+            resolve();
+          };
+
+          activeVideo.muted = true;
+          activeVideo.defaultMuted = true;
+          activeVideo.playsInline = true;
+
+          const playPromise = activeVideo.play();
+          if (playPromise && typeof playPromise.catch === 'function') {
+            playPromise.catch(() => {});
+          }
+
+          if (activeVideo.readyState >= 3 && !activeVideo.paused) {
+            window.setTimeout(finish, 250);
+          } else {
+            activeVideo.addEventListener('playing', finish, { once: true });
+            activeVideo.addEventListener('canplay', finish, { once: true });
+            activeVideo.addEventListener('loadeddata', finish, { once: true });
+            window.setTimeout(finish, timeout);
+          }
+        });
       }
+
+      function fadeOutSplashWhenReady() {
+        if (!splashScreen) return;
+
+        waitForHomeVideoReady().then(() => {
+          window.setTimeout(() => {
+            splashScreen.classList.add('fade-out');
+            window.setTimeout(() => splashScreen.remove(), 950);
+          }, 350);
+        });
+      }
+
+      runWhenIdle(fadeOutSplashWhenReady);
+      window.addEventListener('load', forceFixedHomeQuote);
     </script>
   </body>
 </html>
