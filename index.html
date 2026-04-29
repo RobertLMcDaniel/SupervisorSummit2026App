@@ -237,12 +237,13 @@
         right: 14px;
         top: 20px;
         bottom: 18px;
-        z-index: 2;
+        z-index: 3;
         text-align: center;
         display: grid;
         grid-template-rows: auto 1fr;
         align-items: start;
         overflow: visible;
+        pointer-events: none;
       }
 
       .home-hero-image {
@@ -281,7 +282,7 @@
         position: relative;
         overflow: visible;
         transform: translateY(-18px);
-        padding-bottom: 104px;
+        padding-bottom: 92px;
       }
       .home-gold-bar {
         display: block;
@@ -1138,12 +1139,12 @@
 
 
 
-      .home-video-quote-fixed {
+      .home-quote-overlay {
         position: absolute !important;
         left: 12px !important;
         right: 12px !important;
-        bottom: 18px !important;
-        z-index: 99999 !important;
+        bottom: max(18px, env(safe-area-inset-bottom)) !important;
+        z-index: 2147483647 !important;
         display: grid !important;
         justify-items: center !important;
         gap: 3px !important;
@@ -1161,19 +1162,23 @@
         background: linear-gradient(180deg, #FFF4C6 0%, #FFD36A 36%, #F2AE18 68%, #C97900 100%) !important;
         -webkit-background-clip: text !important;
         background-clip: text !important;
-        color: transparent !important;
+        color: #EFB10A !important;
         -webkit-text-fill-color: transparent !important;
         text-shadow: 0 7px 16px rgba(27, 46, 64, 0.58) !important;
       }
 
-      .home-video-quote-fixed-line {
+      .home-quote-overlay-line {
         display: block !important;
         font-style: italic !important;
         transform: skewX(-6deg) !important;
       }
 
     </style>
-  </head>
+      <meta name="app-version" content="20260429-quote-cache-1" />
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+</head>
   <body>
     <div id="splash-screen" class="splash-screen" aria-hidden="true">
       <img class="splash-logo" src="icons/altamonte-logo.png?v=20260414-2" alt="" />
@@ -1236,9 +1241,9 @@
                 <span class="home-gold-bar" aria-hidden="true"></span>
               </div>
             </div>
-            <div id="home-video-quote-fixed" class="home-video-quote-fixed" aria-label="Supervisors Bring the Weather">
-              <span class="home-video-quote-fixed-line">"Supervisors"</span>
-              <span class="home-video-quote-fixed-line">Bring the Weather"</span>
+            <div id="home-quote-overlay" class="home-quote-overlay" aria-label="Supervisors Bring the Weather">
+              <span class="home-quote-overlay-line">"Supervisors"</span>
+              <span class="home-quote-overlay-line">Bring the Weather"</span>
             </div>
           </section>
         </div>
@@ -1347,18 +1352,57 @@
     <script>
       // Service worker disabled while stabilizing asset/video loading.
       // This unregisters older service workers and clears old caches that may be serving stale files.
-      if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-          navigator.serviceWorker.getRegistrations()
-            .then((registrations) => {
-              registrations.forEach((registration) => registration.unregister());
-            })
-            .catch(() => {});
+      const APP_VERSION = '20260429-quote-cache-1';
 
-          if ('caches' in window) {
-            caches.keys()
-              .then((cacheNames) => Promise.all(cacheNames.map((cacheName) => caches.delete(cacheName))))
-              .catch(() => {});
+      async function clearOldAppCaches() {
+        if (!('caches' in window)) return;
+        try {
+          const cacheNames = await caches.keys();
+          await Promise.all(cacheNames.map((cacheName) => caches.delete(cacheName)));
+        } catch (error) {}
+      }
+
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', async () => {
+          await clearOldAppCaches();
+
+          try {
+            const registration = await navigator.serviceWorker.register(`service-worker.js?v=${APP_VERSION}`, {
+              updateViaCache: 'none'
+            });
+
+            await registration.update();
+
+            if (registration.waiting) {
+              registration.waiting.postMessage({ type: 'SKIP_WAITING' });
+            }
+
+            registration.addEventListener('updatefound', () => {
+              const worker = registration.installing;
+              if (!worker) return;
+
+              worker.addEventListener('statechange', () => {
+                if (worker.state === 'installed' && navigator.serviceWorker.controller) {
+                  worker.postMessage({ type: 'SKIP_WAITING' });
+                }
+              });
+            });
+          } catch (error) {}
+        });
+
+        let refreshingForUpdate = false;
+        navigator.serviceWorker.addEventListener('controllerchange', () => {
+          if (refreshingForUpdate) return;
+          refreshingForUpdate = true;
+          window.location.reload();
+        });
+      }
+
+
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.addEventListener('message', (event) => {
+          if (event.data && event.data.type === 'APP_UPDATED') {
+            window.location.reload();
           }
         });
       }
@@ -1568,7 +1612,19 @@
         const versioned = `${base}${separator}v=${ASSET_REFRESH_TOKEN}`;
         return hash ? `${versioned}#${hash}` : versioned;
       }
-async function loadHomeContent() {
+
+      function formatHomeQuoteText(quoteText) {
+        const cleaned = String(quoteText || '').replace(/[“”]/g, '').trim();
+        if (!cleaned) return '';
+        const parts = cleaned.split(/\s+/);
+        const firstLine = parts.shift() || '';
+        const secondLine = parts.join(' ') || '';
+        return secondLine
+          ? `<span class="home-video-quote-line">${firstLine}</span><span class="home-video-quote-line">${secondLine}</span>`
+          : `<span class="home-video-quote-line">${firstLine}</span>`;
+      }
+
+      async function loadHomeContent() {
         // Home content is hardcoded in the HTML.
         return Promise.resolve();
       }
