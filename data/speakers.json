@@ -1,142 +1,114 @@
 [
   {
-    "SpeakerID": "SPK-001",
     "DisplayName": "Mindy Price",
-    "Title": "Chief PACE Setter",
-    "Organization": "Direct Effect Solutions, Inc.",
-    "BioShort": "Description coming soon.",
-    "Photo": "images/MPrice.jpg",
+    "Photo": "MPrice.jpg",
     "SortOrder": 1,
-    "Backdrop": "images/backdrop1.JPG"
+    "Title": "Chief PACE Setter",
+    "Bio": "Description coming soon."
   },
   {
-    "SpeakerID": "SPK-002",
-    "DisplayName": "Amy Sweezey",
-    "Title": "Speaker, Meteorologist, Author, Host",
-    "Organization": "",
-    "BioShort": "Description coming soon.",
-    "Photo": "images/ASweezey.png",
-    "SortOrder": 2,
-    "Backdrop": "images/backdrop2.JPG"
-  },
-  {
-    "SpeakerID": "SPK-003",
-    "DisplayName": "Frank Martz",
-    "Title": "City Manager",
-    "Organization": "City of Altamonte Springs",
-    "BioShort": "Description coming soon.",
-    "Photo": "images/FMartz.jpg",
-    "SortOrder": 3,
-    "Backdrop": "images/backdrop3.JPG"
-  },
-  {
-    "SpeakerID": "SPK-004",
-    "DisplayName": "Kendall Gow",
-    "Title": "Director of Human Resources",
-    "Organization": "City of Altamonte Springs",
-    "BioShort": "Description coming soon.",
-    "Photo": "images/KGow.jpg",
-    "SortOrder": 4,
-    "Backdrop": "images/backdrop4.JPG"
-  },
-  {
-    "SpeakerID": "SPK-005",
     "DisplayName": "Terri Crowell",
+    "Photo": "TCrowell.jpeg",
+    "SortOrder": 2,
     "Title": "People Development & Performance Manager",
-    "Organization": "City of Altamonte Springs",
-    "BioShort": "Description coming soon.",
-    "Photo": "images/TCrowell.jpeg",
-    "SortOrder": 5,
-    "Backdrop": "images/backdrop5.JPG"
+    "Bio": "Description coming soon."
   },
   {
-    "SpeakerID": "SPK-006",
-    "DisplayName": "Neida Hernandez",
-    "Title": "Recreation Division Director",
-    "Organization": "City of Altamonte Springs",
-    "BioShort": "Description coming soon.",
-    "Photo": "images/NHernandez.jpg",
-    "SortOrder": 6,
-    "Backdrop": "images/backdrop1.JPG"
+    "DisplayName": "Kendall Gow",
+    "Photo": "KGow.jpg",
+    "SortOrder": 3,
+    "Title": "Director of Human Resources",
+    "Bio": "Description coming soon."
   },
   {
-    "SpeakerID": "SPK-007",
-    "DisplayName": "Traci Krewson",
-    "Title": "Risk Manager",
-    "Organization": "City of Altamonte Springs",
-    "BioShort": "Description coming soon.",
-    "Photo": "images/TKrewson.jpg",
-    "SortOrder": 7,
-    "Backdrop": "images/backdrop2.JPG"
-  },
-  {
-    "SpeakerID": "SPK-008",
-    "DisplayName": "Robert McDaniel",
-    "Title": "People Operations Coordinator",
-    "Organization": "City of Altamonte Springs",
-    "BioShort": "Description coming soon.",
-    "Photo": "images/RMcDaniel.jpg",
-    "SortOrder": 8,
-    "Backdrop": "images/backdrop3.JPG"
-  },
-  {
-    "SpeakerID": "SPK-009",
-    "DisplayName": "Ryan Thompson",
-    "Title": "Director of Leisure Services",
-    "Organization": "City of Altamonte Springs",
-    "BioShort": "Description coming soon.",
-    "Photo": "images/RThompson.jpg",
-    "SortOrder": 9,
-    "Backdrop": "images/backdrop4.JPG"
-  },
-  {
-    "SpeakerID": "SPK-010",
     "DisplayName": "Glen J. Cobb",
+    "Photo": "GCobb.jpeg",
+    "SortOrder": 4,
     "Title": "Watch Commander",
-    "Organization": "City of Altamonte Springs",
-    "BioShort": "Description coming soon.",
-    "Photo": "images/GCobb.jpeg",
-    "SortOrder": 10,
-    "Backdrop": "images/backdrop5.JPG"
+    "Bio": "Description coming soon."
   },
   {
-    "SpeakerID": "SPK-011",
-    "DisplayName": "Todd A. Smith",
-    "Title": "Watch Commander",
-    "Organization": "City of Altamonte Springs",
-    "BioShort": "Description coming soon.",
-    "Photo": "images/TSmith.jpg",
-    "SortOrder": 11,
-    "Backdrop": "images/backdrop1.JPG"
+    "DisplayName": "Amy Sweezey",
+    "Photo": "ASweezey.png",
+    "SortOrder": 5,
+    "Title": "Speaker, Meteorologist, Author, Host",
+    "Bio": "Description coming soon."
   },
   {
-    "SpeakerID": "SPK-012",
+    "DisplayName": "Dean Fathelbab",
+    "Photo": "DFathelbab.jpg",
+    "SortOrder": 6,
+    "Title": "Director of Growth Management",
+    "Bio": "Description coming soon."
+  },
+  {
     "DisplayName": "Kimberly Maldonado",
+    "Photo": "KMaldonado.jpg",
+    "SortOrder": 7,
     "Title": "Program Specialist",
-    "Organization": "City of Altamonte Springs",
-    "BioShort": "Description coming soon.",
-    "Photo": "images/KMaldonado.jpg",
-    "SortOrder": 12,
-    "Backdrop": "images/backdrop2.JPG"
+    "Bio": "Description coming soon."
   },
   {
-    "SpeakerID": "SPK-013",
+    "DisplayName": "Frank Martz",
+    "Photo": "FMartz.jpg",
+    "SortOrder": 8,
+    "Title": "City Manager",
+    "Bio": "Description coming soon."
+  },
+  {
+    "DisplayName": "Traci Krewson",
+    "Photo": "TKrewson.jpg",
+    "SortOrder": 9,
+    "Title": "Risk Manager",
+    "Bio": "Description coming soon."
+  },
+  {
+    "DisplayName": "Ryan Thompson",
+    "Photo": "RThompson.jpg",
+    "SortOrder": 10,
+    "Title": "Director of Leisure Services",
+    "Bio": "Description coming soon."
+  },
+  {
     "DisplayName": "Jaia Bright",
+    "Photo": "JBright.jpg",
+    "SortOrder": 11,
     "Title": "Recreation Supervisor",
-    "Organization": "City of Altamonte Springs",
-    "BioShort": "Description coming soon.",
-    "Photo": "images/JBright.jpg",
-    "SortOrder": 13,
-    "Backdrop": "images/backdrop3.JPG"
+    "Bio": "Description coming soon."
   },
   {
-    "SpeakerID": "SPK-014",
     "DisplayName": "Alex G. Desrosiers",
+    "Photo": "ADesrosiers.jpg",
+    "SortOrder": 12,
     "Title": "Labor/Employment Partner",
-    "Organization": "Fisher Phillips",
-    "BioShort": "Description coming soon.",
-    "Photo": "images/ADesrosiers.jpg",
+    "Bio": "Description coming soon."
+  },
+  {
+    "DisplayName": "Evelyn Steenekamp",
+    "Photo": "ESteenekamp.jpg",
+    "SortOrder": 13,
+    "Title": "Deputy Police Chief",
+    "Bio": "Description coming soon."
+  },
+  {
+    "DisplayName": "Neida Hernandez",
+    "Photo": "NHernandez.jpg",
     "SortOrder": 14,
-    "Backdrop": "images/backdrop4.JPG"
+    "Title": "Recreation Division Director",
+    "Bio": "Description coming soon."
+  },
+  {
+    "DisplayName": "Todd A. Smith",
+    "Photo": "TSmith.jpg",
+    "SortOrder": 15,
+    "Title": "Watch Commander",
+    "Bio": "Description coming soon."
+  },
+  {
+    "DisplayName": "Robert McDaniel",
+    "Photo": "RMcDaniel.jpg",
+    "SortOrder": 16,
+    "Title": "People Operations Coordinator",
+    "Bio": "Description coming soon."
   }
 ]
