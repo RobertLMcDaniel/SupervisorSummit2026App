@@ -291,7 +291,7 @@
         gap: 12px;
         width: 100%;
         max-width: 84%;
-        transform: translateY(-14px);
+        transform: translateY(-30px);
       }
 
       .home-gold-bar {
@@ -329,21 +329,23 @@
       .home-video-quote {
         align-self: end;
         margin: 0;
-        font-size: clamp(1.5rem, 6vw, 1.9rem);
+        font-size: clamp(2.15rem, 8.4vw, 2.85rem);
         font-style: italic !important;
-        font-weight: 800;
-        color: transparent;
+        font-weight: 900;
+        color: transparent !important;
         text-align: center;
-        text-shadow: 0 8px 16px rgba(27, 46, 64, 0.38);
-        background: linear-gradient(180deg, #F6C84D 0%, #EFB10A 100%);
+        text-shadow: 0 8px 16px rgba(27, 46, 64, 0.48);
+        background: linear-gradient(180deg, #FFF0B3 0%, #FFD15A 35%, #F2B21B 70%, #C97900 100%);
         -webkit-background-clip: text;
         background-clip: text;
-        -webkit-text-fill-color: transparent;
+        -webkit-text-fill-color: transparent !important;
         animation: quote-breathe 5.6s ease-in-out infinite;
-        line-height: 1.02;
+        line-height: 0.96;
         display: grid;
         justify-items: center;
-        gap: 4px;
+        gap: 3px;
+        transform: translateY(28px);
+        z-index: 9;
       }
       .home-video-quote-line {
         display: block;
@@ -1241,7 +1243,10 @@
                 <p id="home-hero-description" class="home-video-middle">Practical learning, stronger leadership, and one shared standard across the City.</p>
                 <span class="home-gold-bar" aria-hidden="true"></span>
               </div>
-              <p id="home-hero-quote" class="home-video-quote"><span class="home-video-quote-line">"Supervisors</span><span class="home-video-quote-line">Bring the Weather"</span></p>
+              <p id="home-hero-quote" class="home-video-quote">
+                <span class="home-video-quote-line">"Supervisors</span>
+                <span class="home-video-quote-line">Bring the Weather"</span>
+              </p>
             </div>
           </section>
         </div>
@@ -1916,27 +1921,11 @@
 
       window.addEventListener('resize', () => syncNavIndicator(document.querySelector('.tab-btn.active')?.dataset.tab));
 
-
-      function forceHomeQuote() {
-        const quote = document.getElementById('home-hero-quote');
-        if (!quote) return;
-
-        quote.innerHTML = '<span class="home-video-quote-line">&quot;Supervisors</span><span class="home-video-quote-line">Bring the Weather&quot;</span>';
-        quote.style.display = 'grid';
-        quote.style.fontStyle = 'italic';
-
-        quote.querySelectorAll('.home-video-quote-line').forEach((line) => {
-          line.style.fontStyle = 'italic';
-          line.style.transform = 'skewX(-7deg)';
-        });
-      }
-
       showView('home');
-      forceHomeQuote();
       syncNavIndicator('home');
 
       // Start home video and content immediately.
-      loadHomeContent().finally(() => forceHomeQuote());
+      loadHomeContent();
       loadDayButtonConfig();
       forceHomeVideoAutoplay();
       startHomeVideoRotation();
