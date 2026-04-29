@@ -1128,7 +1128,7 @@
       }
 
     </style>
-      <meta name="app-version" content="20260429-speakers-inline-fixed-2" />
+      <meta name="app-version" content="20260429-speakers-bio-json-2" />
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
@@ -1305,7 +1305,7 @@
     <script>
       // Service worker disabled while stabilizing asset/video loading.
       // This unregisters older service workers and clears old caches that may be serving stale files.
-      const APP_VERSION = '20260429-speakers-inline-fixed-2';
+      const APP_VERSION = '20260429-speakers-bio-json-2';
 
       async function clearOldAppCaches() {
         if (!('caches' in window)) return;
@@ -1554,7 +1554,7 @@
         const cacheKey = `summit-json-cache:${path}`;
 
         try {
-          const response = await fetch(path, { cache: 'force-cache' });
+          const response = await fetch(withRefreshToken(path), { cache: 'no-store' });
           if (!response.ok) throw new Error(`Failed to load ${path}`);
           const data = await response.json();
 
@@ -1757,7 +1757,7 @@
 
             const detailBio = document.createElement('p');
             detailBio.className = 'speaker-inline-bio';
-            detailBio.textContent = speaker.Bio || speaker.BioShort || 'Description coming soon.';
+            detailBio.textContent = speaker.Bio || speaker.BioShort || speaker.Description || 'Description coming soon.';
 
             detailInner.append(detailMeta, detailBio);
             detail.append(detailInner);
