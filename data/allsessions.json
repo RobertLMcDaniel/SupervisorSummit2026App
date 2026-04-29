@@ -4,80 +4,43 @@
       "StartTime": "7:45 AM",
       "EndTime": "8:45 AM",
       "SessionTitle": "Opening Session",
-      "ShortText": "Coming soon.",
       "Description": "Mindy Price, Kendall Gow, and Terri Crowell \u2014 This session sets the stage for 2026, connects where we have been to where we are going, and lands the theme that carries through everything that follows: Supervisors bring the weather. Come ready to reflect, reconnect, and set your intentions for the next three days."
     },
     {
       "StartTime": "8:45 AM",
       "EndTime": "9:30 AM",
       "SessionTitle": "Bringing the Weather: Setting the Tone for Leadership",
-      "ShortText": "Coming soon.",
       "Description": "Frank Martz, City Manager \u2014 Frank has a direct conversation about what leadership requires, what this city expects, and what it means to show up as a force multiplier for your team every single day. Your people feel your weather before you say a word. This is a reminder of the weight that comes with that, and a clear picture of the standard at the City of Altamonte Springs."
     },
     {
       "StartTime": "9:45 AM",
       "EndTime": "10:30 AM",
       "SessionTitle": "Navigating the Legal Climate",
-      "ShortText": "Coming soon.",
       "Description": "Alex Desrosiers, Fisher Phillips \u2014 The legal environment supervisors operate in is not static. This session covers what has shifted, where liability lives when supervisors act without information, and how to make decisions that protect both the people on your team and the City."
     },
     {
       "StartTime": "10:30 AM",
       "EndTime": "12:00 PM",
       "SessionTitle": "Climate in Action",
-      "ShortText": "Coming soon.",
       "Description": "Mindy Price \u2014 This is the heart of Day One. Cross-functional groups rotate through hands-on stations, each one built around a different dimension of leadership and what it takes to create a climate where people can do their best work. No two groups start in the same place. Every group ends in the same one."
     },
     {
       "StartTime": "12:00 PM",
       "EndTime": "1:00 PM",
       "SessionTitle": "Lunch",
-      "ShortText": "Coming soon.",
       "Description": "Lunch \u2014 Lunch break."
     },
     {
       "StartTime": "1:00 PM",
       "EndTime": "3:30 PM",
       "SessionTitle": "Climate in Action Continued",
-      "ShortText": "Coming soon.",
       "Description": "Mindy Price \u2014 Some stations are physical. Some will bring you out of your comfort zone. All of them will tell you something about how you lead, how your team functions, and what kind of climate you are creating. The day closes with every group naming their climate."
     },
     {
       "StartTime": "3:30 PM",
       "EndTime": "4:00 PM",
       "SessionTitle": "Day One Closing",
-      "ShortText": "Coming soon.",
       "Description": "Mindy Price, Kendall Gow, and Terri Crowell \u2014 A close that connects what happened today to what comes next."
-    }
-  ],
-  "day2Senior": [
-    {
-      "StartTime": "8:00 AM",
-      "EndTime": "10:15 AM",
-      "SessionTitle": "Opening Session",
-      "ShortText": "Coming soon.",
-      "Description": "Mindy Price \u2014 The day opens with an experience that makes visible something most leadership teams have felt but rarely named: what happens when a goal lives clearly at the top but travels through the organization without its meaning intact."
-    },
-    {
-      "StartTime": "10:30 AM",
-      "EndTime": "12:00 PM",
-      "SessionTitle": "The Pressure System",
-      "ShortText": "Coming soon.",
-      "Description": "Mindy Price \u2014 Directors and deputy leaders go deeper into the dynamics of their specific layer. How do the daily decisions about time, communication, and visibility either reinforce or quietly undermine the climate below? This session asks leaders to look honestly at which of their behaviors they would want to replicate down the chain and which ones they would not."
-    },
-    {
-      "StartTime": "1:00 PM",
-      "EndTime": "2:15 PM",
-      "SessionTitle": "Entering the Troposphere",
-      "ShortText": "Coming soon.",
-      "Description": "Mindy Price \u2014 Band 3Ds engage in the same hands-on activity as Bands 1 and 2. What happens when the layer closest to the front line is in the seat? How do the daily decisions about time, communication, and visibility either reinforce or quietly undermine the climate below?"
-    },
-    {
-      "StartTime": "2:30 PM",
-      "EndTime": "4:00 PM",
-      "SessionTitle": "Vertical Alignment: One City, One Climate",
-      "ShortText": "Coming soon.",
-      "Description": "Mindy Price \u2014 The day closes with all three bands working through the structure they will carry into Day Three with their divisions. The focus is practical: level of authority, how to use time, how to direct resources, and how to facilitate the Day Three conversation in a way that keeps the intent of the two days before it alive."
     }
   ],
   "day2Supervisor": [
@@ -85,43 +48,63 @@
       "StartTime": "8:30 AM",
       "EndTime": "9:30 AM",
       "SessionTitle": "AI Tools for the Everyday Supervisor",
-      "ShortText": "Coming soon.",
       "Description": "Robert McDaniel \u2014 AI is already in your workplace. This session skips the hype and goes straight to what is actually useful: the tools worth your time, the prompts that get real results, and how to stay in the driver's seat when AI is doing the grunt work. You will leave with things you can open before the week is out."
     },
     {
       "StartTime": "9:45 AM",
       "EndTime": "10:45 AM",
       "SessionTitle": "Strengths in Action: How Your Team Sees You",
-      "ShortText": "Coming soon.",
       "Description": "Jaia Bright \u2014 Most supervisors do not hear honest feedback about how they land. This session creates the conditions for that. You'll paint. No rules, no artistic expectations, and nothing you are required to share. Quieter and slower than most sessions. More lasting than most sessions."
     },
     {
       "StartTime": "11:00 AM",
       "EndTime": "12:00 PM",
       "SessionTitle": "Safety Culture: The Climate You Create",
-      "ShortText": "Coming soon.",
       "Description": "Traci Krewson \u2014 Safety is not a checklist. It is what happens when the climate a supervisor creates makes it easier to speak up than to stay quiet. This workshop examines how day-to-day supervisor behavior determines whether a team operates proactively or reactively around risk."
     },
     {
       "StartTime": "1:00 PM",
       "EndTime": "2:00 PM",
       "SessionTitle": "Leading Across Generations (Without Losing Your Mind)",
-      "ShortText": "Coming soon.",
       "Description": "Kim Maldanado, Neida Hernandez, Evelyn Steenekamp, and Dean Fathelbab \u2014 A younger supervisor managing someone who has been at the City longer than they have been alive. An experienced supervisor managing someone with completely different expectations about feedback and pace. Both situations are real. Both are getting more common. This session focuses on what actually works when the gap is that wide."
     },
     {
       "StartTime": "2:15 PM",
       "EndTime": "3:15 PM",
       "SessionTitle": "What Happens When Your Expert Leaves?",
-      "ShortText": "Coming soon.",
       "Description": "Glen Cobb \u2014 Every department has someone who knows things no one else knows. This session is about what you do before that person walks out the door, and what it takes to build a team where knowledge moves across people rather than staying locked in one of them."
     },
     {
       "StartTime": "3:30 PM",
       "EndTime": "4:30 PM",
       "SessionTitle": "After the Conversation: Leading with Clarity, Not Comfort",
-      "ShortText": "Coming soon.",
       "Description": "Todd Smith \u2014 Having the hard conversation is one challenge. The day after is a different one. This session is for supervisors who want to know what to do once the difficult moment has passed: how to hold the line, stay consistent, and lead someone who knows exactly what you said and is watching to see if you meant it."
+    }
+  ],
+  "day2Senior": [
+    {
+      "StartTime": "8:00 AM",
+      "EndTime": "10:15 AM",
+      "SessionTitle": "Opening Session",
+      "Description": "Mindy Price \u2014 The day opens with an experience that makes visible something most leadership teams have felt but rarely named: what happens when a goal lives clearly at the top but travels through the organization without its meaning intact."
+    },
+    {
+      "StartTime": "10:30 AM",
+      "EndTime": "12:00 PM",
+      "SessionTitle": "The Pressure System",
+      "Description": "Mindy Price \u2014 Directors and deputy leaders go deeper into the dynamics of their specific layer. How do the daily decisions about time, communication, and visibility either reinforce or quietly undermine the climate below? This session asks leaders to look honestly at which of their behaviors they would want to replicate down the chain and which ones they would not."
+    },
+    {
+      "StartTime": "1:00 PM",
+      "EndTime": "2:15 PM",
+      "SessionTitle": "Entering the Troposphere",
+      "Description": "Mindy Price \u2014 Band 3Ds engage in the same hands-on activity as Bands 1 and 2. What happens when the layer closest to the front line is in the seat? How do the daily decisions about time, communication, and visibility either reinforce or quietly undermine the climate below?"
+    },
+    {
+      "StartTime": "2:30 PM",
+      "EndTime": "4:00 PM",
+      "SessionTitle": "Vertical Alignment: One City, One Climate",
+      "Description": "Mindy Price \u2014 The day closes with all three bands working through the structure they will carry into Day Three with their divisions. The focus is practical: level of authority, how to use time, how to direct resources, and how to facilitate the Day Three conversation in a way that keeps the intent of the two days before it alive."
     }
   ],
   "day3": [
@@ -129,49 +112,42 @@
       "StartTime": "8:00 AM",
       "EndTime": "9:00 AM",
       "SessionTitle": "Weathering the Storm: A Survival Guide for Everyday Life",
-      "ShortText": "Coming soon.",
       "Description": "Amy Sweezey \u2014 A keynote that uses weather as a true lens, not a metaphor, for what it takes to navigate difficulty, reinvention, and the kind of uncertainty that does not resolve neatly. Amy Sweezey opens Day Three by asking what the supervisors in this room have already survived to get here and what that means for where they go next."
     },
     {
       "StartTime": "9:30 AM",
       "EndTime": "10:45 AM",
       "SessionTitle": "The Forecast Comes Together",
-      "ShortText": "Coming soon.",
       "Description": "Mindy Price and Terri Crowell \u2014 Each division operates like its own weather system. It has its own pressure patterns, its own flow of resources, its own internal dynamics. But no division exists in isolation. All of your ecosystems are part of the Altamonte Springs Ecosystem. This session brings divisions together to understand how your individual ecosystems function, and how they interact with the City as a whole. What conditions are you creating internally through your people, tools, and time?"
     },
     {
       "StartTime": "11:00 AM",
       "EndTime": "12:00 PM",
       "SessionTitle": "Redefining Leadership: The Altamonte Way",
-      "ShortText": "Coming soon.",
       "Description": "Ryan Thompson \u2014 What makes this organization distinct is the culture. This session examines the culture Altamonte Springs is actively building and asks supervisors to name their own role in it."
     },
     {
       "StartTime": "12:00 PM",
       "EndTime": "1:00 PM",
       "SessionTitle": "Lunch",
-      "ShortText": "Coming soon.",
       "Description": "Lunch \u2014 Lunch break."
     },
     {
       "StartTime": "1:00 PM",
       "EndTime": "2:45 PM",
       "SessionTitle": "Our Piece of the Ecosystem",
-      "ShortText": "Coming soon.",
       "Description": "Mindy Price \u2014 A conversation within each group about who they serve, how they contribute to the city that exists beyond their department, and what climate they are responsible for creating. The forecast your team built over three days becomes visible all at once."
     },
     {
       "StartTime": "3:00 PM",
       "EndTime": "4:00 PM",
       "SessionTitle": "Summit Social",
-      "ShortText": "Coming soon.",
       "Description": "Kim Maldanado \u2014 Conversations, light snacks, and the people who run this city, together."
     },
     {
       "StartTime": "4:00 PM",
       "EndTime": "4:30 PM",
       "SessionTitle": "Summit Closing",
-      "ShortText": "Coming soon.",
       "Description": "Mindy Price, Kendall Gow, and Terri Crowell \u2014 A close that honors what the three days produced and names what comes next."
     }
   ]
