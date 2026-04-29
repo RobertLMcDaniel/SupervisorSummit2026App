@@ -1,0 +1,154 @@
+{
+  "day1": [
+    {
+      "StartTime": "7:45 AM",
+      "SessionTitle": "Welcome",
+      "ShortText": "Coming soon.",
+      "Description": "Opening welcome session with Mindy Price, Kendall Gow, and Terri Crowell."
+    },
+    {
+      "StartTime": "8:45 AM",
+      "SessionTitle": "Bring the Weather",
+      "ShortText": "Coming soon.",
+      "Description": "Session led by Frank Martz focused on bringing the weather and setting the leadership tone for the Summit."
+    },
+    {
+      "StartTime": "9:45 AM",
+      "SessionTitle": "The Legal Climate",
+      "ShortText": "Coming soon.",
+      "Description": "Session led by Alex Desrosiers covering the legal climate for supervisors."
+    },
+    {
+      "StartTime": "10:30 AM",
+      "SessionTitle": "Climate in Action",
+      "ShortText": "Coming soon.",
+      "Description": "Session led by Mindy Price focused on putting the Summit theme into action."
+    },
+    {
+      "StartTime": "12:00 PM",
+      "SessionTitle": "Lunch",
+      "ShortText": "Coming soon.",
+      "Description": "Lunch break."
+    },
+    {
+      "StartTime": "1:00 PM",
+      "SessionTitle": "Climate in Action Continued",
+      "ShortText": "Coming soon.",
+      "Description": "Continuation of Climate in Action with Mindy Price."
+    },
+    {
+      "StartTime": "3:30 PM",
+      "SessionTitle": "Close",
+      "ShortText": "Coming soon.",
+      "Description": "Closing session with Mindy Price, Kendall Gow, and Terri Crowell."
+    }
+  ],
+  "day2Supervisor": [
+    {
+      "StartTime": "8:30 AM",
+      "SessionTitle": "AI Tools for the Everyday Supervisor",
+      "ShortText": "Coming soon.",
+      "Description": "Supervisor session led by Robert McDaniel."
+    },
+    {
+      "StartTime": "9:45 AM",
+      "SessionTitle": "Strengths in Action: How Your Team Sees You",
+      "ShortText": "Coming soon.",
+      "Description": "Supervisor session led by Jaia Bright."
+    },
+    {
+      "StartTime": "11:00 AM",
+      "SessionTitle": "Safety Culture: The Climate You Create",
+      "ShortText": "Coming soon.",
+      "Description": "Supervisor session led by Traci Krewson."
+    },
+    {
+      "StartTime": "1:00 PM",
+      "SessionTitle": "Leading Across Generations",
+      "ShortText": "Coming soon.",
+      "Description": "Supervisor session led by Kim Maldonado, Neida Hernandez, Evelyn Steenekamp, and Dean Fathelbab."
+    },
+    {
+      "StartTime": "2:15 PM",
+      "SessionTitle": "What Happens When Your Expert Leaves?",
+      "ShortText": "Coming soon.",
+      "Description": "Supervisor session led by Glen Cobb."
+    },
+    {
+      "StartTime": "3:30 PM",
+      "SessionTitle": "After the Conversation: Leading with Clarity, Not Comfort",
+      "ShortText": "Coming soon.",
+      "Description": "Supervisor session led by Todd Smith."
+    }
+  ],
+  "day2Senior": [
+    {
+      "StartTime": "8:00 AM",
+      "SessionTitle": "Welcome + Opening",
+      "ShortText": "Coming soon.",
+      "Description": "Senior leadership session for 1s, 2s, and 3Ds."
+    },
+    {
+      "StartTime": "10:30 AM",
+      "SessionTitle": "The Pressure System",
+      "ShortText": "Coming soon.",
+      "Description": "Senior leadership session for 1s and 2s."
+    },
+    {
+      "StartTime": "1:00 PM",
+      "SessionTitle": "Entering the Troposphere",
+      "ShortText": "Coming soon.",
+      "Description": "Senior leadership session for 3Ds."
+    },
+    {
+      "StartTime": "2:30 PM",
+      "SessionTitle": "One City, One Climate",
+      "ShortText": "Coming soon.",
+      "Description": "Senior leadership session for 1s, 2s, and 3Ds."
+    }
+  ],
+  "day3": [
+    {
+      "StartTime": "8:00 AM",
+      "SessionTitle": "Weathering the Storm",
+      "ShortText": "Coming soon.",
+      "Description": "Session led by Amy Sweezey."
+    },
+    {
+      "StartTime": "9:30 AM",
+      "SessionTitle": "The Forecast",
+      "ShortText": "Coming soon.",
+      "Description": "Session led by Mindy Price."
+    },
+    {
+      "StartTime": "11:00 AM",
+      "SessionTitle": "Redefining Leadership",
+      "ShortText": "Coming soon.",
+      "Description": "Session led by Ryan Thompson."
+    },
+    {
+      "StartTime": "12:00 PM",
+      "SessionTitle": "Lunch",
+      "ShortText": "Coming soon.",
+      "Description": "Lunch break."
+    },
+    {
+      "StartTime": "1:00 PM",
+      "SessionTitle": "Our Ecosystem",
+      "ShortText": "Coming soon.",
+      "Description": "Session led by Mindy Price."
+    },
+    {
+      "StartTime": "3:00 PM",
+      "SessionTitle": "Summit Social",
+      "ShortText": "Coming soon.",
+      "Description": "Summit social led by Kim Maldonado."
+    },
+    {
+      "StartTime": "4:00 PM",
+      "SessionTitle": "Close",
+      "ShortText": "Coming soon.",
+      "Description": "Closing session with Mindy Price, Kendall Gow, and Terri Crowell."
+    }
+  ]
+}
