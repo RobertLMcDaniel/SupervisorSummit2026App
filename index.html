@@ -168,25 +168,6 @@
         opacity: 1;
       }
 
-      .home-video-player {
-        pointer-events: none;
-      }
-
-      .home-video-player::-webkit-media-controls,
-      .home-video-player::-webkit-media-controls-enclosure,
-      .home-video-player::-webkit-media-controls-panel,
-      .home-video-player::-webkit-media-controls-play-button,
-      .home-video-player::-webkit-media-controls-start-playback-button,
-      .home-video-player::-webkit-media-controls-overlay-play-button {
-        display: none !important;
-        -webkit-appearance: none !important;
-        appearance: none !important;
-        opacity: 0 !important;
-        visibility: hidden !important;
-        pointer-events: none !important;
-      }
-
-
       .home-video-overlay {
         position: absolute;
         inset: 0;
@@ -252,7 +233,7 @@
         line-height: 1.45;
       }
 
-      .home-video-label {
+            .home-video-label {
         position: absolute;
         left: 14px;
         right: 14px;
@@ -262,7 +243,8 @@
         text-align: center;
         display: grid;
         grid-template-rows: auto 1fr auto;
-        align-items: start;
+        align-items: stretch;
+        overflow: visible;
       }
 
       .home-hero-image {
@@ -290,26 +272,27 @@
         text-shadow: 0 6px 14px rgba(27, 46, 64, 0.18);
       }
 
-      .home-video-middle-wrap {
+            .home-video-middle-wrap {
         align-self: center;
         justify-self: center;
         display: grid;
         justify-items: center;
+        align-content: center;
         gap: 16px;
         width: 100%;
-        max-width: 92%;
+        max-width: 94%;
         position: relative;
         overflow: visible;
-        transform: translateY(-6px);
+        transform: translateY(-18px);
       }
 
-      .home-gold-bar {
+            .home-gold-bar {
         display: block;
-        width: 136px;
+        width: 150px;
         height: 5px;
         border-radius: 999px;
-        background: var(--accent);
-        box-shadow: 0 4px 12px rgba(239, 177, 10, 0.28);
+        background: linear-gradient(90deg, #D88F05 0%, #F2B21B 45%, #FFD15A 100%);
+        box-shadow: 0 4px 12px rgba(239, 177, 10, 0.32);
       }
 
 
@@ -323,42 +306,19 @@
         text-shadow: 0 8px 16px rgba(27, 46, 64, 0.25);
       }
 
-      .home-video-middle {
+            .home-video-middle {
         align-self: center;
         justify-self: center;
         margin: 0 auto;
-        max-width: 94%;
-        font-size: clamp(1.72rem, 6.8vw, 2.2rem);
-        line-height: 1.22;
+        max-width: 96%;
+        font-size: clamp(0.96rem, 3.85vw, 1.3rem);
+        line-height: 1.28;
         color: #FFFFFF;
         text-align: center;
         text-wrap: balance;
-        text-shadow: 0 8px 16px rgba(27, 46, 64, 0.48);
+        text-shadow: 0 8px 16px rgba(27, 46, 64, 0.55);
       }
 
-      .home-video-quote {
-        align-self: end;
-        margin: 0;
-        font-size: clamp(1.5rem, 6vw, 1.9rem);
-        font-style: normal;
-        font-weight: 800;
-        color: transparent;
-        text-align: center;
-        text-shadow: 0 8px 16px rgba(27, 46, 64, 0.38);
-        background: linear-gradient(180deg, #F6C84D 0%, #EFB10A 100%);
-        -webkit-background-clip: text;
-        background-clip: text;
-        -webkit-text-fill-color: transparent;
-        animation: quote-breathe 5.6s ease-in-out infinite;
-        line-height: 1.02;
-        display: grid;
-        justify-items: center;
-        gap: 4px;
-      }
-
-      .home-video-quote-line {
-        display: block;
-      }
 
       @keyframes hero-breathe {
         0%, 100% {
@@ -1105,39 +1065,6 @@
       .resource-button.slide-in-right { animation: slide-in-right 0.5s ease both; }
 
 
-
-      .home-static-quote {
-        align-self: end;
-        justify-self: center;
-        margin: 0 0 12px;
-        display: grid !important;
-        justify-items: center;
-        gap: 2px;
-        width: 100%;
-        visibility: visible !important;
-        opacity: 1 !important;
-        position: relative;
-        z-index: 9999;
-        text-align: center;
-        font-size: clamp(2.45rem, 9vw, 3.5rem);
-        font-weight: 900;
-        font-style: italic !important;
-        line-height: 0.96;
-        pointer-events: none;
-        background: linear-gradient(180deg, #FFF4C6 0%, #FFD86A 34%, #F2B21B 68%, #C97900 100%);
-        -webkit-background-clip: text;
-        background-clip: text;
-        color: transparent !important;
-        -webkit-text-fill-color: transparent !important;
-        text-shadow: 0 7px 16px rgba(27, 46, 64, 0.56);
-      }
-
-      .home-static-quote-line {
-        display: block !important;
-        font-style: italic !important;
-        transform: skewX(-6deg);
-      }
-
       @media (max-width: 380px) {
         .speaker-tile-name { font-size: 0.84rem; }
         .tab-label { font-size: 0.68rem; }
@@ -1175,9 +1102,6 @@
           font-size: clamp(1.02rem, 2.2vw, 1.3rem);
         }
 
-        .home-video-quote {
-          font-size: clamp(1rem, 1.8vw, 1.2rem);
-        }
       }
 
       .splash-screen {
@@ -1216,6 +1140,40 @@
         }
       }
 
+
+      .home-static-quote {
+        align-self: end !important;
+        justify-self: center !important;
+        margin: 0 0 18px !important;
+        width: 100% !important;
+        display: grid !important;
+        justify-items: center !important;
+        gap: 3px !important;
+        position: relative !important;
+        z-index: 99999 !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        pointer-events: none !important;
+        text-align: center !important;
+        font-size: clamp(2.25rem, 8.8vw, 3.35rem) !important;
+        font-weight: 900 !important;
+        font-style: italic !important;
+        line-height: 0.96 !important;
+        letter-spacing: 0.01em !important;
+        background: linear-gradient(180deg, #FFF4C6 0%, #FFD36A 36%, #F2AE18 68%, #C97900 100%) !important;
+        -webkit-background-clip: text !important;
+        background-clip: text !important;
+        color: transparent !important;
+        -webkit-text-fill-color: transparent !important;
+        text-shadow: 0 7px 16px rgba(27, 46, 64, 0.58) !important;
+      }
+
+      .home-static-quote-line {
+        display: block !important;
+        font-style: italic !important;
+        transform: skewX(-6deg) !important;
+      }
+
     </style>
   </head>
   <body>
@@ -1249,9 +1207,7 @@
                 disablepictureinpicture
                 tabindex="-1"
                 aria-hidden="true"
-              
-                disableremoteplayback
-                controlslist="nodownload nofullscreen noremoteplayback">
+              >
                 <source src="images/background.mp4" type="video/mp4" />
               </video>
               <video
@@ -1267,9 +1223,7 @@
                 disablepictureinpicture
                 tabindex="-1"
                 aria-hidden="true"
-              
-                disableremoteplayback
-                controlslist="nodownload nofullscreen noremoteplayback">
+              >
                 <source src="images/background.mp4" type="video/mp4" />
               </video>
             </div>
@@ -1280,11 +1234,11 @@
               </div>
               <div class="home-video-middle-wrap">
                 <span class="home-gold-bar" aria-hidden="true"></span>
-                <p id="home-hero-description" class="home-video-middle">Supervisor Summit is where leadership across the City comes together to reset expectations, strengthen alignment, and shape the culture we create every day. It is more than training—it is a shared commitment to leading with intention, accountability, and impact.</p>
+                <p id="home-hero-description" class="home-video-middle">Practical learning, stronger leadership, and one shared standard across the City.</p>
                 <span class="home-gold-bar" aria-hidden="true"></span>
               </div>
               <p id="home-static-quote" class="home-static-quote">
-                <span class="home-static-quote-line">"Supervisors</span>
+                <span class="home-static-quote-line">"Supervisors"</span>
                 <span class="home-static-quote-line">Bring the Weather"</span>
               </p>
             </div>
@@ -1616,9 +1570,33 @@
         const versioned = `${base}${separator}v=${ASSET_REFRESH_TOKEN}`;
         return hash ? `${versioned}#${hash}` : versioned;
       }
-function loadHomeContent() {
-        // Home content is hardcoded in the HTML.
-        return Promise.resolve();
+
+      function formatHomeQuoteText(quoteText) {
+        const cleaned = String(quoteText || '').replace(/[“”]/g, '').trim();
+        if (!cleaned) return '';
+        const parts = cleaned.split(/\s+/);
+        const firstLine = parts.shift() || '';
+        const secondLine = parts.join(' ') || '';
+        return secondLine
+          ? `<span class="home-video-quote-line">${firstLine}</span><span class="home-video-quote-line">${secondLine}</span>`
+          : `<span class="home-video-quote-line">${firstLine}</span>`;
+      }
+
+      async function loadHomeContent() {
+        try {
+          const content = await fetchJson('data/home-content.json');
+          const titleImage = String(content.titleImage || '').trim();
+          const descriptionText = String(content.description || '').trim();
+          const quoteText = String(content.quote || '').trim();
+
+          if (homeHeroImage && titleImage) {
+            homeHeroImage.src = withRefreshToken(`images/${titleImage}`);
+          }
+          if (homeHeroDescription && descriptionText) homeHeroDescription.textContent = descriptionText;
+          if (homeHeroQuote && quoteText) homeHeroQuote.innerHTML = formatHomeQuoteText(quoteText);
+        } catch {
+          // Keep built-in defaults if JSON is unavailable.
+        }
       }
 
       function renderDayTabs(tabsList, dayDefs) {
