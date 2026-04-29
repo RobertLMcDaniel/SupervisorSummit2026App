@@ -1337,6 +1337,91 @@
       .agenda-ticket--5 .agenda-ticket-detail-inner { background: linear-gradient(135deg, rgba(42, 105, 154, 0.96) 0%, rgba(59, 83, 145, 0.96) 100%); }
       .agenda-ticket--6 .agenda-ticket-detail-inner { background: linear-gradient(135deg, rgba(145, 77, 168, 0.96) 0%, rgba(107, 78, 173, 0.96) 100%); }
 
+    
+      /* Agenda dropdown + centered time/title fix. Nav untouched. */
+      .agenda-ticket {
+        display: grid;
+        border-radius: 18px;
+        overflow: hidden;
+      }
+
+      .agenda-ticket-button {
+        width: 100%;
+        min-height: 104px;
+        border: 0;
+        border-radius: 18px;
+        color: #FFFFFF;
+        cursor: pointer;
+        text-align: center;
+        display: grid;
+        grid-template-columns: 1fr !important;
+        align-items: center;
+        justify-items: center;
+        padding: 16px 44px 16px 18px;
+        overflow: hidden;
+        position: relative;
+      }
+
+      .agenda-ticket-time {
+        background: transparent !important;
+        color: #FFFFFF !important;
+        display: block !important;
+        white-space: normal !important;
+        text-align: center !important;
+        padding: 0 !important;
+        margin: 0 0 8px !important;
+        font-weight: 950 !important;
+        font-size: 0.98rem !important;
+        line-height: 1.1 !important;
+        letter-spacing: 0.03em;
+        text-transform: uppercase;
+        opacity: 0.95;
+      }
+
+      .agenda-ticket-content {
+        display: grid !important;
+        align-content: center !important;
+        justify-items: center !important;
+        gap: 0 !important;
+        padding: 0 !important;
+        width: 100% !important;
+      }
+
+      .agenda-ticket-title {
+        margin: 0 !important;
+        max-width: 92%;
+        text-align: center !important;
+        font-size: 1.08rem !important;
+        line-height: 1.08 !important;
+        font-weight: 950 !important;
+        text-transform: uppercase;
+      }
+
+      .agenda-ticket-detail {
+        display: grid !important;
+        grid-template-rows: 0fr;
+        transition: grid-template-rows 0.28s ease;
+      }
+
+      .agenda-ticket.expanded .agenda-ticket-detail {
+        grid-template-rows: 1fr;
+      }
+
+      .agenda-ticket-detail-inner {
+        min-height: 0;
+        overflow: hidden;
+        padding: 0 16px;
+        opacity: 0;
+        transform: translateY(-6px);
+        transition: opacity 0.24s ease, transform 0.24s ease, padding 0.24s ease;
+      }
+
+      .agenda-ticket.expanded .agenda-ticket-detail-inner {
+        padding: 14px 16px 16px;
+        opacity: 1;
+        transform: translateY(0);
+      }
+
     </style>
       <meta name="app-version" content="20260429-speakers-bio-json-2" />
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
@@ -1528,7 +1613,7 @@
     <script>
       // Service worker disabled while stabilizing asset/video loading.
       // This unregisters older service workers and clears old caches that may be serving stale files.
-      const APP_VERSION = '20260429-final-nav-safe-2';
+      const APP_VERSION = '20260429-agenda-dropdown-timefix-1';
 
       async function clearOldAppCaches() {
         if (!('caches' in window)) return;
@@ -1648,7 +1733,7 @@
         'images/rain.mp4',
         'images/storm_clouds.mp4'
       ];
-      const ASSET_REFRESH_TOKEN = '20260429-final-nav-safe-2';
+      const ASSET_REFRESH_TOKEN = '20260429-agenda-dropdown-timefix-1';
       const defaultDayButtonConfig = [
         { key: 'day1', label: 'Day 1', agendaIcon: 'icons/home_icon.png', styleClass: 'day-style-1' },
         { key: 'day2', label: 'Day 2', agendaIcon: 'icons/agenda_icon.png', styleClass: 'day-style-2' },
@@ -1866,10 +1951,12 @@
           const sessions = agendaDataCache.allSessions[dayKey] || [];
           const listNode = document.getElementById('agenda-list');
           if (!listNode) return;
+
           listNode.innerHTML = '';
 
           sessions.forEach((session, index) => {
             const styleIndex = (index % 6) + 1;
+
             const ticket = document.createElement('article');
             ticket.className = `agenda-ticket agenda-ticket--${styleIndex} ${index % 2 === 0 ? 'slide-in-left' : 'slide-in-right'}`;
             ticket.style.animationDelay = `${Math.min(index * 0.04, 0.22)}s`;
@@ -1879,20 +1966,19 @@
             button.type = 'button';
             button.setAttribute('aria-expanded', 'false');
 
-            const time = document.createElement('div');
-            time.className = 'agenda-ticket-time';
-            time.textContent = session.EndTime ? `${session.StartTime || ''}
-${session.EndTime}` : (session.StartTime || '');
-
             const content = document.createElement('div');
             content.className = 'agenda-ticket-content';
+
+            const time = document.createElement('p');
+            time.className = 'agenda-ticket-time';
+            time.textContent = session.EndTime ? `${session.StartTime || ''} – ${session.EndTime}` : (session.StartTime || '');
 
             const title = document.createElement('h3');
             title.className = 'agenda-ticket-title';
             title.textContent = session.SessionTitle || '';
 
-            content.append(title);
-            button.append(time, content);
+            content.append(time, title);
+            button.append(content);
 
             const detail = document.createElement('div');
             detail.className = 'agenda-ticket-detail';
@@ -1908,7 +1994,7 @@ ${session.EndTime}` : (session.StartTime || '');
             detail.append(detailInner);
 
             button.addEventListener('click', () => {
-              const isExpanded = ticket.classList.contains('expanded');
+              const wasExpanded = ticket.classList.contains('expanded');
 
               document.querySelectorAll('.agenda-ticket.expanded').forEach((openTicket) => {
                 if (openTicket !== ticket) {
@@ -1918,8 +2004,8 @@ ${session.EndTime}` : (session.StartTime || '');
                 }
               });
 
-              ticket.classList.toggle('expanded', !isExpanded);
-              button.setAttribute('aria-expanded', String(!isExpanded));
+              ticket.classList.toggle('expanded', !wasExpanded);
+              button.setAttribute('aria-expanded', String(!wasExpanded));
             });
 
             ticket.append(button, detail);
