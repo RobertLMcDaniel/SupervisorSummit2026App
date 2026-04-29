@@ -87,8 +87,9 @@
         transition: top 0.62s cubic-bezier(0.22, 0.74, 0.2, 1), transform 0.62s cubic-bezier(0.22, 0.74, 0.2, 1), font-size 0.62s cubic-bezier(0.22, 0.74, 0.2, 1), opacity 0.42s ease;
       }
       .app-topbar.hidden-on-home {
-        opacity: 0;
-        pointer-events: none;
+        opacity: 0 !important;
+        visibility: hidden !important;
+        pointer-events: none !important;
       }
 
       .app-brand-line {
@@ -560,7 +561,7 @@
       .speakers-grid {
         display: grid;
         grid-template-columns: 1fr;
-        gap: 10px;
+        gap: 6px;
         margin-top: 4px;
         max-height: 68dvh;
         overflow-y: auto;
@@ -573,16 +574,16 @@
       .speaker-tile {
         border: 0;
         border-radius: 22px;
-        padding: 12px 12px 12px 10px;
+        padding: 9px 12px 9px 10px;
         background: rgba(40, 69, 97, 0.65);
         box-shadow: 0 8px 20px rgba(27, 46, 64, 0.35);
         text-align: left;
         cursor: pointer;
         display: grid;
-        grid-template-columns: 110px 1fr;
+        grid-template-columns: 96px 1fr;
         align-items: center;
         gap: 12px;
-        min-height: 128px;
+        min-height: 112px;
         overflow: hidden;
         position: relative;
       }
@@ -604,7 +605,7 @@
       .speaker-tile--6 { background: linear-gradient(135deg, #F8A6FF 0%, #C796FF 100%); }
 
       .speaker-tile-image-wrap {
-        width: 96px;
+        width: 86px;
         aspect-ratio: 1 / 1;
         background: var(--text-primary);
         border-radius: 50%;
@@ -657,11 +658,11 @@
 
       .speaker-accordion-item {
         display: grid;
-        gap: 8px;
+        gap: 5px;
       }
 
       .speaker-accordion-item + .speaker-accordion-item {
-        margin-top: 10px;
+        margin-top: 6px;
       }
 
       .speaker-tile {
@@ -1005,24 +1006,15 @@
       .resource-button.slide-in-left { animation: slide-in-left 0.5s ease both; }
       .resource-button.slide-in-right { animation: slide-in-right 0.5s ease both; }
 
-      .agenda-panel {
+      /* Agenda redesign */
+      #agenda-view .panel.agenda-panel {
         height: calc(100dvh - 212px);
-        padding: 0;
-        border: 1px solid rgba(239, 177, 10, 0.45);
-        background: transparent;
-        box-shadow: 0 10px 24px rgba(27, 46, 64, 0.35);
-        overflow: hidden;
         display: grid;
         grid-template-rows: auto minmax(0, 1fr);
-      }
-
-      #agenda-list {
-        border: 0;
-        border-radius: 0;
-        padding: 8px;
-        background: transparent;
-        min-height: 0;
-        height: 100%;
+        align-content: stretch;
+        overflow: hidden;
+        padding: 10px;
+        background: rgba(40, 69, 97, 0.95);
       }
 
       .agenda-tabs-shell {
@@ -1048,7 +1040,6 @@
         height: auto;
         border: 0;
         border-radius: 999px;
-        background: rgba(239, 177, 10, 0.78);
         color: var(--text-primary);
         font-weight: 900;
         cursor: pointer;
@@ -1058,7 +1049,7 @@
         justify-self: stretch;
         box-shadow: 0 8px 18px rgba(27, 46, 64, 0.35);
         padding: 8px 10px;
-        font-size: 0.78rem;
+        font-size: 0.76rem;
         line-height: 1.05;
         text-align: center;
       }
@@ -1073,16 +1064,24 @@
         box-shadow: 0 12px 20px rgba(27, 46, 64, 0.45);
       }
 
+      #agenda-list {
+        border: 0;
+        border-radius: 0;
+        padding: 4px 2px 8px;
+        background: transparent;
+        min-height: 0;
+        height: 100%;
+        overflow-y: auto;
+        display: grid;
+        gap: 8px;
+      }
+
       .agenda-card {
         border: 0;
         border-radius: 18px;
         overflow: hidden;
         color: #FFFFFF;
         box-shadow: 0 8px 20px rgba(27, 46, 64, 0.35);
-      }
-
-      .agenda-card + .agenda-card {
-        margin-top: 10px;
       }
 
       .agenda-card-button {
@@ -1196,24 +1195,15 @@
       }
 
 
-      .agenda-panel {
+      /* Agenda redesign */
+      #agenda-view .panel.agenda-panel {
         height: calc(100dvh - 212px);
-        padding: 0;
-        border: 1px solid rgba(239, 177, 10, 0.45);
-        background: transparent;
-        box-shadow: 0 10px 24px rgba(27, 46, 64, 0.35);
-        overflow: hidden;
         display: grid;
         grid-template-rows: auto minmax(0, 1fr);
-      }
-
-      #agenda-list {
-        border: 0;
-        border-radius: 0;
-        padding: 8px;
-        background: transparent;
-        min-height: 0;
-        height: 100%;
+        align-content: stretch;
+        overflow: hidden;
+        padding: 10px;
+        background: rgba(40, 69, 97, 0.95);
       }
 
       .agenda-tabs-shell {
@@ -1239,7 +1229,6 @@
         height: auto;
         border: 0;
         border-radius: 999px;
-        background: rgba(239, 177, 10, 0.78);
         color: var(--text-primary);
         font-weight: 900;
         cursor: pointer;
@@ -1249,7 +1238,7 @@
         justify-self: stretch;
         box-shadow: 0 8px 18px rgba(27, 46, 64, 0.35);
         padding: 8px 10px;
-        font-size: 0.78rem;
+        font-size: 0.76rem;
         line-height: 1.05;
         text-align: center;
       }
@@ -1264,16 +1253,24 @@
         box-shadow: 0 12px 20px rgba(27, 46, 64, 0.45);
       }
 
+      #agenda-list {
+        border: 0;
+        border-radius: 0;
+        padding: 4px 2px 8px;
+        background: transparent;
+        min-height: 0;
+        height: 100%;
+        overflow-y: auto;
+        display: grid;
+        gap: 8px;
+      }
+
       .agenda-card {
         border: 0;
         border-radius: 18px;
         overflow: hidden;
         color: #FFFFFF;
         box-shadow: 0 8px 20px rgba(27, 46, 64, 0.35);
-      }
-
-      .agenda-card + .agenda-card {
-        margin-top: 10px;
       }
 
       .agenda-card-button {
@@ -1490,7 +1487,7 @@
       }
 
     </style>
-      <meta name="app-version" content="20260429-agenda-allsessions-1" />
+      <meta name="app-version" content="20260429-agenda-nav-speakerfix-1" />
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
@@ -1512,7 +1509,7 @@
     </script>
 
     <main class="screen">
-      <header class="app-topbar" aria-label="App title bar">
+      <header class="app-topbar hidden-on-home" aria-label="App title bar">
         <h1 id="topbar-view-title" class="app-brand-line">
           <span class="topbar-brand">Supervisor Summit 2026</span>
           <span class="topbar-sep"> | </span>
@@ -1575,20 +1572,20 @@
           </section>
         </div>
       </section>
+
       <section id="agenda-view" class="view hidden" aria-label="Agenda view">
         <section class="panel agenda-panel">
           <div class="agenda-tabs-shell">
             <div class="agenda-day-tabs" role="tablist" aria-label="Agenda tabs">
-              <button class="agenda-day-tab active" type="button" data-day="day1">Day 1</button>
-              <button class="agenda-day-tab" type="button" data-day="day2Supervisor">Day 2<br>Supervisor Sessions</button>
-              <button class="agenda-day-tab" type="button" data-day="day2Senior">Day 2<br>Senior Leadership</button>
-              <button class="agenda-day-tab" type="button" data-day="day3">Day 3</button>
+              <button class="agenda-day-tab active day-style-1" type="button" data-day="day1">Day 1</button>
+              <button class="agenda-day-tab day-style-2" type="button" data-day="day2Supervisor">Day 2<br>Supervisor Sessions</button>
+              <button class="agenda-day-tab day-style-3" type="button" data-day="day2Senior">Day 2<br>Senior Leadership</button>
+              <button class="agenda-day-tab day-style-1" type="button" data-day="day3">Day 3</button>
             </div>
           </div>
           <div id="agenda-list" class="list" aria-live="polite"></div>
         </section>
       </section>
-
 
       <section id="speakers-view" class="view hidden" aria-label="Speakers view">
         <section class="panel">
@@ -1668,7 +1665,7 @@
     <script>
       // Service worker disabled while stabilizing asset/video loading.
       // This unregisters older service workers and clears old caches that may be serving stale files.
-      const APP_VERSION = '20260429-agenda-allsessions-1';
+      const APP_VERSION = '20260429-agenda-nav-speakerfix-1';
 
       async function clearOldAppCaches() {
         if (!('caches' in window)) return;
@@ -1788,7 +1785,7 @@
         'images/rain.mp4',
         'images/storm_clouds.mp4'
       ];
-      const ASSET_REFRESH_TOKEN = '20260429-agenda-allsessions-1';
+      const ASSET_REFRESH_TOKEN = '20260429-agenda-nav-speakerfix-1';
       const defaultDayButtonConfig = [
         { key: 'day1', label: 'Day 1', styleClass: 'day-style-1' },
         { key: 'day2Supervisor', label: 'Day 2 Supervisor Sessions', styleClass: 'day-style-2' },
@@ -1966,13 +1963,6 @@
           if (!match) return;
           tab.classList.remove('day-style-1', 'day-style-2', 'day-style-3');
           tab.classList.add(match.styleClass || 'day-style-1');
-          if (tab.dataset.day === 'day2Supervisor') {
-            tab.innerHTML = 'Day 2<br>Supervisor Sessions';
-          } else if (tab.dataset.day === 'day2Senior') {
-            tab.innerHTML = 'Day 2<br>Senior Leadership';
-          } else {
-            tab.textContent = match.label;
-          }
         });
       });
       }
@@ -2018,7 +2008,7 @@
 
             const time = document.createElement('p');
             time.className = 'agenda-card-time';
-            time.textContent = session.StartTime || '';
+            time.textContent = session.EndTime ? `${session.StartTime || ''} – ${session.EndTime}` : (session.StartTime || '');
 
             const title = document.createElement('h3');
             title.className = 'agenda-card-title';
@@ -2045,6 +2035,7 @@
 
             button.addEventListener('click', () => {
               const isExpanded = card.classList.contains('expanded');
+
               document.querySelectorAll('.agenda-card.expanded').forEach((openCard) => {
                 if (openCard !== card) {
                   openCard.classList.remove('expanded');
