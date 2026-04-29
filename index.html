@@ -133,10 +133,9 @@
         overflow: hidden;
         background: #1B2E40;
       }
-
       .home-video-frame {
-        justify-self: stretch;
         position: relative;
+        justify-self: stretch;
         width: 100%;
         max-width: none;
         margin: 0;
@@ -232,8 +231,7 @@
         color: var(--text-primary);
         line-height: 1.45;
       }
-
-            .home-video-label {
+      .home-video-label {
         position: absolute;
         left: 14px;
         right: 14px;
@@ -242,8 +240,8 @@
         z-index: 2;
         text-align: center;
         display: grid;
-        grid-template-rows: auto 1fr auto;
-        align-items: stretch;
+        grid-template-rows: auto 1fr;
+        align-items: start;
         overflow: visible;
       }
 
@@ -271,24 +269,23 @@
         -webkit-text-stroke: 0.6px rgba(27, 46, 64, 0.08);
         text-shadow: 0 6px 14px rgba(27, 46, 64, 0.18);
       }
-
-            .home-video-middle-wrap {
+      .home-video-middle-wrap {
         align-self: center;
         justify-self: center;
         display: grid;
         justify-items: center;
         align-content: center;
-        gap: 10px;
+        gap: 12px;
         width: 100%;
-        max-width: 94%;
+        max-width: 92%;
         position: relative;
         overflow: visible;
         transform: translateY(-18px);
+        padding-bottom: 104px;
       }
-
-            .home-gold-bar {
+      .home-gold-bar {
         display: block;
-        width: 150px;
+        width: 142px;
         height: 5px;
         border-radius: 999px;
         background: linear-gradient(90deg, #D88F05 0%, #F2B21B 45%, #FFD15A 100%);
@@ -305,14 +302,13 @@
         -webkit-text-stroke: 0.5px rgba(27, 46, 64, 0.2);
         text-shadow: 0 8px 16px rgba(27, 46, 64, 0.25);
       }
-
-            .home-video-middle {
+      .home-video-middle {
         align-self: center;
         justify-self: center;
         margin: 0 auto;
         max-width: 96%;
-        font-size: clamp(0.58rem, 2.3vw, 0.78rem);
-        line-height: 1.22;
+        font-size: clamp(1.05rem, 4.25vw, 1.38rem);
+        line-height: 1.26;
         color: #FFFFFF;
         text-align: center;
         text-wrap: balance;
@@ -1141,21 +1137,23 @@
       }
 
 
-      .home-static-quote {
-        align-self: end !important;
-        justify-self: center !important;
-        margin: 0 0 18px !important;
-        width: 100% !important;
+
+      .home-video-quote-fixed {
+        position: absolute !important;
+        left: 12px !important;
+        right: 12px !important;
+        bottom: 18px !important;
+        z-index: 99999 !important;
         display: grid !important;
         justify-items: center !important;
         gap: 3px !important;
-        position: relative !important;
-        z-index: 99999 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        text-align: center !important;
+        pointer-events: none !important;
         visibility: visible !important;
         opacity: 1 !important;
-        pointer-events: none !important;
-        text-align: center !important;
-        font-size: clamp(2.25rem, 8.8vw, 3.35rem) !important;
+        font-size: clamp(2rem, 7.8vw, 2.8rem) !important;
         font-weight: 900 !important;
         font-style: italic !important;
         line-height: 0.96 !important;
@@ -1168,7 +1166,7 @@
         text-shadow: 0 7px 16px rgba(27, 46, 64, 0.58) !important;
       }
 
-      .home-static-quote-line {
+      .home-video-quote-fixed-line {
         display: block !important;
         font-style: italic !important;
         transform: skewX(-6deg) !important;
@@ -1234,13 +1232,13 @@
               </div>
               <div class="home-video-middle-wrap">
                 <span class="home-gold-bar" aria-hidden="true"></span>
-                <p id="home-hero-description" class="home-video-middle">Practical learning, stronger leadership, and one shared standard across the City.</p>
+                <p id="home-hero-description" class="home-video-middle">Supervisor Summit is where leadership across the City comes together to reset expectations, strengthen alignment, and shape the culture we create every day. It is more than training—it is a shared commitment to leading with intention, accountability, and impact.</p>
                 <span class="home-gold-bar" aria-hidden="true"></span>
               </div>
-              <p id="home-static-quote" class="home-static-quote">
-                <span class="home-static-quote-line">"Supervisors"</span>
-                <span class="home-static-quote-line">Bring the Weather"</span>
-              </p>
+            </div>
+            <div id="home-video-quote-fixed" class="home-video-quote-fixed" aria-label="Supervisors Bring the Weather">
+              <span class="home-video-quote-fixed-line">"Supervisors"</span>
+              <span class="home-video-quote-fixed-line">Bring the Weather"</span>
             </div>
           </section>
         </div>
@@ -1570,33 +1568,9 @@
         const versioned = `${base}${separator}v=${ASSET_REFRESH_TOKEN}`;
         return hash ? `${versioned}#${hash}` : versioned;
       }
-
-      function formatHomeQuoteText(quoteText) {
-        const cleaned = String(quoteText || '').replace(/[“”]/g, '').trim();
-        if (!cleaned) return '';
-        const parts = cleaned.split(/\s+/);
-        const firstLine = parts.shift() || '';
-        const secondLine = parts.join(' ') || '';
-        return secondLine
-          ? `<span class="home-video-quote-line">${firstLine}</span><span class="home-video-quote-line">${secondLine}</span>`
-          : `<span class="home-video-quote-line">${firstLine}</span>`;
-      }
-
-      async function loadHomeContent() {
-        try {
-          const content = await fetchJson('data/home-content.json');
-          const titleImage = String(content.titleImage || '').trim();
-          const descriptionText = String(content.description || '').trim();
-          const quoteText = String(content.quote || '').trim();
-
-          if (homeHeroImage && titleImage) {
-            homeHeroImage.src = withRefreshToken(`images/${titleImage}`);
-          }
-          if (homeHeroDescription && descriptionText) homeHeroDescription.textContent = descriptionText;
-          if (homeHeroQuote && quoteText) homeHeroQuote.innerHTML = formatHomeQuoteText(quoteText);
-        } catch {
-          // Keep built-in defaults if JSON is unavailable.
-        }
+async function loadHomeContent() {
+        // Home content is hardcoded in the HTML.
+        return Promise.resolve();
       }
 
       function renderDayTabs(tabsList, dayDefs) {
