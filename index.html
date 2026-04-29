@@ -1486,8 +1486,97 @@
         transform: skewX(-6deg) !important;
       }
 
+    
+      /* Stable bottom nav override */
+      .bottom-nav {
+        position: fixed !important;
+        left: 0 !important;
+        right: 0 !important;
+        bottom: 0 !important;
+        z-index: 999 !important;
+        padding: 10px max(12px, env(safe-area-inset-right)) calc(12px + env(safe-area-inset-bottom)) max(12px, env(safe-area-inset-left)) !important;
+        pointer-events: none !important;
+        background: transparent !important;
+      }
+
+      .bottom-nav__row {
+        width: min(100%, 520px) !important;
+        margin: 0 auto !important;
+        display: grid !important;
+        grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+        gap: 8px !important;
+        padding: 8px !important;
+        border-radius: 24px !important;
+        background: linear-gradient(135deg, #223A52 0%, #284561 45%, #1B2E40 100%) !important;
+        border: 1px solid rgba(239, 177, 10, 0.35) !important;
+        box-shadow: 0 16px 30px rgba(27, 46, 64, 0.45), inset 0 1px 0 rgba(255,255,255,0.06) !important;
+        position: relative !important;
+        pointer-events: auto !important;
+      }
+
+      .nav-active-indicator {
+        display: none !important;
+      }
+
+      .tab-btn {
+        min-height: 70px !important;
+        border: 0 !important;
+        border-radius: 18px !important;
+        background: transparent !important;
+        color: var(--text-primary) !important;
+        cursor: pointer !important;
+        display: grid !important;
+        justify-items: center !important;
+        align-content: center !important;
+        gap: 3px !important;
+        padding: 8px 2px !important;
+        position: relative !important;
+        z-index: 1 !important;
+        transition: transform 0.18s ease, background-color 0.18s ease, color 0.18s ease !important;
+      }
+
+      .tab-btn.active {
+        background: linear-gradient(135deg, #F6C84D 0%, #EFB10A 55%, #D89B05 100%) !important;
+        color: var(--bg-primary) !important;
+        box-shadow: 0 8px 18px rgba(27, 46, 64, 0.32) !important;
+      }
+
+      .tab-icon-circle {
+        width: 34px !important;
+        height: 34px !important;
+        border-radius: 999px !important;
+        display: grid !important;
+        place-items: center !important;
+        border: 1px solid rgba(245, 247, 250, 0.45) !important;
+        background: rgba(40, 69, 97, 0.35) !important;
+      }
+
+      .tab-btn.active .tab-icon-circle {
+        border-color: rgba(27, 46, 64, 0.35) !important;
+        background: rgba(245, 247, 250, 0.2) !important;
+      }
+
+      .tab-icon {
+        width: 20px !important;
+        height: 20px !important;
+        object-fit: contain !important;
+        opacity: 0.95 !important;
+      }
+
+      .tab-label {
+        font-size: 0.76rem !important;
+        font-weight: 800 !important;
+        line-height: 1 !important;
+        text-align: center !important;
+      }
+
+      @media (max-width: 380px) {
+        .tab-label { font-size: 0.66rem !important; }
+        .tab-btn { min-height: 66px !important; }
+      }
+
     </style>
-      <meta name="app-version" content="20260429-agenda-nav-speakerfix-1" />
+      <meta name="app-version" content="20260429-stable-nav-fixed-1" />
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
@@ -1627,24 +1716,28 @@
     <nav class="bottom-nav" aria-label="Primary navigation">
       <div class="bottom-nav__row">
         <span class="nav-active-indicator" aria-hidden="true"></span>
+
         <button class="tab-btn active" type="button" data-tab="home">
           <span class="tab-icon-circle" aria-hidden="true">
             <img class="tab-icon" src="icons/home_icon.png" alt="" aria-hidden="true" />
           </span>
           <span class="tab-label">Home</span>
         </button>
+
         <button class="tab-btn" type="button" data-tab="speakers">
           <span class="tab-icon-circle" aria-hidden="true">
             <img class="tab-icon" src="icons/speaker_icon.png" alt="" aria-hidden="true" />
           </span>
           <span class="tab-label">Speakers</span>
         </button>
+
         <button class="tab-btn" type="button" data-tab="agenda">
           <span class="tab-icon-circle" aria-hidden="true">
             <img class="tab-icon" src="icons/agenda_icon.png" alt="" aria-hidden="true" />
           </span>
           <span class="tab-label">Agenda</span>
         </button>
+
         <button class="tab-btn" type="button" data-tab="resources">
           <span class="tab-icon-circle" aria-hidden="true">
             <img class="tab-icon" src="icons/resources_icon.png" alt="" aria-hidden="true" />
@@ -1665,7 +1758,7 @@
     <script>
       // Service worker disabled while stabilizing asset/video loading.
       // This unregisters older service workers and clears old caches that may be serving stale files.
-      const APP_VERSION = '20260429-agenda-nav-speakerfix-1';
+      const APP_VERSION = '20260429-stable-nav-fixed-1';
 
       async function clearOldAppCaches() {
         if (!('caches' in window)) return;
@@ -1785,7 +1878,7 @@
         'images/rain.mp4',
         'images/storm_clouds.mp4'
       ];
-      const ASSET_REFRESH_TOKEN = '20260429-agenda-nav-speakerfix-1';
+      const ASSET_REFRESH_TOKEN = '20260429-stable-nav-fixed-1';
       const defaultDayButtonConfig = [
         { key: 'day1', label: 'Day 1', styleClass: 'day-style-1' },
         { key: 'day2Supervisor', label: 'Day 2 Supervisor Sessions', styleClass: 'day-style-2' },
@@ -1801,15 +1894,7 @@
       let heroVideoSwapTimer;
 
       function syncNavIndicator(activeTabName) {
-        if (!navIndicator) return;
-        const activeTab = tabs.find((tab) => tab.dataset.tab === activeTabName) || tabs.find((tab) => tab.classList.contains('active'));
-        if (!activeTab) return;
-        const diameter = Math.round(Math.max(activeTab.offsetWidth, activeTab.offsetHeight));
-        const centerX = activeTab.offsetLeft + (activeTab.offsetWidth / 2);
-        const centerY = activeTab.offsetTop + (activeTab.offsetHeight / 2);
-        navIndicator.style.width = `${diameter}px`;
-        navIndicator.style.height = `${diameter}px`;
-        navIndicator.style.transform = `translate(${Math.round(centerX - (diameter / 2))}px, ${Math.round(centerY - (diameter / 2))}px)`;
+        return;
       }
 
       function setActiveTab(tabName) {
