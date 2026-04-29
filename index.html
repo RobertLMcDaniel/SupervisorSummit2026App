@@ -2260,7 +2260,7 @@
       }
 
     </style>
-      <meta name="app-version" content="20260429-playlist-overlay-fix-only-1" />
+      <meta name="app-version" content="20260429-spotify-clean-fix-final-2" />
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
@@ -2436,7 +2436,7 @@
     <script>
       // Service worker disabled while stabilizing asset/video loading.
       // This unregisters older service workers and clears old caches that may be serving stale files.
-      const APP_VERSION = '20260429-playlist-overlay-fix-only-1';
+      const APP_VERSION = '20260429-spotify-clean-fix-final-2';
 
       async function clearOldAppCaches() {
         if (!('caches' in window)) return;
@@ -3152,205 +3152,99 @@
 
   
     <script>
-      // Targeted corrections:
-      // - Reset expanded speaker/agenda states on navigation.
-      // - Load Spotify only when playlist opens.
-      // - Clear Spotify when overlay closes so it does not run in the background.
+      // Clean Spotify overlay controller only. No layout/style changes.
       (() => {
         const SPOTIFY_SRC = 'https://open.spotify.com/embed/playlist/20pk264QB8qTJ6YXQZigq5';
 
-        function collapseExpandedStates() {
-          document.querySelectorAll('.speaker-accordion-item.expanded').forEach((item) => {
-            item.classList.remove('expanded');
-          });
-
-          document.querySelectorAll('.agenda-ticket.expanded').forEach((item) => {
-            item.classList.remove('expanded');
-          });
-        }
-
-        function getPlaylistOverlay() {
-          return document.getElementById('playlist-detail-overlay');
-        }
-
-        function getSpotifyIframe() {
-          return document.getElementById('spotify-iframe') || document.querySelector('#playlist-detail-overlay iframe');
-        }
-
-        function loadSpotifyIframe() {
-          const iframe = getSpotifyIframe();
-          if (iframe && iframe.getAttribute('src') !== SPOTIFY_SRC) {
-            iframe.setAttribute('src', SPOTIFY_SRC);
+        function ready(fn) {
+          if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', fn, { once: true });
+          } else {
+            fn();
           }
         }
 
-        function clearSpotifyIframe() {
-          const iframe = getSpotifyIframe();
+        ready(() => {
+          const overlay = document.getElementById('playlist-detail-overlay');
+          const originalButton = document.getElementById('playlist-btn');
+          const originalClose = document.getElementById('playlist-detail-close');
+
+          if (!overlay || !originalButton) return;
+
+          let iframe = document.getElementById('spotify-iframe') || overlay.querySelector('iframe');
           if (iframe) {
+            iframe.id = 'spotify-iframe';
             iframe.removeAttribute('src');
+            iframe.setAttribute('data-src', SPOTIFY_SRC);
           }
-        }
 
-        function openPlaylistOverlay() {
-          const overlay = getPlaylistOverlay();
-          loadSpotifyIframe();
-          if (overlay) {
+          // Clone controls to remove older/conflicting click handlers without changing appearance.
+          const playlistButton = originalButton.cloneNode(true);
+          originalButton.replaceWith(playlistButton);
+
+          let closeButton = originalClose;
+          if (originalClose) {
+            closeButton = originalClose.cloneNode(true);
+            originalClose.replaceWith(closeButton);
+          }
+
+          function getIframe() {
+            iframe = document.getElementById('spotify-iframe') || overlay.querySelector('iframe');
+            return iframe;
+          }
+
+          function openOverlay(event) {
+            if (event) {
+              event.preventDefault();
+              event.stopPropagation();
+              if (event.stopImmediatePropagation) event.stopImmediatePropagation();
+            }
+
+            const frame = getIframe();
+            if (frame) {
+              frame.setAttribute('src', SPOTIFY_SRC);
+            }
+
             overlay.classList.add('open');
             overlay.setAttribute('aria-hidden', 'false');
+            document.body.classList.add('playlist-open');
           }
-        }
 
-        function closePlaylistOverlay() {
-          const overlay = getPlaylistOverlay();
-          if (overlay) {
+          function closeOverlay(event) {
+            if (event) {
+              event.preventDefault();
+              event.stopPropagation();
+              if (event.stopImmediatePropagation) event.stopImmediatePropagation();
+            }
+
             overlay.classList.remove('open');
             overlay.setAttribute('aria-hidden', 'true');
+            document.body.classList.remove('playlist-open');
+
+            window.setTimeout(() => {
+              const frame = getIframe();
+              if (frame) frame.removeAttribute('src');
+            }, 250);
           }
-          clearSpotifyIframe();
-        }
 
-        function patchNavigationReset() {
-          document.querySelectorAll('.tab-btn').forEach((button) => {
-            button.addEventListener('click', collapseExpandedStates, { capture: true });
-          });
-        }
-
-        function patchSpotifyLazyLoad() {
-          const playlistButton = document.getElementById('playlist-btn');
-          const closeButton = document.getElementById('playlist-detail-close');
-          const overlay = getPlaylistOverlay();
-
-          clearSpotifyIframe();
-
-          if (playlistButton) {
-            playlistButton.addEventListener('click', (event) => {
-              event.preventDefault();
-              event.stopImmediatePropagation();
-              openPlaylistOverlay();
-            }, true);
-          }
+          playlistButton.addEventListener('click', openOverlay);
 
           if (closeButton) {
-            closeButton.addEventListener('click', (event) => {
-              event.preventDefault();
-              closePlaylistOverlay();
-            }, true);
+            closeButton.addEventListener('click', closeOverlay);
           }
 
-          if (overlay) {
-            overlay.addEventListener('click', (event) => {
-              if (event.target === overlay) {
-                closePlaylistOverlay();
-              }
-            });
-          }
-
-          document.addEventListener('keydown', (event) => {
-            if (event.key === 'Escape') {
-              closePlaylistOverlay();
+          overlay.addEventListener('click', (event) => {
+            if (event.target === overlay) {
+              closeOverlay(event);
             }
           });
-        }
 
-        if (document.readyState === 'loading') {
-          document.addEventListener('DOMContentLoaded', () => {
-            patchNavigationReset();
-            patchSpotifyLazyLoad();
+          document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape' && overlay.classList.contains('open')) {
+              closeOverlay(event);
+            }
           });
-        } else {
-          patchNavigationReset();
-          patchSpotifyLazyLoad();
-        }
-      })();
-    </script>
-
-  
-    <script>
-      // Summit Playlist behavior fix only.
-      (() => {
-        const SPOTIFY_SRC = 'https://open.spotify.com/embed/playlist/20pk264QB8qTJ6YXQZigq5';
-
-        function getOverlay() {
-          return document.getElementById('playlist-detail-overlay');
-        }
-
-        function getIframe() {
-          return document.getElementById('spotify-iframe') || document.querySelector('#playlist-detail-overlay iframe');
-        }
-
-        function openPlaylistOverlay(event) {
-          if (event) {
-            event.preventDefault();
-            event.stopPropagation();
-          }
-
-          const overlay = getOverlay();
-          const iframe = getIframe();
-
-          if (iframe && iframe.getAttribute('src') !== SPOTIFY_SRC) {
-            iframe.setAttribute('src', SPOTIFY_SRC);
-          }
-
-          if (overlay) {
-            overlay.classList.add('open');
-            overlay.setAttribute('aria-hidden', 'false');
-          }
-        }
-
-        function closePlaylistOverlay(event) {
-          if (event) {
-            event.preventDefault();
-            event.stopPropagation();
-          }
-
-          const overlay = getOverlay();
-          const iframe = getIframe();
-
-          if (overlay) {
-            overlay.classList.remove('open');
-            overlay.setAttribute('aria-hidden', 'true');
-          }
-
-          if (iframe) {
-            iframe.removeAttribute('src');
-          }
-        }
-
-        function wirePlaylistOverlay() {
-          const playlistButton = document.getElementById('playlist-btn');
-          const closeButton = document.getElementById('playlist-detail-close');
-          const overlay = getOverlay();
-          const iframe = getIframe();
-
-          if (iframe) {
-            iframe.removeAttribute('src');
-            if (!iframe.id) iframe.id = 'spotify-iframe';
-          }
-
-          if (playlistButton) {
-            playlistButton.removeAttribute('href');
-            playlistButton.setAttribute('type', 'button');
-            playlistButton.onclick = openPlaylistOverlay;
-          }
-
-          if (closeButton) {
-            closeButton.onclick = closePlaylistOverlay;
-          }
-
-          if (overlay) {
-            overlay.addEventListener('click', (event) => {
-              if (event.target === overlay) {
-                closePlaylistOverlay(event);
-              }
-            });
-          }
-        }
-
-        if (document.readyState === 'loading') {
-          document.addEventListener('DOMContentLoaded', wirePlaylistOverlay);
-        } else {
-          wirePlaylistOverlay();
-        }
+        });
       })();
     </script>
 
