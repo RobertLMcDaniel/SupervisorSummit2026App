@@ -561,8 +561,8 @@
       .speakers-grid {
         display: grid;
         grid-template-columns: 1fr;
-        gap: 6px;
-        margin-top: 2px;
+        gap: 10px;
+        margin-top: 4px;
         max-height: 68dvh;
         overflow-y: auto;
         padding-right: 2px;
@@ -574,16 +574,16 @@
       .speaker-tile {
         border: 0;
         border-radius: 22px;
-        padding: 8px 12px 8px 10px;
+        padding: 12px 12px 12px 10px;
         background: rgba(40, 69, 97, 0.65);
         box-shadow: 0 8px 20px rgba(27, 46, 64, 0.35);
         text-align: left;
         cursor: pointer;
         display: grid;
-        grid-template-columns: 94px 1fr;
+        grid-template-columns: 110px 1fr;
         align-items: center;
         gap: 12px;
-        min-height: 108px;
+        min-height: 128px;
         overflow: hidden;
         position: relative;
       }
@@ -605,7 +605,7 @@
       .speaker-tile--6 { background: linear-gradient(135deg, #F8A6FF 0%, #C796FF 100%); }
 
       .speaker-tile-image-wrap {
-        width: 84px;
+        width: 96px;
         aspect-ratio: 1 / 1;
         background: var(--text-primary);
         border-radius: 50%;
@@ -658,11 +658,11 @@
 
       .speaker-accordion-item {
         display: grid;
-        gap: 5px;
+        gap: 8px;
       }
 
       .speaker-accordion-item + .speaker-accordion-item {
-        margin-top: 6px;
+        margin-top: 10px;
       }
 
       .speaker-tile {
@@ -1006,118 +1006,6 @@
       .resource-button.slide-in-left { animation: slide-in-left 0.5s ease both; }
       .resource-button.slide-in-right { animation: slide-in-right 0.5s ease both; }
 
-      /* Agenda redesign - additive override, keeps bottom nav untouched */
-      #agenda-view .panel.agenda-panel {
-        height: calc(100dvh - 212px);
-        display: grid;
-        grid-template-rows: auto minmax(0, 1fr);
-        align-content: stretch;
-        overflow: hidden;
-        padding: 10px;
-        background: rgba(40, 69, 97, 0.95);
-      }
-      .agenda-tabs-shell {
-        border-radius: 18px;
-        border: 1px solid rgba(239, 177, 10, 0.42);
-        background: rgba(27, 46, 64, 0.34);
-        box-shadow: inset 0 1px 0 rgba(245, 247, 250, 0.1), 0 8px 16px rgba(27, 46, 64, 0.25);
-        padding: 8px;
-        margin: 0 0 8px;
-      }
-      #agenda-view .agenda-day-tabs {
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 8px;
-        width: 100%;
-        margin: 0;
-      }
-      #agenda-view .agenda-day-tab {
-        width: 100%;
-        min-height: 48px;
-        height: auto;
-        border: 0;
-        border-radius: 999px;
-        color: var(--text-primary);
-        font-weight: 900;
-        cursor: pointer;
-        display: grid;
-        place-items: center;
-        justify-self: stretch;
-        padding: 8px 10px;
-        font-size: 0.76rem;
-        line-height: 1.05;
-        text-align: center;
-        box-shadow: 0 8px 18px rgba(27, 46, 64, 0.35);
-      }
-      #agenda-view .agenda-day-tab.active {
-        color: var(--bg-primary);
-        filter: brightness(1.08);
-        box-shadow: 0 12px 20px rgba(27, 46, 64, 0.45);
-      }
-      #agenda-list {
-        border: 0;
-        border-radius: 0;
-        padding: 4px 2px 8px;
-        background: transparent;
-        min-height: 0;
-        height: 100%;
-        overflow-y: auto;
-        display: grid;
-        gap: 8px;
-      }
-      .agenda-card {
-        border: 0;
-        border-radius: 18px;
-        overflow: hidden;
-        color: #FFFFFF;
-        box-shadow: 0 8px 20px rgba(27, 46, 64, 0.35);
-      }
-      .agenda-card-button {
-        width: 100%;
-        border: 0;
-        border-radius: 18px;
-        padding: 14px 16px;
-        color: #FFFFFF;
-        text-align: left;
-        cursor: pointer;
-        display: grid;
-        gap: 7px;
-        position: relative;
-      }
-      .agenda-card-button::after {
-        content: '›';
-        position: absolute;
-        right: 16px;
-        top: 50%;
-        transform: translateY(-50%) rotate(90deg);
-        font-size: 1.55rem;
-        font-weight: 900;
-        color: rgba(245, 247, 250, 0.92);
-        transition: transform 0.24s ease;
-      }
-      .agenda-card.expanded .agenda-card-button::after { transform: translateY(-50%) rotate(-90deg); }
-      .agenda-card-time { margin: 0; font-size: 0.84rem; font-weight: 900; letter-spacing: 0.04em; text-transform: uppercase; opacity: 0.92; }
-      .agenda-card-title { margin: 0; padding-right: 22px; font-size: 1.06rem; font-weight: 900; line-height: 1.08; text-transform: uppercase; }
-      .agenda-card-coming-soon { margin: 0; font-size: 0.86rem; font-weight: 800; opacity: 0.82; }
-      .agenda-card-detail { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 0.28s ease; }
-      .agenda-card.expanded .agenda-card-detail { grid-template-rows: 1fr; }
-      .agenda-card-detail-inner { min-height: 0; overflow: hidden; padding: 0 16px; opacity: 0; transform: translateY(-6px); transition: opacity 0.24s ease, transform 0.24s ease, padding 0.24s ease; }
-      .agenda-card.expanded .agenda-card-detail-inner { padding: 14px 16px 16px; opacity: 1; transform: translateY(0); }
-      .agenda-card-description { margin: 0; color: #F5F7FA; font-size: 0.96rem; line-height: 1.5; }
-      .agenda-card--1 .agenda-card-button { background: linear-gradient(135deg, #FF8FB1 0%, #FFB38A 100%); }
-      .agenda-card--2 .agenda-card-button { background: linear-gradient(135deg, #9B8BFF 0%, #5FA8FF 100%); }
-      .agenda-card--3 .agenda-card-button { background: linear-gradient(135deg, #74F2CE 0%, #4DD4A9 100%); }
-      .agenda-card--4 .agenda-card-button { background: linear-gradient(135deg, #FFD36E 0%, #FFA45B 100%); }
-      .agenda-card--5 .agenda-card-button { background: linear-gradient(135deg, #7CE0FF 0%, #64B5F6 100%); }
-      .agenda-card--6 .agenda-card-button { background: linear-gradient(135deg, #F8A6FF 0%, #C796FF 100%); }
-      .agenda-card--1 .agenda-card-detail-inner { background: linear-gradient(135deg, rgba(180, 72, 110, 0.96) 0%, rgba(162, 83, 50, 0.96) 100%); }
-      .agenda-card--2 .agenda-card-detail-inner { background: linear-gradient(135deg, rgba(79, 69, 161, 0.96) 0%, rgba(44, 108, 176, 0.96) 100%); }
-      .agenda-card--3 .agenda-card-detail-inner { background: linear-gradient(135deg, rgba(44, 130, 112, 0.96) 0%, rgba(35, 111, 90, 0.96) 100%); }
-      .agenda-card--4 .agenda-card-detail-inner { background: linear-gradient(135deg, rgba(178, 116, 34, 0.96) 0%, rgba(160, 83, 39, 0.96) 100%); }
-      .agenda-card--5 .agenda-card-detail-inner { background: linear-gradient(135deg, rgba(42, 105, 154, 0.96) 0%, rgba(59, 83, 145, 0.96) 100%); }
-      .agenda-card--6 .agenda-card-detail-inner { background: linear-gradient(135deg, rgba(145, 77, 168, 0.96) 0%, rgba(107, 78, 173, 0.96) 100%); }
-
-
       @media (max-width: 380px) {
         .resources-actions { gap: 12px; }
         .resource-button {
@@ -1241,7 +1129,7 @@
       }
 
     
-      /* Agenda ticket redesign */
+      /* Agenda-only ticket redesign. Bottom nav intentionally untouched. */
       #agenda-view .agenda-panel {
         height: calc(100dvh - 212px);
         display: grid;
@@ -1385,11 +1273,12 @@
         color: #111827;
         display: grid;
         place-items: center;
+        white-space: pre-line;
         text-align: center;
         padding: 10px 6px;
         font-weight: 950;
-        font-size: 1.02rem;
-        line-height: 1.05;
+        font-size: 0.98rem;
+        line-height: 1.08;
       }
 
       .agenda-ticket-content {
@@ -1453,14 +1342,8 @@
       .agenda-ticket--5 .agenda-ticket-detail-inner { background: linear-gradient(135deg, rgba(42, 105, 154, 0.96) 0%, rgba(59, 83, 145, 0.96) 100%); }
       .agenda-ticket--6 .agenda-ticket-detail-inner { background: linear-gradient(135deg, rgba(145, 77, 168, 0.96) 0%, rgba(107, 78, 173, 0.96) 100%); }
 
-      @media (max-width: 380px) {
-        .agenda-ticket-button { grid-template-columns: 82px 1fr; min-height: 108px; }
-        .agenda-ticket-time { font-size: 0.92rem; }
-        .agenda-ticket-title { font-size: 0.96rem; }
-      }
-
     </style>
-      <meta name="app-version" content="20260429-agenda-working-nav-2" />
+      <meta name="app-version" content="20260429-speakers-bio-json-2" />
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
@@ -1545,6 +1428,7 @@
           </section>
         </div>
       </section>
+
       <section id="agenda-view" class="view hidden" aria-label="Agenda view">
         <section class="panel agenda-panel">
           <div class="agenda-day-photo-tabs" role="tablist" aria-label="Agenda day tabs">
@@ -1649,7 +1533,7 @@
     <script>
       // Service worker disabled while stabilizing asset/video loading.
       // This unregisters older service workers and clears old caches that may be serving stale files.
-      const APP_VERSION = '20260429-agenda-ticket-day2-1';
+      const APP_VERSION = '20260429-navsafe-agenda-1';
 
       async function clearOldAppCaches() {
         if (!('caches' in window)) return;
@@ -1769,12 +1653,11 @@
         'images/rain.mp4',
         'images/storm_clouds.mp4'
       ];
-      const ASSET_REFRESH_TOKEN = '20260429-agenda-ticket-day2-1';
+      const ASSET_REFRESH_TOKEN = '20260429-navsafe-agenda-1';
       const defaultDayButtonConfig = [
-        { key: 'day1', label: 'Day 1', styleClass: 'day-style-1' },
-        { key: 'day2Supervisor', label: 'Day 2 Supervisor Sessions', styleClass: 'day-style-2' },
-        { key: 'day2Senior', label: 'Day 2 Senior Leadership', styleClass: 'day-style-3' },
-        { key: 'day3', label: 'Day 3', styleClass: 'day-style-1' }
+        { key: 'day1', label: 'Day 1', agendaIcon: 'icons/home_icon.png', styleClass: 'day-style-1' },
+        { key: 'day2', label: 'Day 2', agendaIcon: 'icons/agenda_icon.png', styleClass: 'day-style-2' },
+        { key: 'day3', label: 'Day 3', agendaIcon: 'icons/food_icon.png', styleClass: 'day-style-3' }
       ];
 
       let speakersLoaded = false;
@@ -1945,13 +1828,26 @@
         tabsList.forEach((tab) => {
           const match = dayDefs.find((day) => day.key === tab.dataset.day);
           if (!match) return;
+          const iconPath = match.agendaIcon;
           tab.classList.remove('day-style-1', 'day-style-2', 'day-style-3');
           tab.classList.add(match.styleClass || 'day-style-1');
+          tab.innerHTML = `
+            <span class="day-tab-content">
+              <img class="day-tab-icon" src="${withRefreshToken(iconPath)}" alt="" aria-hidden="true" />
+              <span class="day-tab-label">${match.label}</span>
+            </span>
+          `;
         });
       }
 
       async function loadDayButtonConfig() {
-        return;
+        try {
+          const config = await fetchJson('data/day-buttons.json');
+          const dayDefs = Array.isArray(config.days) && config.days.length ? config.days : defaultDayButtonConfig;
+          renderDayTabs(agendaDayTabs, dayDefs);
+        } catch {
+          renderDayTabs(agendaDayTabs, defaultDayButtonConfig);
+        }
       }
 
       function setErrorState(node, message) {
