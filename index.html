@@ -135,12 +135,12 @@
       }
 
       .home-video-frame {
+        justify-self: stretch;
         position: relative;
         width: 100%;
         max-width: none;
-        margin: 0 auto;
-        
-        justify-self: stretch;height: calc(100dvh - 160px);
+        margin: 0;
+        height: calc(100dvh - 160px);
         min-height: calc(100dvh - 160px);
         border-radius: 20px;
         overflow: hidden;
@@ -330,7 +330,7 @@
         align-self: end;
         margin: 0;
         font-size: clamp(1.5rem, 6vw, 1.9rem);
-        font-style: italic !important;
+        font-style: normal;
         font-weight: 800;
         color: transparent;
         text-align: center;
@@ -345,10 +345,37 @@
         justify-items: center;
         gap: 4px;
       }
-      .home-video-quote-line {
+
+      .home-bottom-quote {
+        align-self: end;
+        justify-self: center;
+        margin: 0 0 2px;
+        color: transparent;
+        text-align: center;
+        font-size: clamp(1.5rem, 6vw, 1.95rem);
+        font-weight: 800;
+        font-style: italic !important;
+        line-height: 1.02;
+        text-shadow: 0 8px 16px rgba(27, 46, 64, 0.38);
+        background: linear-gradient(180deg, #F6C84D 0%, #EFB10A 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        display: grid !important;
+        justify-items: center;
+        gap: 4px;
+        z-index: 4;
+      }
+
+      .home-bottom-quote-line {
         display: block;
         font-style: italic !important;
         transform: skewX(-7deg);
+      }
+
+
+      .home-video-quote-line {
+        display: block;
       }
 
       @keyframes hero-breathe {
@@ -1205,8 +1232,6 @@
                 webkit-playsinline
                 preload="auto"
                 disablepictureinpicture
-                disableremoteplayback
-                controlslist="nodownload nofullscreen noremoteplayback"
                 tabindex="-1"
                 aria-hidden="true"
               >
@@ -1223,12 +1248,10 @@
                 webkit-playsinline
                 preload="auto"
                 disablepictureinpicture
-                disableremoteplayback
-                controlslist="nodownload nofullscreen noremoteplayback"
                 tabindex="-1"
                 aria-hidden="true"
               >
-                <source src="images/clouds_sun.mp4" type="video/mp4" />
+                <source src="images/background.mp4" type="video/mp4" />
               </video>
             </div>
             <div class="home-video-overlay" aria-hidden="true"></div>
@@ -1241,7 +1264,7 @@
                 <p id="home-hero-description" class="home-video-middle">Practical learning, stronger leadership, and one shared standard across the City.</p>
                 <span class="home-gold-bar" aria-hidden="true"></span>
               </div>
-              <p id="home-hero-quote" class="home-video-quote"><span class="home-video-quote-line">&quot;Supervisors</span><span class="home-video-quote-line">Bring the Weather&quot;</span></p>
+              <p id="home-bottom-quote" class="home-bottom-quote"><span class="home-bottom-quote-line">"Supervisors</span><span class="home-bottom-quote-line">Bring the Weather"</span></p>
             </div>
           </section>
         </div>
@@ -1348,21 +1371,28 @@
     </section>
 
     <script>
-      // Service worker disabled while stabilizing asset/video loading.
-      // This unregisters older service workers and clears old caches that may be serving stale files.
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
-          navigator.serviceWorker.getRegistrations()
-            .then((registrations) => {
-              registrations.forEach((registration) => registration.unregister());
-            })
-            .catch(() => {});
+          navigator.serviceWorker.register('service-worker.js?v=reset-20260428-2', { updateViaCache: 'none' }).then((registration) => {
+            registration.update();
+            if (registration.waiting) registration.waiting.postMessage({ type: 'SKIP_WAITING' });
+            registration.addEventListener('updatefound', () => {
+              const newWorker = registration.installing;
+              if (!newWorker) return;
+              newWorker.addEventListener('statechange', () => {
+                if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                  newWorker.postMessage({ type: 'SKIP_WAITING' });
+                }
+              });
+            });
+          });
+        });
 
-          if ('caches' in window) {
-            caches.keys()
-              .then((cacheNames) => Promise.all(cacheNames.map((cacheName) => caches.delete(cacheName))))
-              .catch(() => {});
-          }
+        let hasReloadedForUpdate = false;
+        navigator.serviceWorker.addEventListener('controllerchange', () => {
+          if (hasReloadedForUpdate) return;
+          hasReloadedForUpdate = true;
+          window.location.reload();
         });
       }
 
@@ -1483,31 +1513,21 @@
 
       function setVideoSource(videoElement, src) {
         if (!videoElement) return Promise.resolve();
-
-        const cleanSrc = String(src || '').trim();
-        if (!cleanSrc) return Promise.resolve();
-
-        if (videoElement.dataset.src === cleanSrc) {
+        if (videoElement.dataset.src === src) {
           videoElement.currentTime = 0;
           return Promise.resolve();
         }
-
         return new Promise((resolve) => {
           const handleReady = () => {
-            videoElement.removeEventListener('loadedmetadata', handleReady);
             videoElement.removeEventListener('loadeddata', handleReady);
-            videoElement.removeEventListener('canplay', handleReady);
             videoElement.removeEventListener('error', handleReady);
             resolve();
           };
 
-          videoElement.addEventListener('loadedmetadata', handleReady, { once: true });
           videoElement.addEventListener('loadeddata', handleReady, { once: true });
-          videoElement.addEventListener('canplay', handleReady, { once: true });
           videoElement.addEventListener('error', handleReady, { once: true });
-
-          videoElement.dataset.src = cleanSrc;
-          videoElement.innerHTML = `<source src="${cleanSrc}" type="video/mp4" />`;
+          videoElement.dataset.src = src;
+          videoElement.src = src;
           videoElement.load();
         });
       }
@@ -1607,14 +1627,6 @@
           }
         } catch {
           // Keep built-in defaults if JSON is unavailable or invalid.
-        } finally {
-          if (homeHeroQuote) {
-            homeHeroQuote.innerHTML = '<span class="home-video-quote-line">&quot;Supervisors</span><span class="home-video-quote-line">Bring the Weather&quot;</span>';
-          }
-
-          if (typeof enforceHomeQuoteStyle === 'function') {
-            enforceHomeQuoteStyle();
-          }
         }
       }
 
@@ -1916,75 +1928,34 @@
 
       window.addEventListener('resize', () => syncNavIndicator(document.querySelector('.tab-btn.active')?.dataset.tab));
 
-
-      function forceHomeQuote() {
-        const quote = document.getElementById('home-hero-quote');
-        if (!quote) return;
-
-        quote.innerHTML = '<span class="home-video-quote-line">&quot;Supervisors</span><span class="home-video-quote-line">Bring the Weather&quot;</span>';
-        quote.style.display = 'grid';
-        quote.style.fontStyle = 'italic';
-
-        quote.querySelectorAll('.home-video-quote-line').forEach((line) => {
-          line.style.fontStyle = 'italic';
-          line.style.transform = 'skewX(-7deg)';
-        });
-      }
-
       showView('home');
-      forceHomeQuote();
       syncNavIndicator('home');
 
-      // Start home video and content immediately.
-      loadHomeContent().finally(() => forceHomeQuote());
-      loadDayButtonConfig();
-      forceHomeVideoAutoplay();
-      startHomeVideoRotation();
+      // Defer non-critical startup work so the app becomes interactive faster.
+      window.setTimeout(() => {
+        loadHomeContent();
+        loadDayButtonConfig();
+        forceHomeVideoAutoplay();
+        startHomeVideoRotation();
+      }, 80);
 
 
 
       function forceHomeVideoAutoplay() {
         homeVideoPlayers.forEach((video) => {
           if (!video) return;
-
-          video.controls = false;
           video.muted = true;
           video.defaultMuted = true;
-          video.autoplay = true;
-          video.loop = true;
-          video.playsInline = true;
-          video.disablePictureInPicture = true;
-
-          video.setAttribute('muted', '');
-          video.setAttribute('autoplay', '');
-          video.setAttribute('loop', '');
-          video.setAttribute('playsinline', '');
-          video.setAttribute('webkit-playsinline', '');
-          video.setAttribute('preload', 'auto');
-          video.removeAttribute('controls');
-
           const tryPlay = () => {
-            video.controls = false;
-            video.removeAttribute('controls');
-
-            if (video.readyState === 0) {
-              video.load();
-            }
-
             const playPromise = video.play();
             if (playPromise && typeof playPromise.catch === 'function') {
               playPromise.catch(() => {});
             }
           };
 
-          ['loadedmetadata', 'loadeddata', 'canplay', 'canplaythrough'].forEach((eventName) => {
-            video.addEventListener(eventName, tryPlay);
-          });
-
+          video.addEventListener('loadeddata', tryPlay);
+          video.addEventListener('canplay', tryPlay);
           tryPlay();
-          [80, 200, 500, 900, 1400, 2200].forEach((delay) => {
-            window.setTimeout(tryPlay, delay);
-          });
         });
       }
 
@@ -2016,7 +1987,7 @@
         window.setTimeout(() => {
           splashScreen.classList.add('fade-out');
           window.setTimeout(() => splashScreen.remove(), 800);
-        }, 750);
+        }, 950);
       }
     </script>
   </body>
