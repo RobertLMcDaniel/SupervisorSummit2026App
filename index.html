@@ -2101,8 +2101,166 @@
         }
       }
 
+    
+      /* Corrections only: simple Resources layout, horizontal gold line, restored Spotify overlay, agenda detail label. */
+
+      /* 1 & 2. Resources: simple stacked circles with horizontal gold line between */
+      .resources-actions {
+        width: 100% !important;
+        display: grid !important;
+        grid-template-columns: 1fr !important;
+        grid-template-rows: auto auto auto !important;
+        gap: 16px !important;
+        justify-items: center !important;
+        align-items: center !important;
+        padding: 10px 4px !important;
+        position: relative !important;
+        overflow: visible !important;
+      }
+
+      .resources-actions::before {
+        content: '' !important;
+        position: static !important;
+        display: block !important;
+        grid-row: 2 !important;
+        width: 142px !important;
+        height: 5px !important;
+        border-radius: 999px !important;
+        background: linear-gradient(90deg, #D88F05 0%, #F2B21B 45%, #FFD15A 100%) !important;
+        box-shadow: 0 4px 12px rgba(239, 177, 10, 0.28) !important;
+        transform: none !important;
+        opacity: 0.9 !important;
+        pointer-events: none !important;
+      }
+
+      .resource-button {
+        width: min(58vw, 205px) !important;
+        max-width: 205px !important;
+        aspect-ratio: 1 / 1 !important;
+        border-radius: 50% !important;
+        color: #FFFFFF !important;
+        position: relative !important;
+        z-index: 1 !important;
+      }
+
+      #survey-btn {
+        grid-row: 1 !important;
+        transform: none !important;
+      }
+
+      #playlist-btn {
+        grid-row: 3 !important;
+        transform: none !important;
+      }
+
+      #survey-btn:hover,
+      #survey-btn:focus-visible,
+      #playlist-btn:hover,
+      #playlist-btn:focus-visible {
+        transform: translateY(-3px) !important;
+      }
+
+      #survey-btn:active,
+      #playlist-btn:active {
+        transform: scale(0.97) !important;
+      }
+
+      .resource-button-text {
+        color: #FFFFFF !important;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25) !important;
+      }
+
+      /* 3. Spotify overlay: restore full-screen modal behavior/appearance while still lazy-loading */
+      #playlist-detail-overlay {
+        position: fixed !important;
+        inset: 0 !important;
+        z-index: 40 !important;
+        background: rgba(27, 46, 64, 0) !important;
+        opacity: 0 !important;
+        pointer-events: none !important;
+        transition: opacity 0.26s ease, background-color 0.26s ease !important;
+      }
+
+      #playlist-detail-overlay.open {
+        opacity: 1 !important;
+        pointer-events: auto !important;
+        background: rgba(27, 46, 64, 0.96) !important;
+      }
+
+      .playlist-detail-card {
+        width: min(100%, 520px) !important;
+        height: 100dvh !important;
+        min-height: 100dvh !important;
+        margin: 0 auto !important;
+        padding: calc(56px + env(safe-area-inset-top)) max(10px, env(safe-area-inset-right)) max(10px, env(safe-area-inset-bottom)) max(10px, env(safe-area-inset-left)) !important;
+        border-radius: 0 !important;
+        background: #1B2E40 !important;
+        display: grid !important;
+        grid-template-rows: minmax(0, 1fr) !important;
+        overflow: hidden !important;
+        transform: translateY(14px) scale(0.985) !important;
+        opacity: 0 !important;
+        transition: opacity 0.34s ease, transform 0.34s cubic-bezier(0.2, 0.8, 0.2, 1) !important;
+      }
+
+      #playlist-detail-overlay.open .playlist-detail-card {
+        transform: translateY(0) scale(1) !important;
+        opacity: 1 !important;
+      }
+
+      .playlist-embed-wrap {
+        width: 100% !important;
+        height: 100% !important;
+        min-height: 0 !important;
+        border-radius: 18px !important;
+        overflow: hidden !important;
+      }
+
+      .playlist-embed-wrap iframe {
+        display: block !important;
+        width: 100% !important;
+        height: 100% !important;
+        border: 0 !important;
+        border-radius: 18px !important;
+      }
+
+      #playlist-detail-close {
+        position: fixed !important;
+        top: calc(12px + env(safe-area-inset-top)) !important;
+        right: max(12px, calc((100vw - 520px) / 2 + 12px)) !important;
+        z-index: 45 !important;
+      }
+
+      /* 4. Agenda expanded detail label */
+      .agenda-detail-label {
+        margin: 0 0 8px !important;
+        font-size: 0.84rem !important;
+        font-weight: 900 !important;
+        letter-spacing: 0.03em !important;
+        text-transform: uppercase !important;
+        color: #F5F7FA !important;
+        opacity: 0.94 !important;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25) !important;
+      }
+
+      @media (max-width: 380px) {
+        .resources-actions {
+          gap: 14px !important;
+        }
+
+        .resources-actions::before {
+          width: 118px !important;
+          height: 4px !important;
+        }
+
+        .resource-button {
+          width: min(57vw, 174px) !important;
+          max-width: 174px !important;
+        }
+      }
+
     </style>
-      <meta name="app-version" content="20260429-resources-home-reset-spotify-1" />
+      <meta name="app-version" content="20260429-resources-horizontal-spotify-label-2" />
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
@@ -2278,7 +2436,7 @@
     <script>
       // Service worker disabled while stabilizing asset/video loading.
       // This unregisters older service workers and clears old caches that may be serving stale files.
-      const APP_VERSION = '20260429-resources-home-reset-spotify-1';
+      const APP_VERSION = '20260429-resources-horizontal-spotify-label-2';
 
       async function clearOldAppCaches() {
         if (!('caches' in window)) return;
@@ -2626,11 +2784,15 @@
             const detailInner = document.createElement('div');
             detailInner.className = 'agenda-ticket-detail-inner';
 
+            const descriptionLabel = document.createElement('p');
+            descriptionLabel.className = 'agenda-detail-label';
+            descriptionLabel.textContent = 'Session Description';
+
             const description = document.createElement('p');
             description.className = 'agenda-ticket-description';
             description.textContent = session.Description || 'Description coming soon.';
 
-            detailInner.append(description);
+            detailInner.append(descriptionLabel, description);
             detail.append(detailInner);
 
             ticket.append(button, detail);
@@ -2855,6 +3017,8 @@
         if (playlistEmbedWrap && playlistEmbedWrap.dataset.loaded !== 'true') {
           playlistEmbedWrap.innerHTML = `
             <iframe
+              id="spotify-iframe"
+              data-src="https://open.spotify.com/embed/playlist/20pk264QB8qTJ6YXQZigq5"
               width="100%"
               height="100%"
               frameborder="0"
@@ -2985,12 +3149,13 @@
         }, 750);
       }
     </script>
+
   
     <script>
-      // Targeted state/performance patch:
-      // - Collapse speaker bios and agenda sessions whenever tabs/pages change.
-      // - Lazy-load Spotify only when opened.
-      // - Clear Spotify iframe src when closed so it stops running in the background.
+      // Targeted corrections:
+      // - Reset expanded speaker/agenda states on navigation.
+      // - Load Spotify only when playlist opens.
+      // - Clear Spotify when overlay closes so it does not run in the background.
       (() => {
         const SPOTIFY_SRC = 'https://open.spotify.com/embed/playlist/20pk264QB8qTJ6YXQZigq5';
 
@@ -3004,9 +3169,12 @@
           });
         }
 
+        function getPlaylistOverlay() {
+          return document.getElementById('playlist-detail-overlay');
+        }
+
         function getSpotifyIframe() {
-          const overlay = document.getElementById('playlist-detail-overlay');
-          return overlay ? overlay.querySelector('iframe') : null;
+          return document.getElementById('spotify-iframe') || document.querySelector('#playlist-detail-overlay iframe');
         }
 
         function loadSpotifyIframe() {
@@ -3023,6 +3191,24 @@
           }
         }
 
+        function openPlaylistOverlay() {
+          const overlay = getPlaylistOverlay();
+          loadSpotifyIframe();
+          if (overlay) {
+            overlay.classList.add('open');
+            overlay.setAttribute('aria-hidden', 'false');
+          }
+        }
+
+        function closePlaylistOverlay() {
+          const overlay = getPlaylistOverlay();
+          if (overlay) {
+            overlay.classList.remove('open');
+            overlay.setAttribute('aria-hidden', 'true');
+          }
+          clearSpotifyIframe();
+        }
+
         function patchNavigationReset() {
           document.querySelectorAll('.tab-btn').forEach((button) => {
             button.addEventListener('click', collapseExpandedStates, { capture: true });
@@ -3032,38 +3218,36 @@
         function patchSpotifyLazyLoad() {
           const playlistButton = document.getElementById('playlist-btn');
           const closeButton = document.getElementById('playlist-detail-close');
-          const overlay = document.getElementById('playlist-detail-overlay');
+          const overlay = getPlaylistOverlay();
 
-          // Prevent Spotify from loading on initial page load.
           clearSpotifyIframe();
 
           if (playlistButton) {
-            playlistButton.addEventListener('click', loadSpotifyIframe, { capture: true });
+            playlistButton.addEventListener('click', (event) => {
+              event.preventDefault();
+              event.stopImmediatePropagation();
+              openPlaylistOverlay();
+            }, true);
           }
 
           if (closeButton) {
-            closeButton.addEventListener('click', clearSpotifyIframe);
+            closeButton.addEventListener('click', (event) => {
+              event.preventDefault();
+              closePlaylistOverlay();
+            }, true);
           }
 
           if (overlay) {
             overlay.addEventListener('click', (event) => {
               if (event.target === overlay) {
-                clearSpotifyIframe();
+                closePlaylistOverlay();
               }
             });
-
-            const observer = new MutationObserver(() => {
-              if (!overlay.classList.contains('open')) {
-                clearSpotifyIframe();
-              }
-            });
-
-            observer.observe(overlay, { attributes: true, attributeFilter: ['class'] });
           }
 
           document.addEventListener('keydown', (event) => {
             if (event.key === 'Escape') {
-              clearSpotifyIframe();
+              closePlaylistOverlay();
             }
           });
         }
