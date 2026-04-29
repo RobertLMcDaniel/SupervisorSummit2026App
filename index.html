@@ -135,12 +135,12 @@
       }
 
       .home-video-frame {
-        justify-self: stretch;
         position: relative;
         width: 100%;
         max-width: none;
-        margin: 0;
-        height: calc(100dvh - 160px);
+        margin: 0 auto;
+        
+        justify-self: stretch;height: calc(100dvh - 160px);
         min-height: calc(100dvh - 160px);
         border-radius: 20px;
         overflow: hidden;
@@ -167,6 +167,18 @@
       .home-video-player.is-active {
         opacity: 1;
       }
+
+      .home-video-player::-webkit-media-controls,
+      .home-video-player::-webkit-media-controls-panel,
+      .home-video-player::-webkit-media-controls-play-button,
+      .home-video-player::-webkit-media-controls-start-playback-button {
+        display: none !important;
+        -webkit-appearance: none;
+        opacity: 0 !important;
+        pointer-events: none !important;
+      }
+
+
 
       .home-video-overlay {
         position: absolute;
@@ -291,26 +303,6 @@
         box-shadow: 0 4px 12px rgba(239, 177, 10, 0.28);
       }
 
-      .home-static-quote {
-        margin: 7px 0 0;
-        display: block !important;
-        visibility: visible !important;
-        opacity: 1 !important;
-        position: relative;
-        z-index: 9999;
-        color: #EFB10A !important;
-        -webkit-text-fill-color: #EFB10A !important;
-        text-align: center;
-        font-size: clamp(1.18rem, 4.8vw, 1.52rem);
-        font-weight: 900;
-        font-style: italic !important;
-        line-height: 1.1;
-        transform: skewX(-6deg);
-        text-shadow: 0 5px 12px rgba(27, 46, 64, 0.8);
-        pointer-events: none;
-      }
-
-
 
             .home-video-dates {
         margin: 14px 0 0;
@@ -334,6 +326,30 @@
         justify-self: center;
       }
 
+      .home-video-quote {
+        align-self: end;
+        margin: 0;
+        font-size: clamp(1.5rem, 6vw, 1.9rem);
+        font-style: italic !important;
+        font-weight: 800;
+        color: transparent;
+        text-align: center;
+        text-shadow: 0 8px 16px rgba(27, 46, 64, 0.38);
+        background: linear-gradient(180deg, #F6C84D 0%, #EFB10A 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: quote-breathe 5.6s ease-in-out infinite;
+        line-height: 1.02;
+        display: grid;
+        justify-items: center;
+        gap: 4px;
+      }
+      .home-video-quote-line {
+        display: block;
+        font-style: italic !important;
+        transform: skewX(-7deg);
+      }
 
       @keyframes hero-breathe {
         0%, 100% {
@@ -1117,18 +1133,21 @@
           font-size: clamp(1.02rem, 2.2vw, 1.3rem);
         }
 
+        .home-video-quote {
+          font-size: clamp(1rem, 1.8vw, 1.2rem);
+        }
       }
 
       .splash-screen {
         position: fixed;
         inset: 0;
         z-index: 50;
-        background: #E3EDF2;
+        background: #D4EEFA;
         display: grid;
         place-items: start center;
         opacity: 1;
-        transition: opacity 0.7s ease;
-        padding-top: 38dvh;
+        transition: opacity 0.75s ease;
+        padding-top: 31dvh;
       }
 
       .splash-screen.fade-out {
@@ -1137,10 +1156,24 @@
       }
 
       .splash-logo {
-        width: min(70vw, 330px);
+        width: min(70vw, 360px);
         max-height: 160px;
         object-fit: contain;
+      
+        opacity: 0;
+        animation: splash-logo-fade-in 0.62s ease-out 0.08s forwards;}
+
+      @keyframes splash-logo-fade-in {
+        from {
+          opacity: 0;
+          transform: translateY(8px) scale(0.985);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
       }
+
     </style>
   </head>
   <body>
@@ -1172,6 +1205,8 @@
                 webkit-playsinline
                 preload="auto"
                 disablepictureinpicture
+                disableremoteplayback
+                controlslist="nodownload nofullscreen noremoteplayback"
                 tabindex="-1"
                 aria-hidden="true"
               >
@@ -1188,10 +1223,12 @@
                 webkit-playsinline
                 preload="auto"
                 disablepictureinpicture
+                disableremoteplayback
+                controlslist="nodownload nofullscreen noremoteplayback"
                 tabindex="-1"
                 aria-hidden="true"
               >
-                <source src="images/background.mp4" type="video/mp4" />
+                <source src="images/clouds_sun.mp4" type="video/mp4" />
               </video>
             </div>
             <div class="home-video-overlay" aria-hidden="true"></div>
@@ -1203,8 +1240,8 @@
                 <span class="home-gold-bar" aria-hidden="true"></span>
                 <p id="home-hero-description" class="home-video-middle">Practical learning, stronger leadership, and one shared standard across the City.</p>
                 <span class="home-gold-bar" aria-hidden="true"></span>
-                <p id="home-static-quote" class="home-static-quote">"Supervisors Bring the Weather"</p>
               </div>
+              <p id="home-hero-quote" class="home-video-quote"><span class="home-video-quote-line">"Supervisors</span><span class="home-video-quote-line">Bring the Weather"</span></p>
             </div>
           </section>
         </div>
@@ -1311,28 +1348,21 @@
     </section>
 
     <script>
+      // Service worker disabled while stabilizing asset/video loading.
+      // This unregisters older service workers and clears old caches that may be serving stale files.
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
-          navigator.serviceWorker.register('service-worker.js?v=20260414-2', { updateViaCache: 'none' }).then((registration) => {
-            registration.update();
-            if (registration.waiting) registration.waiting.postMessage({ type: 'SKIP_WAITING' });
-            registration.addEventListener('updatefound', () => {
-              const newWorker = registration.installing;
-              if (!newWorker) return;
-              newWorker.addEventListener('statechange', () => {
-                if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                  newWorker.postMessage({ type: 'SKIP_WAITING' });
-                }
-              });
-            });
-          });
-        });
+          navigator.serviceWorker.getRegistrations()
+            .then((registrations) => {
+              registrations.forEach((registration) => registration.unregister());
+            })
+            .catch(() => {});
 
-        let hasReloadedForUpdate = false;
-        navigator.serviceWorker.addEventListener('controllerchange', () => {
-          if (hasReloadedForUpdate) return;
-          hasReloadedForUpdate = true;
-          window.location.reload();
+          if ('caches' in window) {
+            caches.keys()
+              .then((cacheNames) => Promise.all(cacheNames.map((cacheName) => caches.delete(cacheName))))
+              .catch(() => {});
+          }
         });
       }
 
@@ -1376,12 +1406,16 @@
       ].filter(Boolean);
       const heroVideoCandidates = [
         'images/background.mp4',
-        'images/storm_clouds.mp4',
+        'images/clouds_sun.mp4',
         'images/rain.mp4',
-        'images/lightning.mp4',
-        'images/clouds_sun.mp4'
+        'images/storm_clouds.mp4'
       ];
-      let heroVideoPlaylist = ['images/background.mp4'];
+      let heroVideoPlaylist = [
+        'images/background.mp4',
+        'images/clouds_sun.mp4',
+        'images/rain.mp4',
+        'images/storm_clouds.mp4'
+      ];
       const ASSET_REFRESH_TOKEN = '20260421-2';
       const defaultDayButtonConfig = [
         { key: 'day1', label: 'Day 1', agendaIcon: 'icons/home_icon.png', styleClass: 'day-style-1' },
@@ -1449,28 +1483,42 @@
 
       function setVideoSource(videoElement, src) {
         if (!videoElement) return Promise.resolve();
-        if (videoElement.dataset.src === src) {
+
+        const cleanSrc = String(src || '').trim();
+        if (!cleanSrc) return Promise.resolve();
+
+        if (videoElement.dataset.src === cleanSrc) {
           videoElement.currentTime = 0;
           return Promise.resolve();
         }
+
         return new Promise((resolve) => {
           const handleReady = () => {
+            videoElement.removeEventListener('loadedmetadata', handleReady);
             videoElement.removeEventListener('loadeddata', handleReady);
+            videoElement.removeEventListener('canplay', handleReady);
             videoElement.removeEventListener('error', handleReady);
             resolve();
           };
 
+          videoElement.addEventListener('loadedmetadata', handleReady, { once: true });
           videoElement.addEventListener('loadeddata', handleReady, { once: true });
+          videoElement.addEventListener('canplay', handleReady, { once: true });
           videoElement.addEventListener('error', handleReady, { once: true });
-          videoElement.dataset.src = src;
-          videoElement.src = src;
+
+          videoElement.dataset.src = cleanSrc;
+          videoElement.innerHTML = `<source src="${cleanSrc}" type="video/mp4" />`;
           videoElement.load();
         });
       }
 
       async function buildHeroPlaylist() {
-        // Faster startup: avoid multiple HEAD checks on every launch.
-        heroVideoPlaylist = ['images/background.mp4'];
+        heroVideoPlaylist = [
+          'images/background.mp4',
+          'images/clouds_sun.mp4',
+          'images/rain.mp4',
+          'images/storm_clouds.mp4'
+        ];
       }
 
       async function rotateHomeVideo() {
@@ -1532,7 +1580,19 @@
         const versioned = `${base}${separator}v=${ASSET_REFRESH_TOKEN}`;
         return hash ? `${versioned}#${hash}` : versioned;
       }
-async function loadHomeContent() {
+
+      function formatHomeQuoteText(quoteText) {
+        const cleaned = String(quoteText || '').replace(/[“”]/g, '').trim();
+        if (!cleaned) return '';
+        const parts = cleaned.split(/\s+/);
+        const firstLine = parts.shift() || '';
+        const secondLine = parts.join(' ') || '';
+        return secondLine
+          ? `<span class="home-video-quote-line">${firstLine}</span><span class="home-video-quote-line">${secondLine}</span>`
+          : `<span class="home-video-quote-line">${firstLine}</span>`;
+      }
+
+      async function loadHomeContent() {
         try {
           const content = await fetchJson('data/home-content.json');
           const titleImage = String(content.titleImage || '').trim();
@@ -1547,6 +1607,14 @@ async function loadHomeContent() {
           }
         } catch {
           // Keep built-in defaults if JSON is unavailable or invalid.
+        } finally {
+          if (homeHeroQuote) {
+            homeHeroQuote.innerHTML = '<span class="home-video-quote-line">&quot;Supervisors</span><span class="home-video-quote-line">Bring the Weather&quot;</span>';
+          }
+
+          if (typeof enforceHomeQuoteStyle === 'function') {
+            enforceHomeQuoteStyle();
+          }
         }
       }
 
@@ -1848,34 +1916,75 @@ async function loadHomeContent() {
 
       window.addEventListener('resize', () => syncNavIndicator(document.querySelector('.tab-btn.active')?.dataset.tab));
 
+
+      function forceHomeQuote() {
+        const quote = document.getElementById('home-hero-quote');
+        if (!quote) return;
+
+        quote.innerHTML = '<span class="home-video-quote-line">&quot;Supervisors</span><span class="home-video-quote-line">Bring the Weather&quot;</span>';
+        quote.style.display = 'grid';
+        quote.style.fontStyle = 'italic';
+
+        quote.querySelectorAll('.home-video-quote-line').forEach((line) => {
+          line.style.fontStyle = 'italic';
+          line.style.transform = 'skewX(-7deg)';
+        });
+      }
+
       showView('home');
+      forceHomeQuote();
       syncNavIndicator('home');
 
-      // Defer non-critical startup work so the app becomes interactive faster.
-      window.setTimeout(() => {
-        loadHomeContent();
-        loadDayButtonConfig();
-        forceHomeVideoAutoplay();
-        startHomeVideoRotation();
-      }, 80);
+      // Start home video and content immediately.
+      loadHomeContent().finally(() => forceHomeQuote());
+      loadDayButtonConfig();
+      forceHomeVideoAutoplay();
+      startHomeVideoRotation();
 
 
 
       function forceHomeVideoAutoplay() {
         homeVideoPlayers.forEach((video) => {
           if (!video) return;
+
+          video.controls = false;
           video.muted = true;
           video.defaultMuted = true;
+          video.autoplay = true;
+          video.loop = true;
+          video.playsInline = true;
+          video.disablePictureInPicture = true;
+
+          video.setAttribute('muted', '');
+          video.setAttribute('autoplay', '');
+          video.setAttribute('loop', '');
+          video.setAttribute('playsinline', '');
+          video.setAttribute('webkit-playsinline', '');
+          video.setAttribute('preload', 'auto');
+          video.removeAttribute('controls');
+
           const tryPlay = () => {
+            video.controls = false;
+            video.removeAttribute('controls');
+
+            if (video.readyState === 0) {
+              video.load();
+            }
+
             const playPromise = video.play();
             if (playPromise && typeof playPromise.catch === 'function') {
               playPromise.catch(() => {});
             }
           };
 
-          video.addEventListener('loadeddata', tryPlay);
-          video.addEventListener('canplay', tryPlay);
+          ['loadedmetadata', 'loadeddata', 'canplay', 'canplaythrough'].forEach((eventName) => {
+            video.addEventListener(eventName, tryPlay);
+          });
+
           tryPlay();
+          [80, 200, 500, 900, 1400, 2200].forEach((delay) => {
+            window.setTimeout(tryPlay, delay);
+          });
         });
       }
 
@@ -1907,7 +2016,7 @@ async function loadHomeContent() {
         window.setTimeout(() => {
           splashScreen.classList.add('fade-out');
           window.setTimeout(() => splashScreen.remove(), 800);
-        }, 950);
+        }, 750);
       }
     </script>
   </body>
