@@ -1140,31 +1140,32 @@
 
 
       .home-quote-overlay {
+        /* Locked to the bottom INSIDE the video frame, lifted enough to avoid mobile nav/safe-area clipping. */
         position: absolute !important;
-        left: 12px !important;
-        right: 12px !important;
-        bottom: max(18px, env(safe-area-inset-bottom)) !important;
-        z-index: 2147483647 !important;
+        left: 16px !important;
+        right: 16px !important;
+        bottom: clamp(52px, 7dvh, 82px) !important;
+        z-index: 25 !important;
         display: grid !important;
         justify-items: center !important;
-        gap: 3px !important;
+        gap: 2px !important;
         margin: 0 !important;
-        padding: 0 !important;
+        padding: 6px 8px !important;
         text-align: center !important;
         pointer-events: none !important;
         visibility: visible !important;
         opacity: 1 !important;
-        font-size: clamp(2rem, 7.8vw, 2.8rem) !important;
+        font-size: clamp(1.65rem, 6.2vw, 2.25rem) !important;
         font-weight: 900 !important;
         font-style: italic !important;
-        line-height: 0.96 !important;
+        line-height: 0.98 !important;
         letter-spacing: 0.01em !important;
-        background: linear-gradient(180deg, #FFF4C6 0%, #FFD36A 36%, #F2AE18 68%, #C97900 100%) !important;
-        -webkit-background-clip: text !important;
-        background-clip: text !important;
-        color: #EFB10A !important;
-        -webkit-text-fill-color: transparent !important;
-        text-shadow: 0 7px 16px rgba(27, 46, 64, 0.58) !important;
+        color: #FFD36A !important;
+        -webkit-text-fill-color: #FFD36A !important;
+        text-shadow:
+          0 3px 0 rgba(27, 46, 64, 0.82),
+          0 8px 18px rgba(27, 46, 64, 0.72) !important;
+        transform: translateZ(0) !important;
       }
 
       .home-quote-overlay-line {
@@ -1174,7 +1175,7 @@
       }
 
     </style>
-      <meta name="app-version" content="20260429-quote-cache-1" />
+      <meta name="app-version" content="20260429-quote-cache-2" />
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
@@ -1242,8 +1243,8 @@
               </div>
             </div>
             <div id="home-quote-overlay" class="home-quote-overlay" aria-label="Supervisors Bring the Weather">
-              <span class="home-quote-overlay-line">"Supervisors"</span>
-              <span class="home-quote-overlay-line">Bring the Weather"</span>
+              <span class="home-quote-overlay-line">“Supervisors</span>
+              <span class="home-quote-overlay-line">Bring the Weather”</span>
             </div>
           </section>
         </div>
@@ -1352,7 +1353,7 @@
     <script>
       // Service worker disabled while stabilizing asset/video loading.
       // This unregisters older service workers and clears old caches that may be serving stale files.
-      const APP_VERSION = '20260429-quote-cache-1';
+      const APP_VERSION = '20260429-quote-cache-2';
 
       async function clearOldAppCaches() {
         if (!('caches' in window)) return;
@@ -1406,6 +1407,30 @@
           }
         });
       }
+
+
+      function lockHomeQuoteToVideoFrame() {
+        const quoteOverlay = document.getElementById('home-quote-overlay');
+        const videoFrame = document.querySelector('.home-video-frame');
+        if (!quoteOverlay || !videoFrame) return;
+
+        if (quoteOverlay.parentElement !== videoFrame) {
+          videoFrame.appendChild(quoteOverlay);
+        }
+
+        quoteOverlay.style.position = 'absolute';
+        quoteOverlay.style.left = '16px';
+        quoteOverlay.style.right = '16px';
+        quoteOverlay.style.bottom = 'clamp(52px, 7dvh, 82px)';
+        quoteOverlay.style.zIndex = '25';
+        quoteOverlay.style.display = 'grid';
+        quoteOverlay.style.visibility = 'visible';
+        quoteOverlay.style.opacity = '1';
+      }
+
+      document.addEventListener('DOMContentLoaded', lockHomeQuoteToVideoFrame);
+      window.addEventListener('pageshow', lockHomeQuoteToVideoFrame);
+      window.addEventListener('resize', lockHomeQuoteToVideoFrame);
 
       const views = {
         home: document.getElementById('home-view'),
