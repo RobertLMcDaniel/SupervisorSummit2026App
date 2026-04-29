@@ -291,7 +291,7 @@
         gap: 12px;
         width: 100%;
         max-width: 84%;
-        transform: translateY(-14px);
+        transform: translateY(-24px);
       }
 
       .home-gold-bar {
@@ -302,6 +302,26 @@
         background: var(--accent);
         box-shadow: 0 4px 12px rgba(239, 177, 10, 0.28);
       }
+
+      .home-middle-quote {
+        margin: 2px 0 0;
+        text-align: center;
+        color: #EFB10A !important;
+        font-size: clamp(1.12rem, 4.6vw, 1.45rem);
+        font-weight: 800;
+        font-style: italic !important;
+        line-height: 1.08;
+        text-shadow: 0 7px 14px rgba(27, 46, 64, 0.42);
+        display: block !important;
+        z-index: 4;
+      }
+
+      .home-middle-quote-line {
+        display: inline-block;
+        font-style: italic !important;
+        transform: skewX(-7deg);
+      }
+
 
 
             .home-video-dates {
@@ -344,33 +364,6 @@
         display: grid;
         justify-items: center;
         gap: 4px;
-      }
-
-      .home-bottom-quote {
-        align-self: end;
-        justify-self: center;
-        margin: 0 0 2px;
-        color: transparent;
-        text-align: center;
-        font-size: clamp(1.5rem, 6vw, 1.95rem);
-        font-weight: 800;
-        font-style: italic !important;
-        line-height: 1.02;
-        text-shadow: 0 8px 16px rgba(27, 46, 64, 0.38);
-        background: linear-gradient(180deg, #F6C84D 0%, #EFB10A 100%);
-        -webkit-background-clip: text;
-        background-clip: text;
-        -webkit-text-fill-color: transparent;
-        display: grid !important;
-        justify-items: center;
-        gap: 4px;
-        z-index: 4;
-      }
-
-      .home-bottom-quote-line {
-        display: block;
-        font-style: italic !important;
-        transform: skewX(-7deg);
       }
 
 
@@ -1122,7 +1115,6 @@
       .resource-button.slide-in-left { animation: slide-in-left 0.5s ease both; }
       .resource-button.slide-in-right { animation: slide-in-right 0.5s ease both; }
 
-
       @media (max-width: 380px) {
         .speaker-tile-name { font-size: 0.84rem; }
         .tab-label { font-size: 0.68rem; }
@@ -1263,8 +1255,10 @@
                 <span class="home-gold-bar" aria-hidden="true"></span>
                 <p id="home-hero-description" class="home-video-middle">Practical learning, stronger leadership, and one shared standard across the City.</p>
                 <span class="home-gold-bar" aria-hidden="true"></span>
+                <p id="home-middle-quote" class="home-middle-quote">
+                  <span class="home-middle-quote-line">"Supervisors Bring the Weather"</span>
+                </p>
               </div>
-              <p id="home-bottom-quote" class="home-bottom-quote"><span class="home-bottom-quote-line">"Supervisors</span><span class="home-bottom-quote-line">Bring the Weather"</span></p>
             </div>
           </section>
         </div>
@@ -1927,6 +1921,9 @@
 
 
       window.addEventListener('resize', () => syncNavIndicator(document.querySelector('.tab-btn.active')?.dataset.tab));
+quote.innerHTML = '<span class="home-bottom-quote-line">&quot;Supervisors</span><span class="home-bottom-quote-line">Bring the Weather&quot;</span>';
+        quote.style.display = 'grid';
+      }
 
       showView('home');
       syncNavIndicator('home');
