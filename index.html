@@ -326,32 +326,6 @@
         justify-self: center;
       }
 
-      .home-video-quote {
-        align-self: end;
-        margin: 0;
-        font-size: clamp(2.15rem, 8.4vw, 2.85rem);
-        font-style: italic !important;
-        font-weight: 900;
-        color: transparent !important;
-        text-align: center;
-        text-shadow: 0 8px 16px rgba(27, 46, 64, 0.48);
-        background: linear-gradient(180deg, #FFF0B3 0%, #FFD15A 35%, #F2B21B 70%, #C97900 100%);
-        -webkit-background-clip: text;
-        background-clip: text;
-        -webkit-text-fill-color: transparent !important;
-        animation: quote-breathe 5.6s ease-in-out infinite;
-        line-height: 0.96;
-        display: grid;
-        justify-items: center;
-        gap: 3px;
-        transform: translateY(28px);
-        z-index: 9;
-      }
-      .home-video-quote-line {
-        display: block;
-        font-style: italic !important;
-        transform: skewX(-7deg);
-      }
 
       @keyframes hero-breathe {
         0%, 100% {
@@ -1098,6 +1072,37 @@
       .resource-button.slide-in-right { animation: slide-in-right 0.5s ease both; }
 
 
+
+      .home-static-quote {
+        position: relative;
+        z-index: 9999;
+        margin: 28px 0 0;
+        display: grid !important;
+        justify-items: center;
+        gap: 2px;
+        visibility: visible !important;
+        opacity: 1 !important;
+        text-align: center;
+        font-size: clamp(2.1rem, 8.3vw, 2.85rem);
+        font-weight: 900;
+        font-style: italic !important;
+        line-height: 0.98;
+        letter-spacing: 0.01em;
+        pointer-events: none;
+        background: linear-gradient(180deg, #FFF0B3 0%, #FFD15A 35%, #F2B21B 70%, #C97900 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent !important;
+        -webkit-text-fill-color: transparent !important;
+        text-shadow: 0 7px 16px rgba(27, 46, 64, 0.5);
+      }
+
+      .home-static-quote-line {
+        display: block !important;
+        font-style: italic !important;
+        transform: skewX(-7deg);
+      }
+
       @media (max-width: 380px) {
         .speaker-tile-name { font-size: 0.84rem; }
         .tab-label { font-size: 0.68rem; }
@@ -1135,9 +1140,6 @@
           font-size: clamp(1.02rem, 2.2vw, 1.3rem);
         }
 
-        .home-video-quote {
-          font-size: clamp(1rem, 1.8vw, 1.2rem);
-        }
       }
 
       .splash-screen {
@@ -1242,11 +1244,11 @@
                 <span class="home-gold-bar" aria-hidden="true"></span>
                 <p id="home-hero-description" class="home-video-middle">Practical learning, stronger leadership, and one shared standard across the City.</p>
                 <span class="home-gold-bar" aria-hidden="true"></span>
+                <p id="home-static-quote" class="home-static-quote">
+                  <span class="home-static-quote-line">"Supervisors</span>
+                  <span class="home-static-quote-line">Bring the Weather"</span>
+                </p>
               </div>
-              <p id="home-hero-quote" class="home-video-quote">
-                <span class="home-video-quote-line">"Supervisors</span>
-                <span class="home-video-quote-line">Bring the Weather"</span>
-              </p>
             </div>
           </section>
         </div>
@@ -1612,14 +1614,6 @@
           }
         } catch {
           // Keep built-in defaults if JSON is unavailable or invalid.
-        } finally {
-          if (homeHeroQuote) {
-            homeHeroQuote.innerHTML = '<span class="home-video-quote-line">&quot;Supervisors</span><span class="home-video-quote-line">Bring the Weather&quot;</span>';
-          }
-
-          if (typeof enforceHomeQuoteStyle === 'function') {
-            enforceHomeQuoteStyle();
-          }
         }
       }
 
