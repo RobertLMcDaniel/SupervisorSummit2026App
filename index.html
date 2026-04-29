@@ -655,6 +655,87 @@
       .speaker-tile.slide-in-left { animation: slide-in-left 0.5s ease both; }
       .speaker-tile.slide-in-right { animation: slide-in-right 0.5s ease both; }
 
+      .speaker-accordion-item {
+        display: grid;
+        gap: 8px;
+      }
+
+      .speaker-accordion-item + .speaker-accordion-item {
+        margin-top: 10px;
+      }
+
+      .speaker-tile {
+        width: 100%;
+      }
+
+      .speaker-tile::before {
+        content: '›';
+        position: absolute;
+        right: 18px;
+        top: 50%;
+        transform: translateY(-50%) rotate(90deg);
+        font-size: 1.6rem;
+        font-weight: 900;
+        color: rgba(245, 247, 250, 0.92);
+        text-shadow: 0 2px 5px rgba(27, 46, 64, 0.24);
+        transition: transform 0.24s ease;
+      }
+
+      .speaker-accordion-item.expanded .speaker-tile::before {
+        transform: translateY(-50%) rotate(-90deg);
+      }
+
+      .speaker-inline-detail {
+        display: grid;
+        grid-template-rows: 0fr;
+        transition: grid-template-rows 0.28s ease;
+      }
+
+      .speaker-accordion-item.expanded .speaker-inline-detail {
+        grid-template-rows: 1fr;
+      }
+
+      .speaker-inline-detail-inner {
+        min-height: 0;
+        overflow: hidden;
+        border-radius: 20px;
+        color: #F5F7FA;
+        border: 1px solid rgba(245, 247, 250, 0.18);
+        box-shadow: 0 10px 22px rgba(27, 46, 64, 0.24);
+        padding: 0 16px;
+        opacity: 0;
+        transform: translateY(-6px);
+        transition: opacity 0.24s ease, transform 0.24s ease, padding 0.24s ease;
+      }
+
+      .speaker-accordion-item.expanded .speaker-inline-detail-inner {
+        opacity: 1;
+        transform: translateY(0);
+        padding: 16px;
+      }
+
+      .speaker-inline-detail--1 .speaker-inline-detail-inner { background: linear-gradient(135deg, rgba(180, 72, 110, 0.96) 0%, rgba(162, 83, 50, 0.96) 100%); }
+      .speaker-inline-detail--2 .speaker-inline-detail-inner { background: linear-gradient(135deg, rgba(79, 69, 161, 0.96) 0%, rgba(44, 108, 176, 0.96) 100%); }
+      .speaker-inline-detail--3 .speaker-inline-detail-inner { background: linear-gradient(135deg, rgba(44, 130, 112, 0.96) 0%, rgba(35, 111, 90, 0.96) 100%); }
+      .speaker-inline-detail--4 .speaker-inline-detail-inner { background: linear-gradient(135deg, rgba(178, 116, 34, 0.96) 0%, rgba(160, 83, 39, 0.96) 100%); }
+      .speaker-inline-detail--5 .speaker-inline-detail-inner { background: linear-gradient(135deg, rgba(42, 105, 154, 0.96) 0%, rgba(59, 83, 145, 0.96) 100%); }
+      .speaker-inline-detail--6 .speaker-inline-detail-inner { background: linear-gradient(135deg, rgba(145, 77, 168, 0.96) 0%, rgba(107, 78, 173, 0.96) 100%); }
+
+      .speaker-inline-bio {
+        margin: 0;
+        font-size: 0.96rem;
+        line-height: 1.52;
+      }
+
+      .speaker-inline-meta {
+        margin: 0 0 10px;
+        font-size: 0.84rem;
+        font-weight: 800;
+        letter-spacing: 0.03em;
+        text-transform: uppercase;
+        opacity: 0.9;
+      }
+
       .speaker-overlay {
         position: fixed;
         inset: 0;
@@ -673,7 +754,6 @@
       }
 
       .speaker-detail-card {
-        --speaker-backdrop: url('images/backdrop1.jpg');
         width: min(100%, 520px);
         min-height: 100dvh;
         margin: 0 auto;
@@ -689,40 +769,6 @@
         transition: opacity 0.34s ease, transform 0.34s cubic-bezier(0.2, 0.8, 0.2, 1);
         border-radius: 24px 24px 0 0;
       }
-
-      .speaker-detail-card::before {
-        content: '';
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(180deg, rgba(27, 46, 64, 0.08) 0%, rgba(27, 46, 64, 0.84) 56%);
-        pointer-events: none;
-        z-index: 1;
-      }
-
-      .speaker-detail-card::after {
-        content: '';
-        position: absolute;
-        left: 0;
-        right: 0;
-        top: 0;
-        height: 252px;
-        background-image:
-          linear-gradient(180deg, rgba(15, 23, 34, 0.12) 0%, rgba(15, 23, 34, 0.35) 62%, rgba(15, 23, 34, 0.56) 100%),
-          var(--speaker-backdrop);
-        background-size: cover;
-        background-position: center center;
-        border-radius: 24px 24px 54% 54% / 24px 24px 22% 22%;
-        transform: scaleX(1.08) translateY(-14px);
-        transform-origin: top center;
-        z-index: 0;
-        pointer-events: none;
-      }
-
-      .speaker-backdrop-1 { --speaker-backdrop: url('images/backdrop1.jpg'); }
-      .speaker-backdrop-2 { --speaker-backdrop: url('images/backdrop2.jpg'); }
-      .speaker-backdrop-3 { --speaker-backdrop: url('images/backdrop3.jpg'); }
-      .speaker-backdrop-4 { --speaker-backdrop: url('images/backdrop4.jpg'); }
-      .speaker-backdrop-5 { --speaker-backdrop: url('images/backdrop5.jpg'); }
 
       .speaker-overlay.open .speaker-detail-card {
         transform: translateY(0);
@@ -743,135 +789,6 @@
         font-weight: 800;
         cursor: pointer;
         z-index: 3;
-      }
-
-      .speaker-detail-image-wrap {
-        width: 244px;
-        aspect-ratio: 1 / 1;
-        border-radius: 50%;
-        overflow: hidden;
-        background: var(--text-primary);
-        position: absolute;
-        left: 50%;
-        top: calc(122px + env(safe-area-inset-top));
-        border: 4px solid var(--bg-primary);
-        z-index: 2;
-        opacity: 0;
-        transform: translate(-50%, 16px) scale(0.76);
-        transition: opacity 0.34s ease, transform 0.34s cubic-bezier(0.18, 0.85, 0.2, 1);
-      }
-
-      .speaker-detail-image,
-      .speaker-detail-fallback {
-        width: 100%;
-        height: 100%;
-      }
-
-      .speaker-detail-image { object-fit: cover; display: block; }
-
-      .speaker-detail-name {
-        margin: calc(392px + env(safe-area-inset-top)) 0 0;
-        text-align: center;
-        font-size: 1.42rem;
-        font-weight: 800;
-        color: var(--text-primary);
-        position: relative;
-        z-index: 2;
-        opacity: 0;
-        transform: translateY(8px);
-        transition: opacity 0.22s ease, transform 0.22s ease;
-      }
-
-      .speaker-detail-role {
-        margin: 6px 0 0;
-        text-align: center;
-        color: var(--text-primary);
-        font-weight: 800;
-        font-size: 1.04rem;
-        position: relative;
-        z-index: 2;
-        opacity: 0;
-        transform: translateY(8px);
-        transition: opacity 0.22s ease, transform 0.22s ease;
-      }
-
-      .speaker-detail-org {
-        margin: 4px 0 0;
-        text-align: center;
-        color: var(--text-primary);
-        font-size: 0.95rem;
-        position: relative;
-        z-index: 2;
-        opacity: 0;
-        transform: translateY(8px);
-        transition: opacity 0.22s ease, transform 0.22s ease;
-      }
-
-      .speaker-detail-bio {
-        margin: 24px 0 0;
-        line-height: 1.58;
-        color: var(--text-primary);
-        position: relative;
-        z-index: 2;
-        opacity: 0;
-        transform: translateY(8px);
-        transition: opacity 0.22s ease, transform 0.22s ease;
-      }
-
-      .speaker-overlay.open .speaker-detail-image-wrap {
-        opacity: 1;
-        transform: translate(-50%, 0);
-      }
-
-      .speaker-overlay.open .speaker-detail-name,
-      .speaker-overlay.open .speaker-detail-role,
-      .speaker-overlay.open .speaker-detail-org,
-      .speaker-overlay.open .speaker-detail-bio {
-        opacity: 1;
-        transform: translateY(0);
-      }
-
-
-
-      .playlist-detail-card {
-        min-height: 100dvh;
-        margin-top: 0;
-        border-radius: 24px 24px 0 0;
-        padding: calc(58px + env(safe-area-inset-top)) 16px calc(20px + env(safe-area-inset-bottom));
-        overflow-y: auto;
-      }
-
-      .playlist-detail-card::before,
-      .playlist-detail-card::after {
-        display: none;
-      }
-
-      .playlist-embed-wrap {
-        width: 100%;
-        height: calc(100dvh - 92px - env(safe-area-inset-top) - env(safe-area-inset-bottom));
-        min-height: 620px;
-      }
-
-      .playlist-embed-wrap iframe {
-        display: block;
-        width: 100%;
-        height: 100%;
-        max-width: 100%;
-        border: 0;
-      }
-
-      .speaker-overlay.open .speaker-detail-name { transition-delay: 0.08s; }
-      .speaker-overlay.open .speaker-detail-role { transition-delay: 0.12s; }
-      .speaker-overlay.open .speaker-detail-org { transition-delay: 0.16s; }
-      .speaker-overlay.open .speaker-detail-bio { transition-delay: 0.2s; }
-
-      .speaker-overlay.closing .speaker-detail-card,
-      .speaker-overlay.closing .speaker-detail-image-wrap,
-      .speaker-overlay.closing .speaker-detail-name,
-      .speaker-overlay.closing .speaker-detail-role,
-      .speaker-overlay.closing .speaker-detail-org,
-      .speaker-overlay.closing .speaker-detail-bio {
-        transition-delay: 0s !important;
       }
 
       .bottom-nav {
@@ -1374,24 +1291,10 @@
       </article>
     </section>
 
-    <section id="speaker-detail-overlay" class="speaker-overlay hidden" aria-label="Speaker detail view">
-      <article class="speaker-detail-card">
-        <button id="speaker-detail-close" class="speaker-close" type="button" aria-label="Close speaker detail">✕</button>
-        <div class="speaker-detail-image-wrap">
-          <img id="speaker-detail-image" class="speaker-detail-image" alt="Speaker portrait" />
-          <div id="speaker-detail-fallback" class="speaker-detail-fallback">No Image</div>
-        </div>
-        <h3 id="speaker-detail-name" class="speaker-detail-name"></h3>
-        <p id="speaker-detail-role" class="speaker-detail-role"></p>
-        <p id="speaker-detail-org" class="speaker-detail-org"></p>
-        <p id="speaker-detail-bio" class="speaker-detail-bio"></p>
-      </article>
-    </section>
-
     <script>
       // Service worker disabled while stabilizing asset/video loading.
       // This unregisters older service workers and clears old caches that may be serving stale files.
-      const APP_VERSION = '20260429-resources-circles-1';
+      const APP_VERSION = '20260429-speakers-inline-1';
 
       async function clearOldAppCaches() {
         if (!('caches' in window)) return;
@@ -1490,15 +1393,6 @@
       const homeHeroDates = document.getElementById('home-hero-dates');
       const homeHeroDescription = document.getElementById('home-hero-description');
       const homeHeroQuote = document.getElementById('home-hero-quote');
-      const speakerDetailOverlay = document.getElementById('speaker-detail-overlay');
-      const speakerDetailCard = document.querySelector('.speaker-detail-card');
-      const speakerDetailClose = document.getElementById('speaker-detail-close');
-      const speakerDetailImage = document.getElementById('speaker-detail-image');
-      const speakerDetailFallback = document.getElementById('speaker-detail-fallback');
-      const speakerDetailName = document.getElementById('speaker-detail-name');
-      const speakerDetailRole = document.getElementById('speaker-detail-role');
-      const speakerDetailOrg = document.getElementById('speaker-detail-org');
-      const speakerDetailBio = document.getElementById('speaker-detail-bio');
       const playlistBtn = document.getElementById('playlist-btn');
       const playlistDetailOverlay = document.getElementById('playlist-detail-overlay');
       const playlistDetailClose = document.getElementById('playlist-detail-close');
@@ -1533,7 +1427,6 @@
       let activeHeroVideoPlayer = 0;
       let activeHeroVideoIndex = 0;
       let heroVideoSwapTimer;
-      const backdropPathCache = new Map();
 
       function syncNavIndicator(activeTabName) {
         if (!navIndicator) return;
@@ -1775,25 +1668,6 @@
         if (photo.startsWith('images/')) return withRefreshToken(photo);
         return withRefreshToken(`images/${photo}`);
       }
-
-      async function resolveBackdropPath(rawBackdrop, fallbackIndex) {
-        const fallbackPath = `images/backdrop${fallbackIndex}.jpg`;
-        const cleaned = String(rawBackdrop || '').trim().replace(/^images\//i, '');
-        const base = cleaned.replace(/\.(jpg|jpeg)$/i, '');
-        const candidates = cleaned
-          ? [`images/${cleaned}`, `images/${base}.jpg`, `images/${base}.JPG`]
-          : [fallbackPath, `images/backdrop${fallbackIndex}.JPG`];
-
-        for (const candidate of candidates) {
-          const normalized = candidate.trim();
-          if (!normalized) continue;
-          if (backdropPathCache.has(normalized)) return backdropPathCache.get(normalized);
-          try {
-            const response = await fetch(withRefreshToken(normalized), { method: 'HEAD', cache: 'no-store' });
-            if (response.ok) {
-              backdropPathCache.set(normalized, normalized);
-              return normalized;
-            }
           } catch {
             // continue
           }
@@ -1801,20 +1675,6 @@
 
         return fallbackPath;
       }
-
-      function openSpeakerDetail(speaker, photoPath) {
-        speakerDetailOverlay.classList.remove('closing');
-        speakerDetailOverlay.classList.remove('hidden');
-        if (speakerDetailCard) {
-          const rawBackdrop = String(speaker.Backdrop || '').trim().replace(/^images\//i, '');
-          const match = rawBackdrop.match(/^backdrop([1-5])\.(jpg|jpeg)$/i);
-          const fallbackIndex = ((Math.max(1, Number(speaker.SortOrder) || 1) - 1) % 5) + 1;
-          const seededBackdrop = match ? `images/${rawBackdrop}` : `images/backdrop${fallbackIndex}.jpg`;
-          speakerDetailCard.style.setProperty('--speaker-backdrop', `url('${withRefreshToken(seededBackdrop)}')`);
-          resolveBackdropPath(rawBackdrop, fallbackIndex).then((resolvedPath) => {
-            speakerDetailCard.style.setProperty('--speaker-backdrop', `url('${withRefreshToken(resolvedPath)}')`);
-          });
-        }
 
         speakerDetailImage.src = photoPath;
         speakerDetailImage.alt = `${speaker.DisplayName} portrait`;
@@ -1836,15 +1696,15 @@
         });
       }
 
-      function closeSpeakerDetail() {
-        speakerDetailOverlay.classList.remove('open');
-        speakerDetailOverlay.classList.add('closing');
-        window.setTimeout(() => {
-          speakerDetailOverlay.classList.add('hidden');
-          speakerDetailOverlay.classList.remove('closing');
-        }, 260);
-      }
 
+      function toggleSpeakerInlineDetail(item) {
+        if (!item) return;
+        const isExpanded = item.classList.contains('expanded');
+        document.querySelectorAll('.speaker-accordion-item.expanded').forEach((openItem) => {
+          if (openItem !== item) openItem.classList.remove('expanded');
+        });
+        item.classList.toggle('expanded', !isExpanded);
+      }
       async function loadSpeakers() {
         if (speakersLoaded) return;
 
@@ -1855,11 +1715,17 @@
 
           sorted.forEach((speaker) => {
             const photoPath = resolveSpeakerPhotoPath(speaker.Photo);
-            const tile = document.createElement('button');
             const tileIndex = speakersGrid.children.length;
-            tile.className = `speaker-tile speaker-tile--${(tileIndex % 6) + 1} ${tileIndex % 2 === 0 ? 'slide-in-left' : 'slide-in-right'}`;
+            const styleIndex = (tileIndex % 6) + 1;
+
+            const item = document.createElement('article');
+            item.className = 'speaker-accordion-item';
+
+            const tile = document.createElement('button');
+            tile.className = `speaker-tile speaker-tile--${styleIndex} ${tileIndex % 2 === 0 ? 'slide-in-left' : 'slide-in-right'}`;
             tile.style.animationDelay = `${Math.min(tileIndex * 0.04, 0.24)}s`;
             tile.type = 'button';
+            tile.setAttribute('aria-expanded', 'false');
 
             const imageWrap = document.createElement('div');
             imageWrap.className = 'speaker-tile-image-wrap';
@@ -1882,7 +1748,7 @@
 
             const name = document.createElement('p');
             name.className = 'speaker-tile-name';
-            name.textContent = speaker.DisplayName;
+            name.textContent = speaker.DisplayName || '';
 
             const role = document.createElement('p');
             role.className = 'speaker-tile-role';
@@ -1893,8 +1759,38 @@
 
             imageWrap.append(image, fallback);
             tile.append(imageWrap, info);
-            tile.addEventListener('click', () => openSpeakerDetail(speaker, photoPath));
-            speakersGrid.append(tile);
+
+            const detail = document.createElement('div');
+            detail.className = `speaker-inline-detail speaker-inline-detail--${styleIndex}`;
+
+            const detailInner = document.createElement('div');
+            detailInner.className = 'speaker-inline-detail-inner';
+
+            const detailMeta = document.createElement('p');
+            detailMeta.className = 'speaker-inline-meta';
+            detailMeta.textContent = 'Speaker Bio';
+
+            const detailBio = document.createElement('p');
+            detailBio.className = 'speaker-inline-bio';
+            detailBio.textContent = speaker.Bio || speaker.BioShort || 'Description coming soon.';
+
+            detailInner.append(detailMeta, detailBio);
+            detail.append(detailInner);
+            item.append(tile, detail);
+
+            tile.addEventListener('click', () => {
+              const wasExpanded = item.classList.contains('expanded');
+              toggleSpeakerInlineDetail(item);
+              const nowExpanded = !wasExpanded;
+              tile.setAttribute('aria-expanded', String(nowExpanded));
+              document.querySelectorAll('.speaker-accordion-item .speaker-tile').forEach((otherTile) => {
+                if (otherTile !== tile && otherTile.closest('.speaker-accordion-item') && !otherTile.closest('.speaker-accordion-item').classList.contains('expanded')) {
+                  otherTile.setAttribute('aria-expanded', 'false');
+                }
+              });
+            });
+
+            speakersGrid.append(item);
           });
 
           speakersLoaded = true;
@@ -1903,7 +1799,6 @@
           setErrorState(speakersGrid, 'Unable to load speakers right now. Please refresh.');
         }
       }
-
 
 
       function animateResourceButtons() {
@@ -1933,8 +1828,6 @@
           await loadAgenda(tab.dataset.day);
         });
       });
-
-      speakerDetailClose.addEventListener('click', closeSpeakerDetail);
 
 
       function openPlaylistDetail() {
@@ -1987,6 +1880,18 @@
         playlistDetailClose.addEventListener('click', closePlaylistDetail);
       }
 
+
+      if (playlistDetailOverlay) {
+        playlistDetailOverlay.addEventListener('click', (event) => {
+          if (event.target === playlistDetailOverlay) closePlaylistDetail();
+        });
+      }
+
+      document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && playlistDetailOverlay && !playlistDetailOverlay.classList.contains('hidden')) {
+          closePlaylistDetail();
+        }
+      });
 
       window.addEventListener('resize', () => syncNavIndicator(document.querySelector('.tab-btn.active')?.dataset.tab));
 
