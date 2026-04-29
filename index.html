@@ -1005,6 +1005,187 @@
       .resource-button.slide-in-left { animation: slide-in-left 0.5s ease both; }
       .resource-button.slide-in-right { animation: slide-in-right 0.5s ease both; }
 
+      .agenda-panel {
+        height: calc(100dvh - 212px);
+        padding: 0;
+        border: 1px solid rgba(239, 177, 10, 0.45);
+        background: transparent;
+        box-shadow: 0 10px 24px rgba(27, 46, 64, 0.35);
+        overflow: hidden;
+        display: grid;
+        grid-template-rows: auto minmax(0, 1fr);
+      }
+
+      #agenda-list {
+        border: 0;
+        border-radius: 0;
+        padding: 8px;
+        background: transparent;
+        min-height: 0;
+        height: 100%;
+      }
+
+      .agenda-tabs-shell {
+        border-radius: 18px;
+        border: 1px solid rgba(239, 177, 10, 0.42);
+        background: rgba(27, 46, 64, 0.34);
+        box-shadow: inset 0 1px 0 rgba(245, 247, 250, 0.1), 0 8px 16px rgba(27, 46, 64, 0.25);
+        padding: 8px;
+        margin: 0 0 8px;
+      }
+
+      .agenda-day-tabs {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px;
+        width: 100%;
+        margin: 0;
+      }
+
+      .agenda-day-tab {
+        width: 100%;
+        min-height: 48px;
+        height: auto;
+        border: 0;
+        border-radius: 999px;
+        background: rgba(239, 177, 10, 0.78);
+        color: var(--text-primary);
+        font-weight: 900;
+        cursor: pointer;
+        transition: transform 0.22s ease, filter 0.22s ease, box-shadow 0.22s ease;
+        display: grid;
+        place-items: center;
+        justify-self: stretch;
+        box-shadow: 0 8px 18px rgba(27, 46, 64, 0.35);
+        padding: 8px 10px;
+        font-size: 0.78rem;
+        line-height: 1.05;
+        text-align: center;
+      }
+
+      .agenda-day-tab:active {
+        transform: scale(0.98);
+      }
+
+      .agenda-day-tab.active {
+        color: var(--bg-primary);
+        filter: brightness(1.08);
+        box-shadow: 0 12px 20px rgba(27, 46, 64, 0.45);
+      }
+
+      .agenda-card {
+        border: 0;
+        border-radius: 18px;
+        overflow: hidden;
+        color: #FFFFFF;
+        box-shadow: 0 8px 20px rgba(27, 46, 64, 0.35);
+      }
+
+      .agenda-card + .agenda-card {
+        margin-top: 10px;
+      }
+
+      .agenda-card-button {
+        width: 100%;
+        border: 0;
+        border-radius: 18px;
+        padding: 14px 16px;
+        color: #FFFFFF;
+        text-align: left;
+        cursor: pointer;
+        display: grid;
+        gap: 7px;
+        position: relative;
+      }
+
+      .agenda-card-button::after {
+        content: '›';
+        position: absolute;
+        right: 16px;
+        top: 50%;
+        transform: translateY(-50%) rotate(90deg);
+        font-size: 1.55rem;
+        font-weight: 900;
+        color: rgba(245, 247, 250, 0.92);
+        transition: transform 0.24s ease;
+      }
+
+      .agenda-card.expanded .agenda-card-button::after {
+        transform: translateY(-50%) rotate(-90deg);
+      }
+
+      .agenda-card-time {
+        margin: 0;
+        font-size: 0.84rem;
+        font-weight: 900;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        opacity: 0.92;
+      }
+
+      .agenda-card-title {
+        margin: 0;
+        padding-right: 22px;
+        font-size: 1.06rem;
+        font-weight: 900;
+        line-height: 1.08;
+        text-transform: uppercase;
+      }
+
+      .agenda-card-coming-soon {
+        margin: 0;
+        font-size: 0.86rem;
+        font-weight: 800;
+        opacity: 0.82;
+      }
+
+      .agenda-card-detail {
+        display: grid;
+        grid-template-rows: 0fr;
+        transition: grid-template-rows 0.28s ease;
+      }
+
+      .agenda-card.expanded .agenda-card-detail {
+        grid-template-rows: 1fr;
+      }
+
+      .agenda-card-detail-inner {
+        min-height: 0;
+        overflow: hidden;
+        padding: 0 16px;
+        opacity: 0;
+        transform: translateY(-6px);
+        transition: opacity 0.24s ease, transform 0.24s ease, padding 0.24s ease;
+      }
+
+      .agenda-card.expanded .agenda-card-detail-inner {
+        padding: 14px 16px 16px;
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .agenda-card-description {
+        margin: 0;
+        color: #F5F7FA;
+        font-size: 0.96rem;
+        line-height: 1.5;
+      }
+
+      .agenda-card--1 .agenda-card-button { background: linear-gradient(135deg, #FF8FB1 0%, #FFB38A 100%); }
+      .agenda-card--2 .agenda-card-button { background: linear-gradient(135deg, #9B8BFF 0%, #5FA8FF 100%); }
+      .agenda-card--3 .agenda-card-button { background: linear-gradient(135deg, #74F2CE 0%, #4DD4A9 100%); }
+      .agenda-card--4 .agenda-card-button { background: linear-gradient(135deg, #FFD36E 0%, #FFA45B 100%); }
+      .agenda-card--5 .agenda-card-button { background: linear-gradient(135deg, #7CE0FF 0%, #64B5F6 100%); }
+      .agenda-card--6 .agenda-card-button { background: linear-gradient(135deg, #F8A6FF 0%, #C796FF 100%); }
+
+      .agenda-card--1 .agenda-card-detail-inner { background: linear-gradient(135deg, rgba(180, 72, 110, 0.96) 0%, rgba(162, 83, 50, 0.96) 100%); }
+      .agenda-card--2 .agenda-card-detail-inner { background: linear-gradient(135deg, rgba(79, 69, 161, 0.96) 0%, rgba(44, 108, 176, 0.96) 100%); }
+      .agenda-card--3 .agenda-card-detail-inner { background: linear-gradient(135deg, rgba(44, 130, 112, 0.96) 0%, rgba(35, 111, 90, 0.96) 100%); }
+      .agenda-card--4 .agenda-card-detail-inner { background: linear-gradient(135deg, rgba(178, 116, 34, 0.96) 0%, rgba(160, 83, 39, 0.96) 100%); }
+      .agenda-card--5 .agenda-card-detail-inner { background: linear-gradient(135deg, rgba(42, 105, 154, 0.96) 0%, rgba(59, 83, 145, 0.96) 100%); }
+      .agenda-card--6 .agenda-card-detail-inner { background: linear-gradient(135deg, rgba(145, 77, 168, 0.96) 0%, rgba(107, 78, 173, 0.96) 100%); }
+
+
       @media (max-width: 380px) {
         .resources-actions { gap: 12px; }
         .resource-button {
@@ -1013,6 +1194,187 @@
           gap: 6px;
         }
       }
+
+
+      .agenda-panel {
+        height: calc(100dvh - 212px);
+        padding: 0;
+        border: 1px solid rgba(239, 177, 10, 0.45);
+        background: transparent;
+        box-shadow: 0 10px 24px rgba(27, 46, 64, 0.35);
+        overflow: hidden;
+        display: grid;
+        grid-template-rows: auto minmax(0, 1fr);
+      }
+
+      #agenda-list {
+        border: 0;
+        border-radius: 0;
+        padding: 8px;
+        background: transparent;
+        min-height: 0;
+        height: 100%;
+      }
+
+      .agenda-tabs-shell {
+        border-radius: 18px;
+        border: 1px solid rgba(239, 177, 10, 0.42);
+        background: rgba(27, 46, 64, 0.34);
+        box-shadow: inset 0 1px 0 rgba(245, 247, 250, 0.1), 0 8px 16px rgba(27, 46, 64, 0.25);
+        padding: 8px;
+        margin: 0 0 8px;
+      }
+
+      .agenda-day-tabs {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px;
+        width: 100%;
+        margin: 0;
+      }
+
+      .agenda-day-tab {
+        width: 100%;
+        min-height: 48px;
+        height: auto;
+        border: 0;
+        border-radius: 999px;
+        background: rgba(239, 177, 10, 0.78);
+        color: var(--text-primary);
+        font-weight: 900;
+        cursor: pointer;
+        transition: transform 0.22s ease, filter 0.22s ease, box-shadow 0.22s ease;
+        display: grid;
+        place-items: center;
+        justify-self: stretch;
+        box-shadow: 0 8px 18px rgba(27, 46, 64, 0.35);
+        padding: 8px 10px;
+        font-size: 0.78rem;
+        line-height: 1.05;
+        text-align: center;
+      }
+
+      .agenda-day-tab:active {
+        transform: scale(0.98);
+      }
+
+      .agenda-day-tab.active {
+        color: var(--bg-primary);
+        filter: brightness(1.08);
+        box-shadow: 0 12px 20px rgba(27, 46, 64, 0.45);
+      }
+
+      .agenda-card {
+        border: 0;
+        border-radius: 18px;
+        overflow: hidden;
+        color: #FFFFFF;
+        box-shadow: 0 8px 20px rgba(27, 46, 64, 0.35);
+      }
+
+      .agenda-card + .agenda-card {
+        margin-top: 10px;
+      }
+
+      .agenda-card-button {
+        width: 100%;
+        border: 0;
+        border-radius: 18px;
+        padding: 14px 16px;
+        color: #FFFFFF;
+        text-align: left;
+        cursor: pointer;
+        display: grid;
+        gap: 7px;
+        position: relative;
+      }
+
+      .agenda-card-button::after {
+        content: '›';
+        position: absolute;
+        right: 16px;
+        top: 50%;
+        transform: translateY(-50%) rotate(90deg);
+        font-size: 1.55rem;
+        font-weight: 900;
+        color: rgba(245, 247, 250, 0.92);
+        transition: transform 0.24s ease;
+      }
+
+      .agenda-card.expanded .agenda-card-button::after {
+        transform: translateY(-50%) rotate(-90deg);
+      }
+
+      .agenda-card-time {
+        margin: 0;
+        font-size: 0.84rem;
+        font-weight: 900;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        opacity: 0.92;
+      }
+
+      .agenda-card-title {
+        margin: 0;
+        padding-right: 22px;
+        font-size: 1.06rem;
+        font-weight: 900;
+        line-height: 1.08;
+        text-transform: uppercase;
+      }
+
+      .agenda-card-coming-soon {
+        margin: 0;
+        font-size: 0.86rem;
+        font-weight: 800;
+        opacity: 0.82;
+      }
+
+      .agenda-card-detail {
+        display: grid;
+        grid-template-rows: 0fr;
+        transition: grid-template-rows 0.28s ease;
+      }
+
+      .agenda-card.expanded .agenda-card-detail {
+        grid-template-rows: 1fr;
+      }
+
+      .agenda-card-detail-inner {
+        min-height: 0;
+        overflow: hidden;
+        padding: 0 16px;
+        opacity: 0;
+        transform: translateY(-6px);
+        transition: opacity 0.24s ease, transform 0.24s ease, padding 0.24s ease;
+      }
+
+      .agenda-card.expanded .agenda-card-detail-inner {
+        padding: 14px 16px 16px;
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .agenda-card-description {
+        margin: 0;
+        color: #F5F7FA;
+        font-size: 0.96rem;
+        line-height: 1.5;
+      }
+
+      .agenda-card--1 .agenda-card-button { background: linear-gradient(135deg, #FF8FB1 0%, #FFB38A 100%); }
+      .agenda-card--2 .agenda-card-button { background: linear-gradient(135deg, #9B8BFF 0%, #5FA8FF 100%); }
+      .agenda-card--3 .agenda-card-button { background: linear-gradient(135deg, #74F2CE 0%, #4DD4A9 100%); }
+      .agenda-card--4 .agenda-card-button { background: linear-gradient(135deg, #FFD36E 0%, #FFA45B 100%); }
+      .agenda-card--5 .agenda-card-button { background: linear-gradient(135deg, #7CE0FF 0%, #64B5F6 100%); }
+      .agenda-card--6 .agenda-card-button { background: linear-gradient(135deg, #F8A6FF 0%, #C796FF 100%); }
+
+      .agenda-card--1 .agenda-card-detail-inner { background: linear-gradient(135deg, rgba(180, 72, 110, 0.96) 0%, rgba(162, 83, 50, 0.96) 100%); }
+      .agenda-card--2 .agenda-card-detail-inner { background: linear-gradient(135deg, rgba(79, 69, 161, 0.96) 0%, rgba(44, 108, 176, 0.96) 100%); }
+      .agenda-card--3 .agenda-card-detail-inner { background: linear-gradient(135deg, rgba(44, 130, 112, 0.96) 0%, rgba(35, 111, 90, 0.96) 100%); }
+      .agenda-card--4 .agenda-card-detail-inner { background: linear-gradient(135deg, rgba(178, 116, 34, 0.96) 0%, rgba(160, 83, 39, 0.96) 100%); }
+      .agenda-card--5 .agenda-card-detail-inner { background: linear-gradient(135deg, rgba(42, 105, 154, 0.96) 0%, rgba(59, 83, 145, 0.96) 100%); }
+      .agenda-card--6 .agenda-card-detail-inner { background: linear-gradient(135deg, rgba(145, 77, 168, 0.96) 0%, rgba(107, 78, 173, 0.96) 100%); }
 
 
       @media (max-width: 380px) {
@@ -1128,7 +1490,7 @@
       }
 
     </style>
-      <meta name="app-version" content="20260429-speakers-bio-json-2" />
+      <meta name="app-version" content="20260429-agenda-allsessions-1" />
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
@@ -1213,19 +1575,20 @@
           </section>
         </div>
       </section>
-
       <section id="agenda-view" class="view hidden" aria-label="Agenda view">
         <section class="panel agenda-panel">
-          <div id="agenda-list" class="list" aria-live="polite"></div>
-          <div class="day-tabs-shell">
-            <div class="agenda-day-tabs" role="tablist" aria-label="Agenda day tabs">
+          <div class="agenda-tabs-shell">
+            <div class="agenda-day-tabs" role="tablist" aria-label="Agenda tabs">
               <button class="agenda-day-tab active" type="button" data-day="day1">Day 1</button>
-              <button class="agenda-day-tab" type="button" data-day="day2">Day 2</button>
+              <button class="agenda-day-tab" type="button" data-day="day2Supervisor">Day 2<br>Supervisor Sessions</button>
+              <button class="agenda-day-tab" type="button" data-day="day2Senior">Day 2<br>Senior Leadership</button>
               <button class="agenda-day-tab" type="button" data-day="day3">Day 3</button>
             </div>
           </div>
+          <div id="agenda-list" class="list" aria-live="polite"></div>
         </section>
       </section>
+
 
       <section id="speakers-view" class="view hidden" aria-label="Speakers view">
         <section class="panel">
@@ -1305,7 +1668,7 @@
     <script>
       // Service worker disabled while stabilizing asset/video loading.
       // This unregisters older service workers and clears old caches that may be serving stale files.
-      const APP_VERSION = '20260429-speakers-bio-json-2';
+      const APP_VERSION = '20260429-agenda-allsessions-1';
 
       async function clearOldAppCaches() {
         if (!('caches' in window)) return;
@@ -1425,11 +1788,12 @@
         'images/rain.mp4',
         'images/storm_clouds.mp4'
       ];
-      const ASSET_REFRESH_TOKEN = '20260429-resources-circles-1';
+      const ASSET_REFRESH_TOKEN = '20260429-agenda-allsessions-1';
       const defaultDayButtonConfig = [
-        { key: 'day1', label: 'Day 1', agendaIcon: 'icons/home_icon.png', styleClass: 'day-style-1' },
-        { key: 'day2', label: 'Day 2', agendaIcon: 'icons/agenda_icon.png', styleClass: 'day-style-2' },
-        { key: 'day3', label: 'Day 3', agendaIcon: 'icons/food_icon.png', styleClass: 'day-style-3' }
+        { key: 'day1', label: 'Day 1', styleClass: 'day-style-1' },
+        { key: 'day2Supervisor', label: 'Day 2 Supervisor Sessions', styleClass: 'day-style-2' },
+        { key: 'day2Senior', label: 'Day 2 Senior Leadership', styleClass: 'day-style-3' },
+        { key: 'day3', label: 'Day 3', styleClass: 'day-style-1' }
       ];
 
       let speakersLoaded = false;
@@ -1600,24 +1964,22 @@
         tabsList.forEach((tab) => {
           const match = dayDefs.find((day) => day.key === tab.dataset.day);
           if (!match) return;
-          const iconPath = match.agendaIcon;
           tab.classList.remove('day-style-1', 'day-style-2', 'day-style-3');
           tab.classList.add(match.styleClass || 'day-style-1');
-          tab.innerHTML = `
-            <span class="day-tab-content">
-              <img class="day-tab-icon" src="${withRefreshToken(iconPath)}" alt="" aria-hidden="true" />
-              <span class="day-tab-label">${match.label}</span>
-            </span>
-          `;
+          if (tab.dataset.day === 'day2Supervisor') {
+            tab.innerHTML = 'Day 2<br>Supervisor Sessions';
+          } else if (tab.dataset.day === 'day2Senior') {
+            tab.innerHTML = 'Day 2<br>Senior Leadership';
+          } else {
+            tab.textContent = match.label;
+          }
         });
+      });
       }
 
       async function loadDayButtonConfig() {
-        try {
-          const config = await fetchJson('data/day-buttons.json');
-          const dayDefs = Array.isArray(config.days) && config.days.length ? config.days : defaultDayButtonConfig;
-          renderDayTabs(agendaDayTabs, dayDefs);
-        } catch {
+        renderDayTabs(agendaDayTabs, defaultDayButtonConfig);
+      } catch {
           renderDayTabs(agendaDayTabs, defaultDayButtonConfig);
         }
       }
@@ -1634,24 +1996,68 @@
       async function loadAgenda(dayKey = currentAgendaDay) {
         try {
           setActiveAgendaDay(dayKey);
-          if (!agendaDataCache[dayKey]) {
-            agendaDataCache[dayKey] = await fetchJson(`data/sessions/${dayKey}.json`);
+
+          if (!agendaDataCache.allSessions) {
+            agendaDataCache.allSessions = await fetchJson('data/allsessions.json');
           }
-          const sessions = agendaDataCache[dayKey];
+
+          const sessions = agendaDataCache.allSessions[dayKey] || [];
           const listNode = document.getElementById('agenda-list');
           listNode.innerHTML = '';
 
-          sessions.forEach((session) => {
+          sessions.forEach((session, index) => {
+            const styleIndex = (index % 6) + 1;
             const card = document.createElement('article');
-            const index = listNode.children.length;
-            card.className = `item agenda-item agenda-item--${(index % 6) + 1} ${index % 2 === 0 ? 'slide-in-left' : 'slide-in-right'}`;
+            card.className = `agenda-card agenda-card--${styleIndex} ${index % 2 === 0 ? 'slide-in-left' : 'slide-in-right'}`;
             card.style.animationDelay = `${Math.min(index * 0.04, 0.22)}s`;
-            card.innerHTML = `
-              <p class="agenda-time">${session.StartTime}–${session.EndTime}</p>
-              <h3>${session.SessionTitle}</h3>
-              <p class="meta">${session.Location}</p>
-              <p class="meta">${session.Description}</p>
-            `;
+
+            const button = document.createElement('button');
+            button.className = 'agenda-card-button';
+            button.type = 'button';
+            button.setAttribute('aria-expanded', 'false');
+
+            const time = document.createElement('p');
+            time.className = 'agenda-card-time';
+            time.textContent = session.StartTime || '';
+
+            const title = document.createElement('h3');
+            title.className = 'agenda-card-title';
+            title.textContent = session.SessionTitle || '';
+
+            const comingSoon = document.createElement('p');
+            comingSoon.className = 'agenda-card-coming-soon';
+            comingSoon.textContent = session.ShortText || 'Coming soon.';
+
+            button.append(time, title, comingSoon);
+
+            const detail = document.createElement('div');
+            detail.className = 'agenda-card-detail';
+
+            const detailInner = document.createElement('div');
+            detailInner.className = 'agenda-card-detail-inner';
+
+            const description = document.createElement('p');
+            description.className = 'agenda-card-description';
+            description.textContent = session.Description || 'Description coming soon.';
+
+            detailInner.append(description);
+            detail.append(detailInner);
+
+            button.addEventListener('click', () => {
+              const isExpanded = card.classList.contains('expanded');
+              document.querySelectorAll('.agenda-card.expanded').forEach((openCard) => {
+                if (openCard !== card) {
+                  openCard.classList.remove('expanded');
+                  const openButton = openCard.querySelector('.agenda-card-button');
+                  if (openButton) openButton.setAttribute('aria-expanded', 'false');
+                }
+              });
+
+              card.classList.toggle('expanded', !isExpanded);
+              button.setAttribute('aria-expanded', String(!isExpanded));
+            });
+
+            card.append(button, detail);
             listNode.append(card);
           });
         } catch {
@@ -1945,9 +2351,7 @@
 
       runWhenIdle(() => {
         fetchJson('data/speakers.json').catch(() => {});
-        fetchJson('data/sessions/day1.json').catch(() => {});
-        fetchJson('data/sessions/day2.json').catch(() => {});
-        fetchJson('data/sessions/day3.json').catch(() => {});
+        fetchJson('data/allsessions.json').catch(() => {});
       });
 
       if (splashScreen) {
