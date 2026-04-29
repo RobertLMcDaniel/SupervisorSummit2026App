@@ -1422,6 +1422,88 @@
         transform: translateY(0);
       }
 
+    
+      /* Agenda left-aligned ticket + reliable dropdown. Nav untouched. */
+      .agenda-ticket {
+        display: block;
+        border-radius: 18px;
+        overflow: hidden;
+      }
+
+      .agenda-ticket-button {
+        width: 100%;
+        min-height: 104px;
+        border: 0;
+        border-radius: 18px;
+        color: #FFFFFF;
+        cursor: pointer;
+        text-align: left !important;
+        display: block !important;
+        padding: 16px 44px 16px 18px !important;
+        overflow: hidden;
+        position: relative;
+      }
+
+      .agenda-ticket-content {
+        display: grid !important;
+        align-content: center !important;
+        justify-items: start !important;
+        gap: 6px !important;
+        padding: 0 !important;
+        width: 100% !important;
+      }
+
+      .agenda-ticket-time {
+        background: transparent !important;
+        color: #FFFFFF !important;
+        display: block !important;
+        white-space: normal !important;
+        text-align: left !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        font-weight: 950 !important;
+        font-size: 0.92rem !important;
+        line-height: 1.1 !important;
+        letter-spacing: 0.03em;
+        text-transform: uppercase;
+        opacity: 0.95;
+      }
+
+      .agenda-ticket-title {
+        margin: 0 !important;
+        max-width: 92%;
+        text-align: left !important;
+        font-size: 1.08rem !important;
+        line-height: 1.08 !important;
+        font-weight: 950 !important;
+        text-transform: uppercase;
+      }
+
+      .agenda-ticket-detail {
+        display: block !important;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease;
+      }
+
+      .agenda-ticket.expanded .agenda-ticket-detail {
+        max-height: 900px;
+      }
+
+      .agenda-ticket-detail-inner {
+        overflow: hidden;
+        padding: 0 16px;
+        opacity: 0;
+        transform: translateY(-6px);
+        transition: opacity 0.24s ease, transform 0.24s ease, padding 0.24s ease;
+      }
+
+      .agenda-ticket.expanded .agenda-ticket-detail-inner {
+        padding: 14px 16px 16px;
+        opacity: 1;
+        transform: translateY(0);
+      }
+
     </style>
       <meta name="app-version" content="20260429-speakers-bio-json-2" />
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
@@ -1613,7 +1695,7 @@
     <script>
       // Service worker disabled while stabilizing asset/video loading.
       // This unregisters older service workers and clears old caches that may be serving stale files.
-      const APP_VERSION = '20260429-agenda-dropdown-timefix-1';
+      const APP_VERSION = '20260429-agenda-left-dropdown-1';
 
       async function clearOldAppCaches() {
         if (!('caches' in window)) return;
@@ -1733,7 +1815,7 @@
         'images/rain.mp4',
         'images/storm_clouds.mp4'
       ];
-      const ASSET_REFRESH_TOKEN = '20260429-agenda-dropdown-timefix-1';
+      const ASSET_REFRESH_TOKEN = '20260429-agenda-left-dropdown-1';
       const defaultDayButtonConfig = [
         { key: 'day1', label: 'Day 1', agendaIcon: 'icons/home_icon.png', styleClass: 'day-style-1' },
         { key: 'day2', label: 'Day 2', agendaIcon: 'icons/agenda_icon.png', styleClass: 'day-style-2' },
@@ -1993,21 +2075,6 @@
             detailInner.append(description);
             detail.append(detailInner);
 
-            button.addEventListener('click', () => {
-              const wasExpanded = ticket.classList.contains('expanded');
-
-              document.querySelectorAll('.agenda-ticket.expanded').forEach((openTicket) => {
-                if (openTicket !== ticket) {
-                  openTicket.classList.remove('expanded');
-                  const openButton = openTicket.querySelector('.agenda-ticket-button');
-                  if (openButton) openButton.setAttribute('aria-expanded', 'false');
-                }
-              });
-
-              ticket.classList.toggle('expanded', !wasExpanded);
-              button.setAttribute('aria-expanded', String(!wasExpanded));
-            });
-
             ticket.append(button, detail);
             listNode.append(ticket);
           });
@@ -2199,6 +2266,32 @@
           await setAgendaTrackTab(tab.dataset.day);
         });
       });
+
+
+      const agendaListNode = document.getElementById('agenda-list');
+      if (agendaListNode && !agendaListNode.dataset.dropdownBound) {
+        agendaListNode.dataset.dropdownBound = 'true';
+        agendaListNode.addEventListener('click', (event) => {
+          const button = event.target.closest('.agenda-ticket-button');
+          if (!button) return;
+
+          const ticket = button.closest('.agenda-ticket');
+          if (!ticket) return;
+
+          const wasExpanded = ticket.classList.contains('expanded');
+
+          agendaListNode.querySelectorAll('.agenda-ticket.expanded').forEach((openTicket) => {
+            if (openTicket !== ticket) {
+              openTicket.classList.remove('expanded');
+              const openButton = openTicket.querySelector('.agenda-ticket-button');
+              if (openButton) openButton.setAttribute('aria-expanded', 'false');
+            }
+          });
+
+          ticket.classList.toggle('expanded', !wasExpanded);
+          button.setAttribute('aria-expanded', String(!wasExpanded));
+        });
+      }
 
 
       function openPlaylistDetail() {
