@@ -295,18 +295,18 @@
         justify-self: center;
         display: grid;
         justify-items: center;
-        gap: 10px;
+        gap: 16px;
         width: 100%;
-        max-width: 88%;
+        max-width: 92%;
         position: relative;
         overflow: visible;
-        transform: translateY(-24px);
+        transform: translateY(-6px);
       }
 
       .home-gold-bar {
         display: block;
-        width: 110px;
-        height: 4px;
+        width: 136px;
+        height: 5px;
         border-radius: 999px;
         background: var(--accent);
         box-shadow: 0 4px 12px rgba(239, 177, 10, 0.28);
@@ -325,14 +325,15 @@
 
       .home-video-middle {
         align-self: center;
+        justify-self: center;
         margin: 0 auto;
-        font-size: clamp(0.86rem, 3.55vw, 1.08rem);
-        line-height: 1.28;
+        max-width: 94%;
+        font-size: clamp(1.72rem, 6.8vw, 2.2rem);
+        line-height: 1.22;
         color: #FFFFFF;
         text-align: center;
+        text-wrap: balance;
         text-shadow: 0 8px 16px rgba(27, 46, 64, 0.48);
-        max-width: 100%;
-        justify-self: center;
       }
 
       .home-video-quote {
@@ -1106,25 +1107,35 @@
 
 
       .home-static-quote {
-        margin: 10px 0 0;
-        display: block !important;
+        align-self: end;
+        justify-self: center;
+        margin: 0 0 12px;
+        display: grid !important;
+        justify-items: center;
+        gap: 2px;
+        width: 100%;
         visibility: visible !important;
         opacity: 1 !important;
         position: relative;
         z-index: 9999;
         text-align: center;
-        font-size: clamp(1.45rem, 5.8vw, 2rem);
+        font-size: clamp(2.45rem, 9vw, 3.5rem);
         font-weight: 900;
         font-style: italic !important;
-        line-height: 1.05;
-        transform: skewX(-6deg);
+        line-height: 0.96;
         pointer-events: none;
-        background: linear-gradient(180deg, #FFF0B3 0%, #FFD15A 35%, #F2B21B 70%, #C97900 100%);
+        background: linear-gradient(180deg, #FFF4C6 0%, #FFD86A 34%, #F2B21B 68%, #C97900 100%);
         -webkit-background-clip: text;
         background-clip: text;
         color: transparent !important;
         -webkit-text-fill-color: transparent !important;
-        text-shadow: 0 5px 12px rgba(27, 46, 64, 0.65);
+        text-shadow: 0 7px 16px rgba(27, 46, 64, 0.56);
+      }
+
+      .home-static-quote-line {
+        display: block !important;
+        font-style: italic !important;
+        transform: skewX(-6deg);
       }
 
       @media (max-width: 380px) {
@@ -1271,8 +1282,11 @@
                 <span class="home-gold-bar" aria-hidden="true"></span>
                 <p id="home-hero-description" class="home-video-middle">Supervisor Summit is where leadership across the City comes together to reset expectations, strengthen alignment, and shape the culture we create every day. It is more than training—it is a shared commitment to leading with intention, accountability, and impact.</p>
                 <span class="home-gold-bar" aria-hidden="true"></span>
-                <p id="home-static-quote" class="home-static-quote">"Supervisors Bring the Weather"</p>
               </div>
+              <p id="home-static-quote" class="home-static-quote">
+                <span class="home-static-quote-line">"Supervisors</span>
+                <span class="home-static-quote-line">Bring the Weather"</span>
+              </p>
             </div>
           </section>
         </div>
