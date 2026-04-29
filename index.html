@@ -1498,8 +1498,168 @@
         }
       }
 
+    
+      /* Targeted requested updates only: speakers, agenda ticket text, resources, playlist overlay. Home/nav untouched. */
+
+      /* Speaker section: photo left, text right, tighter list */
+      #speakers-grid {
+        gap: 6px !important;
+      }
+
+      .speaker-accordion-item {
+        gap: 5px !important;
+      }
+
+      .speaker-accordion-item + .speaker-accordion-item {
+        margin-top: 6px !important;
+      }
+
+      .speaker-tile {
+        grid-template-columns: 90px minmax(0, 1fr) !important;
+        gap: 12px !important;
+        align-items: center !important;
+        padding: 9px 42px 9px 10px !important;
+        min-height: 104px !important;
+      }
+
+      .speaker-tile-image-wrap {
+        grid-column: 1 !important;
+        grid-row: 1 !important;
+        justify-self: center !important;
+        align-self: center !important;
+        margin: 0 !important;
+        transform: none !important;
+        width: 78px !important;
+      }
+
+      .speaker-tile > div:not(.speaker-tile-image-wrap) {
+        grid-column: 2 !important;
+        grid-row: 1 !important;
+        display: grid !important;
+        align-content: center !important;
+        justify-items: start !important;
+        text-align: left !important;
+        min-width: 0 !important;
+      }
+
+      .speaker-tile-name {
+        text-align: left !important;
+        padding: 0 !important;
+        line-height: 1.08 !important;
+      }
+
+      .speaker-tile-role {
+        text-align: left !important;
+        padding: 0 !important;
+        margin: 1px 0 0 !important;
+        line-height: 1.14 !important;
+      }
+
+      .speaker-tile::before {
+        right: 18px !important;
+      }
+
+      /* Agenda tickets: center and balance the time/title inside the ticket box */
+      .agenda-ticket-button {
+        padding: 18px 46px !important;
+      }
+
+      .agenda-ticket-content {
+        justify-items: center !important;
+        align-content: center !important;
+        text-align: center !important;
+        gap: 6px !important;
+      }
+
+      .agenda-ticket-time,
+      .agenda-ticket-title {
+        text-align: center !important;
+        max-width: 96% !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+        border: 0 !important;
+        box-shadow: none !important;
+        text-shadow: none !important;
+        -webkit-text-stroke: 0 !important;
+      }
+
+      /* Spotify playlist overlay: full-page modal, no extra header/title, lazy-loaded only on click */
+      #playlist-detail-overlay {
+        position: fixed !important;
+        inset: 0 !important;
+        z-index: 40 !important;
+        background: rgba(27, 46, 64, 0.96) !important;
+      }
+
+      #playlist-detail-overlay.open {
+        opacity: 1 !important;
+        pointer-events: auto !important;
+        background: rgba(27, 46, 64, 0.96) !important;
+      }
+
+      .playlist-detail-card {
+        width: min(100%, 520px) !important;
+        height: 100dvh !important;
+        min-height: 100dvh !important;
+        margin: 0 auto !important;
+        padding: max(10px, env(safe-area-inset-top)) max(10px, env(safe-area-inset-right)) max(10px, env(safe-area-inset-bottom)) max(10px, env(safe-area-inset-left)) !important;
+        border-radius: 0 !important;
+        background: #1B2E40 !important;
+        display: grid !important;
+        grid-template-rows: minmax(0, 1fr) !important;
+        overflow: hidden !important;
+      }
+
+      .playlist-embed-wrap {
+        width: 100% !important;
+        height: 100% !important;
+        min-height: 0 !important;
+        border-radius: 18px !important;
+        overflow: hidden !important;
+      }
+
+      .playlist-embed-wrap iframe {
+        display: block !important;
+        width: 100% !important;
+        height: 100% !important;
+        border: 0 !important;
+        border-radius: 18px !important;
+      }
+
+      #playlist-detail-close {
+        position: fixed !important;
+        top: calc(12px + env(safe-area-inset-top)) !important;
+        right: max(12px, calc((100vw - 520px) / 2 + 12px)) !important;
+        z-index: 45 !important;
+      }
+
+      @media (max-width: 380px) {
+        .speaker-tile {
+          grid-template-columns: 80px minmax(0, 1fr) !important;
+          gap: 10px !important;
+          padding: 8px 38px 8px 9px !important;
+          min-height: 96px !important;
+        }
+
+        .speaker-tile-image-wrap {
+          width: 70px !important;
+        }
+
+        .speaker-tile-name {
+          font-size: 0.98rem !important;
+        }
+
+        .speaker-tile-role {
+          font-size: 0.82rem !important;
+        }
+
+        .agenda-ticket-button {
+          padding: 16px 42px !important;
+        }
+      }
+
     </style>
-      <meta name="app-version" content="20260429-resources-offset-circles-1" />
+      <meta name="app-version" content="20260429-targeted-layout-resources-playlist-1" />
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
@@ -1620,10 +1780,10 @@
       <section id="resources-view" class="view hidden" aria-label="Resources view">
         <section class="panel">
           <div class="resources-actions" aria-label="Supervisor Summit resources">
-            <button class="resource-button" id="survey-btn" type="button">
-              <img class="resource-button-icon" src="icons/weather1.png?v=20260429-resources-circles-1" alt="" aria-hidden="true" />
+            <a class="resource-button" id="survey-btn" href="https://forms.office.com/Pages/ResponsePage.aspx?id=Yy84u-ngFkisZ7eO7TaGHD7X5yLv_4ZPq0Y9Xe5U9RFUQVVFV0tNVTBMQVU3TDZKWUpDQkQwMU1EMS4u" target="_blank" rel="noopener noreferrer">
+              <img class="resource-button-icon" src="icons/weather3.png?v=20260429-resources-circles-2" alt="" aria-hidden="true" />
               <span class="resource-button-text">Supervisor Summit 2026 Survey</span>
-            </button>
+            </a>
             <button class="resource-button" id="playlist-btn" type="button">
               <img class="resource-button-icon" src="icons/weather2.png?v=20260429-resources-circles-1" alt="" aria-hidden="true" />
               <span class="resource-button-text">Supervisor Summit Playlist</span>
@@ -1675,7 +1835,7 @@
     <script>
       // Service worker disabled while stabilizing asset/video loading.
       // This unregisters older service workers and clears old caches that may be serving stale files.
-      const APP_VERSION = '20260429-cleaned-unused-features-1';
+      const APP_VERSION = '20260429-targeted-layout-resources-playlist-1';
 
       async function clearOldAppCaches() {
         if (!('caches' in window)) return;
@@ -2252,7 +2412,6 @@
         if (playlistEmbedWrap && playlistEmbedWrap.dataset.loaded !== 'true') {
           playlistEmbedWrap.innerHTML = `
             <iframe
-              style="border-radius:12px"
               src="https://open.spotify.com/embed/playlist/20pk264QB8qTJ6YXQZigq5"
               width="100%"
               height="100%"
