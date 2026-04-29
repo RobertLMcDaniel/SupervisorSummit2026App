@@ -1658,8 +1658,146 @@
         }
       }
 
+    
+      /* Final targeted fixes only: agenda shadows, matching arrows, compact spacing, Spotify breathing room. */
+
+      /* 1. Soft text shadow for agenda titles and times */
+      .agenda-ticket-time,
+      .agenda-ticket-title {
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25) !important;
+      }
+
+      /* 2. Matching dropdown arrows for Speaker and Agenda items */
+      .speaker-tile::before,
+      .agenda-ticket-button::after {
+        content: '›' !important;
+        position: absolute !important;
+        right: 16px !important;
+        top: 50% !important;
+        width: 30px !important;
+        height: 30px !important;
+        border-radius: 50% !important;
+        background: rgba(27, 46, 64, 0.34) !important;
+        border: 1px solid rgba(245, 247, 250, 0.24) !important;
+        color: rgba(245, 247, 250, 0.96) !important;
+        display: grid !important;
+        place-items: center !important;
+        font-size: 1.38rem !important;
+        font-weight: 950 !important;
+        line-height: 1 !important;
+        text-shadow: none !important;
+        transform: translateY(-50%) rotate(90deg) !important;
+        transition: transform 0.24s ease, background-color 0.24s ease !important;
+        z-index: 3 !important;
+        pointer-events: none !important;
+      }
+
+      .speaker-accordion-item.expanded .speaker-tile::before,
+      .agenda-ticket.expanded .agenda-ticket-button::after {
+        transform: translateY(-50%) rotate(-90deg) !important;
+      }
+
+      /* Hide the separate agenda arrow element so speaker/agenda use the same pseudo-arrow */
+      .agenda-ticket-arrow {
+        display: none !important;
+      }
+
+      /* 3. Tighter vertical spacing between Speaker and Agenda tiles */
+      #speakers-grid {
+        gap: 4px !important;
+      }
+
+      .speaker-accordion-item {
+        gap: 4px !important;
+      }
+
+      .speaker-accordion-item + .speaker-accordion-item {
+        margin-top: 4px !important;
+      }
+
+      .speaker-tile {
+        min-height: 96px !important;
+        padding-top: 7px !important;
+        padding-bottom: 7px !important;
+      }
+
+      .speaker-inline-detail {
+        margin-top: 0 !important;
+      }
+
+      .speaker-accordion-item.expanded .speaker-inline-detail-inner {
+        padding-top: 12px !important;
+        padding-bottom: 12px !important;
+      }
+
+      #agenda-list {
+        gap: 5px !important;
+        padding-top: 0 !important;
+        padding-bottom: 8px !important;
+      }
+
+      .agenda-ticket {
+        margin: 0 !important;
+      }
+
+      .agenda-ticket-button {
+        min-height: 96px !important;
+        padding-top: 14px !important;
+        padding-bottom: 14px !important;
+      }
+
+      .agenda-ticket-content {
+        min-height: 58px !important;
+        gap: 4px !important;
+      }
+
+      .agenda-ticket-detail {
+        margin-top: 4px !important;
+      }
+
+      .agenda-ticket.expanded .agenda-ticket-detail-inner {
+        padding-top: 12px !important;
+        padding-bottom: 12px !important;
+      }
+
+      /* 4. Spotify overlay: keep full-screen, but push iframe down slightly below the X */
+      .playlist-detail-card {
+        padding-top: calc(56px + env(safe-area-inset-top)) !important;
+      }
+
+      .playlist-embed-wrap {
+        height: 100% !important;
+        min-height: 0 !important;
+      }
+
+      @media (max-width: 380px) {
+        .speaker-tile {
+          min-height: 90px !important;
+          padding-top: 7px !important;
+          padding-bottom: 7px !important;
+        }
+
+        #agenda-list {
+          gap: 4px !important;
+        }
+
+        .agenda-ticket-button {
+          min-height: 90px !important;
+          padding-top: 12px !important;
+          padding-bottom: 12px !important;
+        }
+
+        .speaker-tile::before,
+        .agenda-ticket-button::after {
+          width: 28px !important;
+          height: 28px !important;
+          right: 12px !important;
+          font-size: 1.28rem !important;
+        }
+      }
+
     </style>
-      <meta name="app-version" content="20260429-targeted-layout-resources-playlist-1" />
+      <meta name="app-version" content="20260429-final-targeted-fixes-1" />
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
@@ -1835,7 +1973,7 @@
     <script>
       // Service worker disabled while stabilizing asset/video loading.
       // This unregisters older service workers and clears old caches that may be serving stale files.
-      const APP_VERSION = '20260429-targeted-layout-resources-playlist-1';
+      const APP_VERSION = '20260429-final-targeted-fixes-1';
 
       async function clearOldAppCaches() {
         if (!('caches' in window)) return;
