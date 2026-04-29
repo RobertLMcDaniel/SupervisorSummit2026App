@@ -1240,6 +1240,225 @@
         transform: skewX(-6deg) !important;
       }
 
+    
+      /* Agenda ticket redesign */
+      #agenda-view .agenda-panel {
+        height: calc(100dvh - 212px);
+        display: grid;
+        grid-template-rows: auto auto minmax(0, 1fr);
+        gap: 8px;
+        align-content: stretch;
+        overflow: hidden;
+        padding: 10px;
+      }
+
+      .agenda-day-photo-tabs {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 8px;
+      }
+
+      .agenda-photo-tab {
+        min-height: 68px;
+        border: 1px solid rgba(239, 177, 10, 0.42);
+        border-radius: 18px;
+        color: #FFFFFF;
+        cursor: pointer;
+        text-align: center;
+        display: grid;
+        align-content: center;
+        gap: 3px;
+        padding: 8px 6px;
+        box-shadow: 0 8px 18px rgba(27, 46, 64, 0.35);
+        background:
+          linear-gradient(180deg, rgba(27, 46, 64, 0.18), rgba(27, 46, 64, 0.58)),
+          linear-gradient(135deg, #2F8FCC 0%, #1B2E40 100%);
+        overflow: hidden;
+      }
+
+      .agenda-photo-tab.active {
+        border-color: rgba(239, 177, 10, 0.85);
+        box-shadow: 0 12px 24px rgba(27, 46, 64, 0.42), 0 0 0 2px rgba(239, 177, 10, 0.16);
+        filter: brightness(1.08);
+      }
+
+      .agenda-photo-tab-kicker {
+        font-size: 0.64rem;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        opacity: 0.86;
+      }
+
+      .agenda-photo-tab-title {
+        font-size: 1.04rem;
+        font-weight: 950;
+        text-transform: uppercase;
+        line-height: 1;
+      }
+
+      .agenda-track-tabs {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px;
+        overflow: hidden;
+        max-height: 80px;
+        opacity: 1;
+        transition: max-height 0.28s ease, opacity 0.22s ease;
+      }
+
+      .agenda-track-tabs.hidden {
+        display: grid !important;
+        max-height: 0;
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      .agenda-track-tab {
+        min-height: 42px;
+        border: 1px solid rgba(245, 247, 250, 0.24);
+        border-radius: 999px;
+        background: rgba(27, 46, 64, 0.36);
+        color: var(--text-primary);
+        font-size: 0.78rem;
+        font-weight: 900;
+        cursor: pointer;
+        padding: 8px 10px;
+      }
+
+      .agenda-track-tab.active {
+        background: linear-gradient(135deg, #F6C84D 0%, #EFB10A 55%, #D89B05 100%);
+        color: var(--bg-primary);
+      }
+
+      #agenda-list {
+        height: 100%;
+        max-height: none;
+        min-height: 0;
+        overflow-y: auto;
+        display: grid;
+        gap: 8px;
+        padding: 2px 2px 10px;
+      }
+
+      .agenda-ticket {
+        border-radius: 18px;
+        overflow: hidden;
+        color: #FFFFFF;
+        box-shadow: 0 8px 20px rgba(27, 46, 64, 0.35);
+      }
+
+      .agenda-ticket-button {
+        width: 100%;
+        min-height: 120px;
+        border: 0;
+        border-radius: 18px;
+        color: #FFFFFF;
+        cursor: pointer;
+        text-align: left;
+        display: grid;
+        grid-template-columns: 92px 1fr;
+        align-items: stretch;
+        padding: 0;
+        overflow: hidden;
+        position: relative;
+      }
+
+      .agenda-ticket-button::after {
+        content: '›';
+        position: absolute;
+        right: 16px;
+        top: 50%;
+        transform: translateY(-50%) rotate(90deg);
+        font-size: 1.55rem;
+        font-weight: 900;
+        color: rgba(245, 247, 250, 0.92);
+        transition: transform 0.24s ease;
+      }
+
+      .agenda-ticket.expanded .agenda-ticket-button::after {
+        transform: translateY(-50%) rotate(-90deg);
+      }
+
+      .agenda-ticket-time {
+        background: rgba(255, 255, 255, 0.95);
+        color: #111827;
+        display: grid;
+        place-items: center;
+        text-align: center;
+        padding: 10px 6px;
+        font-weight: 950;
+        font-size: 1.02rem;
+        line-height: 1.05;
+      }
+
+      .agenda-ticket-content {
+        display: grid;
+        align-content: center;
+        gap: 8px;
+        padding: 14px 42px 14px 14px;
+      }
+
+      .agenda-ticket-title {
+        margin: 0;
+        font-size: 1.04rem;
+        line-height: 1.08;
+        font-weight: 950;
+        text-transform: uppercase;
+      }
+
+      .agenda-ticket-detail {
+        display: grid;
+        grid-template-rows: 0fr;
+        transition: grid-template-rows 0.28s ease;
+      }
+
+      .agenda-ticket.expanded .agenda-ticket-detail {
+        grid-template-rows: 1fr;
+      }
+
+      .agenda-ticket-detail-inner {
+        min-height: 0;
+        overflow: hidden;
+        padding: 0 16px;
+        opacity: 0;
+        transform: translateY(-6px);
+        transition: opacity 0.24s ease, transform 0.24s ease, padding 0.24s ease;
+      }
+
+      .agenda-ticket.expanded .agenda-ticket-detail-inner {
+        padding: 14px 16px 16px;
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .agenda-ticket-description {
+        margin: 0;
+        color: #F5F7FA;
+        font-size: 0.96rem;
+        line-height: 1.5;
+      }
+
+      .agenda-ticket--1 .agenda-ticket-button { background: linear-gradient(135deg, #FF8FB1 0%, #FFB38A 100%); }
+      .agenda-ticket--2 .agenda-ticket-button { background: linear-gradient(135deg, #9B8BFF 0%, #5FA8FF 100%); }
+      .agenda-ticket--3 .agenda-ticket-button { background: linear-gradient(135deg, #74F2CE 0%, #4DD4A9 100%); }
+      .agenda-ticket--4 .agenda-ticket-button { background: linear-gradient(135deg, #FFD36E 0%, #FFA45B 100%); }
+      .agenda-ticket--5 .agenda-ticket-button { background: linear-gradient(135deg, #7CE0FF 0%, #64B5F6 100%); }
+      .agenda-ticket--6 .agenda-ticket-button { background: linear-gradient(135deg, #F8A6FF 0%, #C796FF 100%); }
+
+      .agenda-ticket--1 .agenda-ticket-detail-inner { background: linear-gradient(135deg, rgba(180, 72, 110, 0.96) 0%, rgba(162, 83, 50, 0.96) 100%); }
+      .agenda-ticket--2 .agenda-ticket-detail-inner { background: linear-gradient(135deg, rgba(79, 69, 161, 0.96) 0%, rgba(44, 108, 176, 0.96) 100%); }
+      .agenda-ticket--3 .agenda-ticket-detail-inner { background: linear-gradient(135deg, rgba(44, 130, 112, 0.96) 0%, rgba(35, 111, 90, 0.96) 100%); }
+      .agenda-ticket--4 .agenda-ticket-detail-inner { background: linear-gradient(135deg, rgba(178, 116, 34, 0.96) 0%, rgba(160, 83, 39, 0.96) 100%); }
+      .agenda-ticket--5 .agenda-ticket-detail-inner { background: linear-gradient(135deg, rgba(42, 105, 154, 0.96) 0%, rgba(59, 83, 145, 0.96) 100%); }
+      .agenda-ticket--6 .agenda-ticket-detail-inner { background: linear-gradient(135deg, rgba(145, 77, 168, 0.96) 0%, rgba(107, 78, 173, 0.96) 100%); }
+
+      @media (max-width: 380px) {
+        .agenda-ticket-button { grid-template-columns: 82px 1fr; min-height: 108px; }
+        .agenda-ticket-time { font-size: 0.92rem; }
+        .agenda-ticket-title { font-size: 0.96rem; }
+      }
+
     </style>
       <meta name="app-version" content="20260429-agenda-working-nav-2" />
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
@@ -1328,14 +1547,26 @@
       </section>
       <section id="agenda-view" class="view hidden" aria-label="Agenda view">
         <section class="panel agenda-panel">
-          <div class="agenda-tabs-shell">
-            <div class="agenda-day-tabs" role="tablist" aria-label="Agenda tabs">
-              <button class="agenda-day-tab active day-style-1" type="button" data-day="day1">Day 1</button>
-              <button class="agenda-day-tab day-style-2" type="button" data-day="day2Supervisor">Day 2<br>Supervisor Sessions</button>
-              <button class="agenda-day-tab day-style-3" type="button" data-day="day2Senior">Day 2<br>Senior Leadership</button>
-              <button class="agenda-day-tab day-style-1" type="button" data-day="day3">Day 3</button>
-            </div>
+          <div class="agenda-day-photo-tabs" role="tablist" aria-label="Agenda day tabs">
+            <button class="agenda-photo-tab active" type="button" data-agenda-main="day1">
+              <span class="agenda-photo-tab-kicker">Tuesday</span>
+              <span class="agenda-photo-tab-title">Day 1</span>
+            </button>
+            <button class="agenda-photo-tab" type="button" data-agenda-main="day2">
+              <span class="agenda-photo-tab-kicker">Wednesday</span>
+              <span class="agenda-photo-tab-title">Day 2</span>
+            </button>
+            <button class="agenda-photo-tab" type="button" data-agenda-main="day3">
+              <span class="agenda-photo-tab-kicker">Thursday</span>
+              <span class="agenda-photo-tab-title">Day 3</span>
+            </button>
           </div>
+
+          <div id="agenda-track-tabs" class="agenda-track-tabs hidden" role="tablist" aria-label="Day 2 session tracks">
+            <button class="agenda-track-tab active" type="button" data-day="day2Supervisor">Supervisor Sessions</button>
+            <button class="agenda-track-tab" type="button" data-day="day2Senior">Senior Leadership</button>
+          </div>
+
           <div id="agenda-list" class="list" aria-live="polite"></div>
         </section>
       </section>
@@ -1418,7 +1649,7 @@
     <script>
       // Service worker disabled while stabilizing asset/video loading.
       // This unregisters older service workers and clears old caches that may be serving stale files.
-      const APP_VERSION = '20260429-agenda-working-nav-2';
+      const APP_VERSION = '20260429-agenda-ticket-day2-1';
 
       async function clearOldAppCaches() {
         if (!('caches' in window)) return;
@@ -1538,7 +1769,7 @@
         'images/rain.mp4',
         'images/storm_clouds.mp4'
       ];
-      const ASSET_REFRESH_TOKEN = '20260429-agenda-working-nav-2';
+      const ASSET_REFRESH_TOKEN = '20260429-agenda-ticket-day2-1';
       const defaultDayButtonConfig = [
         { key: 'day1', label: 'Day 1', styleClass: 'day-style-1' },
         { key: 'day2Supervisor', label: 'Day 2 Supervisor Sessions', styleClass: 'day-style-2' },
@@ -1720,7 +1951,7 @@
       }
 
       async function loadDayButtonConfig() {
-        renderDayTabs(agendaDayTabs, defaultDayButtonConfig);
+        return;
       }
 
       function setErrorState(node, message) {
@@ -1732,8 +1963,33 @@
         agendaDayTabs.forEach((tab) => tab.classList.toggle('active', tab.dataset.day === dayKey));
       }
 
+      function setAgendaMainTab(mainKey) {
+        document.querySelectorAll('.agenda-photo-tab').forEach((tab) => {
+          tab.classList.toggle('active', tab.dataset.agendaMain === mainKey);
+        });
+
+        const trackTabs = document.getElementById('agenda-track-tabs');
+        if (trackTabs) {
+          trackTabs.classList.toggle('hidden', mainKey !== 'day2');
+        }
+
+        if (mainKey === 'day1') return loadAgenda('day1');
+        if (mainKey === 'day3') return loadAgenda('day3');
+
+        const activeTrack = document.querySelector('.agenda-track-tab.active');
+        return loadAgenda(activeTrack?.dataset.day || 'day2Supervisor');
+      }
+
+      function setAgendaTrackTab(dayKey) {
+        document.querySelectorAll('.agenda-track-tab').forEach((tab) => {
+          tab.classList.toggle('active', tab.dataset.day === dayKey);
+        });
+        return loadAgenda(dayKey);
+      }
+
       async function loadAgenda(dayKey = currentAgendaDay) {
         try {
+          currentAgendaDay = dayKey;
           setActiveAgendaDay(dayKey);
 
           if (!agendaDataCache.allSessions) {
@@ -1746,57 +2002,60 @@
 
           sessions.forEach((session, index) => {
             const styleIndex = (index % 6) + 1;
-            const card = document.createElement('article');
-            card.className = `agenda-card agenda-card--${styleIndex} ${index % 2 === 0 ? 'slide-in-left' : 'slide-in-right'}`;
-            card.style.animationDelay = `${Math.min(index * 0.04, 0.22)}s`;
+            const ticket = document.createElement('article');
+            ticket.className = `agenda-ticket agenda-ticket--${styleIndex} ${index % 2 === 0 ? 'slide-in-left' : 'slide-in-right'}`;
+            ticket.style.animationDelay = `${Math.min(index * 0.04, 0.22)}s`;
 
             const button = document.createElement('button');
-            button.className = 'agenda-card-button';
+            button.className = 'agenda-ticket-button';
             button.type = 'button';
             button.setAttribute('aria-expanded', 'false');
 
-            const time = document.createElement('p');
-            time.className = 'agenda-card-time';
-            time.textContent = session.EndTime ? `${session.StartTime || ''} – ${session.EndTime}` : (session.StartTime || '');
+            const time = document.createElement('div');
+            time.className = 'agenda-ticket-time';
+            time.textContent = session.EndTime ? `${session.StartTime || ''}
+${session.EndTime}` : (session.StartTime || '');
+
+            const content = document.createElement('div');
+            content.className = 'agenda-ticket-content';
 
             const title = document.createElement('h3');
-            title.className = 'agenda-card-title';
+            title.className = 'agenda-ticket-title';
             title.textContent = session.SessionTitle || '';
 
-            const comingSoon = document.createElement('p');
-            comingSoon.className = 'agenda-card-coming-soon';
-            comingSoon.textContent = session.ShortText || 'Coming soon.';
-
-            button.append(time, title, comingSoon);
+            content.append(title);
+            button.append(time, content);
 
             const detail = document.createElement('div');
-            detail.className = 'agenda-card-detail';
+            detail.className = 'agenda-ticket-detail';
 
             const detailInner = document.createElement('div');
-            detailInner.className = 'agenda-card-detail-inner';
+            detailInner.className = 'agenda-ticket-detail-inner';
 
             const description = document.createElement('p');
-            description.className = 'agenda-card-description';
+            description.className = 'agenda-ticket-description';
             description.textContent = session.Description || 'Description coming soon.';
 
             detailInner.append(description);
             detail.append(detailInner);
 
             button.addEventListener('click', () => {
-              const isExpanded = card.classList.contains('expanded');
-              document.querySelectorAll('.agenda-card.expanded').forEach((openCard) => {
-                if (openCard !== card) {
-                  openCard.classList.remove('expanded');
-                  const openButton = openCard.querySelector('.agenda-card-button');
+              const isExpanded = ticket.classList.contains('expanded');
+
+              document.querySelectorAll('.agenda-ticket.expanded').forEach((openTicket) => {
+                if (openTicket !== ticket) {
+                  openTicket.classList.remove('expanded');
+                  const openButton = openTicket.querySelector('.agenda-ticket-button');
                   if (openButton) openButton.setAttribute('aria-expanded', 'false');
                 }
               });
-              card.classList.toggle('expanded', !isExpanded);
+
+              ticket.classList.toggle('expanded', !isExpanded);
               button.setAttribute('aria-expanded', String(!isExpanded));
             });
 
-            card.append(button, detail);
-            listNode.append(card);
+            ticket.append(button, detail);
+            listNode.append(ticket);
           });
         } catch {
           setErrorState(document.getElementById('agenda-list'), 'Unable to load the agenda right now. Please refresh.');
@@ -1952,10 +2211,17 @@
         });
       });
 
-      agendaDayTabs.forEach((tab) => {
+      document.querySelectorAll('.agenda-photo-tab').forEach((tab) => {
         tab.addEventListener('click', async () => {
-          await loadAgenda(tab.dataset.day);
+          await setAgendaMainTab(tab.dataset.agendaMain);
         });
+      });
+
+      document.querySelectorAll('.agenda-track-tab').forEach((tab) => {
+        tab.addEventListener('click', async () => {
+          await setAgendaTrackTab(tab.dataset.day);
+        });
+      });
       });
 
 
