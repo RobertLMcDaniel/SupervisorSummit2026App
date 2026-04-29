@@ -1129,13 +1129,12 @@
       }
 
     
-      /* Agenda-only ticket redesign. Bottom nav intentionally untouched. */
+      /* Agenda update only - nav untouched */
       #agenda-view .agenda-panel {
         height: calc(100dvh - 212px);
         display: grid;
         grid-template-rows: auto auto minmax(0, 1fr);
         gap: 8px;
-        align-content: stretch;
         overflow: hidden;
         padding: 10px;
       }
@@ -1158,15 +1157,12 @@
         gap: 3px;
         padding: 8px 6px;
         box-shadow: 0 8px 18px rgba(27, 46, 64, 0.35);
-        background:
-          linear-gradient(180deg, rgba(27, 46, 64, 0.18), rgba(27, 46, 64, 0.58)),
-          linear-gradient(135deg, #2F8FCC 0%, #1B2E40 100%);
+        background: linear-gradient(135deg, #2F8FCC 0%, #1B2E40 100%);
         overflow: hidden;
       }
 
       .agenda-photo-tab.active {
         border-color: rgba(239, 177, 10, 0.85);
-        box-shadow: 0 12px 24px rgba(27, 46, 64, 0.42), 0 0 0 2px rgba(239, 177, 10, 0.16);
         filter: brightness(1.08);
       }
 
@@ -1284,7 +1280,6 @@
       .agenda-ticket-content {
         display: grid;
         align-content: center;
-        gap: 8px;
         padding: 14px 42px 14px 14px;
       }
 
@@ -1431,7 +1426,7 @@
 
       <section id="agenda-view" class="view hidden" aria-label="Agenda view">
         <section class="panel agenda-panel">
-          <div class="agenda-day-photo-tabs" role="tablist" aria-label="Agenda day tabs">
+          <div class="agenda-day-photo-tabs" aria-label="Agenda day tabs">
             <button class="agenda-photo-tab active" type="button" data-agenda-main="day1">
               <span class="agenda-photo-tab-kicker">Tuesday</span>
               <span class="agenda-photo-tab-title">Day 1</span>
@@ -1446,7 +1441,7 @@
             </button>
           </div>
 
-          <div id="agenda-track-tabs" class="agenda-track-tabs hidden" role="tablist" aria-label="Day 2 session tracks">
+          <div id="agenda-track-tabs" class="agenda-track-tabs hidden" aria-label="Day 2 session tracks">
             <button class="agenda-track-tab active" type="button" data-day="day2Supervisor">Supervisor Sessions</button>
             <button class="agenda-track-tab" type="button" data-day="day2Senior">Senior Leadership</button>
           </div>
@@ -1533,7 +1528,7 @@
     <script>
       // Service worker disabled while stabilizing asset/video loading.
       // This unregisters older service workers and clears old caches that may be serving stale files.
-      const APP_VERSION = '20260429-navsafe-agenda-1';
+      const APP_VERSION = '20260429-final-nav-safe-2';
 
       async function clearOldAppCaches() {
         if (!('caches' in window)) return;
@@ -1653,7 +1648,7 @@
         'images/rain.mp4',
         'images/storm_clouds.mp4'
       ];
-      const ASSET_REFRESH_TOKEN = '20260429-navsafe-agenda-1';
+      const ASSET_REFRESH_TOKEN = '20260429-final-nav-safe-2';
       const defaultDayButtonConfig = [
         { key: 'day1', label: 'Day 1', agendaIcon: 'icons/home_icon.png', styleClass: 'day-style-1' },
         { key: 'day2', label: 'Day 2', agendaIcon: 'icons/agenda_icon.png', styleClass: 'day-style-2' },
@@ -1859,30 +1854,6 @@
         agendaDayTabs.forEach((tab) => tab.classList.toggle('active', tab.dataset.day === dayKey));
       }
 
-      function setAgendaMainTab(mainKey) {
-        document.querySelectorAll('.agenda-photo-tab').forEach((tab) => {
-          tab.classList.toggle('active', tab.dataset.agendaMain === mainKey);
-        });
-
-        const trackTabs = document.getElementById('agenda-track-tabs');
-        if (trackTabs) {
-          trackTabs.classList.toggle('hidden', mainKey !== 'day2');
-        }
-
-        if (mainKey === 'day1') return loadAgenda('day1');
-        if (mainKey === 'day3') return loadAgenda('day3');
-
-        const activeTrack = document.querySelector('.agenda-track-tab.active');
-        return loadAgenda(activeTrack?.dataset.day || 'day2Supervisor');
-      }
-
-      function setAgendaTrackTab(dayKey) {
-        document.querySelectorAll('.agenda-track-tab').forEach((tab) => {
-          tab.classList.toggle('active', tab.dataset.day === dayKey);
-        });
-        return loadAgenda(dayKey);
-      }
-
       async function loadAgenda(dayKey = currentAgendaDay) {
         try {
           currentAgendaDay = dayKey;
@@ -1894,6 +1865,7 @@
 
           const sessions = agendaDataCache.allSessions[dayKey] || [];
           const listNode = document.getElementById('agenda-list');
+          if (!listNode) return;
           listNode.innerHTML = '';
 
           sessions.forEach((session, index) => {
@@ -1956,6 +1928,30 @@ ${session.EndTime}` : (session.StartTime || '');
         } catch {
           setErrorState(document.getElementById('agenda-list'), 'Unable to load the agenda right now. Please refresh.');
         }
+      }
+
+      function setAgendaMainTab(mainKey) {
+        document.querySelectorAll('.agenda-photo-tab').forEach((tab) => {
+          tab.classList.toggle('active', tab.dataset.agendaMain === mainKey);
+        });
+
+        const trackTabs = document.getElementById('agenda-track-tabs');
+        if (trackTabs) {
+          trackTabs.classList.toggle('hidden', mainKey !== 'day2');
+        }
+
+        if (mainKey === 'day1') return loadAgenda('day1');
+        if (mainKey === 'day3') return loadAgenda('day3');
+
+        const activeTrack = document.querySelector('.agenda-track-tab.active');
+        return loadAgenda(activeTrack ? activeTrack.dataset.day : 'day2Supervisor');
+      }
+
+      function setAgendaTrackTab(dayKey) {
+        document.querySelectorAll('.agenda-track-tab').forEach((tab) => {
+          tab.classList.toggle('active', tab.dataset.day === dayKey);
+        });
+        return loadAgenda(dayKey);
       }
 
       function animateSpeakerTiles() {
@@ -2106,7 +2102,6 @@ ${session.EndTime}` : (session.StartTime || '');
           if (target === 'speakers') await loadSpeakers();
         });
       });
-
       document.querySelectorAll('.agenda-photo-tab').forEach((tab) => {
         tab.addEventListener('click', async () => {
           await setAgendaMainTab(tab.dataset.agendaMain);
@@ -2117,7 +2112,6 @@ ${session.EndTime}` : (session.StartTime || '');
         tab.addEventListener('click', async () => {
           await setAgendaTrackTab(tab.dataset.day);
         });
-      });
       });
 
 
