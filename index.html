@@ -135,12 +135,12 @@
       }
 
       .home-video-frame {
+        justify-self: stretch;
         position: relative;
         width: 100%;
         max-width: none;
-        margin: 0 auto;
-        
-        justify-self: stretch;height: calc(100dvh - 160px);
+        margin: 0;
+        height: calc(100dvh - 160px);
         min-height: calc(100dvh - 160px);
         border-radius: 20px;
         overflow: hidden;
@@ -168,16 +168,23 @@
         opacity: 1;
       }
 
-      .home-video-player::-webkit-media-controls,
-      .home-video-player::-webkit-media-controls-panel,
-      .home-video-player::-webkit-media-controls-play-button,
-      .home-video-player::-webkit-media-controls-start-playback-button {
-        display: none !important;
-        -webkit-appearance: none;
-        opacity: 0 !important;
-        pointer-events: none !important;
+      .home-video-player {
+        pointer-events: none;
       }
 
+      .home-video-player::-webkit-media-controls,
+      .home-video-player::-webkit-media-controls-enclosure,
+      .home-video-player::-webkit-media-controls-panel,
+      .home-video-player::-webkit-media-controls-play-button,
+      .home-video-player::-webkit-media-controls-start-playback-button,
+      .home-video-player::-webkit-media-controls-overlay-play-button {
+        display: none !important;
+        -webkit-appearance: none !important;
+        appearance: none !important;
+        opacity: 0 !important;
+        visibility: hidden !important;
+        pointer-events: none !important;
+      }
 
 
       .home-video-overlay {
@@ -246,7 +253,6 @@
       }
 
       .home-video-label {
-        overflow: visible;
         position: absolute;
         left: 14px;
         right: 14px;
@@ -292,7 +298,7 @@
         gap: 12px;
         width: 100%;
         max-width: 84%;
-        transform: translateY(-28px);
+        transform: translateY(-24px);
       }
 
       .home-gold-bar {
@@ -327,6 +333,29 @@
         justify-self: center;
       }
 
+      .home-video-quote {
+        align-self: end;
+        margin: 0;
+        font-size: clamp(1.5rem, 6vw, 1.9rem);
+        font-style: normal;
+        font-weight: 800;
+        color: transparent;
+        text-align: center;
+        text-shadow: 0 8px 16px rgba(27, 46, 64, 0.38);
+        background: linear-gradient(180deg, #F6C84D 0%, #EFB10A 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: quote-breathe 5.6s ease-in-out infinite;
+        line-height: 1.02;
+        display: grid;
+        justify-items: center;
+        gap: 4px;
+      }
+
+      .home-video-quote-line {
+        display: block;
+      }
 
       @keyframes hero-breathe {
         0%, 100% {
@@ -373,7 +402,7 @@
         border-radius: 18px;
         padding: 14px 14px 12px;
         border: 0;
-        overflow: visible;
+        overflow: hidden;
         color: #FFFFFF;
         min-height: 138px;
         display: grid;
@@ -1073,39 +1102,6 @@
       .resource-button.slide-in-right { animation: slide-in-right 0.5s ease both; }
 
 
-
-      .home-video-quote {
-        align-self: end;
-        justify-self: center;
-        margin: 0 0 8px;
-        display: grid !important;
-        justify-items: center;
-        gap: 2px;
-        width: 100%;
-        position: relative;
-        z-index: 9999;
-        visibility: visible !important;
-        opacity: 1 !important;
-        text-align: center;
-        font-size: clamp(2.05rem, 8.2vw, 2.75rem);
-        font-weight: 900;
-        font-style: italic !important;
-        line-height: 0.98;
-        pointer-events: none;
-        background: linear-gradient(180deg, #FFF0B3 0%, #FFD15A 35%, #F2B21B 70%, #C97900 100%);
-        -webkit-background-clip: text;
-        background-clip: text;
-        color: transparent !important;
-        -webkit-text-fill-color: transparent !important;
-        text-shadow: 0 7px 16px rgba(27, 46, 64, 0.5);
-      }
-
-      .home-video-quote-line {
-        display: block !important;
-        font-style: italic !important;
-        transform: skewX(-7deg);
-      }
-
       @media (max-width: 380px) {
         .speaker-tile-name { font-size: 0.84rem; }
         .tab-label { font-size: 0.68rem; }
@@ -1143,6 +1139,9 @@
           font-size: clamp(1.02rem, 2.2vw, 1.3rem);
         }
 
+        .home-video-quote {
+          font-size: clamp(1rem, 1.8vw, 1.2rem);
+        }
       }
 
       .splash-screen {
@@ -1181,6 +1180,29 @@
         }
       }
 
+
+      .home-static-quote {
+        margin: 7px 0 0;
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        position: relative;
+        z-index: 9999;
+        text-align: center;
+        font-size: clamp(1.7rem, 6.8vw, 2.25rem);
+        font-weight: 900;
+        font-style: italic !important;
+        line-height: 1.05;
+        transform: skewX(-6deg);
+        pointer-events: none;
+        background: linear-gradient(180deg, #FFF0B3 0%, #FFD15A 35%, #F2B21B 70%, #C97900 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent !important;
+        -webkit-text-fill-color: transparent !important;
+        text-shadow: 0 5px 12px rgba(27, 46, 64, 0.65);
+      }
+
     </style>
   </head>
   <body>
@@ -1212,11 +1234,11 @@
                 webkit-playsinline
                 preload="auto"
                 disablepictureinpicture
-                disableremoteplayback
-                controlslist="nodownload nofullscreen noremoteplayback"
                 tabindex="-1"
                 aria-hidden="true"
-              >
+              
+                disableremoteplayback
+                controlslist="nodownload nofullscreen noremoteplayback">
                 <source src="images/background.mp4" type="video/mp4" />
               </video>
               <video
@@ -1230,12 +1252,12 @@
                 webkit-playsinline
                 preload="auto"
                 disablepictureinpicture
-                disableremoteplayback
-                controlslist="nodownload nofullscreen noremoteplayback"
                 tabindex="-1"
                 aria-hidden="true"
-              >
-                <source src="images/clouds_sun.mp4" type="video/mp4" />
+              
+                disableremoteplayback
+                controlslist="nodownload nofullscreen noremoteplayback">
+                <source src="images/background.mp4" type="video/mp4" />
               </video>
             </div>
             <div class="home-video-overlay" aria-hidden="true"></div>
@@ -1247,11 +1269,8 @@
                 <span class="home-gold-bar" aria-hidden="true"></span>
                 <p id="home-hero-description" class="home-video-middle">Practical learning, stronger leadership, and one shared standard across the City.</p>
                 <span class="home-gold-bar" aria-hidden="true"></span>
+                <p id="home-static-quote" class="home-static-quote">"Supervisors Bring the Weather"</p>
               </div>
-              <p id="home-hero-quote" class="home-video-quote">
-                <span class="home-video-quote-line">"Supervisors</span>
-                <span class="home-video-quote-line">Bring the Weather"</span>
-              </p>
             </div>
           </section>
         </div>
@@ -1493,31 +1512,21 @@
 
       function setVideoSource(videoElement, src) {
         if (!videoElement) return Promise.resolve();
-
-        const cleanSrc = String(src || '').trim();
-        if (!cleanSrc) return Promise.resolve();
-
-        if (videoElement.dataset.src === cleanSrc) {
+        if (videoElement.dataset.src === src) {
           videoElement.currentTime = 0;
           return Promise.resolve();
         }
-
         return new Promise((resolve) => {
           const handleReady = () => {
-            videoElement.removeEventListener('loadedmetadata', handleReady);
             videoElement.removeEventListener('loadeddata', handleReady);
-            videoElement.removeEventListener('canplay', handleReady);
             videoElement.removeEventListener('error', handleReady);
             resolve();
           };
 
-          videoElement.addEventListener('loadedmetadata', handleReady, { once: true });
           videoElement.addEventListener('loadeddata', handleReady, { once: true });
-          videoElement.addEventListener('canplay', handleReady, { once: true });
           videoElement.addEventListener('error', handleReady, { once: true });
-
-          videoElement.dataset.src = cleanSrc;
-          videoElement.innerHTML = `<source src="${cleanSrc}" type="video/mp4" />`;
+          videoElement.dataset.src = src;
+          videoElement.src = src;
           videoElement.load();
         });
       }
@@ -1554,6 +1563,7 @@
         await setVideoSource(homeVideoPlayers[0], heroVideoPlaylist[0]);
         homeVideoPlayers[0].currentTime = 0;
         homeVideoPlayers[0].play().catch(() => {});
+        playHomeVideo();
         if (homeVideoPlayers[1]) await setVideoSource(homeVideoPlayers[1], heroVideoPlaylist[1 % heroVideoPlaylist.length]);
         clearInterval(heroVideoSwapTimer);
         if (heroVideoPlaylist.length > 1) {
@@ -1589,17 +1599,6 @@
         const separator = base.includes('?') ? '&' : '?';
         const versioned = `${base}${separator}v=${ASSET_REFRESH_TOKEN}`;
         return hash ? `${versioned}#${hash}` : versioned;
-      }
-
-      function formatHomeQuoteText(quoteText) {
-        const cleaned = String(quoteText || '').replace(/[“”]/g, '').trim();
-        if (!cleaned) return '';
-        const parts = cleaned.split(/\s+/);
-        const firstLine = parts.shift() || '';
-        const secondLine = parts.join(' ') || '';
-        return secondLine
-          ? `<span class="home-video-quote-line">${firstLine}</span><span class="home-video-quote-line">${secondLine}</span>`
-          : `<span class="home-video-quote-line">${firstLine}</span>`;
       }
 
       async function loadHomeContent() {
@@ -1919,75 +1918,48 @@
       window.addEventListener('resize', () => syncNavIndicator(document.querySelector('.tab-btn.active')?.dataset.tab));
 
 
-      function ensureHomeQuote() {
-        const label = document.querySelector('.home-video-label');
-        if (!label) return;
-
-        let quote = document.getElementById('home-hero-quote');
-        if (!quote) {
-          quote = document.createElement('p');
-          quote.id = 'home-hero-quote';
-          quote.className = 'home-video-quote';
-          label.appendChild(quote);
-        }
-
-        quote.innerHTML = '<span class="home-video-quote-line">&quot;Supervisors</span><span class="home-video-quote-line">Bring the Weather&quot;</span>';
+      function playHomeVideo() {
+        document.querySelectorAll('.home-video-player').forEach((video) => {
+          video.muted = true;
+          video.playsInline = true;
+          video.removeAttribute('controls');
+          video.play().catch(() => {});
+        });
       }
 
+      window.addEventListener('load', playHomeVideo);
+      document.addEventListener('visibilitychange', () => {
+        if (!document.hidden) playHomeVideo();
+      });
+
       showView('home');
-      ensureHomeQuote();
       syncNavIndicator('home');
 
-      // Start home video and content immediately.
-      loadHomeContent();
-      loadDayButtonConfig();
-      forceHomeVideoAutoplay();
-      startHomeVideoRotation();
+      // Defer non-critical startup work so the app becomes interactive faster.
+      window.setTimeout(() => {
+        loadHomeContent();
+        loadDayButtonConfig();
+        forceHomeVideoAutoplay();
+        startHomeVideoRotation();
+      }, 80);
 
 
 
       function forceHomeVideoAutoplay() {
         homeVideoPlayers.forEach((video) => {
           if (!video) return;
-
-          video.controls = false;
           video.muted = true;
           video.defaultMuted = true;
-          video.autoplay = true;
-          video.loop = true;
-          video.playsInline = true;
-          video.disablePictureInPicture = true;
-
-          video.setAttribute('muted', '');
-          video.setAttribute('autoplay', '');
-          video.setAttribute('loop', '');
-          video.setAttribute('playsinline', '');
-          video.setAttribute('webkit-playsinline', '');
-          video.setAttribute('preload', 'auto');
-          video.removeAttribute('controls');
-
           const tryPlay = () => {
-            video.controls = false;
-            video.removeAttribute('controls');
-
-            if (video.readyState === 0) {
-              video.load();
-            }
-
             const playPromise = video.play();
             if (playPromise && typeof playPromise.catch === 'function') {
               playPromise.catch(() => {});
             }
           };
 
-          ['loadedmetadata', 'loadeddata', 'canplay', 'canplaythrough'].forEach((eventName) => {
-            video.addEventListener(eventName, tryPlay);
-          });
-
+          video.addEventListener('loadeddata', tryPlay);
+          video.addEventListener('canplay', tryPlay);
           tryPlay();
-          [80, 200, 500, 900, 1400, 2200].forEach((delay) => {
-            window.setTimeout(tryPlay, delay);
-          });
         });
       }
 
