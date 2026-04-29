@@ -1128,7 +1128,7 @@
       }
 
     </style>
-      <meta name="app-version" content="20260429-resources-circles-1" />
+      <meta name="app-version" content="20260429-speakers-inline-fixed-2" />
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
@@ -1137,6 +1137,17 @@
     <div id="splash-screen" class="splash-screen" aria-hidden="true">
       <img class="splash-logo" src="icons/altamonte-logo.png?v=20260414-2" alt="" />
     </div>
+
+    <script>
+      // Failsafe: remove splash screen even if a later script errors.
+      window.setTimeout(() => {
+        const splash = document.getElementById('splash-screen');
+        if (splash) {
+          splash.classList.add('fade-out');
+          window.setTimeout(() => splash.remove(), 500);
+        }
+      }, 1200);
+    </script>
 
     <main class="screen">
       <header class="app-topbar" aria-label="App title bar">
@@ -1294,7 +1305,7 @@
     <script>
       // Service worker disabled while stabilizing asset/video loading.
       // This unregisters older service workers and clears old caches that may be serving stale files.
-      const APP_VERSION = '20260429-speakers-inline-1';
+      const APP_VERSION = '20260429-speakers-inline-fixed-2';
 
       async function clearOldAppCaches() {
         if (!('caches' in window)) return;
@@ -1668,33 +1679,7 @@
         if (photo.startsWith('images/')) return withRefreshToken(photo);
         return withRefreshToken(`images/${photo}`);
       }
-          } catch {
-            // continue
-          }
-        }
 
-        return fallbackPath;
-      }
-
-        speakerDetailImage.src = photoPath;
-        speakerDetailImage.alt = `${speaker.DisplayName} portrait`;
-        speakerDetailImage.style.display = 'block';
-        speakerDetailFallback.style.display = 'none';
-
-        speakerDetailImage.onerror = () => {
-          speakerDetailImage.style.display = 'none';
-          speakerDetailFallback.style.display = 'flex';
-        };
-
-        speakerDetailName.textContent = speaker.DisplayName;
-        speakerDetailRole.textContent = speaker.Title;
-        speakerDetailOrg.textContent = speaker.Organization;
-        speakerDetailBio.textContent = speaker.BioShort;
-
-        requestAnimationFrame(() => {
-          speakerDetailOverlay.classList.add('open');
-        });
-      }
 
 
       function toggleSpeakerInlineDetail(item) {
