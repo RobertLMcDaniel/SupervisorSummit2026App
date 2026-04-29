@@ -1740,7 +1740,7 @@
         'images/rain.mp4',
         'images/storm_clouds.mp4'
       ];
-      const ASSET_REFRESH_TOKEN = '20260429-cleaned-unused-features-1';
+      const ASSET_REFRESH_TOKEN = '20260429-agenda-fix-1';
 
       let speakersLoaded = false;
       let currentAgendaDay = 'day1';
@@ -1897,9 +1897,29 @@
         node.innerHTML = `<div class="item" style="color:var(--text-primary);font-weight:700;">${message}</div>`;
       }
 
+      function getAgendaMainKey(dayKey) {
+        if (dayKey === 'day2Supervisor' || dayKey === 'day2Senior') return 'day2';
+        return dayKey || 'day1';
+      }
+
       function setActiveAgendaDay(dayKey) {
         currentAgendaDay = dayKey;
-        agendaDayTabs.forEach((tab) => tab.classList.toggle('active', tab.dataset.day === dayKey));
+        const mainKey = getAgendaMainKey(dayKey);
+
+        document.querySelectorAll('.agenda-photo-tab').forEach((tab) => {
+          tab.classList.toggle('active', tab.dataset.agendaMain === mainKey);
+        });
+
+        const trackTabs = document.getElementById('agenda-track-tabs');
+        if (trackTabs) {
+          trackTabs.classList.toggle('hidden', mainKey !== 'day2');
+        }
+
+        if (mainKey === 'day2') {
+          document.querySelectorAll('.agenda-track-tab').forEach((tab) => {
+            tab.classList.toggle('active', tab.dataset.day === dayKey);
+          });
+        }
       }
 
       async function loadAgenda(dayKey = currentAgendaDay) {
