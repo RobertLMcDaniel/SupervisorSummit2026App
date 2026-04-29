@@ -2260,7 +2260,7 @@
       }
 
     </style>
-      <meta name="app-version" content="20260429-spotify-clean-fix-final-2" />
+      <meta name="app-version" content="20260429-playlist-external-link-1" />
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
@@ -2385,10 +2385,10 @@
               <img class="resource-button-icon" src="icons/weather3.png?v=20260429-resources-circles-2" alt="" aria-hidden="true" />
               <span class="resource-button-text">Supervisor Summit 2026 Survey</span>
             </a>
-            <button class="resource-button" id="playlist-btn" type="button">
+            <a class="resource-button" id="playlist-btn" href="https://open.spotify.com/playlist/20pk264QB8qTJ6YXQZigq5?si=Qx_cQTa0TuuB_jVt3uUHRg&pt=6f5209b0c3a036c18f23c9355b89eb30&pi=g_fgo-VqQMi53" target="_blank" rel="noopener noreferrer">
               <img class="resource-button-icon" src="icons/weather2.png?v=20260429-resources-circles-1" alt="" aria-hidden="true" />
               <span class="resource-button-text">Supervisor Summit Playlist</span>
-            </button>
+            </a>
           </div>
         </section>
       </section>
@@ -2436,7 +2436,7 @@
     <script>
       // Service worker disabled while stabilizing asset/video loading.
       // This unregisters older service workers and clears old caches that may be serving stale files.
-      const APP_VERSION = '20260429-spotify-clean-fix-final-2';
+      const APP_VERSION = '20260429-playlist-external-link-1';
 
       async function clearOldAppCaches() {
         if (!('caches' in window)) return;
@@ -3152,99 +3152,26 @@
 
   
     <script>
-      // Clean Spotify overlay controller only. No layout/style changes.
+      // Playlist is intentionally a normal external link now. No Spotify iframe overlay.
       (() => {
-        const SPOTIFY_SRC = 'https://open.spotify.com/embed/playlist/20pk264QB8qTJ6YXQZigq5';
+        function setupPlaylistExternalLink() {
+          const playlistButton = document.getElementById('playlist-btn');
+          if (!playlistButton) return;
 
-        function ready(fn) {
-          if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', fn, { once: true });
-          } else {
-            fn();
-          }
+          const spotifyLink = playlistButton.getAttribute('href');
+          if (!spotifyLink) return;
+
+          playlistButton.onclick = null;
+          playlistButton.addEventListener('click', (event) => {
+            event.stopPropagation();
+          }, true);
         }
 
-        ready(() => {
-          const overlay = document.getElementById('playlist-detail-overlay');
-          const originalButton = document.getElementById('playlist-btn');
-          const originalClose = document.getElementById('playlist-detail-close');
-
-          if (!overlay || !originalButton) return;
-
-          let iframe = document.getElementById('spotify-iframe') || overlay.querySelector('iframe');
-          if (iframe) {
-            iframe.id = 'spotify-iframe';
-            iframe.removeAttribute('src');
-            iframe.setAttribute('data-src', SPOTIFY_SRC);
-          }
-
-          // Clone controls to remove older/conflicting click handlers without changing appearance.
-          const playlistButton = originalButton.cloneNode(true);
-          originalButton.replaceWith(playlistButton);
-
-          let closeButton = originalClose;
-          if (originalClose) {
-            closeButton = originalClose.cloneNode(true);
-            originalClose.replaceWith(closeButton);
-          }
-
-          function getIframe() {
-            iframe = document.getElementById('spotify-iframe') || overlay.querySelector('iframe');
-            return iframe;
-          }
-
-          function openOverlay(event) {
-            if (event) {
-              event.preventDefault();
-              event.stopPropagation();
-              if (event.stopImmediatePropagation) event.stopImmediatePropagation();
-            }
-
-            const frame = getIframe();
-            if (frame) {
-              frame.setAttribute('src', SPOTIFY_SRC);
-            }
-
-            overlay.classList.add('open');
-            overlay.setAttribute('aria-hidden', 'false');
-            document.body.classList.add('playlist-open');
-          }
-
-          function closeOverlay(event) {
-            if (event) {
-              event.preventDefault();
-              event.stopPropagation();
-              if (event.stopImmediatePropagation) event.stopImmediatePropagation();
-            }
-
-            overlay.classList.remove('open');
-            overlay.setAttribute('aria-hidden', 'true');
-            document.body.classList.remove('playlist-open');
-
-            window.setTimeout(() => {
-              const frame = getIframe();
-              if (frame) frame.removeAttribute('src');
-            }, 250);
-          }
-
-          playlistButton.addEventListener('click', openOverlay);
-
-          if (closeButton) {
-            closeButton.addEventListener('click', closeOverlay);
-          }
-
-          overlay.addEventListener('click', (event) => {
-            if (event.target === overlay) {
-              closeOverlay(event);
-            }
-          });
-
-          document.addEventListener('keydown', (event) => {
-            if (event.key === 'Escape' && overlay.classList.contains('open')) {
-              closeOverlay(event);
-            }
-          });
-        });
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', setupPlaylistExternalLink, { once: true });
+        } else {
+          setupPlaylistExternalLink();
+        }
       })();
     </script>
 
