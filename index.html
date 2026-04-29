@@ -295,9 +295,11 @@
         justify-self: center;
         display: grid;
         justify-items: center;
-        gap: 12px;
+        gap: 10px;
         width: 100%;
-        max-width: 84%;
+        max-width: 88%;
+        position: relative;
+        overflow: visible;
         transform: translateY(-24px);
       }
 
@@ -324,8 +326,8 @@
       .home-video-middle {
         align-self: center;
         margin: 0 auto;
-        font-size: clamp(1.06rem, 4.55vw, 1.42rem);
-        line-height: 1.45;
+        font-size: clamp(0.86rem, 3.55vw, 1.08rem);
+        line-height: 1.28;
         color: #FFFFFF;
         text-align: center;
         text-shadow: 0 8px 16px rgba(27, 46, 64, 0.48);
@@ -1102,6 +1104,29 @@
       .resource-button.slide-in-right { animation: slide-in-right 0.5s ease both; }
 
 
+
+      .home-static-quote {
+        margin: 10px 0 0;
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        position: relative;
+        z-index: 9999;
+        text-align: center;
+        font-size: clamp(1.45rem, 5.8vw, 2rem);
+        font-weight: 900;
+        font-style: italic !important;
+        line-height: 1.05;
+        transform: skewX(-6deg);
+        pointer-events: none;
+        background: linear-gradient(180deg, #FFF0B3 0%, #FFD15A 35%, #F2B21B 70%, #C97900 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent !important;
+        -webkit-text-fill-color: transparent !important;
+        text-shadow: 0 5px 12px rgba(27, 46, 64, 0.65);
+      }
+
       @media (max-width: 380px) {
         .speaker-tile-name { font-size: 0.84rem; }
         .tab-label { font-size: 0.68rem; }
@@ -1180,29 +1205,6 @@
         }
       }
 
-
-      .home-static-quote {
-        margin: 7px 0 0;
-        display: block !important;
-        visibility: visible !important;
-        opacity: 1 !important;
-        position: relative;
-        z-index: 9999;
-        text-align: center;
-        font-size: clamp(1.7rem, 6.8vw, 2.25rem);
-        font-weight: 900;
-        font-style: italic !important;
-        line-height: 1.05;
-        transform: skewX(-6deg);
-        pointer-events: none;
-        background: linear-gradient(180deg, #FFF0B3 0%, #FFD15A 35%, #F2B21B 70%, #C97900 100%);
-        -webkit-background-clip: text;
-        background-clip: text;
-        color: transparent !important;
-        -webkit-text-fill-color: transparent !important;
-        text-shadow: 0 5px 12px rgba(27, 46, 64, 0.65);
-      }
-
     </style>
   </head>
   <body>
@@ -1267,7 +1269,7 @@
               </div>
               <div class="home-video-middle-wrap">
                 <span class="home-gold-bar" aria-hidden="true"></span>
-                <p id="home-hero-description" class="home-video-middle">Practical learning, stronger leadership, and one shared standard across the City.</p>
+                <p id="home-hero-description" class="home-video-middle">Supervisor Summit is where leadership across the City comes together to reset expectations, strengthen alignment, and shape the culture we create every day. It is more than training—it is a shared commitment to leading with intention, accountability, and impact.</p>
                 <span class="home-gold-bar" aria-hidden="true"></span>
                 <p id="home-static-quote" class="home-static-quote">"Supervisors Bring the Weather"</p>
               </div>
@@ -1600,23 +1602,9 @@
         const versioned = `${base}${separator}v=${ASSET_REFRESH_TOKEN}`;
         return hash ? `${versioned}#${hash}` : versioned;
       }
-
-      async function loadHomeContent() {
-        try {
-          const content = await fetchJson('data/home-content.json');
-          const titleImage = String(content.titleImage || '').trim();
-          const descriptionText = String(content.description || '').trim();
-
-          if (homeHeroImage && titleImage) {
-            homeHeroImage.src = withRefreshToken(`images/${titleImage}`);
-          }
-
-          if (homeHeroDescription && descriptionText) {
-            homeHeroDescription.textContent = descriptionText;
-          }
-        } catch {
-          // Keep built-in defaults if JSON is unavailable or invalid.
-        }
+function loadHomeContent() {
+        // Home content is hardcoded in the HTML.
+        return Promise.resolve();
       }
 
       function renderDayTabs(tabsList, dayDefs) {
