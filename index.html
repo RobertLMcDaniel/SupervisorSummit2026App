@@ -1008,6 +1008,7 @@
         min-height: calc(100dvh - 212px);
         display: grid;
         align-content: center;
+        justify-items: center;
         gap: 14px;
         overflow: hidden;
       }
@@ -1022,44 +1023,79 @@
       }
 
       .resources-actions {
+        width: 100%;
         display: grid;
-        gap: 12px;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 18px;
+        justify-items: center;
+        align-items: center;
+        padding: 8px 4px;
       }
 
       .resource-button {
-        width: 100%;
-        min-height: 78px;
-        border: 1px solid rgba(245, 247, 250, 0.22);
-        border-radius: 22px;
+        width: min(42vw, 190px);
+        max-width: 190px;
+        aspect-ratio: 1 / 1;
+        border: 1px solid rgba(245, 247, 250, 0.28);
+        border-radius: 50%;
         background: linear-gradient(135deg, #F6C84D 0%, #EFB10A 55%, #D89B05 100%);
         color: var(--bg-primary);
         text-decoration: none;
         font-weight: 900;
-        font-size: 1.02rem;
-        line-height: 1.18;
+        font-size: clamp(0.82rem, 3.3vw, 1.02rem);
+        line-height: 1.12;
         display: grid;
+        grid-template-rows: auto auto;
         place-items: center;
+        align-content: center;
+        gap: 8px;
         text-align: center;
-        padding: 16px;
-        box-shadow: 0 12px 24px rgba(27, 46, 64, 0.35);
+        padding: 18px;
+        box-shadow:
+          0 14px 28px rgba(27, 46, 64, 0.38),
+          inset 0 1px 0 rgba(255, 255, 255, 0.34);
+        cursor: pointer;
         transform: translateY(0);
         transition: transform 0.22s ease, filter 0.22s ease, box-shadow 0.22s ease;
       }
 
+      .resource-button-icon {
+        width: clamp(42px, 12vw, 64px);
+        height: clamp(42px, 12vw, 64px);
+        object-fit: contain;
+        filter: drop-shadow(0 4px 8px rgba(27, 46, 64, 0.25));
+      }
+
+      .resource-button-text {
+        display: block;
+        max-width: 130px;
+      }
+
       .resource-button:hover,
       .resource-button:focus-visible {
-        transform: translateY(-2px);
+        transform: translateY(-3px);
         filter: brightness(1.04);
-        box-shadow: 0 16px 28px rgba(27, 46, 64, 0.42);
+        box-shadow:
+          0 18px 32px rgba(27, 46, 64, 0.46),
+          inset 0 1px 0 rgba(255, 255, 255, 0.4);
         outline: none;
       }
 
       .resource-button:active {
-        transform: scale(0.985);
+        transform: scale(0.97);
       }
 
       .resource-button.slide-in-left { animation: slide-in-left 0.5s ease both; }
       .resource-button.slide-in-right { animation: slide-in-right 0.5s ease both; }
+
+      @media (max-width: 380px) {
+        .resources-actions { gap: 12px; }
+        .resource-button {
+          width: min(40vw, 154px);
+          padding: 14px;
+          gap: 6px;
+        }
+      }
 
 
       @media (max-width: 380px) {
@@ -1175,7 +1211,7 @@
       }
 
     </style>
-      <meta name="app-version" content="20260429-quote-cache-2" />
+      <meta name="app-version" content="20260429-resources-circles-1" />
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
@@ -1285,12 +1321,14 @@
       
       <section id="resources-view" class="view hidden" aria-label="Resources view">
         <section class="panel">
-          <div class="list" style="gap: 14px;">
-            <button class="item" id="survey-btn" type="button" style="cursor:pointer; text-align:center; font-weight:700; font-size:1rem;">
-              Supervisor Summit 2026 Survey
+          <div class="resources-actions" aria-label="Supervisor Summit resources">
+            <button class="resource-button" id="survey-btn" type="button">
+              <img class="resource-button-icon" src="icons/weather1.png?v=20260429-resources-circles-1" alt="" aria-hidden="true" />
+              <span class="resource-button-text">Supervisor Summit 2026 Survey</span>
             </button>
-            <button class="item" id="playlist-btn" type="button" style="cursor:pointer; text-align:center; font-weight:700; font-size:1rem;">
-              Supervisor Summit Playlist
+            <button class="resource-button" id="playlist-btn" type="button">
+              <img class="resource-button-icon" src="icons/weather2.png?v=20260429-resources-circles-1" alt="" aria-hidden="true" />
+              <span class="resource-button-text">Supervisor Summit Playlist</span>
             </button>
           </div>
         </section>
@@ -1353,7 +1391,7 @@
     <script>
       // Service worker disabled while stabilizing asset/video loading.
       // This unregisters older service workers and clears old caches that may be serving stale files.
-      const APP_VERSION = '20260429-quote-cache-2';
+      const APP_VERSION = '20260429-resources-circles-1';
 
       async function clearOldAppCaches() {
         if (!('caches' in window)) return;
@@ -1482,7 +1520,7 @@
         'images/rain.mp4',
         'images/storm_clouds.mp4'
       ];
-      const ASSET_REFRESH_TOKEN = '20260421-2';
+      const ASSET_REFRESH_TOKEN = '20260429-resources-circles-1';
       const defaultDayButtonConfig = [
         { key: 'day1', label: 'Day 1', agendaIcon: 'icons/home_icon.png', styleClass: 'day-style-1' },
         { key: 'day2', label: 'Day 2', agendaIcon: 'icons/agenda_icon.png', styleClass: 'day-style-2' },
